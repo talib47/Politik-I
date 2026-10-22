@@ -1,0 +1,299 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Politik I</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Politik I">
+<meta name="theme-color" content="#24507A">
+<link rel="apple-touch-icon" href="/Politik-I/apple-touch-icon.png?v=3">
+<link rel="icon" type="image/png" href="/Politik-I/icon-192.png?v=3">
+<link rel="manifest" href="/Politik-I/manifest.webmanifest?v=3">
+<style>
+/* Layout: eine schmale Lernspalte (max. 42rem) mit fester Tableiste unten, wie die W&G-I-App; eigene Akzentfarbe (Staatsblau) für Politik I */
+:root{
+  --bg:#EEF1F4; --surface:#F9FAFB; --ink:#1A2129; --muted:#56616D; --line:#CDD4DC;
+  --accent:#24507A; --accent-ink:#FFFFFF; --accent-soft:#DCE6F0;
+  --good:#2F7A4A; --good-soft:#DDEEE2; --bad:#A3392B; --bad-soft:#F4DEDA; --gold:#A87B1F;
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark;
+    --bg:#11161B; --surface:#19202A; --ink:#E3E9EF; --muted:#9AA7B4; --line:#2F3A46;
+    --accent:#9EC1E6; --accent-ink:#0E1620; --accent-soft:#22303F;
+    --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
+}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --bg:#11161B; --surface:#19202A; --ink:#E3E9EF; --muted:#9AA7B4; --line:#2F3A46;
+  --accent:#9EC1E6; --accent-ink:#0E1620; --accent-soft:#22303F;
+  --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
+*{box-sizing:border-box}
+html{font-size:calc(100% * var(--z,1))}
+.zoom{position:fixed;right:max(12px, env(safe-area-inset-right, 0px));bottom:calc(72px + env(safe-area-inset-bottom, 0px));display:flex;flex-direction:column;gap:8px;z-index:6}
+.zoom button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:22px;line-height:1;opacity:.9;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.tag{display:inline-block;font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:999px;vertical-align:middle;white-space:nowrap}
+.tag.core{color:var(--accent);border:1px solid var(--accent)}
+.tag.bg{color:var(--muted);border:1px dashed var(--line)}
+.cctx{margin:-4px 0 0;font-size:.82rem;color:var(--muted)}
+.cinfo{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:.82rem;line-height:1.45;color:var(--muted)}
+.cinfo .cl{display:block}
+.cinfo .cl+.cl{margin-top:3px}
+.cinfo b{color:var(--ink);font-weight:600}
+.cinfo .ci{flex:none;width:18px;height:18px;border-radius:50%;border:1px solid var(--muted);font:600 .7rem/16px var(--serif);font-style:italic;text-align:center;margin-top:1px}
+.wlink{color:var(--accent);text-decoration:none;font-weight:600;font-size:.92rem;line-height:1.4}
+.wlink:hover{text-decoration:underline}
+.mc .idk{border-style:dashed;color:var(--muted);text-align:center}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+main{max-width:42rem;margin:0 auto;padding-block:20px 120px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0 0 .4em;text-wrap:balance}
+h1{font-size:1.75rem} h2{font-size:1.3rem} h3{font-size:1.05rem}
+p{margin:0 0 .8em}
+.muted{color:var(--muted)} .small{font-size:.875rem}
+.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 .3em}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+.stack{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.between{justify-content:space-between}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:12px 18px;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.small{padding:8px 12px;font-size:.9rem}
+.btn.warn{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.btn:disabled{opacity:.45;cursor:default}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.chip{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.l1{color:var(--gold);border-color:var(--gold)}
+.chip.l2{color:var(--accent);border-color:var(--accent)}
+.chip.l3{color:var(--good);border-color:var(--good)}
+.chip.soon{border-style:dashed}
+
+/* Klausuraufbau */
+.parts{display:grid;grid-template-columns:12fr 24fr 24fr;gap:4px;margin:10px 0 8px}
+.parts div{height:10px;border-radius:3px;background:var(--line)}
+.parts div.on{background:var(--accent)}
+.partlist{display:grid;grid-template-columns:auto 1fr auto;gap:6px 12px;font-size:.92rem}
+.partlist b{font-variant-numeric:tabular-nums}
+
+/* Aufgabenliste */
+.tlist{display:flex;flex-direction:column}
+.titem{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:12px 2px;border-top:1px solid var(--line);text-align:left;background:none;border-left:0;border-right:0;border-bottom:0;width:100%}
+.titem:first-child{border-top:0}
+.titem .t{font-weight:600}
+.titem .d{grid-column:1/-1;font-size:.85rem;color:var(--muted)}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;grid-column:1/-1}
+.bar i{display:block;height:100%;background:var(--good)}
+
+/* Aufgabe */
+.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.95rem}
+.data th,.data td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+.data th{font-weight:600;color:var(--muted);font-size:.8rem}
+.data td{font-family:var(--mono)}
+.tablewrap{overflow-x:auto;margin:8px 0 2px}
+.eq{font-family:var(--mono);font-size:.92rem;background:var(--bg);border-radius:8px;padding:8px 10px;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{background:none;border:0;padding:7px 12px;font-size:.85rem;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink);font-weight:600}
+.step{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface)}
+.step.ok{border-color:var(--good);background:var(--good-soft)}
+.step.no{border-color:var(--bad);background:var(--bad-soft)}
+.step .lab{font-weight:600}
+.step .why{font-size:.88rem;color:var(--muted);margin:2px 0 8px}
+.inp{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.inp input{width:9.5rem;max-width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-family:var(--mono);font-size:1.05rem}
+.inp input:focus{border-color:var(--accent)}
+.res{font-size:.9rem;margin-top:8px}
+.res.good{color:var(--good)} .res.bad{color:var(--bad)}
+.hint{font-size:.88rem}
+.check{display:flex;gap:10px;align-items:flex-start;padding:6px 0}
+.check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--accent)}
+
+/* Schmierzettel */
+.pad{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden}
+.pad canvas{display:block;width:100%;height:240px;touch-action:none}
+.pad .tools{position:absolute;right:8px;top:8px;display:flex;gap:6px}
+.pad .tools button{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.8rem}
+.pad .ph{position:absolute;left:12px;top:10px;font-size:.8rem;color:var(--muted);pointer-events:none}
+
+/* Statistik */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:90px;margin:10px 0 4px}
+.week div{background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
+.weekl{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;font-size:.75rem;color:var(--muted);text-align:center;line-height:1.3}
+.weekl b{display:block;color:var(--ink);font-weight:600}
+.weekl .n{display:block;margin-top:3px;font-size:.7rem}
+.weekl .today b{color:var(--accent)}
+.week div.today{opacity:1}.week div{opacity:.6}
+.srow{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:.92rem}
+.srow:first-of-type{border-top:0}
+.srow span{font-variant-numeric:tabular-nums}
+
+/* Tableiste */
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;gap:4px;padding:8px max(16px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));z-index:5}
+nav button{flex:1;max-width:9rem;background:none;border:0;border-radius:10px;padding:9px 6px;font-weight:600;font-size:.9rem;color:var(--muted)}
+nav button[aria-current="page"]{background:var(--accent-soft);color:var(--ink)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom, 0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.9rem;z-index:9;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:no-preference){ .step{transition:background .2s,border-color .2s} }
+
+/* ===== Lernpfad, Lektionen, Karten, Grafiken, Essay ===== */
+.chap{display:grid;grid-template-columns:2.4rem 1fr auto;gap:4px 12px;align-items:center;padding:12px 2px;border-top:1px solid var(--line);width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left}
+.chap:first-child{border-top:0}
+.chap .no{font-family:var(--serif);font-size:1.3rem;font-weight:600;color:var(--accent);text-align:center}
+.chap .t{font-weight:600;min-width:0}
+.chap .d{grid-column:2/-1;font-size:.82rem;color:var(--muted)}
+.chap .bar{grid-column:2/-1}
+.chap.off .no,.chap.off .t{color:var(--muted)}
+.chap:disabled{cursor:default}
+.modes{display:flex;flex-direction:column}
+.mode{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;padding:13px 2px;border-top:1px solid var(--line);background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left}
+.mode:first-child{border-top:0}
+.mode .t{font-weight:600}
+.mode .d{grid-column:1/-1;font-size:.84rem;color:var(--muted)}
+.mode .n{font-variant-numeric:tabular-nums;font-size:.85rem;color:var(--muted)}
+.today{border-color:var(--accent);background:var(--accent-soft)}
+.lesson h2{margin-top:.2em}
+.lesson p,.lesson li{max-width:65ch}
+.lesson ul{padding-left:1.2em;margin:0 0 .8em}
+.lesson li{margin:.2em 0}
+.merk{border-left:4px solid var(--gold);background:var(--bg);border-radius:0 10px 10px 0;padding:10px 12px;margin:10px 0}
+.merk>b:first-child{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.kv{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 10px}
+.kv td{border-top:1px solid var(--line);padding:6px 4px;vertical-align:top}
+.kv td:first-child{font-weight:600;white-space:nowrap;padding-right:10px}
+.mc{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.mc button{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.mc button.r{border-color:var(--good);background:var(--good-soft)}
+.mc button.w{border-color:var(--bad);background:var(--bad-soft)}
+.mc button:disabled{cursor:default;color:var(--ink)}
+.ex{font-size:.9rem;margin-top:8px}
+.card{min-height:12rem;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.card .front{font-family:var(--serif);font-size:1.25rem;font-weight:600;text-wrap:balance}
+.card .back{border-top:1px solid var(--line);padding-top:10px}
+.card.tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card.tap:active{transform:scale(.995)}
+.card .tapnote{align-self:flex-end;font-size:.75rem;color:var(--muted);margin-top:-2px}
+/* Kartenrückseite: Absätze, Listen, Begriffspaare, Vergleichstabelle */
+.cb p{margin:0 0 8px} .cb p:last-child{margin-bottom:0}
+.cb-dl{margin:0;display:flex;flex-direction:column}
+.cb-dl>div{padding:7px 0;border-top:1px solid var(--line)}
+.cb-dl>div:first-child{border-top:0;padding-top:0}
+.cb-dl dt{font-weight:600}
+.cb-dl dd{margin:1px 0 0}
+.cb-ul,.cb-ol{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:5px}
+.cb-ul li{position:relative;padding-left:1.05rem}
+.cb-ul li::before{content:"";position:absolute;left:.15rem;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.75}
+.cb-ol{counter-reset:n}
+.cb-ol li{display:grid;grid-template-columns:1.5rem 1fr;gap:8px;align-items:start}
+.cb-ol li::before{counter-increment:n;content:counter(n);width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--line);background:var(--bg);font:600 .74rem/1.35rem var(--sans);text-align:center;color:var(--muted);margin-top:.1rem}
+.cb-tbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.cb .pd{color:var(--muted)}
+.cb-tbl th{font-weight:600;text-align:left;padding:0 10px 4px 0;font-family:var(--serif);font-size:1rem}
+.cb-tbl td{padding:1px 10px 7px 0;vertical-align:top}
+.cb-tbl tr.lab td{border-top:1px solid var(--line);padding:7px 0 1px;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.cb .eq{margin:0 0 8px}
+/* Kästen in Lektionen */
+.merk .mi{margin:0 0 8px}
+.merk .eq{background:var(--surface);display:inline-block;max-width:100%;margin-top:4px}
+.merk .kvq{background:transparent}
+.mrows{display:flex;flex-direction:column}
+.mrows>div{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-top:1px solid var(--line)}
+.mrows>div:first-child{border-top:0;padding-top:2px}
+.mrows>div:last-child{padding-bottom:0}
+.ml{font-weight:600;font-size:.92rem}
+.msteps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:10px}
+.msteps li{display:grid;grid-template-columns:1.5rem 1fr;column-gap:10px;row-gap:3px;align-items:start}
+.msteps li::before{counter-increment:s;content:counter(s);grid-row:1 / span 2;width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--gold);color:var(--gold);font:600 .74rem/1.3rem var(--sans);text-align:center;margin-top:.05rem}
+.msteps .eq{margin:0;display:block}
+.vd{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:1px 8px;border-radius:999px}
+.vd.t{color:var(--good);background:var(--good-soft)} .vd.f{color:var(--bad);background:var(--bad-soft)}
+.sol-ol{margin:6px 0 0;padding-left:1.2em} .sol-ol li{margin:.25em 0}
+.dots{display:flex;gap:4px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--good)}
+.gbox{position:relative;width:100%;aspect-ratio:4/3;max-width:100%;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.gbox svg,.gbox canvas{position:absolute;inset:0;width:100%;height:100%}
+.gbox canvas{touch-action:none}
+.gbox .solsvg{pointer-events:none}
+.fig{width:100%;max-width:100%;border:1px solid var(--line);border-radius:12px;background:var(--bg);margin:8px 0 12px}
+svg .ax{stroke:var(--muted);stroke-width:1.6;fill:none}
+svg .base{stroke:var(--ink);stroke-width:2.4;fill:none}
+svg .sol{stroke:var(--accent);stroke-width:2.8;fill:none}
+svg .gold{stroke:var(--gold);stroke-width:2.8;fill:none}
+svg .dash{stroke-dasharray:5 5}
+svg .thin{stroke-width:1.4}
+svg text{fill:var(--muted);font:13px var(--sans)}
+svg text.st{fill:var(--accent);font-weight:600}
+svg text.bt{fill:var(--ink)}
+svg .dot{fill:var(--surface);stroke:var(--ink);stroke-width:2}
+svg .sdot{fill:var(--accent)}
+svg .arrowhead{fill:var(--muted)}
+svg .sarrow{fill:var(--accent)}
+.essay textarea{width:100%;min-height:16rem;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:12px;font:1rem/1.55 var(--sans);resize:vertical}
+.pts{font-variant-numeric:tabular-nums;font-weight:600}
+.lnav{display:flex;justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap}
+.crumb{background:none;border:0;padding:0;color:var(--accent);font-weight:600;font-size:.9rem;margin-bottom:8px}
+
+/* ===== Selbsttest (wahr/falsch), Abschnitte, Verständnis-Hilfe ===== */
+.sect{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:4px 2px 8px;display:flex;justify-content:space-between;gap:8px}
+.kz{border-top:1px solid var(--line);padding:12px 0 10px}
+.kz:first-of-type{border-top:0;padding-top:4px}
+.kz .st{margin:0 0 8px;line-height:1.45}
+.kz .st i.no{font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums;margin-right:6px}
+.wf{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.wf button{background:var(--bg);border:0;padding:8px 16px;font-size:.9rem;font-weight:600;color:var(--muted);min-width:5.5rem}
+.wf button+button{border-left:1px solid var(--line)}
+.wf button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink)}
+.wf button.r{background:var(--good-soft);color:var(--good)}
+.wf button.w{background:var(--bad-soft);color:var(--bad)}
+.wf button:disabled{cursor:default}
+.kz .why{font-size:.86rem;color:var(--muted);margin:8px 0 0;line-height:1.45}
+.kz .why b{color:var(--ink);font-weight:600}
+.pbadge{font-variant-numeric:tabular-nums;font-weight:600;font-size:.95rem}
+.unclear{display:flex;gap:10px;align-items:flex-start}
+.unclear p{margin:0}
+.kvq{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 10px;font-variant-numeric:tabular-nums}
+.kvq th,.kvq td{border-top:1px solid var(--line);padding:6px 6px;text-align:left}
+.kvq th{font-weight:600;color:var(--muted);font-size:.8rem}
+svg .fillA{fill:var(--accent-soft);stroke:none}
+svg .fillB{fill:var(--accent-soft);opacity:.55;stroke:none}
+.kvq .nw{white-space:nowrap}
+.chip.flag{color:var(--gold);border-color:var(--gold)}
+
+/* ===== Politik I: Umschalter Vorlesung/Seminar, Ergänzungen, Essay ===== */
+.switch{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:0 0 18px;background:var(--surface)}
+.switch button{background:transparent;border:0;padding:10px 6px;font-weight:600;color:var(--muted);line-height:1.25}
+.switch button small{display:block;font-weight:400;font-size:.75rem}
+.switch button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.erg{display:inline-block;font-size:.66rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:0 6px;vertical-align:middle;margin-left:4px;white-space:nowrap}
+.ergbox{border:1px dashed var(--gold);border-radius:10px;padding:10px 12px;margin:10px 0}
+.ergbox>b:first-child{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.quote{border-left:3px solid var(--accent);padding:4px 0 4px 12px;margin:10px 0;font-family:var(--serif);font-size:1.02rem;line-height:1.5}
+.quote cite{display:block;font:normal .8rem var(--sans);color:var(--muted);margin-top:4px}
+.gl{margin:6px 0 0;padding-left:1.2rem}
+.gl li{margin:4px 0}
+.gl li b{font-weight:600}
+.etop{display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:4;background:var(--bg);padding:6px 0}
+.clock{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.15rem}
+.wc{font-size:.8rem;color:var(--muted);text-align:right;margin-top:4px}
+.essaytext{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:10px;margin:0;font-size:.92rem}
+.musterp p{margin:0 0 .7em}
+.info dl{margin:6px 0 0}
+.info dl div{display:grid;grid-template-columns:7.5rem 1fr;gap:8px;padding:5px 0;border-top:1px solid var(--line);font-size:.9rem}
+.info dl div:first-child{border-top:0}
+.info dt{color:var(--muted)}
+.info dd{margin:0}
+.regtbl{width:100%;border-collapse:collapse;font-size:.78rem;margin:8px 0;table-layout:fixed}
+.regtbl th,.regtbl td{border:1px solid var(--line);padding:5px 4px;vertical-align:top;text-align:left;overflow-wrap:anywhere;hyphens:auto}
+.regtbl th{background:var(--bg);font-weight:600}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px)}</style>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<div class="zoom" role="group" aria-label="Schriftgröße"><button id="zIn" aria-label="Größer">+</button><button id="zOut" aria-label="Kleiner">−</button></div>
+
+<script>

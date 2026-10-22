@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Politik I</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Politik I">
+<meta name="theme-color" content="#24507A">
+<link rel="apple-touch-icon" href="/Politik-I/apple-touch-icon.png?v=3">
+<link rel="icon" type="image/png" href="/Politik-I/icon-192.png?v=3">
+<link rel="manifest" href="/Politik-I/manifest.webmanifest?v=3">
+<style>
+/* Layout: eine schmale Lernspalte (max. 42rem) mit fester Tableiste unten, wie die W&G-I-App; eigene Akzentfarbe (Staatsblau) für Politik I */
+:root{
+  --bg:#EEF1F4; --surface:#F9FAFB; --ink:#1A2129; --muted:#56616D; --line:#CDD4DC;
+  --accent:#24507A; --accent-ink:#FFFFFF; --accent-soft:#DCE6F0;
+  --good:#2F7A4A; --good-soft:#DDEEE2; --bad:#A3392B; --bad-soft:#F4DEDA; --gold:#A87B1F;
+  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
+  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ color-scheme:dark;
+    --bg:#11161B; --surface:#19202A; --ink:#E3E9EF; --muted:#9AA7B4; --line:#2F3A46;
+    --accent:#9EC1E6; --accent-ink:#0E1620; --accent-soft:#22303F;
+    --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
+}
+:root[data-theme="dark"]{ color-scheme:dark;
+  --bg:#11161B; --surface:#19202A; --ink:#E3E9EF; --muted:#9AA7B4; --line:#2F3A46;
+  --accent:#9EC1E6; --accent-ink:#0E1620; --accent-soft:#22303F;
+  --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
+*{box-sizing:border-box}
+html{font-size:calc(100% * var(--z,1))}
+.zoom{position:fixed;right:max(12px, env(safe-area-inset-right, 0px));bottom:calc(72px + env(safe-area-inset-bottom, 0px));display:flex;flex-direction:column;gap:8px;z-index:6}
+.zoom button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:22px;line-height:1;opacity:.9;box-shadow:0 1px 4px rgba(0,0,0,.15)}
+.tag{display:inline-block;font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:999px;vertical-align:middle;white-space:nowrap}
+.tag.core{color:var(--accent);border:1px solid var(--accent)}
+.tag.bg{color:var(--muted);border:1px dashed var(--line)}
+.cctx{margin:-4px 0 0;font-size:.82rem;color:var(--muted)}
+.cinfo{display:flex;gap:8px;align-items:flex-start;margin:0;font-size:.82rem;line-height:1.45;color:var(--muted)}
+.cinfo .cl{display:block}
+.cinfo .cl+.cl{margin-top:3px}
+.cinfo b{color:var(--ink);font-weight:600}
+.cinfo .ci{flex:none;width:18px;height:18px;border-radius:50%;border:1px solid var(--muted);font:600 .7rem/16px var(--serif);font-style:italic;text-align:center;margin-top:1px}
+.wlink{color:var(--accent);text-decoration:none;font-weight:600;font-size:.92rem;line-height:1.4}
+.wlink:hover{text-decoration:underline}
+.mc .idk{border-style:dashed;color:var(--muted);text-align:center}
+body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.5 var(--sans);-webkit-font-smoothing:antialiased}
+main{max-width:42rem;margin:0 auto;padding-block:20px 120px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
+h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0 0 .4em;text-wrap:balance}
+h1{font-size:1.75rem} h2{font-size:1.3rem} h3{font-size:1.05rem}
+p{margin:0 0 .8em}
+.muted{color:var(--muted)} .small{font-size:.875rem}
+.eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 .3em}
+.block{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;margin:0 0 14px}
+.stack{display:flex;flex-direction:column;gap:10px}
+.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.row.between{justify-content:space-between}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.btn{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:12px 18px;font-weight:600}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn.small{padding:8px 12px;font-size:.9rem}
+.btn.warn{background:transparent;color:var(--bad);border:1px solid var(--bad)}
+.btn:disabled{opacity:.45;cursor:default}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+.chip{display:inline-block;font-size:.75rem;font-weight:600;padding:2px 9px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.chip.l1{color:var(--gold);border-color:var(--gold)}
+.chip.l2{color:var(--accent);border-color:var(--accent)}
+.chip.l3{color:var(--good);border-color:var(--good)}
+.chip.soon{border-style:dashed}
+
+/* Klausuraufbau */
+.parts{display:grid;grid-template-columns:12fr 24fr 24fr;gap:4px;margin:10px 0 8px}
+.parts div{height:10px;border-radius:3px;background:var(--line)}
+.parts div.on{background:var(--accent)}
+.partlist{display:grid;grid-template-columns:auto 1fr auto;gap:6px 12px;font-size:.92rem}
+.partlist b{font-variant-numeric:tabular-nums}
+
+/* Aufgabenliste */
+.tlist{display:flex;flex-direction:column}
+.titem{display:grid;grid-template-columns:1fr auto;gap:4px 12px;align-items:center;padding:12px 2px;border-top:1px solid var(--line);text-align:left;background:none;border-left:0;border-right:0;border-bottom:0;width:100%}
+.titem:first-child{border-top:0}
+.titem .t{font-weight:600}
+.titem .d{grid-column:1/-1;font-size:.85rem;color:var(--muted)}
+.bar{height:6px;border-radius:3px;background:var(--line);overflow:hidden;grid-column:1/-1}
+.bar i{display:block;height:100%;background:var(--good)}
+
+/* Aufgabe */
+.data{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;font-size:.95rem}
+.data th,.data td{border:1px solid var(--line);padding:6px 8px;text-align:center}
+.data th{font-weight:600;color:var(--muted);font-size:.8rem}
+.data td{font-family:var(--mono)}
+.tablewrap{overflow-x:auto;margin:8px 0 2px}
+.eq{font-family:var(--mono);font-size:.92rem;background:var(--bg);border-radius:8px;padding:8px 10px;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.seg button{background:none;border:0;padding:7px 12px;font-size:.85rem;color:var(--muted)}
+.seg button+button{border-left:1px solid var(--line)}
+.seg button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink);font-weight:600}
+.step{border:1px solid var(--line);border-radius:12px;padding:12px;background:var(--surface)}
+.step.ok{border-color:var(--good);background:var(--good-soft)}
+.step.no{border-color:var(--bad);background:var(--bad-soft)}
+.step .lab{font-weight:600}
+.step .why{font-size:.88rem;color:var(--muted);margin:2px 0 8px}
+.inp{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.inp input{width:9.5rem;max-width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:var(--bg);font-family:var(--mono);font-size:1.05rem}
+.inp input:focus{border-color:var(--accent)}
+.res{font-size:.9rem;margin-top:8px}
+.res.good{color:var(--good)} .res.bad{color:var(--bad)}
+.hint{font-size:.88rem}
+.check{display:flex;gap:10px;align-items:flex-start;padding:6px 0}
+.check input{width:20px;height:20px;margin-top:2px;flex:none;accent-color:var(--accent)}
+
+/* Schmierzettel */
+.pad{position:relative;border:1px solid var(--line);border-radius:12px;background:var(--bg);overflow:hidden}
+.pad canvas{display:block;width:100%;height:240px;touch-action:none}
+.pad .tools{position:absolute;right:8px;top:8px;display:flex;gap:6px}
+.pad .tools button{background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:4px 10px;font-size:.8rem}
+.pad .ph{position:absolute;left:12px;top:10px;font-size:.8rem;color:var(--muted);pointer-events:none}
+
+/* Statistik */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:90px;margin:10px 0 4px}
+.week div{background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
+.weekl{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;font-size:.75rem;color:var(--muted);text-align:center;line-height:1.3}
+.weekl b{display:block;color:var(--ink);font-weight:600}
+.weekl .n{display:block;margin-top:3px;font-size:.7rem}
+.weekl .today b{color:var(--accent)}
+.week div.today{opacity:1}.week div{opacity:.6}
+.srow{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:.92rem}
+.srow:first-of-type{border-top:0}
+.srow span{font-variant-numeric:tabular-nums}
+
+/* Tableiste */
+nav{position:fixed;left:0;right:0;bottom:0;background:var(--surface);border-top:1px solid var(--line);display:flex;justify-content:center;gap:4px;padding:8px max(16px, env(safe-area-inset-right, 0px)) calc(8px + env(safe-area-inset-bottom, 0px)) max(16px, env(safe-area-inset-left, 0px));z-index:5}
+nav button{flex:1;max-width:9rem;background:none;border:0;border-radius:10px;padding:9px 6px;font-weight:600;font-size:.9rem;color:var(--muted)}
+nav button[aria-current="page"]{background:var(--accent-soft);color:var(--ink)}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(80px + env(safe-area-inset-bottom, 0px));background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:10px;font-size:.9rem;z-index:9;max-width:calc(100% - 32px)}
+@media (prefers-reduced-motion:no-preference){ .step{transition:background .2s,border-color .2s} }
+
+/* ===== Lernpfad, Lektionen, Karten, Grafiken, Essay ===== */
+.chap{display:grid;grid-template-columns:2.4rem 1fr auto;gap:4px 12px;align-items:center;padding:12px 2px;border-top:1px solid var(--line);width:100%;background:none;border-left:0;border-right:0;border-bottom:0;text-align:left}
+.chap:first-child{border-top:0}
+.chap .no{font-family:var(--serif);font-size:1.3rem;font-weight:600;color:var(--accent);text-align:center}
+.chap .t{font-weight:600;min-width:0}
+.chap .d{grid-column:2/-1;font-size:.82rem;color:var(--muted)}
+.chap .bar{grid-column:2/-1}
+.chap.off .no,.chap.off .t{color:var(--muted)}
+.chap:disabled{cursor:default}
+.modes{display:flex;flex-direction:column}
+.mode{display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;padding:13px 2px;border-top:1px solid var(--line);background:none;border-left:0;border-right:0;border-bottom:0;width:100%;text-align:left}
+.mode:first-child{border-top:0}
+.mode .t{font-weight:600}
+.mode .d{grid-column:1/-1;font-size:.84rem;color:var(--muted)}
+.mode .n{font-variant-numeric:tabular-nums;font-size:.85rem;color:var(--muted)}
+.today{border-color:var(--accent);background:var(--accent-soft)}
+.lesson h2{margin-top:.2em}
+.lesson p,.lesson li{max-width:65ch}
+.lesson ul{padding-left:1.2em;margin:0 0 .8em}
+.lesson li{margin:.2em 0}
+.merk{border-left:4px solid var(--gold);background:var(--bg);border-radius:0 10px 10px 0;padding:10px 12px;margin:10px 0}
+.merk>b:first-child{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.kv{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 10px}
+.kv td{border-top:1px solid var(--line);padding:6px 4px;vertical-align:top}
+.kv td:first-child{font-weight:600;white-space:nowrap;padding-right:10px}
+.mc{display:flex;flex-direction:column;gap:8px;margin-top:8px}
+.mc button{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.mc button.r{border-color:var(--good);background:var(--good-soft)}
+.mc button.w{border-color:var(--bad);background:var(--bad-soft)}
+.mc button:disabled{cursor:default;color:var(--ink)}
+.ex{font-size:.9rem;margin-top:8px}
+.card{min-height:12rem;display:flex;flex-direction:column;justify-content:center;gap:10px}
+.card .front{font-family:var(--serif);font-size:1.25rem;font-weight:600;text-wrap:balance}
+.card .back{border-top:1px solid var(--line);padding-top:10px}
+.card.tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card.tap:active{transform:scale(.995)}
+.card .tapnote{align-self:flex-end;font-size:.75rem;color:var(--muted);margin-top:-2px}
+/* Kartenrückseite: Absätze, Listen, Begriffspaare, Vergleichstabelle */
+.cb p{margin:0 0 8px} .cb p:last-child{margin-bottom:0}
+.cb-dl{margin:0;display:flex;flex-direction:column}
+.cb-dl>div{padding:7px 0;border-top:1px solid var(--line)}
+.cb-dl>div:first-child{border-top:0;padding-top:0}
+.cb-dl dt{font-weight:600}
+.cb-dl dd{margin:1px 0 0}
+.cb-ul,.cb-ol{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:5px}
+.cb-ul li{position:relative;padding-left:1.05rem}
+.cb-ul li::before{content:"";position:absolute;left:.15rem;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.75}
+.cb-ol{counter-reset:n}
+.cb-ol li{display:grid;grid-template-columns:1.5rem 1fr;gap:8px;align-items:start}
+.cb-ol li::before{counter-increment:n;content:counter(n);width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--line);background:var(--bg);font:600 .74rem/1.35rem var(--sans);text-align:center;color:var(--muted);margin-top:.1rem}
+.cb-tbl{width:100%;border-collapse:collapse;table-layout:fixed}
+.cb .pd{color:var(--muted)}
+.cb-tbl th{font-weight:600;text-align:left;padding:0 10px 4px 0;font-family:var(--serif);font-size:1rem}
+.cb-tbl td{padding:1px 10px 7px 0;vertical-align:top}
+.cb-tbl tr.lab td{border-top:1px solid var(--line);padding:7px 0 1px;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
+.cb .eq{margin:0 0 8px}
+/* Kästen in Lektionen */
+.merk .mi{margin:0 0 8px}
+.merk .eq{background:var(--surface);display:inline-block;max-width:100%;margin-top:4px}
+.merk .kvq{background:transparent}
+.mrows{display:flex;flex-direction:column}
+.mrows>div{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-top:1px solid var(--line)}
+.mrows>div:first-child{border-top:0;padding-top:2px}
+.mrows>div:last-child{padding-bottom:0}
+.ml{font-weight:600;font-size:.92rem}
+.msteps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:10px}
+.msteps li{display:grid;grid-template-columns:1.5rem 1fr;column-gap:10px;row-gap:3px;align-items:start}
+.msteps li::before{counter-increment:s;content:counter(s);grid-row:1 / span 2;width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--gold);color:var(--gold);font:600 .74rem/1.3rem var(--sans);text-align:center;margin-top:.05rem}
+.msteps .eq{margin:0;display:block}
+.vd{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:1px 8px;border-radius:999px}
+.vd.t{color:var(--good);background:var(--good-soft)} .vd.f{color:var(--bad);background:var(--bad-soft)}
+.sol-ol{margin:6px 0 0;padding-left:1.2em} .sol-ol li{margin:.25em 0}
+.dots{display:flex;gap:4px}
+.dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
+.dots i.on{background:var(--good)}
+.gbox{position:relative;width:100%;aspect-ratio:4/3;max-width:100%;border:1px solid var(--line);border-radius:12px;background:var(--surface);overflow:hidden}
+.gbox svg,.gbox canvas{position:absolute;inset:0;width:100%;height:100%}
+.gbox canvas{touch-action:none}
+.gbox .solsvg{pointer-events:none}
+.fig{width:100%;max-width:100%;border:1px solid var(--line);border-radius:12px;background:var(--bg);margin:8px 0 12px}
+svg .ax{stroke:var(--muted);stroke-width:1.6;fill:none}
+svg .base{stroke:var(--ink);stroke-width:2.4;fill:none}
+svg .sol{stroke:var(--accent);stroke-width:2.8;fill:none}
+svg .gold{stroke:var(--gold);stroke-width:2.8;fill:none}
+svg .dash{stroke-dasharray:5 5}
+svg .thin{stroke-width:1.4}
+svg text{fill:var(--muted);font:13px var(--sans)}
+svg text.st{fill:var(--accent);font-weight:600}
+svg text.bt{fill:var(--ink)}
+svg .dot{fill:var(--surface);stroke:var(--ink);stroke-width:2}
+svg .sdot{fill:var(--accent)}
+svg .arrowhead{fill:var(--muted)}
+svg .sarrow{fill:var(--accent)}
+.essay textarea{width:100%;min-height:16rem;border:1px solid var(--line);border-radius:12px;background:var(--bg);padding:12px;font:1rem/1.55 var(--sans);resize:vertical}
+.pts{font-variant-numeric:tabular-nums;font-weight:600}
+.lnav{display:flex;justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap}
+.crumb{background:none;border:0;padding:0;color:var(--accent);font-weight:600;font-size:.9rem;margin-bottom:8px}
+
+/* ===== Selbsttest (wahr/falsch), Abschnitte, Verständnis-Hilfe ===== */
+.sect{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:4px 2px 8px;display:flex;justify-content:space-between;gap:8px}
+.kz{border-top:1px solid var(--line);padding:12px 0 10px}
+.kz:first-of-type{border-top:0;padding-top:4px}
+.kz .st{margin:0 0 8px;line-height:1.45}
+.kz .st i.no{font-style:normal;color:var(--muted);font-variant-numeric:tabular-nums;margin-right:6px}
+.wf{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
+.wf button{background:var(--bg);border:0;padding:8px 16px;font-size:.9rem;font-weight:600;color:var(--muted);min-width:5.5rem}
+.wf button+button{border-left:1px solid var(--line)}
+.wf button[aria-pressed="true"]{background:var(--accent-soft);color:var(--ink)}
+.wf button.r{background:var(--good-soft);color:var(--good)}
+.wf button.w{background:var(--bad-soft);color:var(--bad)}
+.wf button:disabled{cursor:default}
+.kz .why{font-size:.86rem;color:var(--muted);margin:8px 0 0;line-height:1.45}
+.kz .why b{color:var(--ink);font-weight:600}
+.pbadge{font-variant-numeric:tabular-nums;font-weight:600;font-size:.95rem}
+.unclear{display:flex;gap:10px;align-items:flex-start}
+.unclear p{margin:0}
+.kvq{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 10px;font-variant-numeric:tabular-nums}
+.kvq th,.kvq td{border-top:1px solid var(--line);padding:6px 6px;text-align:left}
+.kvq th{font-weight:600;color:var(--muted);font-size:.8rem}
+svg .fillA{fill:var(--accent-soft);stroke:none}
+svg .fillB{fill:var(--accent-soft);opacity:.55;stroke:none}
+.kvq .nw{white-space:nowrap}
+.chip.flag{color:var(--gold);border-color:var(--gold)}
+
+/* ===== Politik I: Umschalter Vorlesung/Seminar, Ergänzungen, Essay ===== */
+.switch{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:0 0 18px;background:var(--surface)}
+.switch button{background:transparent;border:0;padding:10px 6px;font-weight:600;color:var(--muted);line-height:1.25}
+.switch button small{display:block;font-weight:400;font-size:.75rem}
+.switch button[aria-pressed="true"]{background:var(--ink);color:var(--surface)}
+.erg{display:inline-block;font-size:.66rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--gold);border:1px solid var(--gold);border-radius:999px;padding:0 6px;vertical-align:middle;margin-left:4px;white-space:nowrap}
+.ergbox{border:1px dashed var(--gold);border-radius:10px;padding:10px 12px;margin:10px 0}
+.ergbox>b:first-child{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.quote{border-left:3px solid var(--accent);padding:4px 0 4px 12px;margin:10px 0;font-family:var(--serif);font-size:1.02rem;line-height:1.5}
+.quote cite{display:block;font:normal .8rem var(--sans);color:var(--muted);margin-top:4px}
+.gl{margin:6px 0 0;padding-left:1.2rem}
+.gl li{margin:4px 0}
+.gl li b{font-weight:600}
+.etop{display:flex;justify-content:space-between;align-items:center;gap:10px;position:sticky;top:env(safe-area-inset-top,0px);z-index:4;background:var(--bg);padding:6px 0}
+.clock{font-variant-numeric:tabular-nums;font-weight:700;font-size:1.15rem}
+.wc{font-size:.8rem;color:var(--muted);text-align:right;margin-top:4px}
+.essaytext{white-space:pre-wrap;background:var(--bg);border-radius:10px;padding:10px;margin:0;font-size:.92rem}
+.musterp p{margin:0 0 .7em}
+.info dl{margin:6px 0 0}
+.info dl div{display:grid;grid-template-columns:7.5rem 1fr;gap:8px;padding:5px 0;border-top:1px solid var(--line);font-size:.9rem}
+.info dl div:first-child{border-top:0}
+.info dt{color:var(--muted)}
+.info dd{margin:0}
+.regtbl{width:100%;border-collapse:collapse;font-size:.78rem;margin:8px 0;table-layout:fixed}
+.regtbl th,.regtbl td{border:1px solid var(--line);padding:5px 4px;vertical-align:top;text-align:left;overflow-wrap:anywhere;hyphens:auto}
+.regtbl th{background:var(--bg);font-weight:600}
+</style>
+<style>:root{padding-top:env(safe-area-inset-top,0px)}</style>
+</head>
+<body>
+<main id="app"></main>
+<nav id="nav"></nav>
+<div class="zoom" role="group" aria-label="Schriftgröße"><button id="zIn" aria-label="Größer">+</button><button id="zOut" aria-label="Kleiner">−</button></div>
+
+<script>
+"use strict";
+/* ================= Speicher (eigene Schlüssel, damit nichts mit anderen Apps unter talib47.github.io kollidiert) ================= */
+const KEY="p1-lernapp-v1";
+function lsGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+function lsSet(k,v){ try{ localStorage.setItem(k,v); return true; }catch(e){ return false; } }
+function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
+let state;
+try{ state=JSON.parse(lsGet(KEY)||"null"); }catch(e){ state=null; }
+if(!state||typeof state!=="object") state={};
+function norm(){ for(const k of ["days","lessons","box","essays","drafts","kreuz","unclear"]) if(!state[k]||typeof state[k]!=="object") state[k]={}; }
+norm();
+if(state.course!=="se") state.course="vl";
+function save(){ state.updated=Date.now(); lsSet(KEY,JSON.stringify(state)); schedulePush(); }
+
+/* ===== Geräte-Abgleich über GitHub (Datei fortschritt.json im Zweig "fortschritt", wie in der W&G-I-App) ===== */
+const GH={repo:"https://api.github.com/repos/talib47/Politik-I", file:"fortschritt.json", branch:"fortschritt", tokenKey:"p1-gh-token"};
+GH.api=GH.repo+"/contents/"+GH.file;
+let ghToken=null, remoteSha=null, syncStatus="aus", lastSync=null, pushTimer=null, pushing=false, pushAgain=false;
+function initToken(){
+  const m=location.hash.match(/[#&]t=([A-Za-z0-9_]+)/);
+  if(m){ lsSet(GH.tokenKey,m[1]); try{ history.replaceState(null,"",location.pathname+location.search); }catch(e){} }
+  ghToken=lsGet(GH.tokenKey);
+}
+const ghHeaders=()=>({"Authorization":"Bearer "+ghToken,"Accept":"application/vnd.github+json"});
+const b64enc=str=>btoa(unescape(encodeURIComponent(str)));
+const b64dec=str=>decodeURIComponent(escape(atob(str.replace(/\n/g,""))));
+async function ensureBranch(){
+  const r=await fetch(GH.repo+"/git/ref/heads/"+GH.branch,{headers:ghHeaders(),cache:"no-store"});
+  if(r.ok) return true;
+  const base=await fetch(GH.repo,{headers:ghHeaders(),cache:"no-store"}); if(!base.ok) return false;
+  const def=(await base.json()).default_branch||"main";
+  const h=await fetch(GH.repo+"/git/ref/heads/"+def,{headers:ghHeaders(),cache:"no-store"}); if(!h.ok) return false;
+  const sha=(await h.json()).object.sha;
+  const c=await fetch(GH.repo+"/git/refs",{method:"POST",headers:ghHeaders(),body:JSON.stringify({ref:"refs/heads/"+GH.branch,sha})});
+  return c.ok;
+}
+async function pull(){
+  if(!ghToken) return null;
+  const r=await fetch(GH.api+"?ref="+GH.branch+"&_="+Date.now(),{headers:ghHeaders(),cache:"no-store"});
+  if(r.status===404){ remoteSha=null; return {}; }
+  if(r.status===401){ syncStatus="schluessel"; return null; }
+  if(!r.ok) throw new Error(r.status);
+  const d=await r.json(); remoteSha=d.sha;
+  return JSON.parse(b64dec(d.content));
+}
+async function push(){
+  if(!ghToken) return;
+  if(pushing){ pushAgain=true; return; }
+  pushing=true;
+  try{
+    for(let attempt=0;attempt<3;attempt++){
+      const body={message:"Lernstand",branch:GH.branch,content:b64enc(JSON.stringify(state))};
+      if(remoteSha) body.sha=remoteSha;
+      const r=await fetch(GH.api,{method:"PUT",headers:ghHeaders(),body:JSON.stringify(body)});
+      if(r.ok){ const d=await r.json(); remoteSha=d.content.sha; syncStatus="ok"; lastSync=new Date(); break; }
+      if(r.status===401){ syncStatus="schluessel"; break; }
+      if(r.status===404){ if(!(await ensureBranch())){ syncStatus="fehler"; break; } continue; }  // Zweig fehlt noch: anlegen
+      if(r.status===409||r.status===422){ await pull(); continue; }  // veraltete Version: neu holen und nochmal
+      syncStatus="fehler"; break;
+    }
+  }catch(e){ syncStatus="fehler"; }
+  pushing=false;
+  if(pushAgain){ pushAgain=false; push(); }
+}
+function schedulePush(){ if(!ghToken) return; clearTimeout(pushTimer); pushTimer=setTimeout(()=>{ pushTimer=null; push(); },1500); }
+function flushPush(){ if(pushTimer){ clearTimeout(pushTimer); pushTimer=null; push(); } }
+/* Neuerer Stand gewinnt (Zeitstempel "updated") */
+async function syncFromRemote(){
+  if(!ghToken) return false;
+  try{
+    const remote=await pull();
+    if(remote===null) return false;
+    if(remote.updated && remote.updated>(state.updated||0)){ state=Object.assign(state,remote); norm(); lsSet(KEY,JSON.stringify(state)); syncStatus="ok"; lastSync=new Date(); return true; }
+    if((state.updated||0)>(remote.updated||0)) await push();
+    else { syncStatus="ok"; lastSync=new Date(); }
+  }catch(e){ syncStatus="fehler"; }
+  return false;
+}
+async function autoPull(){
+  if(!ghToken||document.visibilityState!=="visible"||["exam","essay","lesson","cards","kreuz"].includes(view)||pushTimer||pushing) return;
+  if(await syncFromRemote()) render();
+}
+document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") flushPush(); else autoPull(); });
+window.addEventListener("pagehide",flushPush);
+window.addEventListener("focus",autoPull);
+setInterval(autoPull,30000);
+function syncBox(){
+  if(!ghToken) return `<div class="block"><h3>Geräte verbinden</h3>
+    <p class="small muted">Damit iPad, iPhone und Laptop denselben Stand haben, verbinde jedes Gerät einmal. Am einfachsten öffnest du dafür deinen Verbindungslink (Adresse der App mit #t=Schlüssel am Ende).</p>
+    <label class="small muted" for="tkIn">Oder füge hier deinen GitHub-Schlüssel ein (beginnt mit github_pat_):</label>
+    <textarea id="tkIn" style="width:100%;min-height:70px;margin-top:6px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:8px;font-family:var(--mono);font-size:.85rem"></textarea>
+    <button class="btn" id="tkGo" style="margin-top:8px">Gerät verbinden</button></div>`;
+  const msg={ok:`Dieses Gerät ist verbunden und gleicht automatisch ab${lastSync?", zuletzt um "+lastSync.toLocaleTimeString("de-DE",{hour:"2-digit",minute:"2-digit"}):""}.`,
+    fehler:"Abgleich gerade nicht möglich, etwa ohne Internet. Dein Stand bleibt auf diesem Gerät und wird später abgeglichen.",
+    schluessel:"Der Schlüssel funktioniert nicht. Prüfe, ob er Zugriff auf das Repository Politik-I hat, oder verbinde mit einem neuen Schlüssel.",
+    aus:"Wird abgeglichen …"}[syncStatus];
+  return `<div class="block"><h3>Geräte-Abgleich</h3>
+    <p class="small" ${syncStatus==="ok"?'style="color:var(--muted)"':'style="color:var(--bad)"'}>${msg}</p>
+    <div class="row"><button class="btn ghost small" id="syNow">Jetzt abgleichen</button><button class="btn ghost small" id="syOff">Gerät trennen</button></div></div>`;
+}
+function bindSync(){
+  const goB=$("#tkGo");
+  if(goB) goB.onclick=async()=>{
+    const t=$("#tkIn").value.trim();
+    if(!/^github_pat_\w+$/.test(t)){ toast("Das sieht nicht nach einem Schlüssel aus. Er beginnt mit github_pat_."); return; }
+    lsSet(GH.tokenKey,t); ghToken=t; toast("Verbinde …");
+    await syncFromRemote(); toast(syncStatus==="ok"?"Gerät verbunden":"Verbinden hat nicht geklappt"); render();
+  };
+  const now=$("#syNow");
+  if(now) now.onclick=async()=>{ flushPush(); await syncFromRemote(); toast(syncStatus==="ok"?"Abgeglichen":"Abgleich hat nicht geklappt"); render(); };
+  const off=$("#syOff");
+  if(off) off.onclick=()=>{ if(!off.dataset.armed){ off.dataset.armed="1"; off.textContent="Wirklich trennen"; return; } lsDel(GH.tokenKey); ghToken=null; syncStatus="aus"; render(); };
+}
+
+/* ================= Helfer ================= */
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const pick=a=>a[Math.floor(Math.random()*a.length)];
+const shuffle=a=>{ a=a.slice(); for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; };
+const rint=(a,b)=>a+Math.floor(Math.random()*(b-a+1));
+const isInt=x=>Math.abs(x-Math.round(x))<1e-9;
+const nice=(x,dec)=>Math.abs(x*10**dec-Math.round(x*10**dec))<1e-7;
+const r=x=>Math.round(x*1e6)/1e6;
+function fmt(x){
+  x=r(x); if(Object.is(x,-0)) x=0;
+  let s=String(Math.abs(x)); if(s.includes("e")) s=Math.abs(x).toFixed(6).replace(/0+$/,"");
+  s=s.replace(".",","); return (x<0?"−":"")+s;
+}
+const par=x=>x<0?"("+fmt(x)+")":fmt(x);
+function toast(t){ const d=document.createElement("div"); d.className="toast"; d.textContent=t; document.body.appendChild(d); setTimeout(()=>d.remove(),2200); }
+function today(){ const d=new Date(); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
+function parseNum(v){
+  let t=String(v).trim().replace(/\s|€/g,"").replace(/−|–/g,"-");
+  const pct=t.includes("%"); t=t.replace("%","");
+  if(t.includes(",")) t=t.replace(/\./g,"").replace(",",".");
+  if(t===""||t==="-"||isNaN(+t)) return null;
+  return {v:+t,pct};
+}
+const close=(a,b)=>Math.abs(a-b)<=Math.max(0.011,Math.abs(b)*0.005);
+function judge(step,raw){
+  const p=parseNum(raw); if(!p) return null;
+  let v=p.v;
+  if(step.tol!=null) return Math.abs(v-step.ans)<=step.tol;
+  if(step.rate){ if(p.pct) v=v/100; return close(v,step.ans)||close(v/100,step.ans); }
+  if(step.pct){ return close(v,step.ans)||close(v*100,step.ans); }
+  return close(v,step.ans);
+}
+
+/* ================= Inhalte: Gliederung =================
+   Zwei Veranstaltungen im Modul Grundlagen Politik I, getrennt geprüft:
+   vl = Vorlesung „Politische Systeme im Vergleich“ (PD Dr. Julia Schwanholz), Prüfung: Essay 60 Min., unbenotet
+   se = Seminar „Politisches System Deutschlands und der EU“ (Schwarz, online), Prüfung: Klausur + Vortrag
+   n ist die interne Kapitelnummer (Vorlesung 1–10, Seminar ab 101), no die angezeigte Nummer.
+   Lektions-, Karten- und Aufgaben-IDs bleiben stabil, auch wenn Kapitel umgestellt werden.
+   Grundlage Vorlesung: Folien Schwanholz WiSe 26/27 und Vorlesungsplan (Folien 3–6, Moodle). */
+const COURSES={
+  vl:{short:"Vorlesung", who:"Schwanholz", title:"Politische Systeme im Vergleich", eyebrow:"Politik I · Vorlesung · Schwanholz"},
+  se:{short:"Seminar", who:"Schwarz", title:"Politisches System Deutschlands und der EU", eyebrow:"Politik I · Seminar · Schwarz"}
+};
+const CHAPTERS=[
+  {n:1,  c:"vl", no:1,  date:"15.10.", title:"Politik, Politikwissenschaft, Demokratie und Autokratie", teaser:"Politikbegriff (Polity, Politics, Policy), politisches System nach Easton und Almond/Powell, Herrschaftsformen nach Lauth, Dahl und Merkel, Embedded Democracy. Dazu die Selbstlernphase (22. und 29.10.)."},
+  {n:2,  c:"vl", no:2,  date:"05.11.", title:"Demokratien bestimmen, Regierungssysteme, Grundgesetz", teaser:"Landkarte der Demokratien, Präsidentialismus und Parlamentarismus (Steffani, Lijphart), konstitutionelle Grundlagen und Grundprinzipien des Grundgesetzes, die EU im GG."},
+  {n:3,  c:"vl", no:3,  date:"12.11.", title:"Mehrebenensystem Europäische Union", teaser:"Das politische System der EU. Gastvortrag Dr. Alexander Hoppe."},
+  {n:4,  c:"vl", no:4,  date:"19.11.", title:"Strukturmerkmale des Regierens, Verfassungsorgane I", teaser:"Gewaltenteilung, Föderalismus und Unitarismus, Bund, Länder und Kommunen. Bundespräsident, Bundesrat, Staatsoberhäupter anderer Länder (online)."},
+  {n:5,  c:"vl", no:5,  date:"26.11.", title:"Verfassungsorgane II", teaser:"Bundesregierung, Bundestag, Bundesverfassungsgericht. Regierungen, Parlamente und Supreme Courts anderer Länder."},
+  {n:6,  c:"vl", no:6,  date:"03.12.", title:"Demokratische Legitimation", teaser:"Repräsentation, Responsivität, politische Kommunikation. Gastvortrag Dr. Janis Hülder (Schulministerium NRW)."},
+  {n:7,  c:"vl", no:7,  date:"10.12.", title:"Parteien und Parteiensysteme", teaser:"Parteientheorie, Entstehung politischer Parteien, Parteiensysteme."},
+  {n:8,  c:"vl", no:8,  date:"17.12.", title:"Wahlrecht, Wahlen und Wahlverhalten", teaser:"Wahlsysteme und Wahlreformen, Wahlverhalten, Nichtwahl."},
+  {n:9,  c:"vl", no:9,  date:"07.01.", title:"Herausforderungen für die Demokratie", teaser:"Populismus und Extremismus, extreme Rechte im Vergleich (Heinze 2022, Lewandowsky 2025; online)."},
+  {n:10, c:"vl", no:10, date:"14.01.", title:"Polarisierung, Fallstudien und Vergleiche", teaser:"Typen von Polarisierung und lokale Ebene (Schwanholz 2026), Fallstudien, MSS- und MDS-Designs (online)."}
+];
+const LESSONS={}, CARDS={}, ESSAYS=[], KREUZ=[];
+/* Kapitel einer Veranstaltung, und ob ein Kapitel schon Inhalte hat */
+const courseChs=(c=state.course)=>CHAPTERS.filter(x=>x.c===c);
+const chOf=n=>CHAPTERS.find(c=>c.n===n);
+const isReady=n=>!!LESSONS[n];
+const readyNs=(c=state.course)=>courseChs(c).filter(x=>isReady(x.n)).map(x=>x.n);
+
+/* ================= Kleine Erklärhilfen zu Karten =================
+   CARD_CTX: Kontextzeile auf der Vorderseite. CARD_INFO: dezente i-Infos auf der Rückseite, „Begriff: Erklärung“ je Zeile. */
+const CARD_CTX={
+ "v1-c01":"Die Definition, mit der Schwanholz einsteigt",
+ "v1-c02":"Wo und wie Politik stattfindet",
+ "v1-c03":"Dreifachgliederung des Politischen",
+ "v1-c04":"Was Wissenschaft leisten kann",
+ "v1-c05":"Definition des Fachs",
+ "v1-c06":"Woran man gute Forschung erkennt",
+ "v1-c07":"Gliederung des Fachs",
+ "v1-c08":"Systemtheorie",
+ "v1-c09":"Wie weit man den Systembegriff fasst",
+ "v1-c10":"Input-Output-Modell",
+ "v1-c11":"Woher ein System seine Anerkennung bezieht",
+ "v1-c12":"Kreislaufdiagramm (1988)",
+ "v1-c13":"Kreislaufdiagramm (1988)",
+ "v1-c14":"Das wichtigste Unterscheidungsmerkmal",
+ "v1-c15":"Entweder-oder-Einteilung",
+ "v1-c16":"Untertypen auf beiden Seiten",
+ "v1-c17":"Lauth 2006",
+ "v1-c18":"Von links nach rechts",
+ "v1-c19":"Noch Demokratie, aber mit Mängeln",
+ "v1-c20":"Die Definition für die Einleitung eines Essays",
+ "v1-c21":"Zwei Demokratievorstellungen",
+ "v1-c22":"Polyarchie",
+ "v1-c23":"Sechs Fragen an jede Herrschaft",
+ "v1-c24":"Interne Einbettung",
+ "v1-c25":"Externe Einbettung",
+ "v1-c26":"Ziel und Zweck des Konzepts"
+};
+const CARD_INFO={
+ "v1-c01":"Allgemein verbindlich: gilt für alle, auch für die, die dagegen waren.",
+ "v1-c03":"Eselsbrücke: Polity = Rahmen, Politics = Streit, Policy = Programm (wie eine Versicherungspolice).",
+ "v1-c06":"Reliabilität: Misst die Methode bei Wiederholung dasselbe?\nValidität: Misst sie das, was sie messen soll?",
+ "v1-c08":"Talcott Parsons: US-Soziologe, Begründer der strukturfunktionalistischen Systemtheorie.",
+ "v1-c09":"ZPES: Zentrales Politisches Entscheidungssystem.",
+ "v1-c10":"David Easton: kanadisch-US-amerikanischer Politikwissenschaftler, Systemmodell ab den 1950er-Jahren.",
+ "v1-c12":"Steuern: hier im Sinn von Abgaben erheben (englisch extraction), nicht lenken.",
+ "v1-c15":"Dichotom: zweigeteilt, nur zwei Kategorien.",
+ "v1-c16":"Juan Linz: spanisch-US-amerikanischer Politikwissenschaftler.\nWolfgang Merkel: deutscher Politikwissenschaftler (WZB Berlin).",
+ "v1-c19":"Illiberal: bürgerliche Rechte eingeschränkt.\nDelegativ: Regierung umgeht Parlament und Justiz.\nExklusiv: Teile der Bevölkerung ausgeschlossen.",
+ "v1-c22":"Robert Dahl nannte Systeme, die diese Garantien erfüllen, Polyarchien.",
+ "v1-c24":"Horizontale Verantwortlichkeit: Die Gewalten kontrollieren sich gegenseitig.",
+};
+function cardInfoHTML(id){
+  const t=CARD_INFO[id]; if(!t) return "";
+  const lines=t.split("\n").map(l=>{ const m=l.match(/^([^:]{1,32}): (.*)$/); return m?`<span class="cl"><b>${m[1]}</b> ${m[2]}</span>`:`<span class="cl">${l}</span>`; }).join("");
+  return `<div class="cinfo"><span class="ci">i</span><div>${lines}</div></div>`;
+}
+
+/* ================= Fortschritt ================= */
+function lessonState(id){ return (state.lessons||{})[id]; }
+function cardBox(id){ return (state.box||{})[id]||0; }
+function chapterProgress(n){
+  const L=LESSONS[n]||[], K=CARDS[n]||[], X=kreuzOf(n), W=essaysOf(n);
+  if(!L.length) return null;
+  const l=L.filter(x=>lessonState(x.id)).length/L.length;
+  const k=K.length? K.filter(x=>cardBox(x.id)>=3).length/K.length : 1;
+  const x=X.length? X.filter(i=>(kzStat(i.id)||{}).best===4).length/X.length : 1;
+  const w=W.length? W.filter(i=>essayScore(i.id)).length/W.length : 1;
+  const parts=[[l,.3,1],[k,.3,K.length],[x,.2,X.length],[w,.2,W.length]].filter(p=>p[2]);
+  const wsum=parts.reduce((s,p)=>s+p[1],0);
+  return {l,k,x,w,total:Math.round(parts.reduce((s,p)=>s+p[0]*p[1],0)/wsum*100)};
+}
+/* Was ist als Nächstes dran? Theorie zuerst, dann Karten, Selbsttest, Schreiben */
+function nextStep(){
+  for(const ch of courseChs()){ const n=ch.n; if(!isReady(n)) continue;
+    const L=LESSONS[n], li=L.findIndex(x=>!lessonState(x.id));
+    if(li>=0) return {label:`Sitzung ${ch.no} · Theorie`, title:L[li].t, go:()=>openLesson(n,li)};
+    if((CARDS[n]||[]).some(x=>!isSeen(x.id))) return {label:`Sitzung ${ch.no} · Karten`, title:"Begriffe festigen", go:()=>openCards(n)};
+    if(kreuzOf(n).some(x=>!kzStat(x.id))) return {label:`Sitzung ${ch.no} · Selbsttest`, title:"Wahr oder falsch?", go:()=>openKreuz(n)};
+    if(essaysOf(n).some(x=>!essayScore(x.id))) return {label:`Sitzung ${ch.no} · Schreiben`, title:"Essay-Fragen üben", go:()=>openEssay(n)};
+  }
+  if(!readyNs().length) return null;
+  return {label:"Wiederholen", title:"Gemischt üben hält alles frisch", go:()=>openCards(0)};
+}
+
+/* ================= Navigation ================= */
+let view="home", cur={};
+const TABS=[["home","Lernpfad"],["practice","Üben"],["stats","Statistik"]];
+const TAB_OF={home:"home",chapter:"home",lesson:"home",kreuz:"practice",cards:"practice",practice:"practice",stats:"stats",exam:"practice",essay:"practice"};
+function renderNav(){
+  $("#nav").innerHTML=TABS.map(([k,l])=>`<button data-v="${k}"${TAB_OF[view]===k?' aria-current="page"':""}>${l}</button>`).join("");
+  $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.v));
+}
+function go(v){ view=v; render(); window.scrollTo(0,0); }
+function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz})[view](); addSwitch(); }
+const backTo=label=>`<button class="crumb" id="crumb">← ${label}</button>`;
+function bindCrumb(fn){ const b=$("#crumb"); if(b) b.onclick=fn; }
+const chLabel=n=>{ const c=chOf(n); return c?"Sitzung "+c.no:""; };
+
+/* Umschalter Vorlesung / Seminar oben auf den Übersichtsseiten (wie in der W&G-I-App) */
+function addSwitch(){
+  if(!["home","practice","stats"].includes(view)) return;
+  $("#app").insertAdjacentHTML("afterbegin",`<div class="switch" role="group" aria-label="Veranstaltung wählen">
+    ${["vl","se"].map(c=>`<button data-c="${c}" aria-pressed="${state.course===c}">${COURSES[c].short}<small>${COURSES[c].who}</small></button>`).join("")}</div>`);
+  document.querySelectorAll(".switch button").forEach(b=>b.onclick=()=>{ if(state.course===b.dataset.c) return; state.course=b.dataset.c; save(); render(); window.scrollTo(0,0); });
+}
+
+/* ================= Lernpfad ================= */
+function renderHome(){
+  const C=COURSES[state.course], nx=nextStep(), due=dueCards(0).length;
+  const chapRow=ch=>{ const p=chapterProgress(ch.n);
+    return `<button class="chap${p?"":" off"}" data-n="${ch.n}" ${p?"":"disabled"}>
+      <span class="no">${ch.no}</span><span class="t">${ch.title}</span>${p?`<span class="chip ${p.total>=80?"l3":p.total>0?"l2":""}">${p.total} %</span>`:`<span class="chip soon">${ch.date||"folgt"}</span>`}
+      <span class="d">${ch.teaser}</span>${p?`<span class="bar"><i style="width:${p.total}%"></i></span>`:""}
+    </button>`; };
+  const chs=courseChs();
+  $("#app").innerHTML=`
+    <p class="eyebrow">${C.eyebrow}</p>
+    <h1>${C.title}</h1>
+    ${due?`<div class="block row between"><span><b>Heute fällig: ${due} Karten</b><br><span class="small muted">Zuerst wiederholen, dann Neues lernen.</span></span><button class="btn" id="goDue">Wiederholen</button></div>`:""}
+    ${nx?`<div class="block today">
+      <p class="eyebrow">Als Nächstes · ${nx.label}</p>
+      <h2>${nx.title}</h2>
+      <button class="btn" id="goNext">Weiter lernen</button>
+    </div>`:""}
+    ${state.course==="vl"?homeVL(chs,chapRow):homeSE(chs,chapRow)}`;
+  if(nx) $("#goNext").onclick=nx.go;
+  if($("#goDue")) $("#goDue").onclick=()=>openCards(0);
+  document.querySelectorAll(".chap").forEach(b=>b.onclick=()=>{ if(b.disabled) return; cur.ch=+b.dataset.n; go("chapter"); });
+}
+function homeVL(chs,chapRow){
+  return `<p class="sect"><span>Sitzungen</span><span>Folien nach jeder Sitzung</span></p>
+    <div class="block"><div class="tlist">${chs.map(chapRow).join("")}</div></div>
+    <div class="block info">
+      <h2>So wird geprüft</h2>
+      <dl>
+        <div><dt>Form</dt><dd><b>Essay, 60 Minuten</b>, schriftlich am PC in der PC-Hall</dd></div>
+        <div><dt>Bewertung</dt><dd>unbenotet, also nur bestehen</dd></div>
+        <div><dt>Termine</dt><dd>04.02.2027, 14–15 Uhr · Zweittermin 04.03.2027, 14–15 Uhr</dd></div>
+        <div><dt>Anmeldung</dt><dd>über HIS in One</dd></div>
+        <div><dt>Hilfen</dt><dd>Fragen und kurze Essay-Aufgabe auf Acemate (Moodle), Q&amp;A am 21.01.</dd></div>
+      </dl>
+      <p class="small muted" style="margin:10px 0 0">Auf der Folie steht beim Termin „2026“, gemeint ist der Februar 2027.</p>
+    </div>
+    <div class="block">
+      <h2>Wie schreibe ich das Essay? <span class="erg">Ergänzung</span></h2>
+      <p class="small muted">Allgemeine Regeln für Essay-Prüfungen in der Politikwissenschaft, nicht von Schwanholz. Was sie genau erwartet, klärt das Q&amp;A am 21.01.</p>
+      <ol class="gl">
+        <li><b>Frage zerlegen</b> (3 Min.): Was ist der Operator? „Erläutern“ heißt erklären mit Beispiel, „diskutieren“ heißt Für und Wider abwägen, „beurteilen“ heißt am Ende Stellung beziehen.</li>
+        <li><b>Gliederung skizzieren</b> (7 Min.): Einleitung, zwei bis vier Argumentationsschritte, Fazit. Zu jedem Schritt die Autoren notieren.</li>
+        <li><b>Einleitung:</b> Thema, zentraler Begriff mit Definition (mit Autor), Fragestellung, kurzer Fahrplan.</li>
+        <li><b>Hauptteil:</b> je Absatz ein Gedanke. Begriff erklären, mit Autor belegen, an einem Land oder Beispiel zeigen.</li>
+        <li><b>Fazit:</b> Frage direkt beantworten, eigene begründete Einschätzung, Grenzen nennen.</li>
+        <li><b>Schluss</b> (5 Min.): Durchlesen, Fachbegriffe prüfen.</li>
+      </ol>
+    </div>`;
+}
+function homeSE(chs,chapRow){
+  return `${chs.length?`<p class="sect"><span>Sitzungen</span><span></span></p><div class="block"><div class="tlist">${chs.map(chapRow).join("")}</div></div>`:""}
+    <div class="block info">
+      <h2>Seminar bei Schwarz</h2>
+      <dl>
+        <div><dt>Start</dt><dd>Do 29.10., 8:15 Uhr, online über Zoom</dd></div>
+        <div><dt>Prüfung</dt><dd>Klausur, dazu ein Vortrag als Studienleistung</dd></div>
+        <div><dt>Themen</dt><dd>Politisches System Deutschlands und politische Architektur der EU</dd></div>
+      </dl>
+      <p class="small muted" style="margin:10px 0 0">Sobald die erste Sitzung gelaufen ist und die Folien im Projekt liegen, kommen hier die Sitzungen dazu, mit Lektionen, Karten und Probeklausur. Für den Vortrag gibt es dann einen eigenen Bereich.</p>
+    </div>`;
+}
+
+/* ================= Kapitel ================= */
+function renderChapter(){
+  const n=cur.ch, ch=chOf(n), p=chapterProgress(n);
+  const L=LESSONS[n]||[], K=CARDS[n]||[], X=kreuzOf(n), W=essaysOf(n);
+  const nl=L.filter(x=>lessonState(x.id)).length;
+  const nx=X.filter(x=>(kzStat(x.id)||{}).best===4).length, nw=W.filter(x=>essayScore(x.id)).length;
+  $("#app").innerHTML=`${backTo("Lernpfad")}
+    <p class="eyebrow">${COURSES[ch.c].short} · Sitzung ${ch.no} · ${ch.date} · ${p.total} % geschafft</p>
+    <h1>${ch.title}</h1>
+    ${ch.lit?`<p class="small muted">${ch.lit}</p>`:""}
+    <div class="block"><div class="modes">
+      <button class="mode" id="mL"><span class="t">Theorie</span><span class="n">${nl}/${L.length}</span><span class="d">${L.length} kurze Lektionen mit Verständnisfragen. Hier fängst du an.</span></button>
+      ${K.length?`<button class="mode" id="mK"><span class="t">Karten</span><span class="n">${dueCards(n).length} fällig · ${K.filter(x=>!isSeen(x.id)).length} neu</span><span class="d">Begriffe, Autoren, Aufzählungen. Gewusste Karten kommen nach 1, 3, 7, 16 und 35 Tagen wieder.</span></button>`:""}
+      ${X.length?`<button class="mode" id="mX"><span class="t">Selbsttest</span><span class="n">${nx}/${X.length} fehlerfrei</span><span class="d">Je drei Aussagen, wahr oder falsch. Prüft, ob du die Begriffe sauber auseinanderhältst.</span></button>`:""}
+      ${W.length?`<button class="mode" id="mW"><span class="t">Schreiben</span><span class="n">${nw}/${W.length}</span><span class="d">Essay-Fragen wie in der Prüfung: gliedern, schreiben, am Erwartungshorizont abhaken, Musteressay lesen.</span></button>`:""}
+    </div></div>
+    <div class="block"><h3>Lektionen</h3><div class="tlist">${L.map((x,i)=>{ const s=lessonState(x.id);
+      return `<button class="titem" data-i="${i}"><span class="t">${i+1}. ${x.t}</span>${state.unclear[x.id]?`<span class="chip flag">unklar</span>`:`<span class="chip ${s?(s.ok?"l3":"l2"):""}">${s?(s.ok?"sicher":"gelesen"):"offen"}</span>`}</button>`;}).join("")}</div></div>`;
+  bindCrumb(()=>go("home"));
+  $("#mL").onclick=()=>openLesson(n,Math.max(0,L.findIndex(x=>!lessonState(x.id))));
+  if($("#mK")) $("#mK").onclick=()=>openCards(n);
+  if($("#mX")) $("#mX").onclick=()=>openKreuz(n);
+  if($("#mW")) $("#mW").onclick=()=>openEssay(n);
+  document.querySelectorAll(".titem").forEach(b=>b.onclick=()=>openLesson(n,+b.dataset.i));
+}
+
+/* ================= Lektion ================= */
+function openLesson(n,i){ cur.ch=n; cur.li=i; cur.ans={}; go("lesson"); }
+function renderLesson(){
+  const n=cur.ch, L=LESSONS[n], x=L[cur.li];
+  const allAns=x.check.every((_,j)=>cur.ans[j]!==undefined);
+  $("#app").innerHTML=`${backTo(chLabel(n))}
+    <p class="eyebrow">${chLabel(n)} · Lektion ${cur.li+1} von ${L.length}</p>
+    <article class="block lesson"><h1>${x.t}</h1>${x.html}</article>
+    ${unclearBox(x)}
+    <div class="block"><h3>Kurz prüfen</h3>${x.check.map((c,j)=>{ const a=cur.ans[j];
+      return `<div style="margin-top:${j?16:4}px"><p style="margin:0"><b>${c.q}</b></p><div class="mc">${c.o.map((o,k)=>{
+        const cls=a===undefined?"":(k===c.a?"r":(k===a?"w":""));
+        return `<button data-j="${j}" data-k="${k}" class="${cls}" ${a!==undefined?"disabled":""}>${o}</button>`;}).join("")}
+        ${a===undefined?`<button data-j="${j}" data-k="-1" class="idk">Weiß ich nicht</button>`:""}</div>
+        ${a!==undefined?`<p class="ex ${a===c.a?"res good":"res bad"}">${a===c.a?"Richtig. ":a===-1?"Gut, dass du ehrlich bist. Die Lektion kommt später wieder. ":"Nicht ganz. "}<span style="color:var(--ink)">${c.ex}</span></p>`:""}</div>`;}).join("")}
+    </div>
+    <div class="lnav">
+      ${cur.li>0?`<button class="btn ghost" id="prev">← Vorherige</button>`:"<span></span>"}
+      ${allAns?(cur.li<L.length-1?`<button class="btn" id="next">Nächste Lektion →</button>`:`<button class="btn" id="fin">Zur Übersicht</button>`):`<span class="small muted">Beantworte die Fragen, dann geht es weiter.</span>`}
+    </div>`;
+  bindCrumb(()=>go("chapter"));
+  document.querySelectorAll(".mc button").forEach(b=>b.onclick=()=>{
+    const j=+b.dataset.j, k=+b.dataset.k; if(cur.ans[j]!==undefined) return; cur.ans[j]=k;
+    if(x.check.every((_,q)=>cur.ans[q]!==undefined)){ const ok=x.check.every((c,q)=>cur.ans[q]===c.a);
+      state.lessons[x.id]={ok, t:Date.now()}; logDay(); save(); }
+    const y=window.scrollY; renderLesson(); window.scrollTo(0,y);
+  });
+  bindUnclear(x);
+  if($("#prev")) $("#prev").onclick=()=>openLesson(n,cur.li-1);
+  if($("#next")) $("#next").onclick=()=>openLesson(n,cur.li+1);
+  if($("#fin")) $("#fin").onclick=()=>go("chapter");
+}
+/* „Verstehe ich nicht“: Lektion vormerken und eine Bitte um einfachere Erklärung für Claude kopieren */
+function unclearBox(x){
+  const on=!!state.unclear[x.id];
+  return `<div class="block unclear"><div style="flex:1"><p class="small muted">${on?"Als unklar vorgemerkt. Die Lektion bleibt in der Übersicht markiert, bis du sie wieder freigibst.":"Hängt es irgendwo? Merk dir die Lektion vor und lass sie dir von Claude anders erklären."}</p>
+    <div class="row" style="margin-top:8px"><button class="btn ghost small" id="ucOn">${on?"Jetzt verstanden":"Verstehe ich nicht"}</button>${on?`<button class="btn ghost small" id="ucCl">Erklärung bei Claude holen</button>`:""}</div><div id="ucCopy"></div></div></div>`;
+}
+const plainOf=html=>html.replace(/<br>/g,"\n").replace(/<\/(p|li|tr|div|h3)>/g,"\n").replace(/<[^>]+>/g," ").replace(/[ \t]+/g," ").replace(/\n\s+/g,"\n").trim();
+function bindUnclear(x){
+  const C=COURSES[chOf(cur.ch).c];
+  const ask=()=>copyForClaude(`Ich lerne für das Modul Grundlagen Politik I (UDE, Lehramt), ${C.short} „${C.title}“ bei ${C.who}. Diese Lektion verstehe ich noch nicht richtig. Erkläre sie mir bitte einfacher, mit einem Beispiel aus Deutschland oder aus der Schule, und stell mir danach zwei Kontrollfragen. Die Lösungen bitte erst, wenn ich geantwortet habe.\n\nLektion „${x.t}“:\n${plainOf(x.html)}`,"#ucCopy");
+  $("#ucOn").onclick=()=>{ if(state.unclear[x.id]) delete state.unclear[x.id]; else { state.unclear[x.id]=Date.now(); ask(); } save(); const y=window.scrollY; renderLesson(); window.scrollTo(0,y); };
+  if($("#ucCl")) $("#ucCl").onclick=ask;
+}
+function logDay(){ const k=today(); state.days[k]=(state.days[k]||0)+1; }
+async function copyForClaude(prompt,box){
+  try{ await navigator.clipboard.writeText(prompt); toast("Kopiert. In den Claude-Chat einfügen."); }
+  catch(x){ $(box).innerHTML=`<textarea style="width:100%;min-height:8rem;margin-top:8px" readonly>${esc(prompt)}</textarea>`; const t=$(box+" textarea"); t.focus(); t.select(); toast("Text markiert, jetzt kopieren"); }
+}
+
+/* ================= Karten (Karteikasten, Fächer 0–5) ================= */
+/* Rückseite aus Zeilen aufbauen: „Begriff: Text“ wird zum Begriffspaar, „1. …“ zur nummerierten Liste,
+   mehrere einfache Zeilen zur Aufzählung, „A vs. B“ mit „Merkmal: a / b“ zur Vergleichstabelle */
+function cardBackHTML(c){
+  const lines=c.b.split("\n").map(s=>s.trim()).filter(Boolean);
+  const kvRe=/^([^:]{1,38}):\s+(.+)$/, numRe=/^\d+\.\s+(.+)$/;
+  const kind=l=>{ if(numRe.test(l)) return "num"; const m=l.match(kvRe); if(m&&!/,\s|\sheißt/.test(m[1])&&!/[.!?]$/.test(m[1])) return "kv"; if(/ = /.test(l)&&l.length<44) return "eq"; return "plain"; };
+  if(lines.length===1) return `<p>${lines[0]}</p>`;
+  const vs=c.f.split(/\s+vs\.\s+/);
+  if(vs.length===2 && lines.every(l=>kind(l)==="kv"&&l.match(kvRe)[2].includes(" / "))){
+    const h=vs.map(x=>x.replace(/[?:]$/,""));
+    return `<table class="cb-tbl"><tr><th>${h[0]}</th><th>${h[1]}</th></tr>${lines.map(l=>{ const m=l.match(kvRe), p=m[2].split(" / "); return `<tr class="lab"><td colspan="2">${m[1]}</td></tr><tr><td>${p[0]}</td><td>${p.slice(1).join(" / ")}</td></tr>`; }).join("")}</table>`;
+  }
+  const nm=l=>{ const m=l.match(/^([^()]{2,40}?) \((.+)\)$/); return m?`<b>${m[1]}</b> <span class="pd">(${m[2]})</span>`:l; };
+  const groups=[]; for(const l of lines){ const k=kind(l), g=groups[groups.length-1]; if(g&&g.k===k&&k!=="eq") g.l.push(l); else groups.push({k,l:[l]}); }
+  return groups.map(g=>{
+    if(g.k==="num") return `<ol class="cb-ol">${g.l.map(l=>`<li><span>${nm(l.match(numRe)[1])}</span></li>`).join("")}</ol>`;
+    if(g.k==="kv") return `<dl class="cb-dl">${g.l.map(l=>{ const m=l.match(kvRe); return `<div><dt>${m[1]}</dt><dd>${m[2]}</dd></div>`; }).join("")}</dl>`;
+    if(g.k==="eq") return `<div class="eq">${g.l[0]}</div>`;
+    if(g.l.length===1) return `<p>${g.l[0]}</p>`;
+    return `<ul class="cb-ul">${g.l.map(l=>`<li>${nm(l)}</li>`).join("")}</ul>`;
+  }).join("");
+}
+function allCards(n){ return n? (CARDS[n]||[]) : courseChs().flatMap(c=>CARDS[c.n]||[]); }
+/* Wiederholung mit Fälligkeitsdatum (wie Anki): sicherer gewusst = längerer Abstand */
+const INTERVAL=[0,0,1,3,7,16];   // Tage bis zur nächsten Abfrage je Fach; Fach 5 erneut gewusst: 35 Tage
+const dayStart=(t=Date.now())=>{ const d=new Date(t); d.setHours(0,0,0,0); return d.getTime(); };
+const isSeen=id=>!!(state.box||{})[id];
+const isDue=id=>isSeen(id) && ((state.due||{})[id]||0)<=Date.now();
+function dueCards(n){ return allCards(n).filter(x=>isDue(x.id)).sort((a,b)=>((state.due||{})[a.id]||0)-((state.due||{})[b.id]||0)); }
+function openCards(n,free){ cur.cardCh=n; cur.free=!!free; cur.deck=free?buildDeck(n):buildDueDeck(n); cur.ci=0; cur.flip=false; cur.right=0; cur.requeued={}; go("cards"); }
+function buildDueDeck(n){
+  const due=dueCards(n), fresh=n? allCards(n).filter(x=>!isSeen(x.id)) : [];
+  return due.concat(fresh).slice(0,Math.max(10,Math.min(due.length,30)));
+}
+function buildDeck(n){
+  const pool=allCards(n).slice(), deck=[];
+  while(deck.length<Math.min(10,pool.length)){
+    const w=pool.map(x=>[6,5,4,3,2,1][cardBox(x.id)]); let r=Math.random()*w.reduce((a,b)=>a+b,0), i=0;
+    for(;i<pool.length;i++){ r-=w[i]; if(r<=0) break; } deck.push(pool.splice(Math.min(i,pool.length-1),1)[0]);
+  }
+  return deck;
+}
+function renderCards(){
+  const D=cur.deck, n=cur.cardCh, back=n?chLabel(n):"Üben", backFn=()=>go(n?"chapter":"practice");
+  if(cur.ci>=D.length){
+    const left=dueCards(n).length+(n?allCards(n).filter(x=>!isSeen(x.id)).length:0);
+    const nextDue=allCards(n).filter(x=>isSeen(x.id)&&!isDue(x.id)).map(x=>(state.due||{})[x.id]).sort((a,b)=>a-b)[0];
+    const when=nextDue? Math.round((dayStart(nextDue)-dayStart())/864e5) : null;
+    $("#app").innerHTML=`${backTo(back)}<h1>${D.length?(left?"Runde geschafft":"Für heute erledigt"):"Nichts fällig"}</h1>
+      <div class="block">${D.length?`<p>${cur.right} von ${D.length} Antworten gewusst.</p>`:""}
+      <p class="small muted">${left?`Noch ${left} Karten fällig oder neu.`:`Alle Karten${n?" dieser Sitzung":""} sind auf dem Stand. ${when!=null?`Die nächsten werden ${when<=0?"heute":when===1?"morgen":"in "+when+" Tagen"} fällig.`:""}`} Gewusste Karten kommen nach 1, 3, 7, 16 und 35 Tagen wieder, nicht gewusste sofort noch einmal.</p>
+      <div class="row">${left?`<button class="btn" id="again">Weiter</button>`:""}${allCards(n).length?`<button class="btn ghost" id="free">Freiwillig weiterüben</button>`:""}<button class="btn ghost" id="out">Fertig</button></div></div>`;
+    bindCrumb(backFn); if($("#again")) $("#again").onclick=()=>openCards(n); if($("#free")) $("#free").onclick=()=>openCards(n,true); $("#out").onclick=backFn; return;
+  }
+  const c=D[cur.ci], b=cardBox(c.id);
+  $("#app").innerHTML=`${backTo(back)}
+    <div class="row between"><p class="eyebrow" style="margin:0">Karte ${cur.ci+1} von ${D.length}${cur.free?" · freiwillig":isSeen(c.id)?" · fällig":" · neu"}</p><span class="dots" aria-label="Fach ${b} von 5">${[1,2,3,4,5].map(i=>`<i class="${i<=b?"on":""}"></i>`).join("")}</span></div>
+    <div class="block card${cur.flip?"":" tap"}" id="theCard" style="margin-top:8px"><div class="front">${c.f}</div>${CARD_CTX[c.id]?`<p class="cctx">${CARD_CTX[c.id]}</p>`:""}${cur.flip?`<div class="back cb">${cardBackHTML(c)}</div>${cardInfoHTML(c.id)}`:`<span class="tapnote">Tippen zum Umdrehen</span>`}</div>
+    ${cur.flip?`<div class="row"><button class="btn" id="yes" style="flex:1">Gewusst</button><button class="btn warn" id="no" style="flex:1">Nicht gewusst</button></div>`
+      :`<button class="btn" id="flip" style="width:100%">Antwort zeigen</button><p class="small muted" style="margin-top:8px">Erst im Kopf antworten, dann aufdecken.</p>`}`;
+  bindCrumb(backFn);
+  if($("#flip")) $("#flip").onclick=()=>{ cur.flip=true; renderCards(); };
+  if(!cur.flip) $("#theCard").onclick=()=>{ cur.flip=true; renderCards(); };
+  const grade=ok=>{ state.box=state.box||{}; state.due=state.due||{}; const b0=cardBox(c.id), b1=ok?Math.min(5,Math.max(b0,1)+1):1;
+    state.box[c.id]=b1;
+    if(!cur.free||!ok||b1<b0){ const days=ok?(b0===5?35:INTERVAL[b1]):0; state.due[c.id]= ok? dayStart()+days*864e5 : Date.now(); }
+    if(ok) cur.right++; else if((cur.requeued[c.id]||0)<2){ cur.requeued[c.id]=(cur.requeued[c.id]||0)+1; D.push(c); }
+    logDay(); save(); cur.ci++; cur.flip=false; renderCards(); };
+  if($("#yes")) $("#yes").onclick=()=>grade(true);
+  if($("#no")) $("#no").onclick=()=>grade(false);
+}
+
+/* ================= Üben (sitzungsübergreifend, je Veranstaltung) ================= */
+function renderPractice(){
+  const ready=readyNs(), C=COURSES[state.course];
+  if(!ready.length){
+    $("#app").innerHTML=`<p class="eyebrow">${C.eyebrow}</p><h1>Üben</h1><div class="block"><p class="muted" style="margin:0">Für das ${C.short} gibt es noch keine Inhalte. Sobald die ersten Folien im Projekt liegen, kannst du hier gemischt üben.</p></div>`;
+    return;
+  }
+  const W=essaysOf(0);
+  $("#app").innerHTML=`<p class="eyebrow">${C.eyebrow}</p><h1>Üben</h1>
+    <p class="muted">Gemischt aus allen fertigen Sitzungen (${ready.map(n=>chOf(n).no).join(", ")}). Gemischtes Üben ist anstrengender als blockweises, bleibt aber deutlich besser hängen.</p>
+    <div class="block"><div class="modes">
+      <button class="mode" id="pK"><span class="t">Fällige Karten</span><span class="n">${dueCards(0).length} fällig</span><span class="d">Alle Karten, die heute dran sind. Neue Karten lernst du in der jeweiligen Sitzung.</span></button>
+      <button class="mode" id="pKr"><span class="t">Selbsttest gemischt</span><span class="n">${kreuzOf(0).filter(x=>(kzStat(x.id)||{}).best===4).length}/${kreuzOf(0).length} fehlerfrei</span><span class="d">Fünf Aufgaben mit je drei Aussagen, bevorzugt neue und solche mit Fehlern.</span></button>
+      ${W.length?`<button class="mode" id="pW"><span class="t">Essay-Fragen schreiben</span><span class="n">${W.filter(x=>essayScore(x.id)).length}/${W.length}</span><span class="d">Eine Frage, mit oder ohne Gliederungshilfe. Danach Erwartungshorizont und Musteressay.</span></button>
+      <button class="mode" id="pX"><span class="t">Probe-Essay, 60 Minuten</span><span class="n">${state.examRun?"läuft":(state.exams||[]).length+"×"}</span><span class="d">Wie am 04.02.: eine Frage, Timer, keine Hilfen. Danach selbst bewerten oder von Claude bewerten lassen.</span></button>`:""}
+    </div></div>`;
+  $("#pK").onclick=()=>openCards(0);
+  $("#pKr").onclick=()=>openKreuz(0);
+  if($("#pW")) $("#pW").onclick=()=>openEssay(0);
+  if($("#pX")) $("#pX").onclick=()=>go("exam");
+}
+
+/* ================= Statistik ================= */
+let statsArmed=false;
+function renderStats(){
+  const days=[...Array(7)].map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-6+i); const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); return [d,state.days[k]||0]; });
+  const mx=Math.max(1,...days.map(x=>x[1])), wd=["So","Mo","Di","Mi","Do","Fr","Sa"];
+  const ready=courseChs().filter(c=>isReady(c.n)), ex=(state.exams||[]).filter(e=>(e.c||"vl")===state.course).slice(-5).reverse();
+  $("#app").innerHTML=`<h1>Statistik</h1>
+    <div class="block"><h2>Letzte 7 Tage</h2>
+      <p class="small muted" style="margin:0">Zahl unter dem Datum: wie viele Aktionen (Karten, Aufgaben, Lektionen) du an dem Tag gemacht hast, Vorlesung und Seminar zusammen.</p>
+      <div class="week">${days.map(([d,n],i)=>`<div class="${i===6?"today":""}" style="height:${Math.round(n/mx*100)}%" title="${n} Aktionen"></div>`).join("")}</div>
+      <div class="weekl">${days.map(([d,n],i)=>`<span class="${i===6?"today":""}"><b>${i===6?"Heute":wd[d.getDay()]}</b>${d.getDate()}.${d.getMonth()+1}.<span class="n">${n?n+" Akt.":"–"}</span></span>`).join("")}</div></div>
+    <div class="block"><h2>${COURSES[state.course].short}: nach Sitzung</h2>${ready.length?ready.map(c=>{ const p=chapterProgress(c.n);
+      return `<div class="srow"><span>Sitzung ${c.no}</span><span class="small muted">${[["Theorie",p.l,1],["Karten",p.k,(CARDS[c.n]||[]).length],["Selbsttest",p.x,kreuzOf(c.n).length],["Schreiben",p.w,essaysOf(c.n).length]].filter(x=>x[2]).map(x=>x[0]+" "+Math.round(x[1]*100)).join(" · ")}</span><span class="pts">${p.total} %</span></div>`;}).join(""):`<p class="small muted" style="margin:0">Noch keine Sitzungen mit Inhalten.</p>`}</div>
+    ${ex.length?`<div class="block"><h2>Probe-Essays</h2>${ex.map(e=>`<div class="srow"><span>${new Date(e.t).toLocaleDateString("de-DE",{day:"numeric",month:"numeric"})}</span><span class="small muted">${esc(e.title||"")}</span><span class="pts">${e.p}/${e.max}</span></div>`).join("")}</div>`:""}
+    ${syncBox()}
+    <div class="block"><h3>Fortschritt zurücksetzen</h3><p class="small muted">Löscht deinen gesamten Lernstand (Vorlesung und Seminar), auch auf den verbundenen Geräten.</p>
+      <button class="btn warn" id="rst">${statsArmed?"Wirklich zurücksetzen":"Zurücksetzen"}</button></div>`;
+  bindSync();
+  $("#rst").onclick=()=>{ if(!statsArmed){ statsArmed=true; renderStats(); addSwitch(); return; } const c=state.course; state={}; norm(); state.course=c; save(); flushPush(); statsArmed=false; toast("Zurückgesetzt"); render(); };
+}
+
+/* ================= Selbsttest: je Aufgabe ein Satzanfang und drei Aussagen, jede wahr oder falsch =================
+   Kein Prüfungsformat (die Vorlesung wird mit einem Essay geprüft), sondern ein Werkzeug, um Begriffe sicher zu unterscheiden.
+   Punkte wie in der BiWi-II-App: je richtiges Kreuz 1 Punkt, alle drei richtig +1 (max. 4). */
+const kreuzOf=n=>n? KREUZ.filter(x=>x.ch===n) : KREUZ.filter(x=>isReady(x.ch)&&chOf(x.ch).c===state.course);
+const kzStat=id=>(state.kreuz||{})[id];
+function kzPoints(item,ans){ const right=item.s.filter((st,j)=>ans[j]===st[1]).length; return right+(right===3?1:0); }
+function pickKreuz(n,k){
+  const pool=kreuzOf(n).slice(), out=[];
+  while(out.length<Math.min(k,pool.length)){
+    const w=pool.map(x=>{ const s=kzStat(x.id); return !s?5:(s.p<4?4:(Date.now()-s.t>3*864e5?2:1)); });
+    let r=Math.random()*w.reduce((a,b)=>a+b,0), i=0; for(;i<pool.length;i++){ r-=w[i]; if(r<=0) break; }
+    out.push(pool.splice(Math.min(i,pool.length-1),1)[0]);
+  }
+  return out;
+}
+function openKreuz(n){ cur.kr={n, items:pickKreuz(n,5).map(x=>x.id), i:0, ans:{}, shown:false, pts:[]}; go("kreuz"); }
+function kzBlock(item,ans,shown,key){
+  return item.s.map((st,j)=>{ const a=ans[j];
+    const cls=v=>shown?(st[1]===v?"r":(a===v?"w":"")):"";
+    return `<div class="kz"><p class="st"><i class="no">${"abc"[j]})</i>${st[0]}</p>
+      <div class="wf" role="group" aria-label="Aussage ${"abc"[j]}"><button data-kz="${key}:${j}" data-v="1" aria-pressed="${a===true}" class="${cls(true)}" ${shown?"disabled":""}>wahr</button><button data-kz="${key}:${j}" data-v="0" aria-pressed="${a===false}" class="${cls(false)}" ${shown?"disabled":""}>falsch</button></div>
+      ${shown?`<p class="why">${a===st[1]?"":a===undefined?'<b>Nicht angekreuzt. </b>':'<b>Nicht richtig. </b>'}${st[2]}</p>`:""}</div>`; }).join("");
+}
+function renderKreuz(){
+  const K=cur.kr, back=K.n?chLabel(K.n):"Üben", backFn=()=>{ if(K.n){ cur.ch=K.n; go("chapter"); } else go("practice"); };
+  if(!K.items.length){ $("#app").innerHTML=`${backTo(back)}<h1>Noch kein Selbsttest</h1><p class="muted">Für diesen Bereich gibt es noch keine Aufgaben.</p>`; bindCrumb(backFn); return; }
+  if(K.i>=K.items.length){
+    const sum=K.pts.reduce((a,b)=>a+b,0), max=K.items.length*4;
+    $("#app").innerHTML=`${backTo(back)}<h1>Runde geschafft</h1>
+      <div class="block"><p class="pbadge">${sum} von ${max} Punkten</p>
+      <p class="small muted">Je richtiges Kreuz ein Punkt, alle drei Aussagen einer Aufgabe richtig ein Zusatzpunkt. Aufgaben mit Fehlern kommen bevorzugt wieder.</p>
+      <div class="row"><button class="btn" id="again">Neue Runde</button><button class="btn ghost" id="out">Fertig</button></div></div>`;
+    bindCrumb(backFn); $("#again").onclick=()=>openKreuz(K.n); $("#out").onclick=backFn; return;
+  }
+  const item=KREUZ.find(x=>x.id===K.items[K.i]), all=[0,1,2].every(j=>K.ans[j]!==undefined), ch=chOf(item.ch);
+  if(!K.shown) K.prev=kzStat(item.id);
+  $("#app").innerHTML=`${backTo(back)}
+    <div class="row between"><p class="eyebrow" style="margin:0">Aufgabe ${K.i+1} von ${K.items.length} · Sitzung ${ch.no}</p>${K.prev?`<span class="chip">zuletzt ${K.prev.p}/4</span>`:""}</div>
+    <div class="block" style="margin-top:8px"><h3 style="margin:0 0 4px">${item.stem}</h3>${kzBlock(item,K.ans,K.shown,"s")}</div>
+    ${K.shown?`<div class="row between"><span class="pbadge">${K.pts[K.i]} von 4 Punkten</span><button class="btn" id="nx">${K.i<K.items.length-1?"Nächste Aufgabe":"Auswertung"}</button></div>`
+      :`<button class="btn" id="ev" style="width:100%" ${all?"":"disabled"}>Auswerten</button>${all?"":`<p class="small muted" style="margin-top:8px">Kreuze bei jeder Aussage wahr oder falsch an.</p>`}`}`;
+  bindCrumb(backFn);
+  document.querySelectorAll("[data-kz]").forEach(b=>b.onclick=()=>{ K.ans[+b.dataset.kz.split(":").pop()]=b.dataset.v==="1"; const y=window.scrollY; renderKreuz(); window.scrollTo(0,y); });
+  if($("#ev")) $("#ev").onclick=()=>{ const p=kzPoints(item,K.ans); K.pts[K.i]=p; K.shown=true;
+    const s=kzStat(item.id)||{n:0,best:0}; state.kreuz[item.id]={n:s.n+1,p,best:Math.max(s.best||0,p),t:Date.now()}; logDay(); save(); renderKreuz(); };
+  if($("#nx")) $("#nx").onclick=()=>{ K.i++; K.ans={}; K.shown=false; renderKreuz(); window.scrollTo(0,0); };
+}
+
+/* ================= Essay-Trainer =================
+   Prüfung Vorlesung: Essay, 60 Minuten am PC. Jede Frage hat
+   op  = was der Operator verlangt, gl = Gliederungsvorschlag, k = Erwartungshorizont (zum Abhaken), m = Musteressay (Absätze).
+   kind "lang" = Prüfungsfrage für 60 Minuten, "kurz" = Teilfrage für etwa 15 Minuten. */
+const essaysOf=n=>n? ESSAYS.filter(x=>x.ch===n) : ESSAYS.filter(x=>isReady(x.ch)&&chOf(x.ch).c===state.course);
+const essayScore=id=>(state.essays||{})[id];
+const wordCount=t=>{ const s=String(t||"").trim(); return s?s.split(/\s+/).length:0; };
+const musterHTML=x=>`<p class="small muted">So könnte eine gute Antwort aussehen. Beispiele und Zusatzwissen darin gehen teils über die Folien hinaus.</p><div class="musterp">${x.m.map(p=>`<p>${p}</p>`).join("")}</div>`;
+const glHTML=x=>`<ol class="gl">${x.gl.map(g=>`<li>${g}</li>`).join("")}</ol>`;
+function pickEssay(n,onlyLong){
+  let L=essaysOf(n); if(onlyLong&&L.some(x=>x.kind==="lang")) L=L.filter(x=>x.kind==="lang");
+  const w=L.map(x=>{ const s=essayScore(x.id); return !s?4:(s.p<s.max*.75?3:1); });
+  let r=Math.random()*w.reduce((a,b)=>a+b,0), i=0; for(;i<L.length;i++){ r-=w[i]; if(r<=0) break; }
+  return L[Math.min(i,L.length-1)];
+}
+function openEssay(n,id){ n=n||0; const x=id?ESSAYS.find(e=>e.id===id):pickEssay(n); cur.es={n, id:x&&x.id, phase:"schreiben", help:false, checks:{}}; go("essay"); }
+function claudePrompt(x,text,exam){
+  const C=COURSES[chOf(x.ch).c];
+  return `Bewerte bitte mein ${exam?"Probe-Essay (60 Minuten, ohne Hilfsmittel)":"Essay"} für die Prüfung der ${C.short} „${C.title}“ (${C.who}, UDE, Modul Grundlagen Politik I). Die echte Prüfung ist ein Essay von 60 Minuten am PC, unbenotet (bestanden oder nicht).\n\nFrage:\n${x.q}\n\nErwartungshorizont aus meiner Lern-App:\n${x.k.map(k=>"- "+k).join("\n")}\n\nMein Essay (${wordCount(text)} Wörter):\n${text||"(leer)"}\n\nGib mir bitte:\n1. Würde das voraussichtlich bestehen? Kurz begründet.\n2. Je Punkt des Erwartungshorizonts: erfüllt, teilweise oder fehlt.\n3. Fachliche Fehler oder ungenaue Begriffe.\n4. Aufbau und Argumentation: was ich beim nächsten Mal anders machen sollte.\n5. Einen verbesserten Absatz als Beispiel.`;
+}
+function renderEssay(){
+  const E=cur.es, n=E.n, back=n?chLabel(n):"Üben", backFn=()=>{ if(n){ cur.ch=n; go("chapter"); } else go("practice"); };
+  const x=ESSAYS.find(e=>e.id===E.id), L=essaysOf(n);
+  if(!x){ $("#app").innerHTML=`${backTo(back)}<h1>Noch keine Essay-Fragen</h1><p class="muted">Für diesen Bereich gibt es noch keine Fragen.</p>`; bindCrumb(backFn); return; }
+  state.drafts=state.drafts||{}; const text=state.drafts[x.id]||"", done=L.filter(y=>essayScore(y.id)).length, last=essayScore(x.id);
+  const head=`${backTo(back)}
+    <p class="eyebrow">${x.kind==="lang"?"Prüfungsfrage · etwa 60 Min.":"Teilfrage · etwa 15 Min."} · Sitzung ${chOf(x.ch).no} · ${done} von ${L.length} bearbeitet</p>
+    <div class="block"><p style="margin:0"><b>${x.q}</b></p><p class="small muted" style="margin:8px 0 0">${x.op}</p>${last?`<p class="small muted" style="margin:6px 0 0">Zuletzt: ${last.p} von ${last.max} Punkten des Erwartungshorizonts</p>`:""}</div>`;
+  if(E.phase==="schreiben"){
+    $("#app").innerHTML=`${head}
+      <div class="block"><button class="btn ghost small" id="eh">${E.help?"Gliederungshilfe ausblenden":"Gliederungshilfe zeigen"}</button>${E.help?glHTML(x):`<p class="small muted" style="margin:8px 0 0">Versuch es erst ohne. In der Prüfung gibt es keine Hilfe.</p>`}</div>
+      <div class="essay"><label class="small muted" for="et">Dein Essay (wird automatisch gespeichert)</label>
+        <textarea id="et" style="margin-top:6px">${esc(text)}</textarea><p class="wc" id="ewc">${wordCount(text)} Wörter</p></div>
+      <div class="row" style="margin-top:6px"><button class="btn" id="ed">Fertig, bewerten</button><button class="btn ghost" id="en">Andere Frage</button></div>`;
+    let t=null; $("#et").oninput=e=>{ state.drafts[x.id]=e.target.value; $("#ewc").textContent=wordCount(e.target.value)+" Wörter"; clearTimeout(t); t=setTimeout(save,1200); };
+    $("#eh").onclick=()=>{ E.help=!E.help; const y=window.scrollY; renderEssay(); window.scrollTo(0,y); };
+    $("#ed").onclick=()=>{ save(); E.phase="bewerten"; renderEssay(); window.scrollTo(0,0); };
+    $("#en").onclick=()=>{ save(); const others=L.filter(y=>y.id!==x.id); openEssay(n, others.length?pick(others).id:x.id); };
+  } else {
+    const pts=()=>x.k.filter((_,j)=>E.checks[j]).length;
+    $("#app").innerHTML=`${head}
+      <div class="block"><h3>Erwartungshorizont</h3><p class="small muted">Hake ab, was in deinem Text klar und fachlich richtig vorkommt.</p>
+        ${x.k.map((k,j)=>`<label class="check"><input type="checkbox" id="q${j}" ${E.checks[j]?"checked":""}><span>${k}</span></label>`).join("")}
+        <p class="pts" id="ep">${pts()} von ${x.k.length}</p>
+        <div class="row"><button class="btn" id="es">Speichern</button><button class="btn ghost" id="ecl">Von Claude bewerten lassen</button></div><div id="ecopy"></div></div>
+      <div class="block"><h3>Dein Text</h3>${text.trim()?`<p class="essaytext">${esc(text)}</p>`:`<p class="small muted" style="margin:0">Du hast nichts geschrieben. Lies dir die Gliederung und das Musteressay durch und versuch es danach noch einmal.</p>`}
+        <div class="row" style="margin-top:8px"><button class="btn ghost small" id="eb">Weiterschreiben</button>${text.trim()?`<button class="btn ghost small" id="ex">Neu anfangen</button>`:""}</div></div>
+      <div class="block"><h3>Gliederungsvorschlag</h3>${glHTML(x)}</div>
+      <div class="block lesson"><h3>Musteressay</h3>${musterHTML(x)}</div>
+      <div class="row" style="margin-bottom:12px"><button class="btn ghost" id="en">Nächste Frage</button></div>`;
+    document.querySelectorAll(".check input").forEach(c=>c.onchange=()=>{ E.checks[+c.id.slice(1)]=c.checked; $("#ep").textContent=`${pts()} von ${x.k.length}`; });
+    $("#es").onclick=()=>{ state.essays[x.id]={p:pts(),max:x.k.length,t:Date.now(),w:wordCount(text)}; logDay(); save(); toast(`${pts()} von ${x.k.length} gespeichert`); renderEssay(); };
+    $("#ecl").onclick=()=>copyForClaude(claudePrompt(x,text,false),"#ecopy");
+    $("#eb").onclick=()=>{ E.phase="schreiben"; renderEssay(); };
+    if($("#ex")) $("#ex").onclick=()=>{ const b=$("#ex"); if(!b.dataset.armed){ b.dataset.armed="1"; b.textContent="Text wirklich löschen"; return; } delete state.drafts[x.id]; save(); E.phase="schreiben"; E.checks={}; renderEssay(); };
+    $("#en").onclick=()=>{ const others=L.filter(y=>y.id!==x.id); openEssay(n, others.length?pick(others).id:x.id); };
+  }
+  bindCrumb(backFn);
+}
+
+/* ---------- Probe-Essay: 60 Minuten, keine Hilfen ---------- */
+let examTimer=null, examSaveT=null;
+function examSave(){ clearTimeout(examSaveT); examSaveT=setTimeout(()=>save(),1200); }
+function examLeft(){ const e=state.examRun; return e? e.start+e.min*60000-Date.now() : 0; }
+const mmss=ms=>{ const s=Math.max(0,Math.round(ms/1000)); return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); };
+function renderExam(){
+  clearInterval(examTimer);
+  const e=state.examRun;
+  if(!e){
+    const hist=(state.exams||[]).filter(h=>(h.c||"vl")===state.course).slice(-6).reverse(), ready=essaysOf(0).length;
+    $("#app").innerHTML=`${backTo("Üben")}<p class="eyebrow">${COURSES[state.course].short} · Probe-Essay</p><h1>Probe-Essay</h1>
+      <div class="block"><p>Wie in der Prüfung am 04.02.: Du bekommst eine Frage aus den Sitzungen, die schon fertig sind, und hast <b>60 Minuten</b>. Keine Gliederungshilfe, kein Musteressay. Der Text wird laufend gespeichert, auch wenn du die App zwischendurch schließt.</p>
+        <p class="small muted">Danach bewertest du selbst am Erwartungshorizont oder lässt Claude bewerten. Plane 5 bis 10 Minuten für die Gliederung ein, bevor du losschreibst.</p>
+        ${ready?`<div class="row"><button class="btn" id="xs">Starten (60 Min.)</button><button class="btn ghost" id="xs30">Kurz üben (30 Min.)</button></div>`:`<p class="small muted">Noch keine Fragen vorhanden.</p>`}</div>
+      ${hist.length?`<div class="block"><h3>Bisherige Probe-Essays</h3>${hist.map(h=>`<div class="srow"><span>${new Date(h.t).toLocaleDateString("de-DE",{day:"numeric",month:"numeric"})}</span><span class="small muted">${esc(h.title||"")}${h.w?" · "+h.w+" Wörter":""}</span><span class="pts">${h.p}/${h.max}</span></div>`).join("")}</div>`:""}`;
+    bindCrumb(()=>go("practice"));
+    const start=min=>{ const x=pickEssay(0,true); state.examRun={id:x.id,c:state.course,start:Date.now(),min,text:"",checks:{}}; save(); renderExam(); window.scrollTo(0,0); };
+    if($("#xs")) $("#xs").onclick=()=>start(60);
+    if($("#xs30")) $("#xs30").onclick=()=>start(30);
+    return;
+  }
+  const x=ESSAYS.find(y=>y.id===e.id);
+  if(!x){ state.examRun=null; save(); renderExam(); return; }
+  if(e.phase!=="grade"){
+    $("#app").innerHTML=`<div class="etop"><span class="small muted">Probe-Essay · ${e.min} Min.</span><span class="clock" id="clock">${mmss(examLeft())}</span></div>
+      <div class="block"><p style="margin:0"><b>${x.q}</b></p></div>
+      <div class="essay"><textarea id="xt" style="min-height:22rem" placeholder="Erst gliedern, dann schreiben …">${esc(e.text||"")}</textarea><p class="wc" id="xwc">${wordCount(e.text)} Wörter</p></div>
+      <div class="row" style="margin:8px 0 16px"><button class="btn" id="xg">Abgeben</button><button class="btn ghost small" id="xq">Abbrechen</button></div>`;
+    $("#xt").oninput=ev=>{ e.text=ev.target.value; $("#xwc").textContent=wordCount(e.text)+" Wörter"; examSave(); };
+    $("#xg").onclick=()=>{ const b=$("#xg"); if(examLeft()>0&&!b.dataset.armed){ b.dataset.armed="1"; b.textContent="Wirklich abgeben?"; return; } e.used=Date.now()-e.start; e.phase="grade"; save(); renderExam(); window.scrollTo(0,0); };
+    $("#xq").onclick=()=>{ const b=$("#xq"); if(!b.dataset.armed){ b.dataset.armed="1"; b.textContent="Wirklich abbrechen (Text geht verloren)"; return; } state.examRun=null; save(); renderExam(); };
+    examTimer=setInterval(()=>{ const c=$("#clock"); if(!c||view!=="exam"){ clearInterval(examTimer); return; } const l=examLeft(); c.textContent=l>0?mmss(l):"Zeit um"; if(l<=0) c.style.color="var(--bad)"; },1000);
+    return;
+  }
+  const pts=()=>x.k.filter((_,j)=>e.checks[j]).length;
+  $("#app").innerHTML=`<p class="eyebrow">Probe-Essay · Bewertung · ${Math.min(e.min,Math.round((e.used||0)/60000))} von ${e.min} Minuten genutzt · ${wordCount(e.text)} Wörter</p>
+    <div class="block"><p style="margin:0"><b>${x.q}</b></p></div>
+    <div class="block"><h3>Dein Essay</h3>${(e.text||"").trim()?`<p class="essaytext">${esc(e.text)}</p>`:`<p class="small muted" style="margin:0">Kein Text.</p>`}</div>
+    <div class="block"><h3>Erwartungshorizont</h3><p class="small muted">Streng abhaken: nur, was wirklich im Text steht.</p>
+      ${x.k.map((k,j)=>`<label class="check"><input type="checkbox" id="g${j}" ${e.checks[j]?"checked":""}><span>${k}</span></label>`).join("")}
+      <p class="pts" id="gp">${pts()} von ${x.k.length}</p>
+      <div class="row"><button class="btn ghost" id="gcl">Von Claude bewerten lassen</button></div><div id="gcopy"></div></div>
+    <div class="block"><h3>Gliederungsvorschlag</h3>${glHTML(x)}</div>
+    <div class="block lesson"><h3>Musteressay</h3>${musterHTML(x)}</div>
+    <div class="row" style="margin-bottom:20px"><button class="btn" id="gs">Ergebnis speichern und beenden</button></div>`;
+  document.querySelectorAll(".check input").forEach(c=>c.onchange=()=>{ e.checks[+c.id.slice(1)]=c.checked; $("#gp").textContent=`${pts()} von ${x.k.length}`; examSave(); });
+  $("#gcl").onclick=()=>copyForClaude(claudePrompt(x,e.text,true),"#gcopy");
+  $("#gs").onclick=()=>{ state.exams=state.exams||[]; state.exams.push({t:Date.now(),c:e.c,id:x.id,title:x.short||"",p:pts(),max:x.k.length,w:wordCount(e.text),min:e.min});
+    const s=essayScore(x.id); if(!s||pts()>=s.p) state.essays[x.id]={p:pts(),max:x.k.length,t:Date.now(),w:wordCount(e.text)};
+    state.examRun=null; logDay(); save(); toast("Gespeichert"); renderExam(); window.scrollTo(0,0); };
+}
+
+/* ================= Vorlesung, Sitzung 1 (15.10.): Politik, Politikwissenschaft, Demokratie und Autokratie =================
+   Grundlage: Folien Schwanholz „Einführung Vorlesung 261015“ (Folien 12–32).
+   Alles, was nicht auf den Folien steht, ist als Ergänzung markiert (Klasse erg / ergbox).
+   Lektüre der Selbstlernphase (22. und 29.10.): Patzelt 2023 Kap. 1 und 3, Lauth 2015, Merkel 2013. Noch nicht eingearbeitet. */
+const ERG='<span class="erg">Ergänzung</span>';
+chOf(1).lit="Lektüre: Patzelt (2023, S. 11–36 und 111–367), Lauth (2015), Merkel (2013). Selbstlernphase am 22. und 29.10. mit Fragen und Essay-Aufgabe auf Acemate.";
+
+/* Kleine Schaubilder (Farben über CSS-Variablen, funktionieren hell und dunkel) */
+const FIG_EASTON=`<svg viewBox="0 0 360 210" role="img" aria-label="Eastons Systemmodell" style="width:100%;max-width:440px;display:block;margin:10px auto;font:12px var(--sans)">
+  <rect x="4" y="4" width="352" height="160" rx="10" style="fill:none;stroke:var(--line);stroke-dasharray:4 4"/>
+  <text x="180" y="20" text-anchor="middle" style="fill:var(--muted)">Umwelt (environment)</text>
+  <rect x="16" y="44" width="70" height="78" rx="8" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+  <text x="51" y="68" text-anchor="middle" style="fill:var(--ink);font-weight:600">Inputs</text>
+  <text x="51" y="88" text-anchor="middle" style="fill:var(--ink)">Forderungen</text>
+  <text x="51" y="104" text-anchor="middle" style="fill:var(--ink)">Unterstützung</text>
+  <rect x="125" y="44" width="110" height="78" rx="8" style="fill:var(--surface);stroke:var(--ink)"/>
+  <text x="180" y="80" text-anchor="middle" style="fill:var(--ink);font-weight:600">Politisches</text>
+  <text x="180" y="96" text-anchor="middle" style="fill:var(--ink);font-weight:600">System</text>
+  <rect x="274" y="44" width="70" height="78" rx="8" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+  <text x="309" y="68" text-anchor="middle" style="fill:var(--ink);font-weight:600">Outputs</text>
+  <text x="309" y="88" text-anchor="middle" style="fill:var(--ink)">Entschei-</text>
+  <text x="309" y="104" text-anchor="middle" style="fill:var(--ink)">dungen</text>
+  <path d="M88 83 H121" style="stroke:var(--ink);stroke-width:2"/><path d="M121 78 l6 5 -6 5z" style="fill:var(--ink)"/>
+  <path d="M237 83 H270" style="stroke:var(--ink);stroke-width:2"/><path d="M270 78 l6 5 -6 5z" style="fill:var(--ink)"/>
+  <path d="M309 124 V146 H51 V128" style="fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:5 4"/><path d="M46 130 l5 -7 5 7z" style="fill:var(--accent)"/>
+  <text x="180" y="141" text-anchor="middle" style="fill:var(--accent);font-weight:600">Rückkopplung (feedback)</text>
+  <text x="51" y="186" text-anchor="middle" style="fill:var(--ink);font-weight:600">soziale</text>
+  <text x="51" y="201" text-anchor="middle" style="fill:var(--muted)">Zustimmung</text>
+  <text x="180" y="186" text-anchor="middle" style="fill:var(--ink);font-weight:600">Input-Legitimation</text>
+  <text x="180" y="201" text-anchor="middle" style="fill:var(--muted)">demokratische Verfahren</text>
+  <text x="309" y="186" text-anchor="middle" style="fill:var(--ink);font-weight:600">Output-Legit.</text>
+  <text x="309" y="201" text-anchor="middle" style="fill:var(--muted)">Problemlösung</text>
+</svg>`;
+const FIG_EMBEDDED=`<svg viewBox="0 0 360 250" role="img" aria-label="Embedded Democracy nach Merkel" style="width:100%;max-width:440px;display:block;margin:10px auto;font:11.5px var(--sans)">
+  <ellipse cx="180" cy="128" rx="176" ry="120" style="fill:var(--bg);stroke:var(--line)"/>
+  <ellipse cx="180" cy="134" rx="148" ry="96" style="fill:var(--surface);stroke:var(--line)"/>
+  <ellipse cx="180" cy="140" rx="120" ry="72" style="fill:var(--accent-soft);stroke:var(--accent)"/>
+  <text x="180" y="24" text-anchor="middle" style="fill:var(--muted)">Ökonomische Voraussetzungen / soziale Gerechtigkeit</text>
+  <text x="180" y="52" text-anchor="middle" style="fill:var(--muted)">Zivilgesellschaft</text>
+  <text x="180" y="82" text-anchor="middle" style="fill:var(--accent);font-weight:600">Staatlichkeit</text>
+  <ellipse cx="180" cy="142" rx="34" ry="18" style="fill:var(--accent)"/>
+  <text x="180" y="146" text-anchor="middle" style="fill:var(--accent-ink);font-weight:700">A Wahlen</text>
+  <text x="112" y="112" text-anchor="middle" style="fill:var(--ink)">C Bürgerliche</text><text x="112" y="126" text-anchor="middle" style="fill:var(--ink)">Rechte</text>
+  <text x="248" y="112" text-anchor="middle" style="fill:var(--ink)">B Politische</text><text x="248" y="126" text-anchor="middle" style="fill:var(--ink)">Freiheiten</text>
+  <text x="112" y="168" text-anchor="middle" style="fill:var(--ink)">D Horizontale</text><text x="112" y="182" text-anchor="middle" style="fill:var(--ink)">Verantwortlichkeit</text>
+  <text x="248" y="168" text-anchor="middle" style="fill:var(--ink)">E Effektive</text><text x="248" y="182" text-anchor="middle" style="fill:var(--ink)">Regierungsgewalt</text>
+</svg>`;
+
+LESSONS[1]=[
+{id:"v1-1", t:"Was ist Politik?", html:`
+<p>Politik ist nicht nur das, was im Bundestag passiert. Schwanholz beginnt mit zwei Bildern: dem Bundespräsidenten, der mit Familien in einer Schlange im Wahllokal steht, und einer Großdemonstration gegen Stuttgart 21. Beides ist Politik. Was haben die beiden Bilder gemeinsam?</p>
+<div class="quote">Politik ist soziales Handeln, das auf Entscheidungen und Steuerungsmechanismen ausgerichtet ist, die <b>allgemein verbindlich</b> sind und das Zusammenleben von Menschen regeln.<cite>Bernauer et al. 2009, S. 32</cite></div>
+<p>Der Kern ist das Wort <b>allgemein verbindlich</b>: Eine Entscheidung gilt für alle, auch für die, die dagegen waren. Ein Vereinsbeschluss bindet nur Mitglieder, ein Gesetz bindet alle.</p>
+<h3>Merkmale politischer Realität</h3>
+<table class="kvq">
+<tr><td><b>Ebenen</b></td><td>lokal, regional, national, europäisch, international</td></tr>
+<tr><td><b>Akteure</b></td><td>individuelle (z. B. Bundeskanzler) und kollektive (z. B. Kabinett, Parteien, Fraktionen)</td></tr>
+<tr><td><b>Institutionen und Organe</b></td><td>z. B. Regierung, Parlament, Verfassungsgericht</td></tr>
+<tr><td><b>Verfahren</b></td><td>z. B. demokratische Wahlen, Gesetzgebung, Normenkontrollverfahren</td></tr></table>
+<div class="ergbox"><b>Ergänzung: Normenkontrolle</b>Ein Normenkontrollverfahren ist ein Verfahren vor dem Bundesverfassungsgericht, in dem geprüft wird, ob ein Gesetz mit dem Grundgesetz vereinbar ist. Kommt in Sitzung 5 (Verfassungsorgane) wieder.</div>`,
+check:[
+ {q:"Was macht eine Entscheidung laut Bernauer et al. zu einer politischen?", o:["Sie wird von Politikern getroffen","Sie ist allgemein verbindlich und regelt das Zusammenleben","Sie wird im Parlament verkündet","Sie betrifft die Wirtschaft"], a:1, ex:"Nicht wer entscheidet, ist entscheidend, sondern dass die Entscheidung für alle gilt und das Zusammenleben regelt."},
+ {q:"Ein Normenkontrollverfahren ist auf der Folie ein Beispiel für …", o:["einen Akteur","eine Ebene","ein Verfahren","eine Institution"], a:2, ex:"Die Folie nennt es zusammen mit Wahlen und Gesetzgebung unter den Verfahren."}
+]},
+{id:"v1-2", t:"Polity, Politics, Policy", html:`
+<p>Das Deutsche hat ein Wort für Politik, das Englische drei. Die Politikwissenschaft nutzt diese drei Wörter, um Politik in drei Dimensionen zu zerlegen: die <b>Dreifachgliederung des Politischen</b>.</p>
+<table class="kvq">
+<tr><th>Dimension</th><th>Was gemeint ist</th><th>Stichworte</th></tr>
+<tr><td><b>Polity</b></td><td>Form: das Regelwerk für Politik, die Grundlagen des Gemeinwesens</td><td>Verfassung, Staat, politisches System</td></tr>
+<tr><td><b>Politics</b></td><td>Prozess: wie um Entscheidungen gerungen wird</td><td>Interesse, Akteur, Kommunikation, Legitimation, Macht</td></tr>
+<tr><td><b>Policy</b></td><td>Inhalt: Handlungsprogramme, also was entschieden wird</td><td>Problem, Programm, Erfolg</td></tr></table>
+<div class="merk"><b>Eselsbrücke</b>Polit<b>y</b> wie <b>Y</b>-Rahmen: das Gerüst. Polit<b>ics</b> wie „Kampf“: der Streit. Polic<b>y</b> wie Police (Versicherungspolice): das Programm, das am Ende auf dem Papier steht.</div>
+<div class="ergbox"><b>Ergänzung: Beispiel G9 in NRW</b>
+<b>Polity:</b> Bildung ist nach dem Grundgesetz Ländersache, also entscheidet der Landtag NRW über das Schulgesetz.<br>
+<b>Politics:</b> Elterninitiativen, Lehrerverbände und Parteien streiten jahrelang über G8 oder G9, es gibt Anhörungen und Mehrheiten im Landtag.<br>
+<b>Policy:</b> Das beschlossene Programm: Gymnasien kehren zu neun Jahren bis zum Abitur zurück.</div>
+<p class="small muted">Für deinen GL-Unterricht: Der Klassenrat zeigt alle drei Dimensionen im Kleinen. Die Klassenratsregeln sind die Polity, die Diskussion ist Politics, der Beschluss (etwa eine Pausenregel) ist die Policy.</p>`,
+check:[
+ {q:"Ein Streit zwischen Parteien im Landtag über ein neues Gesetz gehört vor allem zu …", o:["Polity","Politics","Policy"], a:1, ex:"Politics ist der Prozess: Interessen, Akteure, Macht, Aushandlung."},
+ {q:"Das Grundgesetz gehört zu …", o:["Polity","Politics","Policy"], a:0, ex:"Polity ist die Form, das Regelwerk: Verfassung, Staat, politisches System."},
+ {q:"Welche Stichworte nennt die Folie für Policy?", o:["Verfassung, Staat, System","Interesse, Akteur, Macht","Problem, Programm, Erfolg"], a:2, ex:"Policy sind Handlungsprogramme: ein Problem, ein Programm dagegen und die Frage, ob es Erfolg hat."}
+]},
+{id:"v1-3", t:"Was ist Politikwissenschaft?", html:`
+<p>Bevor es um Politikwissenschaft geht, klärt Schwanholz, was Wissenschaft überhaupt ist.</p>
+<div class="quote">Wissenschaft zielt auf Aussagen, die an <b>empirischem und logischem Wahrheitsgehalt</b> dem überlegen sind, was schon der „gesunde Menschenverstand“ formulieren kann.<cite>sinngemäß nach Patzelt 2007</cite></div>
+<h3>Arten wissenschaftlicher Aussagen</h3>
+<ul><li>Beschreibungen</li><li>Aussagen über Zusammenhänge</li><li>Erklärungen</li><li>Prognosen</li><li>Werturteile</li><li>Empfehlungen oder Handlungsanweisungen</li></ul>
+<h3>Politikwissenschaft</h3>
+<p>Nach <b>Schmidt (2010)</b> ist Politikwissenschaft die Wissenschaft von der Politik, also die wissenschaftliche <b>Beschreibung, Erklärung oder Prognose</b> politischer Phänomene auf Basis wissenschaftlich fundierter Analysen. Sie</p>
+<ul><li>analysiert Ursachen und Auswirkungen von Polities, Politics und Policies,</li>
+<li>arbeitet mit wissenschaftlichen <b>Methoden</b> (Umfragen, vergleichende Fallstudien, Prozessanalysen, Dokumentenanalysen, Fokusgruppen, Regressionen, Experimente …)</li>
+<li>und auf Basis von <b>Modellen und Theorien</b>: Gesetzesaussagen, die Tatbestände erklären, Ereignisse prognostizieren, überprüfbar sind und neue Theorien hervorbringen.</li></ul>
+<p>Moderne Politikwissenschaft ist vor allem <b>empirisch-analytisch</b> und <b>werturteilsfrei</b>: Aussagen sollen auf Erfahrung beruhen und überprüfbar sein. Gütekriterien sind <b>Systematik, Generalisierbarkeit, Kausalmechanismen, Reliabilität</b> (Verlässlichkeit) und <b>Validität</b> (Gültigkeit).</p>
+<h3>Teilgebiete des Fachs</h3>
+<table class="kvq"><tr><td>1</td><td>Politische Theorie / Ideengeschichte</td></tr><tr><td>2</td><td>Internationale Beziehungen / EU</td></tr><tr><td><b>3</b></td><td><b>Vergleichende Politikwissenschaft / Regierungslehre</b></td></tr><tr><td><b>4</b></td><td><b>Politisches System der BRD</b></td></tr><tr><td>5</td><td>Sozialwissenschaftliche Methoden</td></tr></table>
+<p>Die Vorlesung bewegt sich in den Feldern <b>3 und 4</b>: das politische System Deutschlands, verglichen mit anderen Ländern.</p>`,
+check:[
+ {q:"Welche drei Leistungen nennt Schmidt für die Politikwissenschaft?", o:["Beschreibung, Erklärung, Prognose","Bewertung, Empfehlung, Beratung","Gesetzgebung, Verwaltung, Rechtsprechung"], a:0, ex:"Schmidt 2010: wissenschaftliche Beschreibung, Erklärung oder Prognose politischer Phänomene."},
+ {q:"„Werturteilsfrei“ heißt in der Folie vor allem:", o:["Politikwissenschaft darf nie Werturteile untersuchen","Sie beschreibt und erklärt möglichst objektiv, ohne eigene Wertung als Ergebnis auszugeben","Sie gibt nur Handlungsempfehlungen"], a:1, ex:"Ziel ist eine möglichst objektive Beschreibung und Erklärung der politischen Wirklichkeit."},
+ {q:"In welchen Teilgebieten liegt diese Vorlesung?", o:["Politische Theorie und Methoden","Vergleichende PoWi und politisches System der BRD","Internationale Beziehungen und EU"], a:1, ex:"Auf der Folie sind die Felder 3 und 4 eingekreist."}
+]},
+{id:"v1-4", t:"Politisches System und Eastons Modell", html:`
+<p>Nach <b>Parsons</b> ist das politische System ein <b>Subsystem der Gesellschaft</b>, das auf <b>Zielverfolgung und politische Steuerung</b> spezialisiert ist. Wie weit man den Begriff fasst, ist eine Entscheidung:</p>
+<div class="merk"><b>Eng oder weit?</b><div class="mrows">
+<div><span class="ml">Eng: Zentrales Politisches Entscheidungssystem (ZPES)</span><span>Nur die Institutionen, die verbindlich entscheiden. Formal-institutionenbezogene Sicht.</span></div>
+<div><span class="ml">Weit: ZPES plus angrenzende Akteure</span><span>Dazu Parteien, Wirtschaftsakteure, Verbände und andere Interessengruppen. Inhaltlich-prozessbezogene Sicht.</span></div></div></div>
+<h3>Eastons Systemmodell</h3>
+${FIG_EASTON}
+<p>David Easton betrachtet das politische System wie eine Maschine in einer Umwelt:</p>
+<ul><li><b>Inputs</b> kommen aus der Umwelt: <b>Forderungen</b> (demands) und <b>Unterstützung</b> (support).</li>
+<li>Das <b>politische System</b> verarbeitet sie zu <b>Entscheidungen</b> (decisions).</li>
+<li>Die <b>Outputs</b> wirken auf die Umwelt zurück.</li>
+<li>Über die <b>Rückkopplung</b> (feedback) beeinflussen die Ergebnisse die nächsten Forderungen und die Unterstützung.</li></ul>
+<h3>Drei Formen der Legitimation</h3>
+<table class="kvq"><tr><th>Form</th><th>woher sie kommt</th></tr>
+<tr><td><b>Soziale Legitimation</b></td><td>Zustimmung durch die Bürgerinnen und Bürger (bei Inputs und Unterstützung)</td></tr>
+<tr><td><b>Input-Legitimation</b></td><td>demokratische Verfahren (im System selbst)</td></tr>
+<tr><td><b>Output-Legitimation</b></td><td>erfolgreiche Problembearbeitung (bei den Outputs)</td></tr></table>
+<div class="ergbox"><b>Ergänzung</b>Die Unterscheidung von Input- und Output-Legitimation geht vor allem auf Fritz Scharpf zurück. Sie passt gut in Essays über die EU: Die EU gilt oft als stark bei der Output-, aber schwächer bei der Input-Legitimation.</div>`,
+check:[
+ {q:"Welche zwei Arten von Inputs unterscheidet Easton?", o:["Forderungen und Unterstützung","Gesetze und Urteile","Wahlen und Abstimmungen"], a:0, ex:"Demands und support: Was die Gesellschaft verlangt, und wie sehr sie das System trägt."},
+ {q:"Eine Regierung bekämpft eine Wirtschaftskrise erfolgreich und gewinnt dadurch Zustimmung. Welche Legitimation ist das vor allem?", o:["Input-Legitimation","Output-Legitimation","Soziale Legitimation"], a:1, ex:"Output-Legitimation entsteht durch erfolgreiche Problembearbeitung."},
+ {q:"Das „weite“ Verständnis des politischen Systems umfasst …", o:["nur Regierung und Parlament","das ZPES plus Parteien, Verbände, Wirtschaftsakteure","nur die Verfassung"], a:1, ex:"Weit heißt: ZPES und angrenzende Akteure, inhaltlich-prozessbezogen."}
+]},
+{id:"v1-5", t:"Kreislaufmodell nach Almond und Powell", html:`
+<p>Almond und Powell (1988) bauen Eastons Modell aus. Sie fragen, welche <b>Funktionen</b> ein politisches System erfüllen muss und welche <b>Strukturen</b> das übernehmen.</p>
+<table class="kvq">
+<tr><th>Ebene</th><th>Funktionen</th></tr>
+<tr><td><b>Systemfunktionen</b></td><td>Sozialisierung, Rekrutierung, Kommunikation: halten das System am Laufen</td></tr>
+<tr><td><b>Prozessfunktionen</b></td><td>Interessenartikulation → Interessenaggregation → Policy-making → Implementierung und Überprüfung</td></tr>
+<tr><td><b>Policy-Funktionen</b></td><td>Steuern, Regulierung, Verteilung: die Outputs, die als Outcomes in der Gesellschaft ankommen</td></tr></table>
+<h3>Wer übernimmt welche Funktion?</h3>
+<table class="kvq">
+<tr><td>Parteien</td><td>Interessen bündeln (Aggregation)</td></tr>
+<tr><td>Interessengruppen, Verbände</td><td>Interessen äußern (Artikulation)</td></tr>
+<tr><td>Parlament, Regierung</td><td>Entscheiden (Policy-making)</td></tr>
+<tr><td>Verwaltung, Justiz</td><td>Umsetzen und überprüfen</td></tr></table>
+<p>Bei den Inputs unterscheiden sie <b>diffuse Unterstützung</b> und <b>spezifische Unterstützung</b>. Umwelt und Rückkopplungen (Feedbacks) umschließen das Ganze wie bei Easton.</p>
+<div class="ergbox"><b>Ergänzung</b><b>Diffuse Unterstützung</b> gilt dem System als Ganzem, etwa der Demokratie an sich. <b>Spezifische Unterstützung</b> gilt den aktuellen Entscheidungen und Amtsträgern. Man kann die Regierung ablehnen und trotzdem die Demokratie unterstützen.<br>„Steuern“ meint hier das Erheben von Abgaben (englisch extraction), nicht das Lenken.</div>`,
+check:[
+ {q:"Welche Struktur übernimmt im Modell typischerweise die Interessenaggregation?", o:["Verwaltung","Parteien","Justiz"], a:1, ex:"Parteien bündeln viele einzelne Interessen zu Programmen."},
+ {q:"Sozialisierung, Rekrutierung und Kommunikation sind …", o:["Systemfunktionen","Prozessfunktionen","Policy-Funktionen"], a:0, ex:"Sie stehen im Kreislaufdiagramm ganz oben als Systemfunktionen."}
+]},
+{id:"v1-6", t:"Demokratie und Autokratie unterscheiden", html:`
+<p><b>Demokratie</b> kommt von griechisch <i>démos</i> (Volk) und <i>kratía</i> (Herrschaft): Herrschaft des Volkes. Das entscheidende Unterscheidungsmerkmal:</p>
+<div class="merk"><b>Kernsatz</b>In Demokratien ist der <b>Gesetzgeber selbst den Gesetzen unterworfen</b>, in Autokratien nicht.</div>
+<ul><li><b>Autokratie</b> wird oft mit Diktatur gleichgesetzt.</li>
+<li>Vorschlag einer <b>dichotomen</b> Typenlehre: Alle Nicht-Demokratien sind Autokratien. „Democracy is the opposite of autocracy“ (Jaggers/Gurr 1995).</li>
+<li><b>Linz (1975)</b> unterteilt Autokratien in <b>totalitäre</b> und <b>autoritäre</b> Regime.</li>
+<li><b>Merkel (2010)</b> unterteilt Demokratien in <b>eingebettete rechtsstaatliche</b> (embedded) und <b>defekte</b> Demokratien.</li></ul>
+<h3>Kontinuum politischer Regime (Lauth et al. 2014)</h3>
+<table class="kvq">
+<tr><th colspan="2">Demokratie-Seite</th></tr>
+<tr><td><b>Demokratie</b></td><td>repräsentativ, direkt, parlamentarisch oder präsidentiell</td></tr>
+<tr><td><b>Defekte Demokratie</b></td><td>illiberal, delegativ, exklusiv</td></tr>
+<tr><th colspan="2">Autokratie-Seite: autoritäre Regime</th></tr>
+<tr><td><b>Schwach autoritär</b></td><td>kontrolliertes Mehrparteienregime (mit dominanter Partei) oder Einparteiensystem</td></tr>
+<tr><td><b>Stark autoritär</b></td><td>Militärregime, absolute Monarchie, ideologisch fundiertes Einparteiensystem</td></tr>
+<tr><th colspan="2">Autokratie-Seite: totalitäre Regime</th></tr>
+<tr><td><b>Totalitär</b></td><td>faschistisch, kommunistisch, theokratisch (jeweils mit Totalitätsanspruch)</td></tr></table>
+<h3>Drei Dimensionen (Lauth 2006)</h3>
+<table class="kvq"><tr><th></th><th>totalitär</th><th>autoritär</th><th>demokratisch</th></tr>
+<tr><td>politische Freiheit</td><td>nicht gegeben</td><td>partiell</td><td>gegeben</td></tr>
+<tr><td>politische Gleichheit</td><td>nicht gegeben</td><td>partiell</td><td>gegeben</td></tr>
+<tr><td>politische und rechtliche Kontrolle</td><td>nicht gegeben</td><td>partiell</td><td>gegeben</td></tr></table>
+<div class="ergbox"><b>Ergänzung: autoritär oder totalitär (Linz)</b>Autoritäre Regime lassen einen <b>begrenzten Pluralismus</b> zu, haben eher Mentalitäten als eine ausgearbeitete Ideologie und wollen die Bevölkerung vor allem ruhig halten. Totalitäre Regime erheben einen <b>Totalitätsanspruch</b> auf alle Lebensbereiche, stützen sich auf eine umfassende Ideologie und <b>mobilisieren</b> die Bevölkerung dauerhaft.</div>
+<p>Für Essays wichtig: Die Tabelle von Lauth zeigt ein <b>Kontinuum</b>. Die dichotome Sicht (entweder Demokratie oder Autokratie) ist einfach, aber sie kann Grauzonen wie defekte Demokratien schlecht abbilden.</p>`,
+check:[
+ {q:"Was unterscheidet nach der Folie Demokratie grundlegend von Autokratie?", o:["In der Demokratie gibt es Wahlen, in der Autokratie nie","In der Demokratie ist der Gesetzgeber selbst an die Gesetze gebunden","In der Demokratie gibt es eine Verfassung"], a:1, ex:"Auch Autokratien halten oft Wahlen ab und haben Verfassungen. Entscheidend ist die Bindung des Gesetzgebers an das Recht."},
+ {q:"In der Tabelle von Lauth et al. steht die „delegative Demokratie“ unter …", o:["Demokratie","Defekte Demokratie","Schwach autoritäres Regime"], a:1, ex:"Illiberale, delegative und exklusive Demokratie sind Formen der defekten Demokratie, also noch Demokratien."},
+ {q:"Ein autoritäres Regime ist bei Lauth bei politischer Freiheit, Gleichheit und Kontrolle …", o:["jeweils nicht gegeben","jeweils partiell gegeben","jeweils gegeben"], a:1, ex:"Partiell gegeben, das unterscheidet es vom totalitären Regime."}
+]},
+{id:"v1-7", t:"Was ist eine Demokratie? Lauth, Dahl, Merkel", html:`
+<p>Für Essays brauchst du eine Definition, die du zitieren kannst. Schwanholz nutzt die von Lauth:</p>
+<div class="quote">Demokratie ist eine <b>rechtsstaatliche Herrschaftsform</b>, die <b>Selbstbestimmung</b> für alle Staatsbürger im Sinne der <b>Volkssouveränität</b> ermöglicht: durch maßgebliche Beteiligung an der Besetzung der Entscheidungspositionen in <b>freien, kompetitiven und fairen Verfahren</b>, durch die Chance auf kontinuierliche Einflussnahme und durch eine <b>Kontrolle der Herrschaft</b>.<cite>gekürzt nach Lauth 2006, S. 100</cite></div>
+<p>Daraus folgen die drei Dimensionen: <b>Freiheit, Gleichheit, Kontrolle</b>.</p>
+<h3>Prozedural oder materiell?</h3>
+<table class="kvq"><tr><td><b>Prozedural</b></td><td>Wie wird Herrschaft vergeben und kontrolliert? Rekrutierung des Personals, Kontrolle der Exekutive, Offenheit für Beteiligung.</td></tr>
+<tr><td><b>Materiell</b></td><td>Was kommt heraus? Politikinhalte und -ergebnisse, etwa gerechte Verteilung.</td></tr></table>
+<p>Laut Folie hat sich die <b>prozedurale</b> Vorstellung als weitaus wirkungsmächtiger erwiesen.</p>
+<h3>Dahl (1971): acht Garantien</h3>
+<ol class="cb-ol">
+<li><span>Assoziations- und Koalitionsfreiheit</span></li><li><span>Recht auf freie Meinungsäußerung</span></li><li><span>aktives Wahlrecht</span></li><li><span>passives Wahlrecht</span></li><li><span>Recht der Eliten, um Wählerstimmen zu konkurrieren</span></li><li><span>alternative, pluralistische Informationsquellen</span></li><li><span>freie und faire Wahlen</span></li><li><span>Institutionen, die Regierungspolitik von Wählerstimmen und Bürgerpräferenzen abhängig machen</span></li></ol>
+<h3>Merkel (2010): sechs Fragen an jede Herrschaft</h3>
+<table class="kvq"><tr><th>Dimension</th><th>Frage</th></tr>
+<tr><td>Legitimation</td><td>Durch wen wird Macht legitimiert?</td></tr>
+<tr><td>Zugang</td><td>Wie ist der Zugang zur Macht geregelt?</td></tr>
+<tr><td>Monopol</td><td>Wer trifft die bindenden Entscheidungen?</td></tr>
+<tr><td>Struktur</td><td>Auf wie viele Träger ist die Macht verteilt?</td></tr>
+<tr><td>Anspruch</td><td>Ist der Herrschaftsanspruch gegenüber den Bürgern begrenzt?</td></tr>
+<tr><td>Weise</td><td>Wie wird Herrschaft ausgeübt?</td></tr></table>
+<div class="ergbox"><b>Ergänzung: typische Antworten</b>Demokratie: Volkssouveränität, offener Zugang durch allgemeine Wahlen, Entscheidungen durch legitimierte Repräsentanten, verteilte Macht (Gewaltenteilung), begrenzter Anspruch (Grundrechte), rechtsstaatliche Ausübung. Autokratie jeweils das Gegenteil: etwa Legitimation durch Ideologie oder Führer, geschlossener Zugang, konzentrierte Macht, unbegrenzter Anspruch, willkürliche Ausübung.</div>`,
+check:[
+ {q:"Welche Demokratievorstellung hat sich laut Folie als wirkungsmächtiger erwiesen?", o:["die materielle","die prozedurale","beide gleich"], a:1, ex:"Prozedurale Theorien, die auf Verfahren der Beteiligung und Kontrolle schauen, haben sich durchgesetzt."},
+ {q:"Welches Kriterium gehört zu Dahls acht Garantien?", o:["Gerechte Einkommensverteilung","Alternative, pluralistische Informationsquellen","Eine geschriebene Verfassung"], a:1, ex:"Informationsfreiheit ist Punkt 6. Einkommensverteilung wäre eine materielle Vorstellung."},
+ {q:"„Auf wie viele Herrschaftsträger ist die staatliche Macht verteilt?“ ist bei Merkel die Dimension …", o:["Herrschaftsmonopol","Herrschaftsstruktur","Herrschaftsweise"], a:1, ex:"Die Struktur fragt nach der Verteilung der Macht. Das Monopol fragt, wer entscheidet."}
+]},
+{id:"v1-8", t:"Embedded Democracy und defekte Demokratien", html:`
+<p>Merkels Konzept der <b>Embedded Democracy</b> (2010) ist ein Messkonzept für die <b>Qualität</b> von Demokratien. Das ist sehr wahrscheinlich Essay-Stoff.</p>
+<div class="merk"><b>Idee</b>Stabile rechtsstaatliche Demokratien sind <b>doppelt eingebettet</b>: <b>intern</b> (die Teilregime stützen sich gegenseitig) und <b>extern</b> (durch ihr Umfeld). Annahme: So ist die Demokratie gegen äußere und innere Schocks geschützt.</div>
+${FIG_EMBEDDED}
+<h3>Interne Einbettung: fünf Teilregime</h3>
+<table class="kvq">
+<tr><td><b>A</b></td><td>Wahlregime</td></tr>
+<tr><td><b>B</b></td><td>Politische Freiheiten (Teilhaberechte)</td></tr>
+<tr><td><b>C</b></td><td>Bürgerliche Rechte</td></tr>
+<tr><td><b>D</b></td><td>Horizontale Verantwortlichkeit (Gewaltenkontrolle)</td></tr>
+<tr><td><b>E</b></td><td>Effektive Regierungsgewalt</td></tr></table>
+<h3>Externe Einbettung</h3>
+<p>Staatlichkeit, Zivilgesellschaft, ökonomische Voraussetzungen und soziale Gerechtigkeit.</p>
+<h3>Wozu das Konzept?</h3>
+<ul><li>„Qualität“ von Demokratie genauer bestimmen</li><li>Länder vergleichen und Demokratiedefekte identifizieren</li><li>systematisch beobachten, wie einzelne Teilsysteme „infiziert“ werden</li><li>Aushöhlung der Demokratie und schleichende Autokratisierung erkennen</li></ul>
+<div class="ergbox"><b>Ergänzung: Typen defekter Demokratie</b>Welcher Typ vorliegt, hängt davon ab, welches Teilregime beschädigt ist:<br>
+<b>Exklusive Demokratie</b> (A, B): Teile der Bevölkerung sind vom Wahlrecht oder von Teilhabe ausgeschlossen.<br>
+<b>Illiberale Demokratie</b> (C): Bürgerliche Freiheits- und Schutzrechte sind eingeschränkt.<br>
+<b>Delegative Demokratie</b> (D): Die Regierung umgeht Parlament und Justiz und regiert per Dekret.<br>
+<b>Enklavendemokratie</b> (E): Nicht gewählte Vetomächte, etwa das Militär, entziehen Bereiche der Regierung.<br>
+Die ersten drei stehen auch in Lauths Tabelle (Lektion 6).</div>
+<p>Kernaussage für Essays: Eine defekte Demokratie hat noch ein funktionierendes Wahlregime, aber in anderen Teilregimen fehlt die gegenseitige Absicherung. Darum reicht es nicht, nur zu fragen, ob gewählt wird.</p>`,
+check:[
+ {q:"Was bedeutet „doppelt eingebettet“?", o:["Demokratie und Marktwirtschaft","Intern durch die Teilregime und extern durch das Umfeld","National und europäisch"], a:1, ex:"Intern stützen sich die fünf Teilregime gegenseitig, extern schützen Staatlichkeit, Zivilgesellschaft und sozioökonomische Voraussetzungen."},
+ {q:"Welches Teilregime steht im Zentrum des Modells?", o:["Effektive Regierungsgewalt","Wahlregime","Bürgerliche Rechte"], a:1, ex:"A, das Wahlregime, ist der Kern, um den die anderen vier Teilregime liegen."},
+ {q:"Eine Regierung schränkt die Unabhängigkeit der Gerichte ein und regiert am Parlament vorbei. Welches Teilregime ist vor allem betroffen?", o:["A Wahlregime","D Horizontale Verantwortlichkeit","B Politische Freiheiten"], a:1, ex:"Horizontale Verantwortlichkeit heißt: Die Gewalten kontrollieren sich gegenseitig. Das wäre der Weg zur delegativen Demokratie."}
+]}
+];
+
+CARDS[1]=[
+ {id:"v1-c01", f:"Politik nach Bernauer et al. (2009)", b:"Soziales Handeln, das auf Entscheidungen und Steuerungsmechanismen ausgerichtet ist, die allgemein verbindlich sind und das Zusammenleben von Menschen regeln."},
+ {id:"v1-c02", f:"Vier Merkmale politischer Realität", b:"1. Ebenen (lokal bis international)\n2. Akteure (individuell und kollektiv)\n3. Institutionen und Organe\n4. Verfahren"},
+ {id:"v1-c03", f:"Polity, Politics, Policy", b:"Polity: Form, Regelwerk (Verfassung, Staat, politisches System)\nPolitics: Prozess (Interesse, Akteur, Kommunikation, Legitimation, Macht)\nPolicy: Inhalt, Handlungsprogramme (Problem, Programm, Erfolg)"},
+ {id:"v1-c04", f:"Sechs Arten wissenschaftlicher Aussagen", b:"1. Beschreibungen\n2. Aussagen über Zusammenhänge\n3. Erklärungen\n4. Prognosen\n5. Werturteile\n6. Empfehlungen oder Handlungsanweisungen"},
+ {id:"v1-c05", f:"Politikwissenschaft nach Schmidt (2010)", b:"Wissenschaftliche Beschreibung, Erklärung oder Prognose politischer Phänomene auf Basis wissenschaftlich fundierter Analysen."},
+ {id:"v1-c06", f:"Gütekriterien politikwissenschaftlicher Forschung", b:"Systematik\nGeneralisierbarkeit\nIdentifikation von Kausalmechanismen\nReliabilität (Verlässlichkeit)\nValidität (Gültigkeit)"},
+ {id:"v1-c07", f:"Fünf Teilgebiete der Politikwissenschaft", b:"1. Politische Theorie / Ideengeschichte\n2. Internationale Beziehungen / EU\n3. Vergleichende PoWi / Regierungslehre\n4. Politisches System der BRD\n5. Sozialwissenschaftliche Methoden\nDiese Vorlesung: 3 und 4."},
+ {id:"v1-c08", f:"Politisches System nach Parsons", b:"Ein Subsystem der Gesellschaft, das auf Zielverfolgung und politische Steuerung spezialisiert ist."},
+ {id:"v1-c09", f:"Enger vs. weiter Begriff des politischen Systems", b:"Umfang: nur ZPES / ZPES plus Parteien, Verbände, Wirtschaftsakteure\nSichtweise: formal-institutionenbezogen / inhaltlich-prozessbezogen"},
+ {id:"v1-c10", f:"Eastons Systemmodell: die Bausteine", b:"Inputs: Forderungen (demands) und Unterstützung (support)\nSystem: verarbeitet zu Entscheidungen\nOutputs: wirken auf die Umwelt\nFeedback: Rückkopplung auf neue Inputs\nUmwelt: umgibt das Ganze"},
+ {id:"v1-c11", f:"Drei Formen der Legitimation (Easton-Folie)", b:"Soziale Legitimation: Zustimmung durch die Bürger\nInput-Legitimation: demokratische Verfahren\nOutput-Legitimation: erfolgreiche Problembearbeitung"},
+ {id:"v1-c12", f:"Almond/Powell: drei Funktionsebenen", b:"Systemfunktionen: Sozialisierung, Rekrutierung, Kommunikation\nProzessfunktionen: Interessenartikulation, Interessenaggregation, Policy-making, Implementierung\nPolicy-Funktionen: Steuern, Regulierung, Verteilung"},
+ {id:"v1-c13", f:"Almond/Powell: Strukturen und ihre Aufgabe", b:"Parteien: Interessenaggregation\nVerbände: Interessenartikulation\nParlament, Regierung: Policy-making\nVerwaltung, Justiz: Implementierung und Überprüfung"},
+ {id:"v1-c14", f:"Kernunterschied Demokratie und Autokratie", b:"In Demokratien ist der Gesetzgeber selbst den Gesetzen unterworfen, in Autokratien nicht."},
+ {id:"v1-c15", f:"Dichotome Typenlehre", b:"Alle Nicht-Demokratien sind Autokratien.\n„Democracy is the opposite of autocracy“ (Jaggers/Gurr 1995)."},
+ {id:"v1-c16", f:"Wer unterteilt was?", b:"Linz (1975): Autokratien in totalitäre und autoritäre Regime\nMerkel (2010): Demokratien in eingebettete und defekte Demokratien"},
+ {id:"v1-c17", f:"Lauth: drei Dimensionen der Demokratie", b:"1. Politische Freiheit\n2. Politische Gleichheit\n3. Politische und rechtliche Kontrolle\nDemokratie: alle gegeben. Autoritär: partiell. Totalitär: nicht gegeben."},
+ {id:"v1-c18", f:"Kontinuum politischer Regime (Lauth et al. 2014)", b:"1. Demokratie\n2. Defekte Demokratie\n3. Schwach autoritäres Regime\n4. Stark autoritäres Regime\n5. Totalitäres Regime"},
+ {id:"v1-c19", f:"Formen defekter Demokratie in Lauths Tabelle", b:"Illiberale Demokratie\nDelegative Demokratie\nExklusive Demokratie"},
+ {id:"v1-c20", f:"Demokratiedefinition nach Lauth (2006): Kernelemente", b:"Rechtsstaatliche Herrschaftsform\nSelbstbestimmung im Sinne der Volkssouveränität\nBeteiligung an der Besetzung der Entscheidungspositionen in freien, kompetitiven, fairen Verfahren\nChance auf kontinuierliche Einflussnahme\nKontrolle der politischen Herrschaft"},
+ {id:"v1-c21", f:"Prozedurale vs. materielle Demokratievorstellung", b:"Blick auf: Verfahren der Beteiligung / Inhalte und Ergebnisse\nBeispiele: Rekrutierung, Kontrolle der Exekutive, Partizipation / gerechte Verteilung\nWirkung: weitaus wirkungsmächtiger / weniger verbreitet"},
+ {id:"v1-c22", f:"Dahls acht Garantien (1971)", b:"1. Assoziations- und Koalitionsfreiheit\n2. Meinungsfreiheit\n3. Aktives Wahlrecht\n4. Passives Wahlrecht\n5. Konkurrenz der Eliten um Stimmen\n6. Pluralistische Informationsquellen\n7. Freie und faire Wahlen\n8. Regierungspolitik hängt von Wählerpräferenzen ab"},
+ {id:"v1-c23", f:"Merkels sechs Herrschaftsdimensionen (2010)", b:"1. Legitimation\n2. Zugang\n3. Monopol\n4. Struktur\n5. Anspruch\n6. Weise"},
+ {id:"v1-c24", f:"Embedded Democracy: fünf Teilregime", b:"A: Wahlregime\nB: Politische Freiheiten\nC: Bürgerliche Rechte\nD: Horizontale Verantwortlichkeit\nE: Effektive Regierungsgewalt"},
+ {id:"v1-c25", f:"Embedded Democracy: externe Einbettung", b:"Staatlichkeit\nZivilgesellschaft\nÖkonomische Voraussetzungen und soziale Gerechtigkeit"},
+ {id:"v1-c26", f:"Wozu dient das Konzept Embedded Democracy?", b:"Qualität von Demokratie genauer bestimmen\nLänder vergleichen, Defekte identifizieren\nInfizierung einzelner Teilsysteme beobachten\nAushöhlung und schleichende Autokratisierung erkennen"}
+];
+
+KREUZ.push(
+ {id:"v1-x01", ch:1, stem:"Zur Dreifachgliederung des Politischen gilt:", s:[
+  ["Die Verfassung eines Staates gehört zur Polity-Dimension.", true, "Polity ist das Regelwerk: Verfassung, Staat, politisches System."],
+  ["Policy bezeichnet den Machtkampf zwischen Parteien.", false, "Das ist <b>Politics</b>. Policy meint Inhalte und Handlungsprogramme."],
+  ["Legitimation und Macht sind Stichworte der Politics-Dimension.", true, "Die Folie nennt für Politics: Interesse, Akteur, Kommunikation, Legitimation, Macht."]]},
+ {id:"v1-x02", ch:1, stem:"Zur Politikwissenschaft gilt laut Folie:", s:[
+  ["Moderne Politikwissenschaft ist primär normativ und gibt vor, was gute Politik ist.", false, "Sie ist primär <b>empirisch-analytisch und werturteilsfrei</b>."],
+  ["Reliabilität und Validität gehören zu ihren Gütekriterien.", true, "Dazu Systematik, Generalisierbarkeit und Kausalmechanismen."],
+  ["Die Vorlesung liegt in den Teilgebieten Vergleichende Politikwissenschaft und Politisches System der BRD.", true, "Die Felder 3 und 4 sind auf der Folie eingekreist."]]},
+ {id:"v1-x03", ch:1, stem:"Zu Eastons Systemmodell gilt:", s:[
+  ["Forderungen und Unterstützung sind Outputs des politischen Systems.", false, "Sie sind <b>Inputs</b>. Outputs sind die Entscheidungen."],
+  ["Über die Rückkopplung beeinflussen Outputs die künftigen Inputs.", true, "Das Feedback verbindet Outputs wieder mit den Inputs."],
+  ["Output-Legitimation entsteht durch erfolgreiche Problembearbeitung.", true, "Input-Legitimation entsteht dagegen durch demokratische Verfahren."]]},
+ {id:"v1-x04", ch:1, stem:"Zum Begriff des politischen Systems gilt:", s:[
+  ["Nach Parsons ist das politische System auf Zielverfolgung und Steuerung spezialisiert.", true, "Es ist ein Subsystem der Gesellschaft mit genau dieser Aufgabe."],
+  ["Das enge Verständnis (ZPES) schließt Verbände und Parteien ausdrücklich mit ein.", false, "Das ist das <b>weite</b> Verständnis. Das ZPES umfasst nur das zentrale Entscheidungssystem."],
+  ["Im Kreislaufmodell von Almond/Powell übernehmen Parteien vor allem die Interessenaggregation.", true, "Verbände artikulieren Interessen, Parteien bündeln sie."]]},
+ {id:"v1-x05", ch:1, stem:"Zur Unterscheidung von Demokratie und Autokratie gilt:", s:[
+  ["Linz unterscheidet totalitäre und autoritäre Regime.", true, "Linz (1975) unterteilt die Autokratien."],
+  ["Eine defekte Demokratie zählt bei Lauth et al. bereits zu den Autokratien.", false, "Sie steht auf der <b>Demokratie-Seite</b> des Kontinuums."],
+  ["In autoritären Regimen sind Freiheit, Gleichheit und Kontrolle partiell gegeben.", true, "In totalitären Regimen sind sie gar nicht gegeben."]]},
+ {id:"v1-x06", ch:1, stem:"Zu Demokratiebegriffen gilt:", s:[
+  ["Dahls Kriterien beschreiben vor allem eine materielle Demokratievorstellung.", false, "Dahls Garantien sind <b>prozedural</b>: Wahlen, Freiheiten, Konkurrenz, Information."],
+  ["Lauth versteht Demokratie als rechtsstaatliche Herrschaftsform.", true, "So beginnt seine Definition (Lauth 2006, S. 100)."],
+  ["Bei Merkel fragt die Dimension „Herrschaftsanspruch“, ob die Macht des Staates gegenüber den Bürgern begrenzt ist.", true, "Herrschaftsanspruch: begrenzt oder unbegrenzt."]]},
+ {id:"v1-x07", ch:1, stem:"Zur Embedded Democracy nach Merkel gilt:", s:[
+  ["Das Wahlregime bildet den Kern des Modells.", true, "Teilregime A steht im Zentrum."],
+  ["Die Zivilgesellschaft gehört zu den fünf internen Teilregimen.", false, "Sie gehört zur <b>externen</b> Einbettung, neben Staatlichkeit und sozioökonomischen Voraussetzungen."],
+  ["Das Konzept soll auch schleichende Autokratisierung sichtbar machen.", true, "Eines der genannten Ziele auf der Folie."]]}
+);
+
+ESSAYS.push(
+ {id:"v1-e1", ch:1, kind:"lang", short:"Embedded Democracy",
+  q:"Erläutern Sie das Konzept der „Embedded Democracy“ nach Merkel und diskutieren Sie, inwiefern es sich eignet, Defekte von Demokratien zu erkennen.",
+  op:"„Erläutern“: Konzept erklären, mit Beispielen veranschaulichen. „Diskutieren“: Stärken und Grenzen abwägen und am Ende Stellung nehmen.",
+  gl:["<b>Einleitung:</b> Problem: Viele Staaten halten Wahlen ab und sind trotzdem keine vollständigen Demokratien. Frage: Wie lässt sich die Qualität einer Demokratie messen?",
+   "<b>Demokratiebegriff:</b> Abgrenzung zur Autokratie (Gesetzgeber an Gesetze gebunden), kurz Lauths Definition oder Dahls Kriterien.",
+   "<b>Das Konzept:</b> doppelte Einbettung. Intern fünf Teilregime A bis E, extern Staatlichkeit, Zivilgesellschaft, sozioökonomische Voraussetzungen.",
+   "<b>Defekte Demokratie:</b> Wahlregime funktioniert, ein anderes Teilregime ist beschädigt. Typen mit Beispielen.",
+   "<b>Diskussion Stärken:</b> differenzierter als die Dichotomie, Teilregime einzeln prüfbar, Ländervergleich, schleichende Autokratisierung sichtbar.",
+   "<b>Diskussion Grenzen:</b> Abgrenzung zwischen defekter Demokratie und autoritärem Regime unscharf, Messung erfordert Urteile, normativ geprägt.",
+   "<b>Fazit:</b> gut geeignet als Analyseraster, aber kein Automatismus. Eigene Einschätzung."],
+  k:["Problemstellung in der Einleitung (Wahlen allein machen noch keine Demokratie)",
+   "Idee der doppelten Einbettung: intern und extern",
+   "Alle fünf Teilregime genannt (Wahlregime, politische Freiheiten, bürgerliche Rechte, horizontale Verantwortlichkeit, effektive Regierungsgewalt)",
+   "Externe Einbettung genannt (Staatlichkeit, Zivilgesellschaft, sozioökonomische Voraussetzungen)",
+   "Defekte Demokratie erklärt: Wahlregime intakt, andere Teilregime beschädigt, mindestens ein Typ mit Beispiel",
+   "Ziele des Konzepts: Qualität messen, vergleichen, Aushöhlung erkennen",
+   "Abwägung mit mindestens einer Stärke und einer Grenze",
+   "Fazit beantwortet die Frage mit begründeter eigener Einschätzung"],
+  m:["Heute halten die meisten Staaten der Welt Wahlen ab. Dennoch würde kaum jemand jeden dieser Staaten als Demokratie bezeichnen. Die Vergleichende Politikwissenschaft braucht deshalb Instrumente, die mehr leisten als die Frage, ob gewählt wird. Ein solches Instrument ist das Konzept der „Embedded Democracy“ von Wolfgang Merkel (2010). Im Folgenden wird das Konzept erläutert und anschließend diskutiert, wie gut es Demokratiedefekte sichtbar macht.",
+   "Grundlage ist ein prozeduraler Demokratiebegriff. Nach Lauth (2006) ist Demokratie eine rechtsstaatliche Herrschaftsform, die Selbstbestimmung im Sinne der Volkssouveränität durch freie, kompetitive und faire Verfahren ermöglicht und die Kontrolle der Herrschaft garantiert. Anders als in Autokratien ist der Gesetzgeber selbst an die Gesetze gebunden.",
+   "Merkel geht davon aus, dass stabile rechtsstaatliche Demokratien doppelt eingebettet sind. Intern besteht die Demokratie aus fünf Teilregimen: dem Wahlregime (A) im Zentrum, den politischen Freiheiten (B), den bürgerlichen Rechten (C), der horizontalen Verantwortlichkeit, also der gegenseitigen Kontrolle der Gewalten (D), und der effektiven Regierungsgewalt der gewählten Vertreter (E). Diese Teilregime sichern sich gegenseitig ab: Freie Wahlen nützen wenig, wenn die Presse nicht berichten darf oder Gerichte die Regierung nicht kontrollieren können. Extern ist die Demokratie in Staatlichkeit, eine lebendige Zivilgesellschaft und sozioökonomische Voraussetzungen eingebettet. Die Annahme ist, dass diese doppelte Einbettung die Demokratie gegen innere und äußere Schocks schützt.",
+   "Daraus ergibt sich der Begriff der defekten Demokratie: Das Wahlregime funktioniert im Kern, aber andere Teilregime sind beschädigt. Je nach betroffenem Teilregime unterscheidet man etwa die illiberale Demokratie, in der bürgerliche Rechte eingeschränkt sind, die delegative Demokratie, in der die Regierung Parlament und Justiz umgeht, und die exklusive Demokratie, in der Teile der Bevölkerung von der Teilhabe ausgeschlossen sind. Ungarn wird in der Forschung häufig als Beispiel für eine illiberale Entwicklung genannt.",
+   "Für die Erkennung von Defekten hat das Konzept klare Stärken. Es ist differenzierter als eine dichotome Einteilung in Demokratien und Autokratien, wie sie Jaggers und Gurr vorschlagen. Weil die Teilregime einzeln geprüft werden, lässt sich genau benennen, wo eine Demokratie Schwächen hat. Das ermöglicht Ländervergleiche und macht sichtbar, wie einzelne Teilsysteme nach und nach „infiziert“ werden. Gerade schleichende Autokratisierung, die ohne offenen Putsch über Jahre abläuft, wird so erkennbar.",
+   "Zugleich hat das Konzept Grenzen. Die Grenze zwischen einer stark defekten Demokratie und einem schwach autoritären Regime bleibt unscharf, und die Einstufung erfordert Urteile, die je nach Forscher unterschiedlich ausfallen können. Außerdem beruht das Modell auf einem westlich-liberalen Leitbild, an dem alle Staaten gemessen werden.",
+   "Insgesamt eignet sich das Konzept der Embedded Democracy gut, um Defekte von Demokratien zu erkennen, weil es den Blick von den Wahlen auf das Zusammenspiel aller Teilregime lenkt. Es ersetzt aber nicht die genaue Analyse des Einzelfalls und liefert keine automatische Einstufung. Gerade deshalb ist es als Analyseraster für die Vergleichende Politikwissenschaft wertvoll."]},
+ {id:"v1-e2", ch:1, kind:"lang", short:"Demokratie und Autokratie",
+  q:"Grenzen Sie Demokratie und Autokratie voneinander ab. Diskutieren Sie dabei, ob eine dichotome Unterscheidung der politischen Wirklichkeit gerecht wird.",
+  op:"„Abgrenzen“: Kriterien nennen, nach denen sich beide unterscheiden. „Diskutieren“: dichotome Sicht und Kontinuum gegenüberstellen, Stellung nehmen.",
+  gl:["<b>Einleitung:</b> Wortbedeutung (démos, kratía), Fragestellung: Reicht „Demokratie oder nicht“?",
+   "<b>Kernkriterium:</b> Bindung des Gesetzgebers an die Gesetze.",
+   "<b>Kriterien für Demokratie:</b> Lauths Definition und die drei Dimensionen Freiheit, Gleichheit, Kontrolle; Dahls Garantien als Beispiel.",
+   "<b>Autokratien unterscheiden:</b> Linz: autoritär und totalitär, mit Merkmalen.",
+   "<b>Dichotome Sicht:</b> Jaggers/Gurr, Vorteile (klar, messbar).",
+   "<b>Kontinuum:</b> Lauth et al. 2014, defekte Demokratien, schwach und stark autoritär; Merkels Embedded Democracy als Werkzeug.",
+   "<b>Fazit:</b> Dichotomie als erster Schritt, für die Wirklichkeit braucht es das Kontinuum."],
+  k:["Wortbedeutung oder Grundidee der Demokratie als Volksherrschaft",
+   "Kernkriterium: Gesetzgeber in der Demokratie an die Gesetze gebunden, in der Autokratie nicht",
+   "Drei Dimensionen nach Lauth (Freiheit, Gleichheit, Kontrolle) mit Abstufung gegeben, partiell, nicht gegeben",
+   "Autoritär und totalitär nach Linz unterschieden",
+   "Dichotome Typenlehre (Jaggers/Gurr) dargestellt",
+   "Kontinuum nach Lauth et al. mit defekter Demokratie und Abstufungen der Autokratie",
+   "Begründete Antwort auf die Frage nach der Dichotomie"],
+  m:["Der Begriff Demokratie stammt aus dem Griechischen: démos bedeutet Volk, kratía Herrschaft. Demokratie ist also der Grundidee nach die Herrschaft des Volkes, Autokratie die Selbstherrschaft eines Einzelnen oder einer kleinen Gruppe. Doch zwischen beiden liegen viele Staaten, die sich nicht eindeutig zuordnen lassen. Dieses Essay grenzt beide Herrschaftsformen ab und fragt, ob eine Einteilung in nur zwei Typen der Wirklichkeit gerecht wird.",
+   "Das grundlegende Unterscheidungsmerkmal ist die Bindung an das Recht: In Demokratien ist der Gesetzgeber selbst den Gesetzen unterworfen, in Autokratien nicht. Lauth (2006) bestimmt Demokratie als rechtsstaatliche Herrschaftsform, die Selbstbestimmung im Sinne der Volkssouveränität ermöglicht. Daraus leitet er drei Dimensionen ab: politische Freiheit, politische Gleichheit sowie politische und rechtliche Kontrolle. In einer Demokratie sind alle drei gegeben, in einem autoritären Regime nur teilweise, in einem totalitären Regime gar nicht. Dahls (1971) Kriterien wie freie und faire Wahlen, Meinungsfreiheit und pluralistische Informationsquellen konkretisieren diese Dimensionen.",
+   "Auch Autokratien sind nicht gleich. Linz (1975) unterscheidet autoritäre Regime, die einen begrenzten Pluralismus zulassen und die Bevölkerung eher ruhigstellen, von totalitären Regimen, die mit einer umfassenden Ideologie alle Lebensbereiche erfassen und die Bevölkerung mobilisieren.",
+   "Eine dichotome Typenlehre, wie sie Jaggers und Gurr (1995) vertreten, ordnet jeden Staat entweder als Demokratie oder als Autokratie ein. Ihr Vorteil ist Klarheit: Sie erleichtert Zählungen und große Vergleiche. Ihr Nachteil zeigt sich bei Staaten, die zwar regelmäßig wählen lassen, aber Gerichte schwächen oder die Presse kontrollieren.",
+   "Lauth et al. (2014) ordnen politische Regime deshalb auf einem Kontinuum an: von der Demokratie über die defekte Demokratie, das schwach und das stark autoritäre Regime bis zum totalitären Regime. Defekte Demokratien wie die illiberale oder die delegative Demokratie stehen noch auf der Seite der Demokratie, weisen aber deutliche Mängel auf. Mit Merkels Konzept der Embedded Democracy lässt sich genau bestimmen, welches Teilregime beschädigt ist.",
+   "Im Ergebnis ist die dichotome Unterscheidung ein sinnvoller erster Schritt, weil das Kernkriterium der Rechtsbindung klar ist. Der politischen Wirklichkeit wird sie aber nicht gerecht, da viele Staaten in einer Grauzone liegen. Erst ein Kontinuum erlaubt es, diese Zwischenformen zu beschreiben und Entwicklungen wie eine schleichende Autokratisierung zu erkennen."]},
+ {id:"v1-e3", ch:1, kind:"kurz", short:"Polity, Politics, Policy",
+  q:"Erläutern Sie den dreidimensionalen Politikbegriff an einem selbst gewählten Beispiel.",
+  op:"„Erläutern“: alle drei Dimensionen definieren und am selben Beispiel zeigen. Etwa 15 Minuten.",
+  gl:["<b>Einstieg:</b> Politik nach Bernauer et al. (allgemein verbindliche Entscheidungen), drei englische Begriffe für ein deutsches Wort.",
+   "<b>Polity</b> definieren und am Beispiel zeigen.",
+   "<b>Politics</b> definieren und am Beispiel zeigen.",
+   "<b>Policy</b> definieren und am Beispiel zeigen.",
+   "<b>Schluss:</b> Die Dimensionen hängen zusammen, die Polity setzt den Rahmen für Politics, daraus entsteht Policy."],
+  k:["Polity als Form oder Regelwerk (Verfassung, Staat, politisches System)",
+   "Politics als Prozess (Interessen, Akteure, Macht, Legitimation)",
+   "Policy als Inhalt oder Handlungsprogramm (Problem, Programm, Erfolg)",
+   "Ein durchgehendes Beispiel, an dem alle drei Dimensionen gezeigt werden",
+   "Zusammenhang der drei Dimensionen angesprochen"],
+  m:["Politik ist nach Bernauer et al. (2009) soziales Handeln, das auf allgemein verbindliche Entscheidungen zielt. Um Politik genauer zu analysieren, unterscheidet die Politikwissenschaft drei Dimensionen, die mit den englischen Begriffen Polity, Politics und Policy bezeichnet werden. Das lässt sich an der Rückkehr von G8 zu G9 an den Gymnasien in Nordrhein-Westfalen zeigen.",
+   "Polity bezeichnet die Form der Politik, also das Regelwerk und die Grundlagen des Gemeinwesens: Verfassung, Staat und politisches System. Im Beispiel gehört dazu, dass Bildung nach dem Grundgesetz in die Zuständigkeit der Länder fällt und deshalb der Landtag über das Schulgesetz entscheidet.",
+   "Politics meint den Prozess, in dem um Entscheidungen gerungen wird. Hier geht es um Interessen, Akteure, Kommunikation, Legitimation und Macht. Im Beispiel stritten Elterninitiativen, Lehrerverbände und Parteien über Jahre, ob die verkürzte Schulzeit beibehalten werden soll, bis sich im Landtag eine Mehrheit fand.",
+   "Policy schließlich bezeichnet die Inhalte, also die Handlungsprogramme mit Problem, Programm und Erfolg. Im Beispiel ist das die beschlossene Regel, dass das Abitur am Gymnasium wieder nach neun Jahren abgelegt wird, und die Frage, ob sie das Problem der Überlastung löst.",
+   "Die drei Dimensionen hängen eng zusammen: Die Polity setzt den Rahmen, in dem Politics stattfindet, und aus diesem Prozess entsteht die Policy."]},
+ {id:"v1-e4", ch:1, kind:"kurz", short:"Easton und Legitimation",
+  q:"Erklären Sie Eastons Modell des politischen Systems und ordnen Sie die drei Formen der Legitimation darin ein.",
+  op:"„Erklären“: Bausteine und Zusammenhang des Modells darstellen. „Einordnen“: jede Legitimationsform an der richtigen Stelle verorten. Etwa 15 Minuten.",
+  gl:["<b>Einstieg:</b> politisches System als Teil der Gesellschaft (Parsons), Easton als Systemtheoretiker.",
+   "<b>Inputs:</b> Forderungen und Unterstützung aus der Umwelt.",
+   "<b>System und Outputs:</b> Verarbeitung zu Entscheidungen, Wirkung auf die Umwelt.",
+   "<b>Rückkopplung:</b> Outputs verändern neue Inputs, Kreislauf.",
+   "<b>Legitimation:</b> sozial (Zustimmung), Input (Verfahren), Output (Problemlösung), jeweils mit Beispiel."],
+  k:["Inputs: Forderungen (demands) und Unterstützung (support) aus der Umwelt",
+   "Das politische System verarbeitet Inputs zu Entscheidungen",
+   "Outputs wirken auf die Umwelt",
+   "Rückkopplung (Feedback) erklärt",
+   "Soziale Legitimation: Zustimmung durch die Bürger",
+   "Input-Legitimation: demokratische Verfahren",
+   "Output-Legitimation: erfolgreiche Problembearbeitung"],
+  m:["David Easton versteht das politische System als Teil der Gesellschaft, der mit seiner Umwelt in ständigem Austausch steht. Aus der Umwelt gelangen Inputs in das System. Easton unterscheidet dabei Forderungen, etwa nach mehr Lehrkräften, und Unterstützung, also die Bereitschaft der Bürger, das System und seine Entscheidungen mitzutragen.",
+   "Im politischen System werden diese Inputs zu verbindlichen Entscheidungen verarbeitet, etwa zu einem Gesetz. Diese Outputs wirken auf die Umwelt zurück. Über die Rückkopplung beeinflussen sie wiederum die künftigen Inputs: Ein erfolgreiches Gesetz kann die Unterstützung erhöhen, ein gescheitertes neue Forderungen auslösen. So entsteht ein Kreislauf.",
+   "In dieses Modell lassen sich drei Formen der Legitimation einordnen. Die soziale Legitimation liegt auf der Seite der Inputs: Sie beruht auf der Zustimmung der Bürgerinnen und Bürger. Die Input-Legitimation liegt im System selbst und entsteht durch demokratische Verfahren wie Wahlen und parlamentarische Beratung. Die Output-Legitimation schließlich ergibt sich aus den Ergebnissen, also aus einer erfolgreichen Bearbeitung gesellschaftlicher Probleme."]}
+);
+
+/* Start: erst sofort zeigen, dann mit den anderen Geräten abgleichen */
+/* Zoom gilt pro Gerät (nicht synchronisiert) */
+(function(){ let z=parseFloat(lsGet("p1-zoom"))||1;
+  const apply=()=>{ document.documentElement.style.setProperty("--z",z); lsSet("p1-zoom",String(z)); };
+  apply();
+  document.getElementById("zIn").onclick=()=>{ z=Math.min(1.8,Math.round((z+.1)*10)/10); apply(); };
+  document.getElementById("zOut").onclick=()=>{ z=Math.max(.8,Math.round((z-.1)*10)/10); apply(); };
+})();
+initToken();
+render();
+syncFromRemote().then(changed=>{ if(changed&&!["essay","lesson","cards","kreuz","exam"].includes(view)) render(); });
+
+</script>
+</body>
+</html>
