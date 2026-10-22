@@ -38,7 +38,7 @@ const CARD_INFO={
  "v1-c12":"Steuern: hier im Sinn von Abgaben erheben (englisch extraction), nicht lenken.",
  "v1-c15":"Dichotom: zweigeteilt, nur zwei Kategorien.",
  "v1-c16":"Juan Linz: spanisch-US-amerikanischer Politikwissenschaftler.\nWolfgang Merkel: deutscher Politikwissenschaftler (WZB Berlin).",
- "v1-c19":"Illiberal: bürgerliche Rechte eingeschränkt.\nDelegativ: Regierung umgeht Parlament und Justiz.\nExklusiv: Teile der Bevölkerung ausgeschlossen.",
+ "v1-c19":"Illiberal: Rechtsstaat und Freiheitsrechte beschädigt.\nDelegativ: Regierung umgeht Parlament und Justiz.\nExklusiv: Gruppen vom Wahlrecht ausgeschlossen.\nMerkel nennt als vierten Typ die Enklavendemokratie.",
  "v1-c22":"Robert Dahl nannte Systeme, die diese Garantien erfüllen, Polyarchien.",
  "v1-c24":"Horizontale Verantwortlichkeit: Die Gewalten kontrollieren sich gegenseitig.",
 };

@@ -1,7 +1,7 @@
 /* ================= Vorlesung, Sitzung 1 (15.10.): Politik, Politikwissenschaft, Demokratie und Autokratie =================
    Grundlage: Folien Schwanholz „Einführung Vorlesung 261015“ (Folien 12–32).
-   Alles, was nicht auf den Folien steht, ist als Ergänzung markiert (Klasse erg / ergbox).
-   Lektüre der Selbstlernphase (22. und 29.10.): Patzelt 2023 Kap. 1 und 3, Lauth 2015, Merkel 2013. Noch nicht eingearbeitet. */
+   Inhalte aus der Lektüre (Merkel 2013, Lauth 2015, Patzelt 2023) sind als Lektüre markiert (lit / litbox), alles andere über die Folien hinaus als Ergänzung (erg / ergbox).
+   Lektüre der Selbstlernphase (22. und 29.10.): Patzelt 2023 Kap. 1 und 3, Lauth 2015, Merkel 2013. Neue Lektionen dazu in content_v1_lit.js. */
 const ERG='<span class="erg">Ergänzung</span>';
 chOf(1).lit="Lektüre: Patzelt (2023, S. 11–36 und 111–367), Lauth (2015), Merkel (2013). Selbstlernphase am 22. und 29.10. mit Fragen und Essay-Aufgabe auf Acemate.";
 
@@ -57,6 +57,7 @@ LESSONS[1]=[
 <tr><td><b>Akteure</b></td><td>individuelle (z. B. Bundeskanzler) und kollektive (z. B. Kabinett, Parteien, Fraktionen)</td></tr>
 <tr><td><b>Institutionen und Organe</b></td><td>z. B. Regierung, Parlament, Verfassungsgericht</td></tr>
 <tr><td><b>Verfahren</b></td><td>z. B. demokratische Wahlen, Gesetzgebung, Normenkontrollverfahren</td></tr></table>
+<div class="litbox"><b>Lektüre: Patzelt (2023, Kap. 1)</b>Patzelt definiert ähnlich: Politik ist menschliches Handeln, das auf die <b>Herstellung und Durchsetzung allgemein verbindlicher Regelungen und Entscheidungen</b> in und zwischen Gruppen zielt. Dabei wirken immer vier Dinge zusammen, das <b>MINK-Schema</b>: <b>M</b>acht (nach Max Weber die Chance, den eigenen Willen auch gegen Widerstreben durchzusetzen), <b>I</b>deologie, <b>N</b>ormen und <b>K</b>ommunikation.</div>
 <div class="ergbox"><b>Ergänzung: Normenkontrolle</b>Ein Normenkontrollverfahren ist ein Verfahren vor dem Bundesverfassungsgericht, in dem geprüft wird, ob ein Gesetz mit dem Grundgesetz vereinbar ist. Kommt in Sitzung 5 (Verfassungsorgane) wieder.</div>`,
 check:[
  {q:"Was macht eine Entscheidung laut Bernauer et al. zu einer politischen?", o:["Sie wird von Politikern getroffen","Sie ist allgemein verbindlich und regelt das Zusammenleben","Sie wird im Parlament verkündet","Sie betrifft die Wirtschaft"], a:1, ex:"Nicht wer entscheidet, ist entscheidend, sondern dass die Entscheidung für alle gilt und das Zusammenleben regelt."},
@@ -116,6 +117,9 @@ ${FIG_EASTON}
 <tr><td><b>Soziale Legitimation</b></td><td>Zustimmung durch die Bürgerinnen und Bürger (bei Inputs und Unterstützung)</td></tr>
 <tr><td><b>Input-Legitimation</b></td><td>demokratische Verfahren (im System selbst)</td></tr>
 <tr><td><b>Output-Legitimation</b></td><td>erfolgreiche Problembearbeitung (bei den Outputs)</td></tr></table>
+<div class="litbox"><b>Lektüre: Merkel (2013), Patzelt (2023)</b><p><b>Parsons' AGIL-Schema:</b> Jedes System muss vier Funktionen erfüllen: <b>A</b>daptation (Anpassung an die Umwelt), <b>G</b>oal Attainment (Zielerreichung, die Aufgabe des politischen Systems), <b>I</b>ntegration (Zusammenhalt), <b>L</b>atent Pattern Maintenance (Erhalt kultureller Wertmuster).</p>
+<p><b>Easton genauer:</b> Seine Leitfrage war, wie sich politische Systeme in einer Welt aus Stabilität und Wandel behaupten. Typische Forderungen sind Frieden, Rechtssicherheit, Wohlstand und soziale Sicherheit, eine saubere Umwelt. <b>Withinputs</b> sind Forderungen, die im System selbst entstehen, etwa aus der Regierung. Easton unterscheidet <b>specific support</b> (Zufriedenheit mit den Leistungen und Amtsträgern) und <b>diffuse support</b> (Bindung an das System als Ganzes, seine Werte und Verfahren).</p>
+<p><b>Patzelt:</b> Die Fähigkeit eines Systems, Input aufzunehmen und darauf zu reagieren, heißt <b>Responsivität</b>. Gelingt der Kreislauf so, dass die Bürger das System aus freien Stücken für rechtens halten, entsteht <b>Legitimität</b>. Fehlt sie, reagiert ein System mit Reformen oder mit Repression.</p></div>
 <div class="ergbox"><b>Ergänzung</b>Die Unterscheidung von Input- und Output-Legitimation geht vor allem auf Fritz Scharpf zurück. Sie passt gut in Essays über die EU: Die EU gilt oft als stark bei der Output-, aber schwächer bei der Input-Legitimation.</div>`,
 check:[
  {q:"Welche zwei Arten von Inputs unterscheidet Easton?", o:["Forderungen und Unterstützung","Gesetze und Urteile","Wahlen und Abstimmungen"], a:0, ex:"Demands und support: Was die Gesellschaft verlangt, und wie sehr sie das System trägt."},
@@ -136,7 +140,9 @@ check:[
 <tr><td>Parlament, Regierung</td><td>Entscheiden (Policy-making)</td></tr>
 <tr><td>Verwaltung, Justiz</td><td>Umsetzen und überprüfen</td></tr></table>
 <p>Bei den Inputs unterscheiden sie <b>diffuse Unterstützung</b> und <b>spezifische Unterstützung</b>. Umwelt und Rückkopplungen (Feedbacks) umschließen das Ganze wie bei Easton.</p>
-<div class="ergbox"><b>Ergänzung</b><b>Diffuse Unterstützung</b> gilt dem System als Ganzem, etwa der Demokratie an sich. <b>Spezifische Unterstützung</b> gilt den aktuellen Entscheidungen und Amtsträgern. Man kann die Regierung ablehnen und trotzdem die Demokratie unterstützen.<br>„Steuern“ meint hier das Erheben von Abgaben (englisch extraction), nicht das Lenken.</div>`,
+<div class="litbox"><b>Lektüre: Merkel (2013)</b><p><b>Diffuse Unterstützung</b> gilt dem System als Ganzem, etwa der Demokratie an sich. <b>Spezifische Unterstützung</b> hängt von den Leistungen ab und gilt den aktuellen Entscheidungen und Amtsträgern. Man kann die Regierung ablehnen und trotzdem die Demokratie unterstützen.</p>
+<p>Laut Merkel ist Almond/Powell die ausgefeilteste Version des Systemkonzepts, weil sie Eastons „Blackbox“ ausleuchtet: welche Struktur welche Funktion übernimmt. <b>Kritik von Luhmann:</b> Kein Teilsystem steht über den anderen. Wirtschaft, Recht oder Wissenschaft folgen eigenen Codes, darum kann die Politik sie nicht einfach steuern. Merkel hält das für zu radikal, nimmt aber eine gewisse <b>Steuerungsskepsis</b> mit: Politische Steuerung erzeugt oft nicht beabsichtigte Effekte.</p></div>
+<div class="ergbox"><b>Ergänzung</b>„Steuern“ meint im Schaubild das Erheben von Abgaben (englisch extraction), nicht das Lenken.</div>`,
 check:[
  {q:"Welche Struktur übernimmt im Modell typischerweise die Interessenaggregation?", o:["Verwaltung","Parteien","Justiz"], a:1, ex:"Parteien bündeln viele einzelne Interessen zu Programmen."},
  {q:"Sozialisierung, Rekrutierung und Kommunikation sind …", o:["Systemfunktionen","Prozessfunktionen","Policy-Funktionen"], a:0, ex:"Sie stehen im Kreislaufdiagramm ganz oben als Systemfunktionen."}
@@ -163,7 +169,13 @@ check:[
 <tr><td>politische Freiheit</td><td>nicht gegeben</td><td>partiell</td><td>gegeben</td></tr>
 <tr><td>politische Gleichheit</td><td>nicht gegeben</td><td>partiell</td><td>gegeben</td></tr>
 <tr><td>politische und rechtliche Kontrolle</td><td>nicht gegeben</td><td>partiell</td><td>gegeben</td></tr></table>
-<div class="ergbox"><b>Ergänzung: autoritär oder totalitär (Linz)</b>Autoritäre Regime lassen einen <b>begrenzten Pluralismus</b> zu, haben eher Mentalitäten als eine ausgearbeitete Ideologie und wollen die Bevölkerung vor allem ruhig halten. Totalitäre Regime erheben einen <b>Totalitätsanspruch</b> auf alle Lebensbereiche, stützen sich auf eine umfassende Ideologie und <b>mobilisieren</b> die Bevölkerung dauerhaft.</div>
+<div class="litbox"><b>Lektüre: Kelsen und Linz (Merkel 2013, Lauth 2015)</b><p><b>Kelsen (1925)</b> liefert die abstrakte Begründung des Kernsatzes: In Demokratien sind die, die Gesetze machen, und die, für die sie gelten, dieselben (<b>autonome Normen</b>). In Autokratien fallen Normautoren und Normadressaten auseinander (<b>heteronome Normen</b>).</p>
+<p><b>Linz</b> unterscheidet autoritär und totalitär an drei Merkmalen:</p>
+<table class="kvq"><tr><th></th><th>autoritär</th><th>totalitär</th></tr>
+<tr><td>Pluralismus</td><td>begrenzt</td><td>Monismus</td></tr>
+<tr><td>Legitimation</td><td>Mentalitäten (Patriotismus, Nationalismus, Sicherheit, Modernisierung)</td><td>umfassende Weltanschauung (z. B. Marxismus-Leninismus)</td></tr>
+<tr><td>Mobilisierung</td><td>Bevölkerung demobilisiert</td><td>inszenierte Dauermobilisierung</td></tr></table>
+<p>Merkel nennt dazu Hannah Arendts Satz: Autoritäre Herrschaft schränkt die Freiheit ein, totalitäre schafft sie ab. Heute gilt nur noch Nordkorea als totalitär.</p></div>
 <p>Für Essays wichtig: Die Tabelle von Lauth zeigt ein <b>Kontinuum</b>. Die dichotome Sicht (entweder Demokratie oder Autokratie) ist einfach, aber sie kann Grauzonen wie defekte Demokratien schlecht abbilden.</p>`,
 check:[
  {q:"Was unterscheidet nach der Folie Demokratie grundlegend von Autokratie?", o:["In der Demokratie gibt es Wahlen, in der Autokratie nie","In der Demokratie ist der Gesetzgeber selbst an die Gesetze gebunden","In der Demokratie gibt es eine Verfassung"], a:1, ex:"Auch Autokratien halten oft Wahlen ab und haben Verfassungen. Entscheidend ist die Bindung des Gesetzgebers an das Recht."},
@@ -189,7 +201,24 @@ check:[
 <tr><td>Struktur</td><td>Auf wie viele Träger ist die Macht verteilt?</td></tr>
 <tr><td>Anspruch</td><td>Ist der Herrschaftsanspruch gegenüber den Bürgern begrenzt?</td></tr>
 <tr><td>Weise</td><td>Wie wird Herrschaft ausgeübt?</td></tr></table>
-<div class="ergbox"><b>Ergänzung: typische Antworten</b>Demokratie: Volkssouveränität, offener Zugang durch allgemeine Wahlen, Entscheidungen durch legitimierte Repräsentanten, verteilte Macht (Gewaltenteilung), begrenzter Anspruch (Grundrechte), rechtsstaatliche Ausübung. Autokratie jeweils das Gegenteil: etwa Legitimation durch Ideologie oder Führer, geschlossener Zugang, konzentrierte Macht, unbegrenzter Anspruch, willkürliche Ausübung.</div>`,
+<div class="litbox"><b>Lektüre: Merkel (2013), Tabelle 1</b>
+<p style="margin:6px 0 4px"><b>Autokratien</b></p>
+<table class="kvq"><tr><th></th><th>totalitär</th><th>autoritär</th></tr>
+<tr><td>Legitimation</td><td>Weltanschauung</td><td>Mentalitäten</td></tr>
+<tr><td>Zugang</td><td>geschlossen</td><td>restriktiv</td></tr>
+<tr><td>Anspruch</td><td>unbegrenzt</td><td>umfangreich</td></tr>
+<tr><td>Monopol</td><td>Führer, Partei</td><td>Führer, Oligarchie</td></tr>
+<tr><td>Struktur</td><td>monistisch</td><td>semipluralistisch</td></tr>
+<tr><td>Weise</td><td>systematisch repressiv, terroristisch</td><td>willkürlich repressiv</td></tr></table>
+<p style="margin:10px 0 4px"><b>Demokratien</b></p>
+<table class="kvq"><tr><th></th><th>defekt</th><th>rechtsstaatlich (embedded)</th></tr>
+<tr><td>Legitimation</td><td>Volkssouveränität</td><td>Volkssouveränität</td></tr>
+<tr><td>Zugang</td><td>offen</td><td>offen</td></tr>
+<tr><td>Anspruch</td><td>begrenzt, Grenzen aber verletzt</td><td>begrenzt und garantiert</td></tr>
+<tr><td>Monopol</td><td>gewählte Autoritäten, evtl. durch Vetomächte eingeschränkt</td><td>gewählte Autoritäten</td></tr>
+<tr><td>Struktur</td><td>pluralistisch</td><td>pluralistisch</td></tr>
+<tr><td>Weise</td><td>beschädigte Rechtsstaatlichkeit</td><td>rechtsstaatlich</td></tr></table>
+<p>Mit diesen sechs Kriterien lassen sich Demokratie und Autokratie und jeweils ihre beiden Untertypen trennen.</p></div>`,
 check:[
  {q:"Welche Demokratievorstellung hat sich laut Folie als wirkungsmächtiger erwiesen?", o:["die materielle","die prozedurale","beide gleich"], a:1, ex:"Prozedurale Theorien, die auf Verfahren der Beteiligung und Kontrolle schauen, haben sich durchgesetzt."},
  {q:"Welches Kriterium gehört zu Dahls acht Garantien?", o:["Gerechte Einkommensverteilung","Alternative, pluralistische Informationsquellen","Eine geschriebene Verfassung"], a:1, ex:"Informationsfreiheit ist Punkt 6. Einkommensverteilung wäre eine materielle Vorstellung."},
@@ -210,12 +239,13 @@ ${FIG_EMBEDDED}
 <p>Staatlichkeit, Zivilgesellschaft, ökonomische Voraussetzungen und soziale Gerechtigkeit.</p>
 <h3>Wozu das Konzept?</h3>
 <ul><li>„Qualität“ von Demokratie genauer bestimmen</li><li>Länder vergleichen und Demokratiedefekte identifizieren</li><li>systematisch beobachten, wie einzelne Teilsysteme „infiziert“ werden</li><li>Aushöhlung der Demokratie und schleichende Autokratisierung erkennen</li></ul>
-<div class="ergbox"><b>Ergänzung: Typen defekter Demokratie</b>Welcher Typ vorliegt, hängt davon ab, welches Teilregime beschädigt ist:<br>
-<b>Exklusive Demokratie</b> (A, B): Teile der Bevölkerung sind vom Wahlrecht oder von Teilhabe ausgeschlossen.<br>
-<b>Illiberale Demokratie</b> (C): Bürgerliche Freiheits- und Schutzrechte sind eingeschränkt.<br>
-<b>Delegative Demokratie</b> (D): Die Regierung umgeht Parlament und Justiz und regiert per Dekret.<br>
-<b>Enklavendemokratie</b> (E): Nicht gewählte Vetomächte, etwa das Militär, entziehen Bereiche der Regierung.<br>
-Die ersten drei stehen auch in Lauths Tabelle (Lektion 6).</div>
+<div class="litbox"><b>Lektüre: vier Typen defekter Demokratie (Merkel 2013)</b>
+<p><b>Exklusive Demokratie:</b> Ganze Gruppen sind vom universellen Wahlrecht ausgeschlossen (A). Beispiel: Südafrika zur Zeit der Apartheid, mildere Form bei der russischen Minderheit in Lettland und Estland.</p>
+<p><b>Enklavendemokratie:</b> Vetomächte wie Militär, Milizen, Großgrundbesitzer oder Konzerne entziehen ganze Politikbereiche den Gewählten (E). Beispiele: Chile kurz nach Pinochet, Indonesien.</p>
+<p><b>Illiberale Demokratie:</b> Die Gerichte kontrollieren Regierung und Parlament nur eingeschränkt, Freiheits- und Schutzrechte sind beschädigt (C). Häufigster Typ, etwa Türkei, Ukraine, Peru.</p>
+<p><b>Delegative Demokratie:</b> Ein meist charismatischer Präsident regiert am Parlament vorbei und greift in die Justiz ein (D). Beispiele bei Merkel: Russland unter Putin, Venezuela unter Chávez.</p>
+<p><b>Ursachen</b> sind meist Bündel: unvollständige Modernisierung, Wirtschaftskrisen, schwache Zivilgesellschaft, Klientelismus und Korruption, fehlende regionale Einbindung. Defekte Demokratien sind nicht unbedingt Übergangsstadien, sie können stabil sein. Um 2011 war etwa die Hälfte der 117 Wahldemokratien defekt.</p>
+<p>Zur externen Einbettung zählt Merkel im Text neben sozioökonomischem Kontext und Zivilgesellschaft auch die <b>internationale und regionale Einbindung</b>.</p></div>
 <p>Kernaussage für Essays: Eine defekte Demokratie hat noch ein funktionierendes Wahlregime, aber in anderen Teilregimen fehlt die gegenseitige Absicherung. Darum reicht es nicht, nur zu fragen, ob gewählt wird.</p>`,
 check:[
  {q:"Was bedeutet „doppelt eingebettet“?", o:["Demokratie und Marktwirtschaft","Intern durch die Teilregime und extern durch das Umfeld","National und europäisch"], a:1, ex:"Intern stützen sich die fünf Teilregime gegenseitig, extern schützen Staatlichkeit, Zivilgesellschaft und sozioökonomische Voraussetzungen."},

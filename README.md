@@ -20,14 +20,15 @@ python3 build.py      # erzeugt index.html neu
 | `head.html` | Kopf, Icons, Manifest, CSS (Farben als Tokens, Dunkelmodus, Akzent Weinrot), Zoom |
 | `core.js` | Speicher (`localStorage`), Geräte-Abgleich über GitHub, Hilfsfunktionen |
 | `content.js` | Veranstaltungen (`COURSES`), Sitzungsliste (`CHAPTERS`, `c` = vl/se, `no` = angezeigte Nummer) |
-| `content_v1.js` | Vorlesung Sitzung 1: Lektionen, Karten, Selbsttest, Essay-Fragen |
+| `content_v1.js` | Vorlesung Sitzung 1 aus den Folien: Lektionen, Karten, Selbsttest, Essay-Fragen |
+| `content_v1_lit.js` | Sitzung 1, Lektüre der Selbstlernphase (Patzelt, Lauth, Merkel): weitere Lektionen, Karten, Selbsttest, Essays, Reihenfolge der Lektionen |
 | `cardinfo.js` | Kontextzeile (Vorderseite) und i-Infos (Rückseite) je Karte |
 | `views.js` | Umschalter Vorlesung/Seminar, Lernpfad, Sitzung, Lektionen mit „Verstehe ich nicht“, Karten mit Wiederholungsplan, Üben, Statistik |
 | `kreuz.js` | Selbsttest (drei Aussagen, wahr/falsch) |
 | `essay.js` | Essay-Trainer (Gliederungshilfe, Erwartungshorizont, Musteressay, für Claude kopieren) und Probe-Essay mit 60-Min.-Timer |
 | `start.js` | Start, Zoom, Token aus dem Link |
 
-Ergänzungen, die nicht auf den Folien stehen, sind in den Inhalten mit `erg`/`ergbox` markiert.
+Herkunft der Inhalte: Folien unmarkiert, Lektüre mit `lit`/`litbox`, sonstige Ergänzungen mit `erg`/`ergbox`.
 
 ## Geräte-Abgleich
 
@@ -37,4 +38,4 @@ Ergänzungen, die nicht auf den Folien stehen, sind in den Inhalten mit `erg`/`e
 
 ## Stand der Inhalte
 
-Vorlesung: Sitzung 1 (15.10.) fertig. Selbstlernphase-Lektüre (Patzelt, Lauth, Merkel) noch nicht eingearbeitet. Seminar: startet 29.10.
+Vorlesung: Sitzung 1 (15.10.) mit Lektüre fertig: 14 Lektionen, 50 Karten, 14 Selbsttests, 8 Essay-Fragen. Lektüretexte liegen aufbereitet im claude.ai-Projekt. Seminar: startet 29.10.
