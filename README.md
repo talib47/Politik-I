@@ -17,7 +17,7 @@ python3 build.py      # erzeugt index.html neu
 
 | Datei | Inhalt |
 |---|---|
-| `head.html` | Kopf, Icons, Manifest, CSS (Farben als Tokens, Dunkelmodus, Akzent Staatsblau), Zoom |
+| `head.html` | Kopf, Icons, Manifest, CSS (Farben als Tokens, Dunkelmodus, Akzent Weinrot), Zoom |
 | `core.js` | Speicher (`localStorage`), Geräte-Abgleich über GitHub, Hilfsfunktionen |
 | `content.js` | Veranstaltungen (`COURSES`), Sitzungsliste (`CHAPTERS`, `c` = vl/se, `no` = angezeigte Nummer) |
 | `content_v1.js` | Vorlesung Sitzung 1: Lektionen, Karten, Selbsttest, Essay-Fragen |
