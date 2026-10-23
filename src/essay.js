@@ -109,3 +109,50 @@ function renderExam(){
     const s=essayScore(x.id); if(!s||pts()>=s.p) state.essays[x.id]={p:pts(),max:x.k.length,t:Date.now(),w:wordCount(e.text)};
     state.examRun=null; logDay(); save(); toast("Gespeichert"); renderExam(); window.scrollTo(0,0); };
 }
+
+/* ---------- Gliederung in 10 Minuten: der erste Schritt jedes Essays als tägliche Übung ----------
+   Prüfungsfrage lesen, nur die Gliederung schreiben, dann mit dem Gliederungsvorschlag (gl) abgleichen.
+   Ergebnis in state.outl[id] = {p, max, n, t}. Der Text kann als Anfang ins ganze Essay übernommen werden. */
+let outlineTimer=null;
+function pickOutline(n){
+  let L=essaysOf(n); if(L.some(x=>x.kind==="lang")) L=L.filter(x=>x.kind==="lang");
+  const o=state.outl||{}; return L.slice().sort((a,b)=>((o[a.id]||{}).t||0)-((o[b.id]||{}).t||0)||Math.random()-.5)[0];
+}
+function openOutline(n,id){ n=n||0; const x=id?ESSAYS.find(e=>e.id===id):pickOutline(n); cur.ol={n, id:x&&x.id, phase:"write", t0:Date.now(), text:"", checks:{}}; go("outline"); }
+function renderOutline(){
+  clearInterval(outlineTimer);
+  const O=cur.ol, n=O.n, back=n?chLabel(n):"Üben", backFn=()=>{ if(n){ cur.ch=n; go("chapter"); } else go("practice"); };
+  const x=ESSAYS.find(e=>e.id===O.id);
+  if(!x){ $("#app").innerHTML=`${backTo(back)}<h1>Noch keine Prüfungsfragen</h1>`; bindCrumb(backFn); return; }
+  const last=(state.outl||{})[x.id];
+  const head=`${backTo(back)}<p class="eyebrow">Gliederung in 10 Minuten · Sitzung ${chOf(x.ch).no}${last?` · zuletzt ${last.p} von ${last.max}`:""}</p>
+    <div class="block"><p style="margin:0"><b>${x.q}</b></p></div>`;
+  if(O.phase==="write"){
+    $("#app").innerHTML=`${head}
+      <div class="block"><p class="small" style="margin:0 0 6px"><b>Auftrag:</b> Schreib nur die Gliederung: Einleitung, drei bis fünf Schritte, Fazit. Zu jedem Schritt Stichworte und die Autoren, die du nennen würdest. Kein ganzer Text.</p>
+        <p class="small muted" style="margin:0">Operator: ${x.op}</p></div>
+      <div class="etop"><span class="small muted">Richtwert 10 Minuten</span><span class="clock otime" id="otime">10:00</span></div>
+      <div class="essay"><textarea id="ot" style="min-height:14rem" placeholder="1. Einleitung: …&#10;2. …&#10;3. …&#10;4. Fazit: …">${esc(O.text)}</textarea></div>
+      <div class="row" style="margin-top:8px"><button class="btn" id="oDone">Mit dem Vorschlag vergleichen</button><button class="btn ghost" id="oOther">Andere Frage</button></div>`;
+    $("#ot").oninput=e=>{ O.text=e.target.value; };
+    $("#oDone").onclick=()=>{ O.used=Date.now()-O.t0; O.phase="compare"; renderOutline(); window.scrollTo(0,0); };
+    $("#oOther").onclick=()=>{ const L=essaysOf(n).filter(y=>y.id!==x.id&&y.kind===x.kind); openOutline(n,L.length?pick(L).id:x.id); };
+    outlineTimer=setInterval(()=>{ const c=$("#otime"); if(!c||view!=="outline"){ clearInterval(outlineTimer); return; } const l=O.t0+600000-Date.now(); c.textContent=l>0?mmss(l):"Zeit um"; if(l<=0) c.style.color="var(--bad)"; },1000);
+  } else {
+    const pts=()=>x.gl.filter((_,j)=>O.checks[j]).length;
+    $("#app").innerHTML=`${head}
+      <div class="block"><h3>Deine Gliederung</h3>${O.text.trim()?`<p class="essaytext">${esc(O.text)}</p>`:`<p class="small muted" style="margin:0">Leer. Lies den Vorschlag und versuch es morgen noch einmal.</p>`}
+        <p class="small muted" style="margin:6px 0 0">${Math.max(1,Math.round((O.used||0)/60000))} Minuten gebraucht.</p></div>
+      <div class="block"><h3>Vorschlag: Was davon steckt in deiner Gliederung?</h3>
+        ${x.gl.map((g,j)=>`<label class="check"><input type="checkbox" id="g${j}" ${O.checks[j]?"checked":""}><span>${g}</span></label>`).join("")}
+        <p class="pts" id="op">${pts()} von ${x.gl.length}</p>
+        <div class="row"><button class="btn" id="oSave">Speichern</button><button class="btn ghost" id="oEssay">Daraus das ganze Essay schreiben</button></div></div>
+      <div class="block"><h3>Worauf es bei dieser Frage ankommt</h3><ul class="gl">${x.k.map(k=>`<li>${inl(k)}</li>`).join("")}</ul></div>
+      ${sess?`<div class="row" style="margin-bottom:14px">${sessBtn()}</div>`:""}`;
+    document.querySelectorAll(".check input").forEach(c=>c.onchange=()=>{ O.checks[+c.id.slice(1)]=c.checked; $("#op").textContent=`${pts()} von ${x.gl.length}`; });
+    const store=()=>{ if(O.saved) return; const h=state.outl[x.id]||{n:0}; state.outl[x.id]={p:pts(),max:x.gl.length,n:h.n+1,t:Date.now()}; O.saved=true; logDay(); save(); };
+    $("#oSave").onclick=()=>{ store(); toast(`${pts()} von ${x.gl.length} gespeichert`); if(sess) sessNext(); else renderOutline(); };
+    $("#oEssay").onclick=()=>{ store(); state.drafts=state.drafts||{}; if(!(state.drafts[x.id]||"").trim()&&O.text.trim()){ state.drafts[x.id]=O.text.trim()+"\n\n"; save(); } openEssay(n,x.id); };
+  }
+  bindCrumb(backFn);
+}

@@ -1,13 +1,13 @@
 /* ================= Inhalte: Gliederung =================
    Zwei Veranstaltungen im Modul Grundlagen Politik I, getrennt geprüft:
    vl = Vorlesung „Politische Systeme im Vergleich“ (PD Dr. Julia Schwanholz), Prüfung: Essay 60 Min., unbenotet
-   se = Seminar „Politisches System Deutschlands und der EU“ (Schwarz, online), Prüfung: Klausur + Vortrag
+   se = Seminar „Das politische System Deutschlands und der EU“ (Dr. Schwarz, online), Prüfung laut Modulbeschreibung: Klausur 60 Min. + Vortrag 10 Min.
    n ist die interne Kapitelnummer (Vorlesung 1–10, Seminar ab 101), no die angezeigte Nummer.
    Lektions-, Karten- und Aufgaben-IDs bleiben stabil, auch wenn Kapitel umgestellt werden.
    Grundlage Vorlesung: Folien Schwanholz WiSe 26/27 und Vorlesungsplan (Folien 3–6, Moodle). */
 const COURSES={
   vl:{short:"Vorlesung", who:"Schwanholz", title:"Politische Systeme im Vergleich", eyebrow:"Politik I · Vorlesung · Schwanholz"},
-  se:{short:"Seminar", who:"Schwarz", title:"Politisches System Deutschlands und der EU", eyebrow:"Politik I · Seminar · Schwarz"}
+  se:{short:"Seminar", who:"Dr. Schwarz", title:"Das politische System Deutschlands und der EU", eyebrow:"Politik I · Seminar · Dr. Schwarz"}
 };
 const CHAPTERS=[
   {n:1,  c:"vl", no:1,  date:"15.10.", title:"Politik, Politikwissenschaft, Demokratie und Autokratie", teaser:"Politikbegriff (Polity, Politics, Policy), politisches System nach Easton und Almond/Powell, Herrschaftsformen nach Lauth, Dahl und Merkel, Embedded Democracy. Dazu die Selbstlernphase (22. und 29.10.)."},

@@ -11,7 +11,7 @@
 <link rel="icon" type="image/png" href="/Politik-I/icon-192.png?v=4">
 <link rel="manifest" href="/Politik-I/manifest.webmanifest?v=4">
 <style>
-/* Layout: eine schmale Lernspalte (max. 42rem) mit fester Tableiste unten, wie die W&G-I-App; eigene Akzentfarbe (Weinrot) für Politik I */
+/* Layout: eine schmale Lernspalte (max. 42rem) mit fester Tableiste unten, wie die W&G-I-App; eigene Akzentfarbe (Weinrot) für Politik I; Grundgerüst und Lernformen aus Wirtschaft II */
 :root{
   --bg:#F3EEEF; --surface:#FBF9F9; --ink:#241A1C; --muted:#66595C; --line:#D9CDD0;
   --accent:#8A2E3B; --accent-ink:#FFFFFF; --accent-soft:#F2DFE2;
@@ -49,7 +49,8 @@ html{font-size:calc(100% * var(--z,1))}
 body{margin:0;background:var(--bg);color:var(--ink);font:1rem/1.5 var(--sans);-webkit-font-smoothing:antialiased}
 main{max-width:42rem;margin:0 auto;padding-block:20px 120px;padding-left:max(16px, env(safe-area-inset-left, 0px));padding-right:max(16px, env(safe-area-inset-right, 0px))}
 h1,h2,h3{font-family:var(--serif);font-weight:600;line-height:1.2;margin:0 0 .4em;text-wrap:balance}
-h1{font-size:1.75rem} h2{font-size:1.3rem} h3{font-size:1.05rem}
+h1{font-size:1.75rem}
+h1,h2,h3,.card .front{overflow-wrap:break-word;hyphens:auto;-webkit-hyphens:auto} h2{font-size:1.3rem} h3{font-size:1.05rem}
 p{margin:0 0 .8em}
 .muted{color:var(--muted)} .small{font-size:.875rem}
 .eyebrow{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 .3em}
@@ -93,7 +94,11 @@ button{cursor:pointer}
 .data th{font-weight:600;color:var(--muted);font-size:.8rem}
 .data td{font-family:var(--mono)}
 .tablewrap{overflow-x:auto;margin:8px 0 2px}
-.eq{font-family:var(--mono);font-size:.92rem;background:var(--bg);border-radius:8px;padding:8px 10px;overflow-x:auto;white-space:pre-wrap;overflow-wrap:anywhere}
+.vals{display:grid;grid-template-columns:repeat(auto-fill,minmax(7.5rem,1fr));gap:6px;margin:10px 0 2px}
+.vals div{border:1px solid var(--line);border-radius:8px;padding:5px 8px;background:var(--bg);display:flex;flex-direction:column;gap:1px;min-width:0}
+.vals span{font-size:.76rem;color:var(--muted);line-height:1.3}
+.vals b{font-family:var(--mono);font-weight:600;font-variant-numeric:tabular-nums}
+.eq{font-family:var(--mono);font-size:.92rem;background:var(--bg);border-radius:8px;padding:8px 10px;overflow-x:auto;white-space:nowrap}
 .seg{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden}
 .seg button{background:none;border:0;padding:7px 12px;font-size:.85rem;color:var(--muted)}
 .seg button+button{border-left:1px solid var(--line)}
@@ -122,13 +127,11 @@ button{cursor:pointer}
 /* Statistik */
 .week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;align-items:end;height:90px;margin:10px 0 4px}
 .week div{background:var(--accent);border-radius:4px 4px 0 0;min-height:2px}
-.weekl{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;font-size:.75rem;color:var(--muted);text-align:center;line-height:1.3}
-.weekl b{display:block;color:var(--ink);font-weight:600}
-.weekl .n{display:block;margin-top:3px;font-size:.7rem}
-.weekl .today b{color:var(--accent)}
-.week div.today{opacity:1}.week div{opacity:.6}
+.weekl{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;font-size:.75rem;color:var(--muted);text-align:center}
 .srow{display:grid;grid-template-columns:1fr auto auto;gap:4px 12px;align-items:center;padding:9px 0;border-top:1px solid var(--line);font-size:.92rem}
 .srow:first-of-type{border-top:0}
+.srow.ch{grid-template-columns:1fr auto}
+.srow.ch .small{grid-column:1/-1;grid-row:2}
 .srow span{font-variant-numeric:tabular-nums}
 
 /* Tableiste */
@@ -159,10 +162,11 @@ nav button[aria-current="page"]{background:var(--accent-soft);color:var(--ink)}
 .lesson ul{padding-left:1.2em;margin:0 0 .8em}
 .lesson li{margin:.2em 0}
 .merk{border-left:4px solid var(--gold);background:var(--bg);border-radius:0 10px 10px 0;padding:10px 12px;margin:10px 0}
-.merk>b:first-child{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.merk b:first-child{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
 .kv{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 10px}
 .kv td{border-top:1px solid var(--line);padding:6px 4px;vertical-align:top}
-.kv td:first-child{font-weight:600;white-space:nowrap;padding-right:10px}
+.kv td:first-child{font-weight:600;padding-right:14px;width:34%;hyphens:auto;-webkit-hyphens:auto}
+@media (max-width:560px){ .kv,.kv tbody,.kv tr,.kv td{display:block;width:100%} .kv tr{border-top:1px solid var(--line);padding:6px 0} .kv tr:first-child{border-top:0} .kv td{border:0;padding:1px 0} .kv td:first-child{width:auto} }
 .mc{display:flex;flex-direction:column;gap:8px;margin-top:8px}
 .mc button{text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:10px;padding:10px 12px}
 .mc button.r{border-color:var(--good);background:var(--good-soft)}
@@ -171,45 +175,7 @@ nav button[aria-current="page"]{background:var(--accent-soft);color:var(--ink)}
 .ex{font-size:.9rem;margin-top:8px}
 .card{min-height:12rem;display:flex;flex-direction:column;justify-content:center;gap:10px}
 .card .front{font-family:var(--serif);font-size:1.25rem;font-weight:600;text-wrap:balance}
-.card .back{border-top:1px solid var(--line);padding-top:10px}
-.card.tap{cursor:pointer;-webkit-tap-highlight-color:transparent}
-.card.tap:active{transform:scale(.995)}
-.card .tapnote{align-self:flex-end;font-size:.75rem;color:var(--muted);margin-top:-2px}
-/* Kartenrückseite: Absätze, Listen, Begriffspaare, Vergleichstabelle */
-.cb p{margin:0 0 8px} .cb p:last-child{margin-bottom:0}
-.cb-dl{margin:0;display:flex;flex-direction:column}
-.cb-dl>div{padding:7px 0;border-top:1px solid var(--line)}
-.cb-dl>div:first-child{border-top:0;padding-top:0}
-.cb-dl dt{font-weight:600}
-.cb-dl dd{margin:1px 0 0}
-.cb-ul,.cb-ol{list-style:none;margin:0 0 6px;padding:0;display:flex;flex-direction:column;gap:5px}
-.cb-ul li{position:relative;padding-left:1.05rem}
-.cb-ul li::before{content:"";position:absolute;left:.15rem;top:.62em;width:6px;height:6px;border-radius:50%;background:var(--accent);opacity:.75}
-.cb-ol{counter-reset:n}
-.cb-ol li{display:grid;grid-template-columns:1.5rem 1fr;gap:8px;align-items:start}
-.cb-ol li::before{counter-increment:n;content:counter(n);width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--line);background:var(--bg);font:600 .74rem/1.35rem var(--sans);text-align:center;color:var(--muted);margin-top:.1rem}
-.cb-tbl{width:100%;border-collapse:collapse;table-layout:fixed}
-.cb .pd{color:var(--muted)}
-.cb-tbl th{font-weight:600;text-align:left;padding:0 10px 4px 0;font-family:var(--serif);font-size:1rem}
-.cb-tbl td{padding:1px 10px 7px 0;vertical-align:top}
-.cb-tbl tr.lab td{border-top:1px solid var(--line);padding:7px 0 1px;font-size:.75rem;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--muted)}
-.cb .eq{margin:0 0 8px}
-/* Kästen in Lektionen */
-.merk .mi{margin:0 0 8px}
-.merk .eq{background:var(--surface);display:inline-block;max-width:100%;margin-top:4px}
-.merk .kvq{background:transparent}
-.mrows{display:flex;flex-direction:column}
-.mrows>div{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-top:1px solid var(--line)}
-.mrows>div:first-child{border-top:0;padding-top:2px}
-.mrows>div:last-child{padding-bottom:0}
-.ml{font-weight:600;font-size:.92rem}
-.msteps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:10px}
-.msteps li{display:grid;grid-template-columns:1.5rem 1fr;column-gap:10px;row-gap:3px;align-items:start}
-.msteps li::before{counter-increment:s;content:counter(s);grid-row:1 / span 2;width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--gold);color:var(--gold);font:600 .74rem/1.3rem var(--sans);text-align:center;margin-top:.05rem}
-.msteps .eq{margin:0;display:block}
-.vd{display:inline-block;font-size:.72rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:1px 8px;border-radius:999px}
-.vd.t{color:var(--good);background:var(--good-soft)} .vd.f{color:var(--bad);background:var(--bad-soft)}
-.sol-ol{margin:6px 0 0;padding-left:1.2em} .sol-ol li{margin:.25em 0}
+.card .back{border-top:1px solid var(--line);padding-top:10px;white-space:pre-line}
 .dots{display:flex;gap:4px}
 .dots i{width:8px;height:8px;border-radius:50%;background:var(--line)}
 .dots i.on{background:var(--good)}
@@ -236,7 +202,101 @@ svg .sarrow{fill:var(--accent)}
 .lnav{display:flex;justify-content:space-between;gap:10px;margin-top:14px;flex-wrap:wrap}
 .crumb{background:none;border:0;padding:0;color:var(--accent);font-weight:600;font-size:.9rem;margin-bottom:8px}
 
-/* ===== Selbsttest (wahr/falsch), Abschnitte, Verständnis-Hilfe ===== */
+/* ===== Strukturierte Inhalte: Begriffslisten, Gegenüberstellungen, Beispielboxen, Formeln ===== */
+.eq{white-space:normal;overflow-wrap:break-word;overflow-x:visible;line-height:1.55;margin:6px 0}
+.pz{color:var(--muted);font-size:.9em}
+.dlist{display:grid;grid-template-columns:fit-content(42%) 1fr;margin:4px 0 8px}
+.dlist>b,.dlist>span{padding:6px 0;border-top:1px solid var(--line);min-width:0;overflow-wrap:break-word}
+.dlist>b{padding-right:14px;font-weight:600;hyphens:auto;-webkit-hyphens:auto}
+.dlist>b:first-child,.dlist>b:first-child+span{border-top:0}
+.dlist .eq{margin:4px 0 2px}
+.cmp{width:100%;border-collapse:collapse;font-size:.92rem;margin:6px 0 10px}
+.cmp th,.cmp td{border-top:1px solid var(--line);padding:7px 8px;text-align:left;vertical-align:top}
+.cmp thead th{border-top:0;font-size:.78rem;letter-spacing:.04em;color:var(--muted);font-weight:600}
+.cmp tbody th{font-weight:600;padding-left:0}
+.cmp td{overflow-wrap:break-word}
+@media (max-width:560px){
+  .cmp:not(.tight) thead{display:none}
+  .cmp:not(.tight),.cmp:not(.tight) tbody,.cmp:not(.tight) tr,.cmp:not(.tight) th,.cmp:not(.tight) td{display:block;width:100%}
+  .cmp:not(.tight) tr{border-top:1px solid var(--line);padding:6px 0}
+  .cmp:not(.tight) tr:first-child{border-top:0}
+  .cmp:not(.tight) tbody th,.cmp:not(.tight) td{border:0;padding:2px 0}
+  .cmp:not(.tight) td{display:grid;grid-template-columns:fit-content(45%) 1fr;gap:10px}
+  .cmp:not(.tight) td::before{content:attr(data-l);color:var(--muted);font-size:.8rem;padding-top:1px}
+}
+.bsp{border:1px solid var(--line);border-radius:12px;padding:10px 14px 4px;margin:12px 0;background:var(--bg)}
+.bsp .bh,.lesson .bsp .bh{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:0 0 2px}
+.bsp .dlist{margin:0}
+.lesson ol.steps{padding-left:1.3em;margin:0 0 .8em}
+.lesson ol.steps li{margin:.35em 0}
+.card{cursor:pointer;-webkit-tap-highlight-color:transparent}
+.card .cctx{margin:0;font-size:.8rem;color:var(--muted);letter-spacing:.01em}
+.card .back{white-space:normal}
+.card .back p{margin:0 0 .5em}
+.card .back ul,.card .back ol{margin:0 0 .5em;padding-left:1.25em}
+.card .back li{margin:.2em 0}
+.card .back>:last-child{margin-bottom:0}
+.ml ol,.ml ul{padding-left:1.25em;margin:0 0 .5em} .ml li{margin:.25em 0} .ml p{margin:0 0 .5em}
+.grade{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.grade .btn{padding:12px 6px}
+.cardpad{margin:0 0 12px}
+.cardpad canvas{height:170px}
+.card .tap{font-size:.78rem;color:var(--muted);margin:0}
+.fb{margin-top:10px;border-left:3px solid var(--line);padding:2px 0 2px 12px;font-size:.92rem}
+.fb.good{border-color:var(--good)} .fb.bad{border-color:var(--bad)} .fb.idk{border-color:var(--gold)}
+.fb .fh{margin:0 0 2px;font-weight:600}
+.fb.good .fh{color:var(--good)} .fb.bad .fh{color:var(--bad)} .fb.idk .fh{color:var(--gold)}
+.fb .dlist{margin:0}
+.unc{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.chip.unk{color:var(--gold);border-color:var(--gold)}
+.copybox{width:100%;min-height:8rem;margin-top:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:8px;font-size:.85rem}
+.week7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px}
+.week7 .d{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
+.week7 .bw{height:80px;width:100%;display:flex;align-items:flex-end;justify-content:center}
+.week7 .bw i{display:block;width:70%;max-width:2.2rem;background:var(--accent);opacity:.55;border-radius:4px 4px 0 0;min-height:2px}
+.week7 .wd{font-size:.78rem;font-weight:600;margin-top:6px}
+.week7 .dt{font-size:.68rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.week7 .n{font-size:.85rem;font-weight:600;margin-top:4px;font-variant-numeric:tabular-nums}
+.week7 .u{font-size:.6rem;color:var(--muted);max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.week7 .d.today .bw i{opacity:1}
+.week7 .d.today .wd{color:var(--accent)}
+.week7 .d.today{background:var(--accent-soft);border-radius:8px;padding-bottom:4px}
+.klist{display:grid;grid-template-columns:fit-content(40%) 1fr;font-size:.92rem;margin:4px 0 10px}
+.klist>b,.klist>span{padding:6px 0;border-top:1px solid var(--line)}
+.klist>b{padding-right:14px;font-weight:600}
+.klist>b:first-child,.klist>b:first-child+span{border-top:0}
+#sessbar{position:sticky;top:0;z-index:7;background:var(--surface);border-bottom:1px solid var(--line);padding-top:env(safe-area-inset-top,0px)}
+#sessbar .sbin{max-width:42rem;margin:0 auto;display:flex;gap:8px;align-items:center;padding:8px max(16px, env(safe-area-inset-right, 0px)) 8px max(16px, env(safe-area-inset-left, 0px))}
+#sessbar .sbt{flex:1;min-width:0;font-size:.88rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.plan{margin:6px 0 12px;padding-left:1.3em}
+.plan li{margin:.35em 0}
+.plan li span{display:block;font-size:.84rem;color:var(--muted)}
+.who{font-family:var(--serif);font-size:1.2rem;font-weight:600;line-height:1.35;margin:0 0 6px}
+.weak{margin:4px 0 8px;padding-left:1.2em;font-size:.92rem}
+.weak li{margin:.2em 0}
+.dateinp{padding:7px 10px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);font:inherit;font-size:.92rem}
+.card .front .symin{display:block;font-size:.9rem;font-family:var(--sans);font-weight:400;color:var(--muted);margin-top:6px}
+.card .front.symf{font-size:2.2rem;font-family:var(--serif);text-align:center;padding:.3em 0}
+.lex>b.sy{font-family:var(--serif);font-size:1.15rem;font-weight:600;color:var(--accent);min-width:3.2rem}
+.lex>span>span{display:block;margin-top:2px}
+.lex .lexeq{margin:4px 0;font-size:.85rem}
+.lexwarn{color:var(--bad)}
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.35);z-index:20;display:flex;justify-content:center;align-items:flex-end}
+.sheetin{background:var(--bg);width:100%;max-width:42rem;max-height:88vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:16px max(16px, env(safe-area-inset-left, 0px)) calc(20px + env(safe-area-inset-bottom, 0px))}
+
+/* ===== Politik I: Kästen, Selbsttest, Umschalter, Lektüre, Essay (aus der bisherigen App) ===== */
+.merk>b:first-child{display:block;font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);margin-bottom:2px}
+.merk .mi{margin:0 0 8px}
+.merk .eq{background:var(--surface);display:inline-block;max-width:100%;margin-top:4px}
+.mrows{display:flex;flex-direction:column}
+.mrows>div{display:flex;flex-direction:column;gap:2px;padding:8px 0;border-top:1px solid var(--line)}
+.mrows>div:first-child{border-top:0;padding-top:2px}
+.mrows>div:last-child{padding-bottom:0}
+.ml{font-weight:600;font-size:.92rem}
+.msteps{list-style:none;margin:0;padding:0;counter-reset:s;display:flex;flex-direction:column;gap:10px}
+.msteps li{display:grid;grid-template-columns:1.5rem 1fr;column-gap:10px;row-gap:3px;align-items:start}
+.msteps li::before{counter-increment:s;content:counter(s);grid-row:1 / span 2;width:1.4rem;height:1.4rem;border-radius:50%;border:1px solid var(--gold);color:var(--gold);font:600 .74rem/1.3rem var(--sans);text-align:center;margin-top:.05rem}
+.msteps .eq{margin:0;display:block}
 .sect{font-size:.75rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);font-weight:600;margin:4px 2px 8px;display:flex;justify-content:space-between;gap:8px}
 .kz{border-top:1px solid var(--line);padding:12px 0 10px}
 .kz:first-of-type{border-top:0;padding-top:4px}
@@ -252,8 +312,6 @@ svg .sarrow{fill:var(--accent)}
 .kz .why{font-size:.86rem;color:var(--muted);margin:8px 0 0;line-height:1.45}
 .kz .why b{color:var(--ink);font-weight:600}
 .pbadge{font-variant-numeric:tabular-nums;font-weight:600;font-size:.95rem}
-.unclear{display:flex;gap:10px;align-items:flex-start}
-.unclear p{margin:0}
 .kvq{width:100%;border-collapse:collapse;font-size:.9rem;margin:6px 0 10px;font-variant-numeric:tabular-nums}
 .kvq th,.kvq td{border-top:1px solid var(--line);padding:6px 6px;text-align:left}
 .kvq th{font-weight:600;color:var(--muted);font-size:.8rem}
@@ -261,8 +319,6 @@ svg .fillA{fill:var(--accent-soft);stroke:none}
 svg .fillB{fill:var(--accent-soft);opacity:.55;stroke:none}
 .kvq .nw{white-space:nowrap}
 .chip.flag{color:var(--gold);border-color:var(--gold)}
-
-/* ===== Politik I: Umschalter Vorlesung/Seminar, Ergänzungen, Essay ===== */
 .switch{display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:12px;overflow:hidden;margin:0 0 18px;background:var(--surface)}
 .switch button{background:transparent;border:0;padding:10px 6px;font-weight:600;color:var(--muted);line-height:1.25}
 .switch button small{display:block;font-weight:400;font-size:.75rem}
@@ -293,13 +349,32 @@ svg .fillB{fill:var(--accent-soft);opacity:.55;stroke:none}
 .info dl div:first-child{border-top:0}
 .info dt{color:var(--muted)}
 .info dd{margin:0}
-.regtbl{width:100%;border-collapse:collapse;font-size:.78rem;margin:8px 0;table-layout:fixed}
-.regtbl th,.regtbl td{border:1px solid var(--line);padding:5px 4px;vertical-align:top;text-align:left;overflow-wrap:anywhere;hyphens:auto}
-.regtbl th{background:var(--bg);font-weight:600}
+/* ===== Politik I: Beispielboxen ruhig mit Akzentton, Label links ===== */
+.merk b:first-child{display:inline;font-size:inherit;letter-spacing:normal;text-transform:none;color:inherit;margin:0}
+.merk{border-left:4px solid var(--accent);background:var(--accent-soft);border-radius:0 10px 10px 0;padding:10px 12px;margin:12px 0}
+.merk>b:first-child{display:block;font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;color:var(--accent);margin-bottom:4px}
+.mrows>div{display:grid;grid-template-columns:fit-content(38%) 1fr;gap:2px 14px;padding:7px 0;border-top:1px solid var(--line)}
+.mrows>div:first-child{border-top:0;padding-top:2px}
+.mrows .ml{font-weight:600;font-size:.92rem;hyphens:auto;-webkit-hyphens:auto}
+@media (max-width:560px){ .mrows>div{grid-template-columns:1fr} }
+.bsp{border-left:4px solid var(--accent);border-top:0;border-right:0;border-bottom:0;border-radius:0 10px 10px 0;background:var(--accent-soft)}
+.bsp .bh,.lesson .bsp .bh{color:var(--accent)}
+/* Lektions-Tabellen: Begriffspaare als Liste, Vergleiche als Tabelle, auf dem Handy gestapelt */
+.lesson .dlist{margin:6px 0 12px}
+.dlist>span{hyphens:auto;-webkit-hyphens:auto}
+.lesson .cmp{margin:6px 0 12px}
+.lesson .cmp td>span{display:block}
+.lesson ol{padding-left:1.3em;margin:0 0 .8em}
+.lesson ol li{margin:.3em 0}
+.who.sm{font-size:1.05rem}
+.wset{font-size:.78rem;color:var(--muted);margin:0 0 4px}
+.otime{font-variant-numeric:tabular-nums;font-weight:600}
+.lexwarn::before{content:"Verwechslung: ";font-weight:600}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
+<div id="sessbar" hidden></div>
 <main id="app"></main>
 <nav id="nav"></nav>
 <div class="zoom" role="group" aria-label="Schriftgröße"><button id="zIn" aria-label="Größer">+</button><button id="zOut" aria-label="Kleiner">−</button></div>

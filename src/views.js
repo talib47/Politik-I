@@ -1,3 +1,18 @@
+/* ================= Zeichenfläche für den Stift (Schreibfeld auf Karten) ================= */
+function drawSurface(c,strokes){
+  const ctx=c.getContext("2d"); let penSeen=false, curS=null;
+  const color=()=>getComputedStyle(document.documentElement).getPropertyValue("--accent").trim()||"#8A2E3B";
+  function size(){ const r=c.getBoundingClientRect(), dpr=window.devicePixelRatio||1; c.width=r.width*dpr; c.height=r.height*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); draw(); }
+  function draw(){ const r=c.getBoundingClientRect(); ctx.clearRect(0,0,r.width,r.height); ctx.lineCap="round"; ctx.lineJoin="round"; ctx.strokeStyle=color();
+    for(const s of strokes){ for(let i=1;i<s.length;i++){ ctx.lineWidth=s[i][2]; ctx.beginPath(); ctx.moveTo(s[i-1][0]*r.width,s[i-1][1]*r.height); ctx.lineTo(s[i][0]*r.width,s[i][1]*r.height); ctx.stroke(); } } }
+  const pt=e=>{ const r=c.getBoundingClientRect(); const p=e.pressure&&e.pointerType==="pen"?e.pressure:.5; return [(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height,1.2+p*2.6]; };
+  c.onpointerdown=e=>{ if(e.pointerType==="pen") penSeen=true; if(penSeen&&e.pointerType==="touch") return; curS=[pt(e)]; strokes.push(curS); try{c.setPointerCapture(e.pointerId);}catch(x){} };
+  c.onpointermove=e=>{ if(!curS) return; const evs=e.getCoalescedEvents?e.getCoalescedEvents():[e]; for(const ev of evs) curS.push(pt(ev)); draw(); };
+  c.onpointerup=c.onpointercancel=()=>{ curS=null; };
+  size(); window.addEventListener("resize",size);
+  return {undo(){ strokes.pop(); draw(); }, clear(){ strokes.length=0; draw(); }};
+}
+
 /* ================= Fortschritt ================= */
 function lessonState(id){ return (state.lessons||{})[id]; }
 function cardBox(id){ return (state.box||{})[id]||0; }
@@ -16,7 +31,7 @@ function chapterProgress(n){
 function nextStep(){
   for(const ch of courseChs()){ const n=ch.n; if(!isReady(n)) continue;
     const L=LESSONS[n], li=L.findIndex(x=>!lessonState(x.id));
-    if(li>=0) return {label:`Sitzung ${ch.no} · Theorie`, title:L[li].t, go:()=>openLesson(n,li)};
+    if(li>=0) return {label:`Sitzung ${ch.no} · Theorie`, title:L[li].t, go:()=>openLesson(n,li), lesson:true};
     if((CARDS[n]||[]).some(x=>!isSeen(x.id))) return {label:`Sitzung ${ch.no} · Karten`, title:"Begriffe festigen", go:()=>openCards(n)};
     if(kreuzOf(n).some(x=>!kzStat(x.id))) return {label:`Sitzung ${ch.no} · Selbsttest`, title:"Wahr oder falsch?", go:()=>openKreuz(n)};
     if(essaysOf(n).some(x=>!essayScore(x.id))) return {label:`Sitzung ${ch.no} · Schreiben`, title:"Essay-Fragen üben", go:()=>openEssay(n)};
@@ -28,20 +43,22 @@ function nextStep(){
 /* ================= Navigation ================= */
 let view="home", cur={};
 const TABS=[["home","Lernpfad"],["practice","Üben"],["stats","Statistik"]];
-const TAB_OF={home:"home",chapter:"home",lesson:"home",kreuz:"practice",cards:"practice",practice:"practice",stats:"stats",exam:"practice",essay:"practice"};
+const TAB_OF={home:"home",chapter:"home",lesson:"home",sessdone:"home",kreuz:"practice",cards:"practice",practice:"practice",stats:"stats",exam:"practice",essay:"practice",recall:"practice",who:"practice",terms:"practice",outline:"practice"};
 function renderNav(){
   $("#nav").innerHTML=TABS.map(([k,l])=>`<button data-v="${k}"${TAB_OF[view]===k?' aria-current="page"':""}>${l}</button>`).join("");
   $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.v));
 }
 function go(v){ view=v; render(); window.scrollTo(0,0); }
-function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz})[view](); addSwitch(); }
+function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,sessdone:renderHome})[view](); addSwitch(); updateSessBar(); }
 const backTo=label=>`<button class="crumb" id="crumb">← ${label}</button>`;
 function bindCrumb(fn){ const b=$("#crumb"); if(b) b.onclick=fn; }
 const chLabel=n=>{ const c=chOf(n); return c?"Sitzung "+c.no:""; };
+function logDay(){ const k=today(); state.days[k]=(state.days[k]||0)+1; }
+const copyForClaude=(text,holder)=>copyText(text,holder);
 
 /* Umschalter Vorlesung / Seminar oben auf den Übersichtsseiten (wie in der W&G-I-App) */
 function addSwitch(){
-  if(!["home","practice","stats"].includes(view)) return;
+  if(!["home","practice","stats"].includes(view)||sess) return;
   $("#app").insertAdjacentHTML("afterbegin",`<div class="switch" role="group" aria-label="Veranstaltung wählen">
     ${["vl","se"].map(c=>`<button data-c="${c}" aria-pressed="${state.course===c}">${COURSES[c].short}<small>${COURSES[c].who}</small></button>`).join("")}</div>`);
   document.querySelectorAll(".switch button").forEach(b=>b.onclick=()=>{ if(state.course===b.dataset.c) return; state.course=b.dataset.c; save(); render(); window.scrollTo(0,0); });
@@ -49,7 +66,7 @@ function addSwitch(){
 
 /* ================= Lernpfad ================= */
 function renderHome(){
-  const C=COURSES[state.course], nx=nextStep(), due=dueCards(0).length;
+  const C=COURSES[state.course], nx=nextStep(), ready=readyNs().length;
   const chapRow=ch=>{ const p=chapterProgress(ch.n);
     return `<button class="chap${p?"":" off"}" data-n="${ch.n}" ${p?"":"disabled"}>
       <span class="no">${ch.no}</span><span class="t">${ch.title}</span>${p?`<span class="chip ${p.total>=80?"l3":p.total>0?"l2":""}">${p.total} %</span>`:`<span class="chip soon">${ch.date||"folgt"}</span>`}
@@ -59,165 +76,202 @@ function renderHome(){
   $("#app").innerHTML=`
     <p class="eyebrow">${C.eyebrow}</p>
     <h1>${C.title}</h1>
-    ${due?`<div class="block row between"><span><b>Heute fällig: ${due} Karten</b><br><span class="small muted">Zuerst wiederholen, dann Neues lernen.</span></span><button class="btn" id="goDue">Wiederholen</button></div>`:""}
-    ${nx?`<div class="block today">
-      <p class="eyebrow">Als Nächstes · ${nx.label}</p>
-      <h2>${nx.title}</h2>
-      <button class="btn" id="goNext">Weiter lernen</button>
-    </div>`:""}
-    ${state.course==="vl"?homeVL(chs,chapRow):homeSE(chs,chapRow)}`;
-  if(nx) $("#goNext").onclick=nx.go;
-  if($("#goDue")) $("#goDue").onclick=()=>openCards(0);
+    ${ready?todayBlock():""}
+    ${homeReview()}
+    ${nx&&ready?`<div class="block"><p class="eyebrow">Als Nächstes · ${nx.label}</p><h2>${nx.title}</h2><button class="btn ghost" id="goNext">Weiter lernen</button></div>`:""}
+    ${chs.length?`<p class="sect"><span>Sitzungen</span><span>${state.course==="vl"?"Folien nach jeder Sitzung":""}</span></p><div class="block"><div class="tlist">${chs.map(chapRow).join("")}</div></div>`:""}
+    ${examInfoBlock()}
+    ${state.course==="vl"?essayHowTo():""}`;
+  if($("#goNext")) $("#goNext").onclick=nx.go;
+  if($("#goSess")) $("#goSess").onclick=()=>{ if(sess) runStep(); else startSession(); };
+  bindReview();
   document.querySelectorAll(".chap").forEach(b=>b.onclick=()=>{ if(b.disabled) return; cur.ch=+b.dataset.n; go("chapter"); });
 }
-function homeVL(chs,chapRow){
-  return `<p class="sect"><span>Sitzungen</span><span>Folien nach jeder Sitzung</span></p>
-    <div class="block"><div class="tlist">${chs.map(chapRow).join("")}</div></div>
-    <div class="block info">
-      <h2>So wird geprüft</h2>
-      <dl>
-        <div><dt>Form</dt><dd><b>Essay, 60 Minuten</b>, schriftlich am PC in der PC-Hall</dd></div>
-        <div><dt>Bewertung</dt><dd>unbenotet, also nur bestehen</dd></div>
-        <div><dt>Termine</dt><dd>04.02.2027, 14–15 Uhr · Zweittermin 04.03.2027, 14–15 Uhr</dd></div>
-        <div><dt>Anmeldung</dt><dd>über HIS in One</dd></div>
-        <div><dt>Hilfen</dt><dd>Fragen und kurze Essay-Aufgabe auf Acemate (Moodle), Q&amp;A am 21.01.</dd></div>
-      </dl>
-      <p class="small muted" style="margin:10px 0 0">Auf der Folie steht beim Termin „2026“, gemeint ist der Februar 2027.</p>
+/* So wird geprüft: aus den Unterlagen (Folie Sitzung 1; Seminar laut Modulbeschreibung) */
+function examInfoBlock(){
+  const T=examDateTs(), days=T?Math.ceil((T-dayStart())/864e5):null;
+  const when=T?`${fmtDate(T)} ${new Date(T).getFullYear()}${days>0?`, noch <b>${days} Tage</b>`:days===0?", <b>heute</b>":""}`:"steht noch nicht fest";
+  if(state.course==="vl") return `<div class="block"><h2>So wird geprüft</h2>
+    <div class="klist">
+      <b>Form</b><span><b>Essay, 60 Minuten</b>, schriftlich am PC in der PC-Hall</span>
+      <b>Bewertung</b><span>unbenotet, also nur bestehen</span>
+      <b>Termin</b><span>${when}. Zweittermin 04.03.2027, jeweils 14–15 Uhr</span>
+      <b>Anmeldung</b><span>über HIS in One</span>
+      <b>Hilfen</b><span>Fragen und kurze Essay-Aufgabe auf Acemate (Moodle), Q&amp;A am 21.01.</span>
     </div>
-    <div class="block">
-      <h2>Wie schreibe ich das Essay? <span class="erg">Ergänzung</span></h2>
-      <p class="small muted">Allgemeine Regeln für Essay-Prüfungen in der Politikwissenschaft, nicht von Schwanholz. Was sie genau erwartet, klärt das Q&amp;A am 21.01.</p>
-      <ol class="gl">
-        <li><b>Frage zerlegen</b> (3 Min.): Was ist der Operator? „Erläutern“ heißt erklären mit Beispiel, „diskutieren“ heißt Für und Wider abwägen, „beurteilen“ heißt am Ende Stellung beziehen.</li>
-        <li><b>Gliederung skizzieren</b> (7 Min.): Einleitung, zwei bis vier Argumentationsschritte, Fazit. Zu jedem Schritt die Autoren notieren.</li>
-        <li><b>Einleitung:</b> Thema, zentraler Begriff mit Definition (mit Autor), Fragestellung, kurzer Fahrplan.</li>
-        <li><b>Hauptteil:</b> je Absatz ein Gedanke. Begriff erklären, mit Autor belegen, an einem Land oder Beispiel zeigen.</li>
-        <li><b>Fazit:</b> Frage direkt beantworten, eigene begründete Einschätzung, Grenzen nennen.</li>
-        <li><b>Schluss</b> (5 Min.): Durchlesen, Fachbegriffe prüfen.</li>
-      </ol>
-    </div>`;
+    <p class="small muted" style="margin:0">Quelle: Folie „Modulprüfung“ vom 15.10. Dort steht beim Termin „2026“, gemeint ist Februar 2027. In der Projektbeschreibung steht „Klausur“, die Folie gilt.</p></div>`;
+  return `<div class="block"><h2>So wird geprüft</h2>
+    <div class="klist">
+      <b>Prüfung</b><span>Klausur, 60 Minuten (laut Modulbeschreibung)</span>
+      <b>Studienleistung</b><span>Vortrag, 10 Minuten, nur bestehen</span>
+      <b>Start</b><span>Do 29.10., 8:15 Uhr, online über Zoom</span>
+      <b>Termin</b><span>${when}</span>
+    </div>
+    <p class="small muted" style="margin:0">Die Modulbeschreibung nennt noch Bieber als Dozenten. Was Dr. Schwarz genau prüft, trage ich nach der ersten Sitzung ein. Sobald Folien im Projekt liegen, kommen hier Lektionen, Karten und Probeklausur dazu.</p></div>`;
 }
-function homeSE(chs,chapRow){
-  return `${chs.length?`<p class="sect"><span>Sitzungen</span><span></span></p><div class="block"><div class="tlist">${chs.map(chapRow).join("")}</div></div>`:""}
-    <div class="block info">
-      <h2>Seminar bei Schwarz</h2>
-      <dl>
-        <div><dt>Start</dt><dd>Do 29.10., 8:15 Uhr, online über Zoom</dd></div>
-        <div><dt>Prüfung</dt><dd>Klausur, dazu ein Vortrag als Studienleistung</dd></div>
-        <div><dt>Themen</dt><dd>Politisches System Deutschlands und politische Architektur der EU</dd></div>
-      </dl>
-      <p class="small muted" style="margin:10px 0 0">Sobald die erste Sitzung gelaufen ist und die Folien im Projekt liegen, kommen hier die Sitzungen dazu, mit Lektionen, Karten und Probeklausur. Für den Vortrag gibt es dann einen eigenen Bereich.</p>
-    </div>`;
+function essayHowTo(){
+  return `<div class="block">
+    <h2>Wie schreibe ich das Essay? <span class="erg">Ergänzung</span></h2>
+    <p class="small muted">Allgemeine Regeln für Essay-Prüfungen in der Politikwissenschaft, nicht von Schwanholz. Was sie genau erwartet, klärt das Q&amp;A am 21.01.</p>
+    <ol class="gl">
+      <li><b>Frage zerlegen</b> (3 Min.): Was ist der Operator? „Erläutern“ heißt erklären mit Beispiel, „diskutieren“ heißt Für und Wider abwägen, „beurteilen“ heißt am Ende Stellung beziehen.</li>
+      <li><b>Gliederung skizzieren</b> (7 Min.): Einleitung, zwei bis vier Argumentationsschritte, Fazit. Zu jedem Schritt die Autoren notieren.</li>
+      <li><b>Einleitung:</b> Thema, zentraler Begriff mit Definition (mit Autor), Fragestellung, kurzer Fahrplan.</li>
+      <li><b>Hauptteil:</b> je Absatz ein Gedanke. Begriff erklären, mit Autor belegen, an einem Land oder Beispiel zeigen.</li>
+      <li><b>Fazit:</b> Frage direkt beantworten, eigene begründete Einschätzung, Grenzen nennen.</li>
+      <li><b>Schluss</b> (5 Min.): Durchlesen, Fachbegriffe prüfen.</li>
+    </ol></div>`;
 }
+/* Unklar markierte Lektionen auf der Startseite */
+function lessonRef(id){ for(const ch of courseChs()){ const i=(LESSONS[ch.n]||[]).findIndex(x=>x.id===id); if(i>=0) return {n:ch.n,i,t:LESSONS[ch.n][i].t,ch:"Sitzung "+ch.no}; } return null; }
+function homeReview(){
+  const unc=Object.keys(state.unclear||{}).map(lessonRef).filter(Boolean);
+  if(!unc.length) return "";
+  return `<div class="block"><h3>Nochmal anschauen</h3><p class="small muted" style="margin:0 0 4px">Als unklar markiert. Tippe in der Lektion auf „Jetzt verstanden“, wenn es sitzt.</p><div class="tlist">${unc.map(r=>`<button class="titem rv" data-n="${r.n}" data-i="${r.i}"><span class="t">${r.t}</span><span class="chip unk">unklar</span><span class="d">${r.ch}</span></button>`).join("")}</div></div>`;
+}
+function bindReview(){ document.querySelectorAll(".rv").forEach(b=>b.onclick=()=>openLesson(+b.dataset.n,+b.dataset.i)); }
 
-/* ================= Kapitel ================= */
+/* ================= Sitzung ================= */
 function renderChapter(){
   const n=cur.ch, ch=chOf(n), p=chapterProgress(n);
-  const L=LESSONS[n]||[], K=CARDS[n]||[], X=kreuzOf(n), W=essaysOf(n);
-  const nl=L.filter(x=>lessonState(x.id)).length;
+  const L=LESSONS[n]||[], K=CARDS[n]||[], X=kreuzOf(n), W=essaysOf(n), WH=whoOf(n), Q=allQuestions().filter(q=>q.n===n);
+  const nl=L.filter(x=>lessonState(x.id)).length, qd=Q.filter(q=>{ const s=qInfo(q.id); return s&&s.due<=Date.now(); }).length;
   const nx=X.filter(x=>(kzStat(x.id)||{}).best===4).length, nw=W.filter(x=>essayScore(x.id)).length;
   $("#app").innerHTML=`${backTo("Lernpfad")}
     <p class="eyebrow">${COURSES[ch.c].short} · Sitzung ${ch.no} · ${ch.date} · ${p.total} % geschafft</p>
     <h1>${ch.title}</h1>
     ${ch.lit?`<p class="small muted">${ch.lit}</p>`:""}
     <div class="block"><div class="modes">
-      <button class="mode" id="mL"><span class="t">Theorie</span><span class="n">${nl}/${L.length}</span><span class="d">${L.length} kurze Lektionen mit Verständnisfragen. Hier fängst du an.</span></button>
-      ${K.length?`<button class="mode" id="mK"><span class="t">Karten</span><span class="n">${dueCards(n).length} fällig · ${K.filter(x=>!isSeen(x.id)).length} neu</span><span class="d">Begriffe, Autoren, Aufzählungen. Gewusste Karten kommen nach 1, 3, 7, 16 und 35 Tagen wieder.</span></button>`:""}
+      <button class="mode" id="mL"><span class="t">Theorie</span><span class="n">${nl}/${L.length}</span><span class="d">${L.length} kurze Lektionen. Zu jeder erst selbst überlegen, dann die Auswahl.</span></button>
+      ${K.length?`<button class="mode" id="mK"><span class="t">Karten</span><span class="n">${dueCards(n).length} fällig · ${K.filter(x=>!isSeen(x.id)).length} neu</span><span class="d">Begriffe, Autoren, Aufzählungen. Drei Stufen: nicht gewusst, unsicher, sicher.</span></button>`:""}
+      ${Q.length?`<button class="mode" id="mQ"><span class="t">Verständnisfragen</span><span class="n">${qd} fällig</span><span class="d">Die Fragen aus den Lektionen, mit wachsendem Abstand wiederholt.</span></button>`:""}
+      ${WH.length?`<button class="mode" id="mW2"><span class="t">Was gehört wohin?</span><span class="n">${WH.filter(x=>(state.who||{})[x.id]&&state.who[x.id].last).length}/${WH.length}</span><span class="d">Aussagen dem richtigen Autor, Regimetyp oder Teilregime zuordnen.</span></button>`:""}
       ${X.length?`<button class="mode" id="mX"><span class="t">Selbsttest</span><span class="n">${nx}/${X.length} fehlerfrei</span><span class="d">Je drei Aussagen, wahr oder falsch. Prüft, ob du die Begriffe sauber auseinanderhältst.</span></button>`:""}
-      ${W.length?`<button class="mode" id="mW"><span class="t">Schreiben</span><span class="n">${nw}/${W.length}</span><span class="d">Essay-Fragen wie in der Prüfung: gliedern, schreiben, am Erwartungshorizont abhaken, Musteressay lesen.</span></button>`:""}
+      ${W.length?`<button class="mode" id="mO"><span class="t">Gliederung in 10 Minuten</span><span class="n">${W.filter(x=>(state.outl||{})[x.id]).length}/${W.length}</span><span class="d">Prüfungsfrage lesen, nur die Gliederung schreiben, mit dem Vorschlag abgleichen.</span></button>
+      <button class="mode" id="mW"><span class="t">Essay schreiben</span><span class="n">${nw}/${W.length}</span><span class="d">Ganze Antwort schreiben, am Erwartungshorizont abhaken, Musteressay lesen.</span></button>`:""}
     </div></div>
     <div class="block"><h3>Lektionen</h3><div class="tlist">${L.map((x,i)=>{ const s=lessonState(x.id);
-      return `<button class="titem" data-i="${i}"><span class="t">${i+1}. ${x.t}</span>${state.unclear[x.id]?`<span class="chip flag">unklar</span>`:`<span class="chip ${s?(s.ok?"l3":"l2"):""}">${s?(s.ok?"sicher":"gelesen"):"offen"}</span>`}</button>`;}).join("")}</div></div>`;
+      return `<button class="titem" data-i="${i}"><span class="t">${i+1}. ${x.t}</span>${isUnclear(x.id)?`<span class="chip unk">unklar</span>`:`<span class="chip ${s?(s.ok?"l3":"l2"):""}">${s?(s.ok?"sicher":"gelesen"):"offen"}</span>`}</button>`;}).join("")}</div></div>`;
   bindCrumb(()=>go("home"));
   $("#mL").onclick=()=>openLesson(n,Math.max(0,L.findIndex(x=>!lessonState(x.id))));
   if($("#mK")) $("#mK").onclick=()=>openCards(n);
+  if($("#mQ")) $("#mQ").onclick=()=>{ const due=Q.filter(q=>{ const s=qInfo(q.id); return s&&s.due<=Date.now(); }); openRecall(due.length?due.slice(0,8):shuffle(Q).slice(0,8),n); };
+  if($("#mW2")) $("#mW2").onclick=()=>openWho(8,n);
   if($("#mX")) $("#mX").onclick=()=>openKreuz(n);
+  if($("#mO")) $("#mO").onclick=()=>openOutline(n);
   if($("#mW")) $("#mW").onclick=()=>openEssay(n);
   document.querySelectorAll(".titem").forEach(b=>b.onclick=()=>openLesson(n,+b.dataset.i));
 }
 
 /* ================= Lektion ================= */
-function openLesson(n,i){ cur.ch=n; cur.li=i; cur.ans={}; go("lesson"); }
+function openLesson(n,i){ cur.ch=n; cur.li=i; cur.ans={}; cur.shown={}; go("lesson"); }
+/* Tabellen in Lektionen aufbereiten: Begriffspaare ohne Kopfzeile werden Liste (Begriff fett),
+   Tabellen mit Kopfzeile werden Gegenüberstellung, die auf dem Handy gestapelt wird */
+function enhanceLesson(root){
+  root.querySelectorAll("table.kvq").forEach(t=>{
+    const rows=[...t.rows]; if(!rows.length) return;
+    const head=rows[0].querySelectorAll("th").length===rows[0].cells.length && rows[0].cells.length>1;
+    if(!head && rows.every(r=>r.cells.length===2)){
+      const d=document.createElement("div"); d.className="dlist";
+      rows.forEach(r=>{ const b=document.createElement("b"), s=document.createElement("span"); b.innerHTML=r.cells[0].innerHTML; s.innerHTML=r.cells[1].innerHTML; d.append(b,s); });
+      t.replaceWith(d); return;
+    }
+    if(head){
+      const H=[...rows[0].cells].map(c=>c.textContent.trim());
+      const body=rows.slice(1); if(!body.length) return;
+      const tight=rows.every(r=>[...r.cells].every(c=>c.textContent.trim().length<=18));
+      const tb=document.createElement("table"); tb.className="cmp"+(tight?" tight":"");
+      tb.innerHTML=`<thead><tr>${H.map(h=>`<th>${esc(h)}</th>`).join("")}</tr></thead><tbody>${body.map(r=>{
+        if(r.cells.length===1||r.cells[0].colSpan>1) return `<tr><th scope="row" colspan="${H.length}">${r.cells[0].innerHTML}</th></tr>`;
+        const c=[...r.cells]; return `<tr><th scope="row">${c[0].innerHTML}</th>${c.slice(1).map((x,j)=>`<td data-l="${esc(H[j+1]||"")}"><span>${x.innerHTML}</span></td>`).join("")}</tr>`; }).join("")}</tbody>`;
+      t.replaceWith(tb);
+    }
+  });
+}
 function renderLesson(){
   const n=cur.ch, L=LESSONS[n], x=L[cur.li];
-  const allAns=x.check.every((_,j)=>cur.ans[j]!==undefined);
+  const allAns=x.check.every((_,j)=>cur.ans[j]!==undefined), inSess=sess&&sess.steps[sess.i]&&sess.steps[sess.i].k==="lesson";
   $("#app").innerHTML=`${backTo(chLabel(n))}
     <p class="eyebrow">${chLabel(n)} · Lektion ${cur.li+1} von ${L.length}</p>
     <article class="block lesson"><h1>${x.t}</h1>${x.html}</article>
-    ${unclearBox(x)}
-    <div class="block"><h3>Kurz prüfen</h3>${x.check.map((c,j)=>{ const a=cur.ans[j];
-      return `<div style="margin-top:${j?16:4}px"><p style="margin:0"><b>${c.q}</b></p><div class="mc">${c.o.map((o,k)=>{
-        const cls=a===undefined?"":(k===c.a?"r":(k===a?"w":""));
-        return `<button data-j="${j}" data-k="${k}" class="${cls}" ${a!==undefined?"disabled":""}>${o}</button>`;}).join("")}
-        ${a===undefined?`<button data-j="${j}" data-k="-1" class="idk">Weiß ich nicht</button>`:""}</div>
-        ${a!==undefined?`<p class="ex ${a===c.a?"res good":"res bad"}">${a===c.a?"Richtig. ":a===-1?"Gut, dass du ehrlich bist. Die Lektion kommt später wieder. ":"Nicht ganz. "}<span style="color:var(--ink)">${c.ex}</span></p>`:""}</div>`;}).join("")}
-    </div>
+    <div class="block unc">${isUnclear(x.id)
+      ?`<span class="small" style="flex:1;min-width:12rem"><b>Als unklar markiert.</b> Den Prompt kannst du in Claude einfügen.</span><button class="btn ghost small" id="uncCopy">Prompt nochmal kopieren</button><button class="btn small" id="uncOk">Jetzt verstanden</button>`
+      :`<span class="small muted" style="flex:1;min-width:12rem">Etwas unklar? Markiert die Lektion und kopiert einen fertigen Prompt für Claude.</span><button class="btn ghost small" id="uncSet">Verstehe ich nicht</button>`}<div id="uncBox" style="width:100%"></div></div>
+    <div class="block"><h3>Kurz prüfen</h3>${x.check.map((c,j)=>qBlock(c,j,cur.ans[j],(cur.shown||{})[j],j===0)).join("")}</div>
     <div class="lnav">
       ${cur.li>0?`<button class="btn ghost" id="prev">← Vorherige</button>`:"<span></span>"}
-      ${allAns?(cur.li<L.length-1?`<button class="btn" id="next">Nächste Lektion →</button>`:`<button class="btn" id="fin">Zur Übersicht</button>`):`<span class="small muted">Beantworte die Fragen, dann geht es weiter.</span>`}
+      ${allAns&&inSess?sessBtn():allAns?(cur.li<L.length-1?`<button class="btn" id="next">Nächste Lektion →</button>`:`<button class="btn" id="fin">Zur Übersicht</button>`):`<span class="small muted">Beantworte die Fragen, dann geht es weiter.</span>`}
     </div>`;
+  enhanceLesson($("article.lesson"));
   bindCrumb(()=>go("chapter"));
-  document.querySelectorAll(".mc button").forEach(b=>b.onclick=()=>{
-    const j=+b.dataset.j, k=+b.dataset.k; if(cur.ans[j]!==undefined) return; cur.ans[j]=k;
-    if(x.check.every((_,q)=>cur.ans[q]!==undefined)){ const ok=x.check.every((c,q)=>cur.ans[q]===c.a);
-      state.lessons[x.id]={ok, t:Date.now()}; logDay(); save(); }
-    const y=window.scrollY; renderLesson(); window.scrollTo(0,y);
+  const keep=f=>{ const y=window.scrollY; f(); renderLesson(); window.scrollTo(0,y); };
+  document.querySelectorAll("[data-show]").forEach(b=>b.onclick=()=>keep(()=>{ cur.shown[+b.dataset.show]=true; }));
+  document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{
+    const j=+b.dataset.q, k=+b.dataset.k; if(cur.ans[j]!==undefined) return; cur.ans[j]=k; qGrade(qid(x.id,j),k===x.check[j].a,k===-1);
+    if(x.check.every((_,q)=>cur.ans[q]!==undefined)){ const ok=x.check.every((c,q)=>cur.ans[q]===c.a); state.lessons[x.id]={ok, t:Date.now()}; }
+    logDay(); save(); keep(()=>{});
   });
-  bindUnclear(x);
+  const unc=()=>copyText(unclearPrompt(n,x),"#uncBox");
+  if($("#uncSet")) $("#uncSet").onclick=()=>{ state.unclear[x.id]=Date.now(); save(); keep(()=>{}); unc(); };
+  if($("#uncCopy")) $("#uncCopy").onclick=unc;
+  if($("#uncOk")) $("#uncOk").onclick=()=>{ delete state.unclear[x.id]; save(); toast("Markierung entfernt"); keep(()=>{}); };
   if($("#prev")) $("#prev").onclick=()=>openLesson(n,cur.li-1);
   if($("#next")) $("#next").onclick=()=>openLesson(n,cur.li+1);
   if($("#fin")) $("#fin").onclick=()=>go("chapter");
 }
-/* „Verstehe ich nicht“: Lektion vormerken und eine Bitte um einfachere Erklärung für Claude kopieren */
-function unclearBox(x){
-  const on=!!state.unclear[x.id];
-  return `<div class="block unclear"><div style="flex:1"><p class="small muted">${on?"Als unklar vorgemerkt. Die Lektion bleibt in der Übersicht markiert, bis du sie wieder freigibst.":"Hängt es irgendwo? Merk dir die Lektion vor und lass sie dir von Claude anders erklären."}</p>
-    <div class="row" style="margin-top:8px"><button class="btn ghost small" id="ucOn">${on?"Jetzt verstanden":"Verstehe ich nicht"}</button>${on?`<button class="btn ghost small" id="ucCl">Erklärung bei Claude holen</button>`:""}</div><div id="ucCopy"></div></div></div>`;
+/* Rückmeldung zu Verständnisfragen: warum diese Wahl falsch ist, was richtig ist */
+function feedback(c,a){
+  const right=`<b>Richtig</b><span>${inl(c.o[c.a])}</span>`;
+  if(a===c.a) return `<div class="fb good"><p class="fh">Richtig.</p><p style="margin:0">${inl(c.ex)}</p></div>`;
+  if(a===-1) return `<div class="fb idk"><p class="fh">Kein Problem, die Frage kommt morgen noch einmal.</p><div class="dlist">${right}<b>Warum</b><span>${inl(c.ex)}</span></div></div>`;
+  const why=c.w&&c.w[a];
+  return `<div class="fb bad"><p class="fh">Nicht ganz.</p><div class="dlist">${why?`<b>Deine Wahl</b><span>${inl(why)}</span>`:""}${right}<b>${why?"Der Unterschied":"Warum"}</b><span>${inl(c.ex)}</span></div></div>`;
 }
-const plainOf=html=>html.replace(/<br>/g,"\n").replace(/<\/(p|li|tr|div|h3)>/g,"\n").replace(/<[^>]+>/g," ").replace(/[ \t]+/g," ").replace(/\n\s+/g,"\n").trim();
-function bindUnclear(x){
-  const C=COURSES[chOf(cur.ch).c];
-  const ask=()=>copyForClaude(`Ich lerne für das Modul Grundlagen Politik I (UDE, Lehramt), ${C.short} „${C.title}“ bei ${C.who}. Diese Lektion verstehe ich noch nicht richtig. Erkläre sie mir bitte einfacher, mit einem Beispiel aus Deutschland oder aus der Schule, und stell mir danach zwei Kontrollfragen. Die Lösungen bitte erst, wenn ich geantwortet habe.\n\nLektion „${x.t}“:\n${plainOf(x.html)}`,"#ucCopy");
-  $("#ucOn").onclick=()=>{ if(state.unclear[x.id]) delete state.unclear[x.id]; else { state.unclear[x.id]=Date.now(); ask(); } save(); const y=window.scrollY; renderLesson(); window.scrollTo(0,y); };
-  if($("#ucCl")) $("#ucCl").onclick=ask;
-}
-function logDay(){ const k=today(); state.days[k]=(state.days[k]||0)+1; }
-async function copyForClaude(prompt,box){
-  try{ await navigator.clipboard.writeText(prompt); toast("Kopiert. In den Claude-Chat einfügen."); }
-  catch(x){ $(box).innerHTML=`<textarea style="width:100%;min-height:8rem;margin-top:8px" readonly>${esc(prompt)}</textarea>`; const t=$(box+" textarea"); t.focus(); t.select(); toast("Text markiert, jetzt kopieren"); }
+/* „Verstehe ich nicht“: Markierung und fertiger Prompt für Claude */
+const isUnclear=id=>!!(state.unclear||{})[id];
+function unclearPrompt(n,x){
+  const d=document.createElement("div"); d.innerHTML=x.html;
+  d.querySelectorAll("li").forEach(li=>li.prepend("- ")); d.querySelectorAll("p,div,li,tr,h3").forEach(el=>el.append("\n"));
+  d.querySelectorAll("td,th").forEach(el=>el.append(" | "));
+  const txt=d.textContent.replace(/[ \t]+\n/g,"\n").replace(/\n{3,}/g,"\n\n").trim();
+  const ch=chOf(n), C=COURSES[ch.c];
+  return `Ich lerne für das Modul Grundlagen Politik I (UDE, Lehramt GyGe), ${C.short} „${C.title}“ bei ${C.who}. Die Prüfung ist ${ch.c==="vl"?"ein Essay von 60 Minuten":"eine Klausur"}. Diese Lektion verstehe ich noch nicht.
+
+Sitzung ${ch.no}: ${ch.title}
+Lektion: ${x.t}
+
+Lektionstext:
+${txt}
+
+Bitte erkläre mir das einfacher: kurze Sätze, Fachbegriffe kurz erklärt, mit einem Beispiel aus Deutschland oder aus der Schule. Bleib bei den Begriffen und Autoren der Vorlesung und erfinde nichts dazu. Stell mir danach zwei Kontrollfragen. Die Lösungen bitte erst, wenn ich geantwortet habe.`;
 }
 
 /* ================= Karten (Karteikasten, Fächer 0–5) ================= */
-/* Rückseite aus Zeilen aufbauen: „Begriff: Text“ wird zum Begriffspaar, „1. …“ zur nummerierten Liste,
-   mehrere einfache Zeilen zur Aufzählung, „A vs. B“ mit „Merkmal: a / b“ zur Vergleichstabelle */
-function cardBackHTML(c){
-  const lines=c.b.split("\n").map(s=>s.trim()).filter(Boolean);
-  const kvRe=/^([^:]{1,38}):\s+(.+)$/, numRe=/^\d+\.\s+(.+)$/;
-  const kind=l=>{ if(numRe.test(l)) return "num"; const m=l.match(kvRe); if(m&&!/,\s|\sheißt/.test(m[1])&&!/[.!?]$/.test(m[1])) return "kv"; if(/ = /.test(l)&&l.length<44) return "eq"; return "plain"; };
-  if(lines.length===1) return `<p>${lines[0]}</p>`;
-  const vs=c.f.split(/\s+vs\.\s+/);
-  if(vs.length===2 && lines.every(l=>kind(l)==="kv"&&l.match(kvRe)[2].includes(" / "))){
-    const h=vs.map(x=>x.replace(/[?:]$/,""));
-    return `<table class="cb-tbl"><tr><th>${h[0]}</th><th>${h[1]}</th></tr>${lines.map(l=>{ const m=l.match(kvRe), p=m[2].split(" / "); return `<tr class="lab"><td colspan="2">${m[1]}</td></tr><tr><td>${p[0]}</td><td>${p.slice(1).join(" / ")}</td></tr>`; }).join("")}</table>`;
-  }
-  const nm=l=>{ const m=l.match(/^([^()]{2,40}?) \((.+)\)$/); return m?`<b>${m[1]}</b> <span class="pd">(${m[2]})</span>`:l; };
-  const groups=[]; for(const l of lines){ const k=kind(l), g=groups[groups.length-1]; if(g&&g.k===k&&k!=="eq") g.l.push(l); else groups.push({k,l:[l]}); }
-  return groups.map(g=>{
-    if(g.k==="num") return `<ol class="cb-ol">${g.l.map(l=>`<li><span>${nm(l.match(numRe)[1])}</span></li>`).join("")}</ol>`;
-    if(g.k==="kv") return `<dl class="cb-dl">${g.l.map(l=>{ const m=l.match(kvRe); return `<div><dt>${m[1]}</dt><dd>${m[2]}</dd></div>`; }).join("")}</dl>`;
-    if(g.k==="eq") return `<div class="eq">${g.l[0]}</div>`;
-    if(g.l.length===1) return `<p>${g.l[0]}</p>`;
-    return `<ul class="cb-ul">${g.l.map(l=>`<li>${nm(l)}</li>`).join("")}</ul>`;
-  }).join("");
+/* Alte Schreibweise der Rückseiten in das gemeinsame Textformat (format.js) übersetzen:
+   „A vs. B“ mit Zeilen „Merkmal: a / b“ wird Gegenüberstellung, einfache Zeilen werden Aufzählung */
+function toRich(c){
+  const lines=String(c.b).split("\n").map(s=>s.trim()).filter(Boolean);
+  if(lines.length===1) return lines[0];
+  const vs=c.f.split(/\s+vs\.\s+/), kv=/^([^:]{1,38}):\s+(.+)$/;
+  if(vs.length===2 && lines.every(l=>kv.test(l)&&l.match(kv)[2].includes(" / ")))
+    return ["| | "+vs.map(x=>x.replace(/[?:]$/,"")).join(" | ")].concat(lines.map(l=>{ const m=l.match(kv), p=m[2].split(" / "); return `| ${m[1]} | ${p[0]} | ${p.slice(1).join(" / ")}`; })).join("\n");
+  return lines.map(l=>/^\d+[.)] /.test(l)||/^[-•] /.test(l)||/^([^:=⇒]{1,42}): (.+)$/.test(l)&&!/[.!?]$/.test(l.split(":")[0])&&!/,\s/.test(l.split(":")[0])?l:"- "+l).join("\n");
 }
-function allCards(n){ return n? (CARDS[n]||[]) : courseChs().flatMap(c=>CARDS[c.n]||[]); }
-/* Wiederholung mit Fälligkeitsdatum (wie Anki): sicherer gewusst = längerer Abstand */
+const DECK_NAME={b:"Begriffe", br:"Begriffe umgekehrt"};
+const deckLabel=n=>DECK_NAME[n]?"Begriffe":n?chLabel(n):"Üben";
+const deckBack=n=>DECK_NAME[n]?go("terms"):n?go("chapter"):go("practice");
+function allCards(n){
+  if(DECK_NAME[n]) return (CARDS[n]||[]).filter(x=>termCourse(x.id)===state.course);
+  if(n) return CARDS[n]||[];
+  return courseChs().flatMap(c=>CARDS[c.n]||[]).concat(allCards("b"),allCards("br"));
+}
+function chapterOfCard(id){ for(const ch of CHAPTERS) if((CARDS[ch.n]||[]).some(x=>x.id===id)) return "Sitzung "+ch.no+" · "+ch.title; return ""; }
 const INTERVAL=[0,0,1,3,7,16];   // Tage bis zur nächsten Abfrage je Fach; Fach 5 erneut gewusst: 35 Tage
 const dayStart=(t=Date.now())=>{ const d=new Date(t); d.setHours(0,0,0,0); return d.getTime(); };
 const isSeen=id=>!!(state.box||{})[id];
 const isDue=id=>isSeen(id) && ((state.due||{})[id]||0)<=Date.now();
 function dueCards(n){ return allCards(n).filter(x=>isDue(x.id)).sort((a,b)=>((state.due||{})[a.id]||0)-((state.due||{})[b.id]||0)); }
-function openCards(n,free){ cur.cardCh=n; cur.free=!!free; cur.deck=free?buildDeck(n):buildDueDeck(n); cur.ci=0; cur.flip=false; cur.right=0; cur.requeued={}; go("cards"); }
+function openCards(n,free,deck){ cur.cardCh=n; cur.free=!!free; cur.deck=deck?deck.slice():(free?buildDeck(n):buildDueDeck(n)); cur.ci=0; cur.flip=false; cur.right=0; cur.unsure=0; cur.cstrokes=[]; cur.requeued={}; go("cards"); }
 function buildDueDeck(n){
   const due=dueCards(n), fresh=n? allCards(n).filter(x=>!isSeen(x.id)) : [];
   return due.concat(fresh).slice(0,Math.max(10,Math.min(due.length,30)));
@@ -231,33 +285,42 @@ function buildDeck(n){
   return deck;
 }
 function renderCards(){
-  const D=cur.deck, n=cur.cardCh, back=n?chLabel(n):"Üben", backFn=()=>go(n?"chapter":"practice");
+  const D=cur.deck, n=cur.cardCh;
   if(cur.ci>=D.length){
     const left=dueCards(n).length+(n?allCards(n).filter(x=>!isSeen(x.id)).length:0);
     const nextDue=allCards(n).filter(x=>isSeen(x.id)&&!isDue(x.id)).map(x=>(state.due||{})[x.id]).sort((a,b)=>a-b)[0];
     const when=nextDue? Math.round((dayStart(nextDue)-dayStart())/864e5) : null;
-    $("#app").innerHTML=`${backTo(back)}<h1>${D.length?(left?"Runde geschafft":"Für heute erledigt"):"Nichts fällig"}</h1>
-      <div class="block">${D.length?`<p>${cur.right} von ${D.length} Antworten gewusst.</p>`:""}
-      <p class="small muted">${left?`Noch ${left} Karten fällig oder neu.`:`Alle Karten${n?" dieser Sitzung":""} sind auf dem Stand. ${when!=null?`Die nächsten werden ${when<=0?"heute":when===1?"morgen":"in "+when+" Tagen"} fällig.`:""}`} Gewusste Karten kommen nach 1, 3, 7, 16 und 35 Tagen wieder, nicht gewusste sofort noch einmal.</p>
-      <div class="row">${left?`<button class="btn" id="again">Weiter</button>`:""}${allCards(n).length?`<button class="btn ghost" id="free">Freiwillig weiterüben</button>`:""}<button class="btn ghost" id="out">Fertig</button></div></div>`;
-    bindCrumb(backFn); if($("#again")) $("#again").onclick=()=>openCards(n); if($("#free")) $("#free").onclick=()=>openCards(n,true); $("#out").onclick=backFn; return;
+    $("#app").innerHTML=`${backTo(deckLabel(n))}<h1>${D.length?(left?"Runde geschafft":"Für heute erledigt"):"Nichts fällig"}</h1>
+      <div class="block">${D.length?`<p>${cur.right} sicher, ${cur.unsure} unsicher, ${D.length-cur.right-cur.unsure} nicht gewusst.</p>`:""}
+      <p class="small muted">${left?`Noch ${left} Karten fällig oder neu.`:`Alle Karten${n?" dieses Stapels":""} sind auf dem Stand. ${when!=null?`Die nächsten werden ${when<=0?"heute":when===1?"morgen":"in "+when+" Tagen"} fällig.`:""}`} Sichere Karten kommen nach 1, 3, 7, 16 und 35 Tagen wieder, unsichere morgen, nicht gewusste sofort noch einmal.</p>
+      <div class="row">${sess?sessBtn():`${left?`<button class="btn" id="again">Weiter</button>`:""}${allCards(n).length?`<button class="btn ghost" id="free">Freiwillig weiterüben</button>`:""}<button class="btn ghost" id="out">Fertig</button>`}</div></div>`;
+    bindCrumb(()=>deckBack(n)); if($("#again")) $("#again").onclick=()=>openCards(n); if($("#free")) $("#free").onclick=()=>openCards(n,true); if($("#out")) $("#out").onclick=()=>deckBack(n); return;
   }
   const c=D[cur.ci], b=cardBox(c.id);
-  $("#app").innerHTML=`${backTo(back)}
+  $("#app").innerHTML=`${backTo(deckLabel(n))}
     <div class="row between"><p class="eyebrow" style="margin:0">Karte ${cur.ci+1} von ${D.length}${cur.free?" · freiwillig":isSeen(c.id)?" · fällig":" · neu"}</p><span class="dots" aria-label="Fach ${b} von 5">${[1,2,3,4,5].map(i=>`<i class="${i<=b?"on":""}"></i>`).join("")}</span></div>
-    <div class="block card${cur.flip?"":" tap"}" id="theCard" style="margin-top:8px"><div class="front">${c.f}</div>${CARD_CTX[c.id]?`<p class="cctx">${CARD_CTX[c.id]}</p>`:""}${cur.flip?`<div class="back cb">${cardBackHTML(c)}</div>${cardInfoHTML(c.id)}`:`<span class="tapnote">Tippen zum Umdrehen</span>`}</div>
-    ${cur.flip?`<div class="row"><button class="btn" id="yes" style="flex:1">Gewusst</button><button class="btn warn" id="no" style="flex:1">Nicht gewusst</button></div>`
-      :`<button class="btn" id="flip" style="width:100%">Antwort zeigen</button><p class="small muted" style="margin-top:8px">Erst im Kopf antworten, dann aufdecken.</p>`}`;
-  bindCrumb(backFn);
+    <div class="block card" id="card" style="margin-top:8px" role="button" tabindex="0" aria-label="Karte umdrehen"><p class="cctx">${inl(CARD_CTX[c.id]||chapterOfCard(c.id))}</p><div class="front">${inl(c.f)}</div>${cur.flip?`<div class="back">${richText(c.rich||toRich(c))}</div>${cardInfoHTML(c.id)}`:`<p class="tap">Tippen zum Umdrehen</p>`}</div>
+    ${cur.pad?`<div class="pad cardpad"><span class="ph">Hier hinschreiben</span><canvas id="cpad" aria-label="Schreibfeld für die Antwort"></canvas><div class="tools"><button id="cpU">Zurück</button><button id="cpX">Leeren</button></div></div>`:""}
+    ${cur.flip?`<div class="grade"><button class="btn warn" id="no">Nicht gewusst</button><button class="btn ghost" id="mid">Unsicher</button><button class="btn" id="yes">Sicher</button></div>`
+      :`<div class="row"><button class="btn" id="flip" style="flex:1">Antwort zeigen</button><button class="btn ghost" id="padT">${cur.pad?"Schreibfeld aus":"Schreibfeld"}</button></div><p class="small muted" style="margin-top:8px">Erst antworten, im Kopf oder im Schreibfeld, dann aufdecken. Ehrlich bewerten: „Unsicher“, wenn du nur ungefähr wusstest.</p>`}`;
+  bindCrumb(()=>deckBack(n));
   if($("#flip")) $("#flip").onclick=()=>{ cur.flip=true; renderCards(); };
-  if(!cur.flip) $("#theCard").onclick=()=>{ cur.flip=true; renderCards(); };
-  const grade=ok=>{ state.box=state.box||{}; state.due=state.due||{}; const b0=cardBox(c.id), b1=ok?Math.min(5,Math.max(b0,1)+1):1;
-    state.box[c.id]=b1;
-    if(!cur.free||!ok||b1<b0){ const days=ok?(b0===5?35:INTERVAL[b1]):0; state.due[c.id]= ok? dayStart()+days*864e5 : Date.now(); }
-    if(ok) cur.right++; else if((cur.requeued[c.id]||0)<2){ cur.requeued[c.id]=(cur.requeued[c.id]||0)+1; D.push(c); }
-    logDay(); save(); cur.ci++; cur.flip=false; renderCards(); };
-  if($("#yes")) $("#yes").onclick=()=>grade(true);
-  if($("#no")) $("#no").onclick=()=>grade(false);
+  const cd=$("#card"); cd.onclick=e=>{ if(e.target.closest("a")) return; cur.flip=!cur.flip; renderCards(); };
+  cd.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); cd.click(); } };
+  if(cur.pad){ const sf=drawSurface($("#cpad"),cur.cstrokes); $("#cpU").onclick=()=>sf.undo(); $("#cpX").onclick=()=>sf.clear(); }
+  if($("#padT")) $("#padT").onclick=()=>{ cur.pad=!cur.pad; renderCards(); };
+  /* Bewertung: 2 sicher (nächstes Fach), 1 unsicher (Fach bleibt, morgen wieder), 0 nicht gewusst (Fach 1, gleich nochmal) */
+  const grade=lv=>{ const b0=cardBox(c.id), old=state.due[c.id]||0;
+    const b1= lv===2? Math.min(5,Math.max(b0,1)+1) : lv===1? Math.max(1,b0) : 1;
+    const nd= lv===2? dayStart()+(b0===5?35:INTERVAL[b1])*864e5 : lv===1? dayStart()+864e5 : Date.now();
+    if(!cur.free){ state.box[c.id]=b1; state.due[c.id]=nd; }
+    else if(lv<2){ state.box[c.id]=Math.min(b0||1,b1); state.due[c.id]=Math.min(old||nd,nd); }
+    if(lv===2) cur.right++; else if(lv===1) cur.unsure++;
+    else { state.lapses[c.id]=(state.lapses[c.id]||0)+1; if((cur.requeued[c.id]||0)<2){ cur.requeued[c.id]=(cur.requeued[c.id]||0)+1; D.push(c); } }
+    logDay(); save(); cur.ci++; cur.flip=false; cur.cstrokes=[]; renderCards(); };
+  if($("#yes")) $("#yes").onclick=()=>grade(2);
+  if($("#mid")) $("#mid").onclick=()=>grade(1);
+  if($("#no")) $("#no").onclick=()=>grade(0);
 }
 
 /* ================= Üben (sitzungsübergreifend, je Veranstaltung) ================= */
@@ -267,18 +330,30 @@ function renderPractice(){
     $("#app").innerHTML=`<p class="eyebrow">${C.eyebrow}</p><h1>Üben</h1><div class="block"><p class="muted" style="margin:0">Für das ${C.short} gibt es noch keine Inhalte. Sobald die ersten Folien im Projekt liegen, kannst du hier gemischt üben.</p></div>`;
     return;
   }
-  const W=essaysOf(0);
+  const W=essaysOf(0), WH=whoOf(0), T=allCards("b");
   $("#app").innerHTML=`<p class="eyebrow">${C.eyebrow}</p><h1>Üben</h1>
     <p class="muted">Gemischt aus allen fertigen Sitzungen (${ready.map(n=>chOf(n).no).join(", ")}). Gemischtes Üben ist anstrengender als blockweises, bleibt aber deutlich besser hängen.</p>
+    <p class="sect"><span>Wiederholen</span><span></span></p>
     <div class="block"><div class="modes">
-      <button class="mode" id="pK"><span class="t">Fällige Karten</span><span class="n">${dueCards(0).length} fällig</span><span class="d">Alle Karten, die heute dran sind. Neue Karten lernst du in der jeweiligen Sitzung.</span></button>
+      <button class="mode" id="pK"><span class="t">Fällige Karten</span><span class="n">${dueCards(0).length} fällig</span><span class="d">Alle Karten und Begriffe, die heute dran sind. Neue Karten lernst du in der jeweiligen Sitzung.</span></button>
+      <button class="mode" id="pQ"><span class="t">Verständnisfragen</span><span class="n">${qDue().length} fällig</span><span class="d">Erst selbst überlegen, dann die Auswahl. Falsche Fragen kommen morgen wieder.</span></button>
+      ${WH.length?`<button class="mode" id="pW"><span class="t">Was gehört wohin?</span><span class="n">${WH.length} Aussagen</span><span class="d">Autoren, Regimetypen, Teilregime, Polity/Politics/Policy. Verwechseltes kommt öfter.</span></button>`:""}
+      ${T.length?`<button class="mode" id="pB"><span class="t">Begriffe und Abkürzungen</span><span class="n">${T.length} Begriffe</span><span class="d">In beide Richtungen, dazu das Lexikon mit Beispiel und typischer Verwechslung.</span></button>`:""}
       <button class="mode" id="pKr"><span class="t">Selbsttest gemischt</span><span class="n">${kreuzOf(0).filter(x=>(kzStat(x.id)||{}).best===4).length}/${kreuzOf(0).length} fehlerfrei</span><span class="d">Fünf Aufgaben mit je drei Aussagen, bevorzugt neue und solche mit Fehlern.</span></button>
-      ${W.length?`<button class="mode" id="pW"><span class="t">Essay-Fragen schreiben</span><span class="n">${W.filter(x=>essayScore(x.id)).length}/${W.length}</span><span class="d">Eine Frage, mit oder ohne Gliederungshilfe. Danach Erwartungshorizont und Musteressay.</span></button>
-      <button class="mode" id="pX"><span class="t">Probe-Essay, 60 Minuten</span><span class="n">${state.examRun?"läuft":(state.exams||[]).length+"×"}</span><span class="d">Wie am 04.02.: eine Frage, Timer, keine Hilfen. Danach selbst bewerten oder von Claude bewerten lassen.</span></button>`:""}
-    </div></div>`;
+    </div></div>
+    ${W.length?`<p class="sect"><span>Im Prüfungsformat</span><span>Essay, 60 Min.</span></p>
+    <div class="block"><div class="modes">
+      <button class="mode" id="pO"><span class="t">Gliederung in 10 Minuten</span><span class="n">${W.filter(x=>(state.outl||{})[x.id]).length}/${W.length}</span><span class="d">Die wichtigste Essay-Fähigkeit: Frage zerlegen und eine tragfähige Gliederung bauen.</span></button>
+      <button class="mode" id="pW2"><span class="t">Essay-Fragen schreiben</span><span class="n">${W.filter(x=>essayScore(x.id)).length}/${W.length}</span><span class="d">Eine Frage, mit oder ohne Gliederungshilfe. Danach Erwartungshorizont und Musteressay.</span></button>
+      <button class="mode" id="pX"><span class="t">Probe-Essay, 60 Minuten</span><span class="n">${state.examRun?"läuft":(state.exams||[]).filter(e=>(e.c||"vl")===state.course).length+"×"}</span><span class="d">Wie am Prüfungstag: eine Frage, Timer, keine Hilfen. Danach selbst oder von Claude bewerten lassen.</span></button>
+    </div></div>`:""}`;
   $("#pK").onclick=()=>openCards(0);
+  $("#pQ").onclick=()=>{ const d=qDue(); openRecall(d.length?d.slice(0,8):shuffle(allQuestions()).slice(0,8)); };
+  if($("#pW")) $("#pW").onclick=()=>openWho(8);
+  if($("#pB")) $("#pB").onclick=()=>go("terms");
   $("#pKr").onclick=()=>openKreuz(0);
-  if($("#pW")) $("#pW").onclick=()=>openEssay(0);
+  if($("#pO")) $("#pO").onclick=()=>openOutline(0);
+  if($("#pW2")) $("#pW2").onclick=()=>openEssay(0);
   if($("#pX")) $("#pX").onclick=()=>go("exam");
 }
 
@@ -287,18 +362,21 @@ let statsArmed=false;
 function renderStats(){
   const days=[...Array(7)].map((_,i)=>{ const d=new Date(); d.setDate(d.getDate()-6+i); const k=d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); return [d,state.days[k]||0]; });
   const mx=Math.max(1,...days.map(x=>x[1])), wd=["So","Mo","Di","Mi","Do","Fr","Sa"];
-  const ready=courseChs().filter(c=>isReady(c.n)), ex=(state.exams||[]).filter(e=>(e.c||"vl")===state.course).slice(-5).reverse();
+  const ready=courseChs().filter(c=>isReady(c.n));
   $("#app").innerHTML=`<h1>Statistik</h1>
     <div class="block"><h2>Letzte 7 Tage</h2>
-      <p class="small muted" style="margin:0">Zahl unter dem Datum: wie viele Aktionen (Karten, Aufgaben, Lektionen) du an dem Tag gemacht hast, Vorlesung und Seminar zusammen.</p>
-      <div class="week">${days.map(([d,n],i)=>`<div class="${i===6?"today":""}" style="height:${Math.round(n/mx*100)}%" title="${n} Aktionen"></div>`).join("")}</div>
-      <div class="weekl">${days.map(([d,n],i)=>`<span class="${i===6?"today":""}"><b>${i===6?"Heute":wd[d.getDay()]}</b>${d.getDate()}.${d.getMonth()+1}.<span class="n">${n?n+" Akt.":"–"}</span></span>`).join("")}</div></div>
+      <p class="small muted" style="margin:0">Aktionen pro Tag, Vorlesung und Seminar zusammen: jede beantwortete Karte, Frage oder Zuordnung zählt.</p>
+      <div class="week7">${days.map(([d,n],i)=>`<div class="d${i===6?" today":""}" title="${n===1?"1 Aktion":n+" Aktionen"}">
+        <div class="bw"><i style="height:${n?Math.max(4,Math.round(n/mx*100)):0}%"></i></div>
+        <span class="wd">${wd[d.getDay()]}</span><span class="dt">${d.getDate()}.${d.getMonth()+1}.</span>
+        <span class="n">${n||"–"}</span><span class="u">${n?(n===1?"Aktion":"Aktionen"):""}</span></div>`).join("")}</div></div>
+    ${examPlanBlock()}
+    ${weakBlock()}
     <div class="block"><h2>${COURSES[state.course].short}: nach Sitzung</h2>${ready.length?ready.map(c=>{ const p=chapterProgress(c.n);
-      return `<div class="srow"><span>Sitzung ${c.no}</span><span class="small muted">${[["Theorie",p.l,1],["Karten",p.k,(CARDS[c.n]||[]).length],["Selbsttest",p.x,kreuzOf(c.n).length],["Schreiben",p.w,essaysOf(c.n).length]].filter(x=>x[2]).map(x=>x[0]+" "+Math.round(x[1]*100)).join(" · ")}</span><span class="pts">${p.total} %</span></div>`;}).join(""):`<p class="small muted" style="margin:0">Noch keine Sitzungen mit Inhalten.</p>`}</div>
-    ${ex.length?`<div class="block"><h2>Probe-Essays</h2>${ex.map(e=>`<div class="srow"><span>${new Date(e.t).toLocaleDateString("de-DE",{day:"numeric",month:"numeric"})}</span><span class="small muted">${esc(e.title||"")}</span><span class="pts">${e.p}/${e.max}</span></div>`).join("")}</div>`:""}
+      return `<div class="srow ch"><span>Sitzung ${c.no}: ${c.title}</span><span class="small muted">${[["Theorie",p.l,1],["Karten",p.k,(CARDS[c.n]||[]).length],["Selbsttest",p.x,kreuzOf(c.n).length],["Schreiben",p.w,essaysOf(c.n).length]].filter(x=>x[2]).map(x=>x[0]+" "+Math.round(x[1]*100)+" %").join(" · ")}</span><span class="pts">${p.total} %</span></div>`;}).join(""):`<p class="small muted" style="margin:0">Noch keine Sitzungen mit Inhalten.</p>`}</div>
     ${syncBox()}
     <div class="block"><h3>Fortschritt zurücksetzen</h3><p class="small muted">Löscht deinen gesamten Lernstand (Vorlesung und Seminar), auch auf den verbundenen Geräten.</p>
       <button class="btn warn" id="rst">${statsArmed?"Wirklich zurücksetzen":"Zurücksetzen"}</button></div>`;
-  bindSync();
-  $("#rst").onclick=()=>{ if(!statsArmed){ statsArmed=true; renderStats(); addSwitch(); return; } const c=state.course; state={}; norm(); state.course=c; save(); flushPush(); statsArmed=false; toast("Zurückgesetzt"); render(); };
+  bindSync(); bindExamPlan(); bindWeak();
+  $("#rst").onclick=()=>{ if(!statsArmed){ statsArmed=true; render(); return; } const c=state.course; state={}; norm(); state.course=c; save(); flushPush(); statsArmed=false; toast("Zurückgesetzt"); render(); };
 }

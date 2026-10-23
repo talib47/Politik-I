@@ -29,8 +29,8 @@ function renderKreuz(){
     $("#app").innerHTML=`${backTo(back)}<h1>Runde geschafft</h1>
       <div class="block"><p class="pbadge">${sum} von ${max} Punkten</p>
       <p class="small muted">Je richtiges Kreuz ein Punkt, alle drei Aussagen einer Aufgabe richtig ein Zusatzpunkt. Aufgaben mit Fehlern kommen bevorzugt wieder.</p>
-      <div class="row"><button class="btn" id="again">Neue Runde</button><button class="btn ghost" id="out">Fertig</button></div></div>`;
-    bindCrumb(backFn); $("#again").onclick=()=>openKreuz(K.n); $("#out").onclick=backFn; return;
+      <div class="row">${sess?sessBtn():`<button class="btn" id="again">Neue Runde</button><button class="btn ghost" id="out">Fertig</button>`}</div></div>`;
+    bindCrumb(backFn); if($("#again")) $("#again").onclick=()=>openKreuz(K.n); if($("#out")) $("#out").onclick=backFn; return;
   }
   const item=KREUZ.find(x=>x.id===K.items[K.i]), all=[0,1,2].every(j=>K.ans[j]!==undefined), ch=chOf(item.ch);
   if(!K.shown) K.prev=kzStat(item.id);

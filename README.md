@@ -15,20 +15,30 @@ python3 build.py      # erzeugt index.html neu
 
 ## Aufbau von `src/`
 
+Grundgerüst und Lernformen aus Wirtschaft II übernommen und auf zwei Veranstaltungen (Umschalter oben) angepasst.
+
 | Datei | Inhalt |
 |---|---|
-| `head.html` | Kopf, Icons, Manifest, CSS (Farben als Tokens, Dunkelmodus, Akzent Weinrot), Zoom |
+| `head.html` | Kopf, Icons, Manifest, CSS aus Wirtschaft II (Farben als Tokens, Dunkelmodus, Akzent Weinrot) plus Politik-Klassen |
 | `core.js` | Speicher (`localStorage`), Geräte-Abgleich über GitHub, Hilfsfunktionen |
 | `content.js` | Veranstaltungen (`COURSES`), Sitzungsliste (`CHAPTERS`, `c` = vl/se, `no` = angezeigte Nummer) |
-| `content_v1.js` | Vorlesung Sitzung 1 aus den Folien: Lektionen, Karten, Selbsttest, Essay-Fragen |
-| `content_v1_lit.js` | Sitzung 1, Lektüre der Selbstlernphase (Patzelt, Lauth, Merkel): weitere Lektionen, Karten, Selbsttest, Essays, Reihenfolge der Lektionen |
 | `cardinfo.js` | Kontextzeile (Vorderseite) und i-Infos (Rückseite) je Karte |
-| `views.js` | Umschalter Vorlesung/Seminar, Lernpfad, Sitzung, Lektionen mit „Verstehe ich nicht“, Karten mit Wiederholungsplan, Üben, Statistik |
+| `format.js` | Textformat aus Wirtschaft II: Listen, Begriff: Erklärung, Gegenüberstellungen (auf dem Handy gestapelt), Klammern leiser |
+| `views.js` | Lernpfad, Sitzung, Lektionen (Tabellen werden Listen bzw. Vergleiche), Karten mit drei Stufen und Schreibfeld, Üben, Statistik |
+| `recall.js` | Verständnisfragen: erst abrufen, dann Auswahl (gemischte Reihenfolge), Begründung je falscher Wahl (`w`), Wiederholungsplan `state.qbox` |
+| `who.js` | „Was gehört wohin?“: Zuordnung zu Autor, Regimetyp, Teilregime, Polity/Politics/Policy; Verwechslungen kommen öfter |
+| `terms.js` | Begriffe und Abkürzungen: Karten in beide Richtungen (`b-`, `br-`) und Lexikon |
+| `session.js` | Tägliche Einheit „Heute“ mit Schrittleiste, übt nur begonnene Sitzungen |
+| `plan.js` | Prüfungstermin je Veranstaltung (Standard aus der Folie), Probe-Essay-Plan, Schwachstellen |
 | `kreuz.js` | Selbsttest (drei Aussagen, wahr/falsch) |
-| `essay.js` | Essay-Trainer (Gliederungshilfe, Erwartungshorizont, Musteressay, für Claude kopieren) und Probe-Essay mit 60-Min.-Timer |
+| `essay.js` | Essay-Trainer, Probe-Essay mit 60-Min.-Timer, Gliederung in 10 Minuten |
+| `content_v1.js`, `content_v1_lit.js` | Vorlesung Sitzung 1: Folien und Lektüre (Patzelt, Lauth, Merkel) |
+| `content_v1_train.js` | Sitzung 1: Begründungen falscher Antworten, Zuordnungen, Begriffe |
 | `start.js` | Start, Zoom, Token aus dem Link |
 
 Herkunft der Inhalte: Folien unmarkiert, Lektüre mit `lit`/`litbox`, sonstige Ergänzungen mit `erg`/`ergbox`.
+
+Lernstand: IDs von Lektionen, Karten, Fragen (`Lektions-ID#Nr`), Selbsttests, Essays, Zuordnungen und Begriffen nie umbenennen. Neue Felder werden beim Laden nur im Speicher angelegt, gespeichert wird erst bei einer Aktion.
 
 ## Geräte-Abgleich
 
@@ -38,4 +48,4 @@ Herkunft der Inhalte: Folien unmarkiert, Lektüre mit `lit`/`litbox`, sonstige E
 
 ## Stand der Inhalte
 
-Vorlesung: Sitzung 1 (15.10.) mit Lektüre fertig: 14 Lektionen, 50 Karten, 14 Selbsttests, 8 Essay-Fragen. Lektüretexte liegen aufbereitet im claude.ai-Projekt. Seminar: startet 29.10.
+Vorlesung: Sitzung 1 (15.10.) mit Lektüre fertig: 14 Lektionen mit 39 Verständnisfragen, 50 Karten, 21 Begriffe, 37 Zuordnungen, 14 Selbsttests, 8 Essay-Fragen. Lektüretexte liegen aufbereitet im claude.ai-Projekt. Seminar: startet 29.10.

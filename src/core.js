@@ -7,7 +7,7 @@ function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
 let state;
 try{ state=JSON.parse(lsGet(KEY)||"null"); }catch(e){ state=null; }
 if(!state||typeof state!=="object") state={};
-function norm(){ for(const k of ["days","lessons","box","essays","drafts","kreuz","unclear"]) if(!state[k]||typeof state[k]!=="object") state[k]={}; }
+function norm(){ for(const k of ["days","lessons","box","due","lapses","qbox","qlapses","who","outl","essays","drafts","kreuz","unclear","examDates","sessions"]) if(!state[k]||typeof state[k]!=="object") state[k]={}; }
 norm();
 if(state.course!=="se") state.course="vl";
 function save(){ state.updated=Date.now(); lsSet(KEY,JSON.stringify(state)); schedulePush(); }
@@ -77,7 +77,7 @@ async function syncFromRemote(){
   return false;
 }
 async function autoPull(){
-  if(!ghToken||document.visibilityState!=="visible"||["exam","essay","lesson","cards","kreuz"].includes(view)||pushTimer||pushing) return;
+  if(!ghToken||document.visibilityState!=="visible"||["exam","essay","lesson","cards","kreuz","recall","who","outline"].includes(view)||pushTimer||pushing) return;
   if(await syncFromRemote()) render();
 }
 document.addEventListener("visibilitychange",()=>{ if(document.visibilityState==="hidden") flushPush(); else autoPull(); });
