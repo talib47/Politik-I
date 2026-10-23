@@ -142,7 +142,7 @@ function renderOutline(){
     const pts=()=>x.gl.filter((_,j)=>O.checks[j]).length;
     $("#app").innerHTML=`${head}
       <div class="block"><h3>Deine Gliederung</h3>${O.text.trim()?`<p class="essaytext">${esc(O.text)}</p>`:`<p class="small muted" style="margin:0">Leer. Lies den Vorschlag und versuch es morgen noch einmal.</p>`}
-        <p class="small muted" style="margin:6px 0 0">${Math.max(1,Math.round((O.used||0)/60000))} Minuten gebraucht.</p></div>
+        <p class="small muted" style="margin:6px 0 0">${(m=>m===1?"1 Minute":m+" Minuten")(Math.max(1,Math.round((O.used||0)/60000)))} gebraucht.</p></div>
       <div class="block"><h3>Vorschlag: Was davon steckt in deiner Gliederung?</h3>
         ${x.gl.map((g,j)=>`<label class="check"><input type="checkbox" id="g${j}" ${O.checks[j]?"checked":""}><span>${g}</span></label>`).join("")}
         <p class="pts" id="op">${pts()} von ${x.gl.length}</p>
