@@ -1,0 +1,28 @@
+<script>
+/* Update-Check: Beim Start und beim Zurückkehren in die App wird version.txt (von build.py erzeugt) mit der eigenen Version verglichen.
+   Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
+   mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
+(function(){
+  var V="__APPVER__", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
+  function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
+  function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }
+  function safeReload(t,n){ if(syncing()&&(n||0)<10){ try{ flushPush(); }catch(e){} setTimeout(function(){ safeReload(t,(n||0)+1); },600); } else reload(t); }
+  function bar(t){ if(document.getElementById("updbar")) return;
+    var b=document.createElement("button"); b.id="updbar"; b.type="button"; b.textContent="Neue Version · Tippen zum Laden";
+    b.onclick=function(){ b.disabled=true; b.textContent="Wird geladen …"; safeReload(t); }; document.body.appendChild(b); }
+  function check(start){
+    fetch("version.txt?t="+Date.now(),{cache:"no-store"}).then(function(r){ return r.ok?r.text():""; }).then(function(t){
+      t=(t||"").trim(); if(!/^[0-9a-f]{6,40}$/.test(t)||t===V) return;
+      var tried=false; try{ tried=!!sessionStorage.getItem("upd-"+t); }catch(e){}
+      if(tried) return;                       /* Schutz gegen Endlosschleife, falls GitHub noch die alte Seite liefert */
+      if(start||!busy()) safeReload(t); else bar(t);
+    }).catch(function(){});
+  }
+  var st=document.createElement("style");
+  st.textContent="#updbar{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(84px + env(safe-area-inset-bottom,0px));z-index:60;background:var(--accent);color:var(--accent-ink);border:0;border-radius:999px;padding:10px 18px;font:inherit;font-size:.85rem;font-weight:600;box-shadow:0 4px 14px rgba(0,0,0,.18);cursor:pointer}";
+  document.head.appendChild(st);
+  check(true);
+  document.addEventListener("visibilitychange",function(){ if(document.visibilityState==="visible") check(false); });
+})();
+</script>

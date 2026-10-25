@@ -49,3 +49,7 @@ Lernstand: IDs von Lektionen, Karten, Fragen (`Lektions-ID#Nr`), Selbsttests, Es
 ## Stand der Inhalte
 
 Vorlesung: Sitzung 1 (15.10.) mit Lektüre fertig: 14 Lektionen mit 39 Verständnisfragen, 50 Karten, 21 Begriffe, 37 Zuordnungen, 14 Selbsttests, 8 Essay-Fragen. Lektüretexte liegen aufbereitet im claude.ai-Projekt. Seminar: startet 29.10.
+
+## Updates
+
+`build.py` schreibt neben `index.html` auch `version.txt` (Prüfsumme des Inhalts). Die App vergleicht beim Start und beim Zurückkehren ihre Version damit (`src/update.html`): beim Start lädt sie neu, mitten in einer Übung erscheint ein Hinweis zum Antippen. Deshalb immer über `build.py` bauen und `version.txt` mit hochladen.
