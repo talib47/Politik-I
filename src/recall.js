@@ -27,7 +27,7 @@ function qBlock(c,key,a,shown,first){
     ${opts?`<div class="mc">${optOrder(c).map(k=>{ const o=c.o[k], cls=a===undefined?"":(k===c.a?"r":(k===a?"w":""));
         return `<button data-q="${key}" data-k="${k}" class="${cls}" ${a!==undefined?"disabled":""}>${inl(o)}</button>`; }).join("")}
         ${a===undefined?`<button data-q="${key}" data-k="-1" class="idk">Weiß ich nicht</button>`:""}</div>`
-      :`<p class="small muted" style="margin:6px 0 8px">Erst selbst überlegen, am besten in einem Satz. Dann die Auswahl zeigen.</p>
+      :`<p class="hint" style="margin:4px 0 8px">Erst selbst überlegen, dann Auswahl zeigen.</p>
         <div class="row"><button class="btn small" data-show="${key}">Auswahl zeigen</button><button class="btn ghost small" data-q="${key}" data-k="-1">Weiß ich nicht</button></div>`}
     ${a!==undefined?feedback(c,a):""}</div>`;
 }

@@ -237,7 +237,25 @@ svg .sarrow{fill:var(--accent)}
 .card .back li{margin:.2em 0}
 .card .back>:last-child{margin-bottom:0}
 .ml ol,.ml ul{padding-left:1.25em;margin:0 0 .5em} .ml li{margin:.25em 0} .ml p{margin:0 0 .5em}
-.grade{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px}
+.grade{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.kg{margin-left:8px;vertical-align:middle;background:transparent;border:1px dashed var(--line);border-radius:999px;padding:6px 12px;font-size:.8rem;color:var(--muted)}
+.kg[aria-pressed="true"]{border:1px solid var(--gold);color:var(--gold);font-weight:600}
+.kg:disabled{cursor:default}
+.why .gsd{color:var(--gold)}
+.hint{margin:6px 0 0;font-size:.75rem;color:var(--muted);opacity:.85}
+.swipewrap{position:relative;overflow-x:clip;overflow-y:visible;margin:0 -16px;padding:0 16px}
+.swipewrap .card{touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;will-change:transform;position:relative;overflow:hidden;backface-visibility:hidden}
+.card .tint{position:absolute;inset:0;opacity:0;pointer-events:none;border-radius:inherit;border:2px solid transparent;will-change:opacity}
+.card .tint.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 7%,transparent)}
+.card .tint.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 7%,transparent)}
+.card.enter{animation:cardIn .22s ease-out}
+@keyframes cardIn{from{opacity:0;transform:translate3d(0,8px,0) scale(.985)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.card.enter{animation:none}}
+.cty{display:block;width:100%;box-sizing:border-box;margin:2px 0 12px;padding:6px 2px;font:inherit;font-size:.95rem;color:var(--ink);background:transparent;border:0;border-bottom:1px dashed var(--line);border-radius:0;resize:none;outline:none}
+.cty:focus{border-bottom-color:var(--muted)}
+.cty::placeholder{color:var(--muted);opacity:.7}
+.tylink{background:transparent;border:0;padding:8px 6px;font:inherit;font-size:.85rem;color:var(--muted);text-decoration:underline;text-underline-offset:3px;cursor:pointer}
+.card .typed{border-top:1px solid var(--line);padding-top:8px}.card .typed p{margin:2px 0 0;white-space:pre-wrap}
 .grade .btn{padding:12px 6px}
 .cardpad{margin:0 0 12px}
 .cardpad canvas{height:170px}
