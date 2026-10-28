@@ -9,3 +9,6 @@
 initToken();
 render();
 syncFromRemote().then(changed=>{ if(changed&&!["essay","lesson","cards","kreuz","exam","recall","who","outline"].includes(view)) render(); });
+
+/* Offline-Modus: App-Dateien im Gerät zwischenspeichern (sw.js). Der Lernstand liegt sowieso im Gerät. */
+if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.serviceWorker.register("sw.js").catch(()=>{})); }

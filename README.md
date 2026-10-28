@@ -53,3 +53,8 @@ Vorlesung: Sitzung 1 (15.10.) mit Lektüre fertig: 14 Lektionen mit 39 Verständ
 ## Updates
 
 `build.py` schreibt neben `index.html` auch `version.txt` (Prüfsumme des Inhalts). Die App vergleicht beim Start und beim Zurückkehren ihre Version damit (`src/update.html`): beim Start lädt sie neu, mitten in einer Übung erscheint ein Hinweis zum Antippen. Deshalb immer über `build.py` bauen und `version.txt` mit hochladen.
+
+
+## Offline
+
+`sw.js` speichert die App-Dateien im Gerät, die App startet auch ohne Internet (Netz höchstens 3 Sekunden, sonst die gespeicherte Kopie). Registrierung am Ende von `src/start.js`. Alle Apps teilen sich `talib47.github.io`: Jede App löscht nur Caches mit eigenem Präfix. Der Lernstand liegt immer zuerst im Gerät und wird abgeglichen, sobald wieder Internet da ist (neuerer Stand gewinnt als Ganzes).
