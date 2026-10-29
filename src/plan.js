@@ -1,11 +1,12 @@
 /* ================= Prüfungstermin, Plan für Probeprüfungen und Schwachstellen (aus Wirtschaft II) =================
    Termin je Veranstaltung in state.examDates (vl/se). Ohne Eintrag gilt der Termin aus den Unterlagen (nur angezeigt,
    nicht gespeichert): Vorlesung 04.02.2027 laut Folie „Modulprüfung“. */
-const EXAM_DEFAULT={vl:"2027-02-04"};
+const EXAM_DEFAULT={vl:"2027-02-04", se:"2027-02-04"};
+const EXAM_SRC={vl:"Termin aus der Folie „Modulprüfung“.", se:"Termin aus dem Verlaufsplan (8–10 Uhr, PC-Hall Essen A-009)."};
 const fmtDate=t=>{ const d=new Date(t); return ["So","Mo","Di","Mi","Do","Fr","Sa"][d.getDay()]+" "+d.getDate()+"."+(d.getMonth()+1)+"."; };
 const examDateStr=()=>(state.examDates||{})[state.course]||EXAM_DEFAULT[state.course]||null;
 const examDateTs=()=>{ const s=examDateStr(); if(!s) return null; const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d).getTime(); };
-const probeName=()=>state.course==="vl"?"Probe-Essay":"Probeklausur";
+const probeName=()=>"Probe-Essay";
 /* Plan: eine Probeprüfung früh als Standortbestimmung, dann 21, 14 und 7 Tage vor dem Termin */
 function examPlan(){
   const T=examDateTs(), ex=(state.exams||[]).filter(e=>(e.c||"vl")===state.course).map(e=>e.t).sort((a,b)=>a-b);
@@ -27,7 +28,7 @@ function examPlanBlock(){
   const T=examDateTs(), P=examPlan(), days=T?Math.ceil((T-dayStart())/864e5):null, own=!!(state.examDates||{})[state.course];
   return `<div class="block"><h2>Prüfung und ${probeName()}s</h2>
     <div class="row" style="margin-bottom:8px"><label class="small" for="exD">Prüfungstermin ${COURSES[state.course].short}</label><input type="date" id="exD" value="${examDateStr()||""}" class="dateinp"><button class="btn ghost small" id="exS">Speichern</button></div>
-    ${T?`<p class="small" style="margin:0 0 6px">${days>0?`Noch <b>${days} Tage</b> bis zur Prüfung.`:days===0?"<b>Heute ist Prüfung.</b> Viel Erfolg!":"Der Termin liegt in der Vergangenheit."}${!own&&EXAM_DEFAULT[state.course]?" Termin aus der Folie „Modulprüfung“.":""}</p>`:`<p class="small muted" style="margin:0 0 6px">Trag den Termin ein, sobald er feststeht. Dann plant die App drei ${probeName()}s in den letzten Wochen.</p>`}
+    ${T?`<p class="small" style="margin:0 0 6px">${days>0?`Noch <b>${days} Tage</b> bis zur Prüfung.`:days===0?"<b>Heute ist Prüfung.</b> Viel Erfolg!":"Der Termin liegt in der Vergangenheit."}${!own&&EXAM_DEFAULT[state.course]?" "+EXAM_SRC[state.course]:""}</p>`:`<p class="small muted" style="margin:0 0 6px">Trag den Termin ein, sobald er feststeht. Dann plant die App drei ${probeName()}s in den letzten Wochen.</p>`}
     <div class="klist">${P.map(p=>`<b>${p.done?"✓ ":""}${p.lab}</b><span>${p.done?`geschrieben am ${fmtDate(p.done)}`:p.when?fmtDate(p.when):"so bald wie möglich"}</span>`).join("")}</div>
     ${essaysOf(0).length?`<button class="btn ghost small" id="exGo">${probeName()} starten</button>`:""}</div>`;
 }

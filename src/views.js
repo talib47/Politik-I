@@ -79,9 +79,9 @@ function renderHome(){
     ${ready?todayBlock():""}
     ${homeReview()}
     ${nx&&ready?`<div class="block"><p class="eyebrow">Als Nächstes · ${nx.label}</p><h2>${nx.title}</h2><button class="btn ghost" id="goNext">Weiter lernen</button></div>`:""}
-    ${chs.length?`<p class="sect"><span>Sitzungen</span><span>${state.course==="vl"?"Folien nach jeder Sitzung":""}</span></p><div class="block"><div class="tlist">${chs.map(chapRow).join("")}</div></div>`:""}
+    ${chs.length?`<p class="sect"><span>Sitzungen</span><span>${state.course==="vl"?"Folien nach jeder Sitzung":"Texte auf Moodle, asynchron"}</span></p><div class="block"><div class="tlist">${chs.map(chapRow).join("")}</div></div>`:""}
     ${examInfoBlock()}
-    ${state.course==="vl"?essayHowTo():""}`;
+    ${state.course==="vl"?essayHowTo():seHowTo()}`;
   if($("#goNext")) $("#goNext").onclick=nx.go;
   if($("#goSess")) $("#goSess").onclick=()=>{ if(sess) runStep(); else startSession(); };
   bindReview();
@@ -102,12 +102,19 @@ function examInfoBlock(){
     <p class="small muted" style="margin:0">Quelle: Folie „Modulprüfung“ vom 15.10. Dort steht beim Termin „2026“, gemeint ist Februar 2027. In der Projektbeschreibung steht „Klausur“, die Folie gilt.</p></div>`;
   return `<div class="block"><h2>So wird geprüft</h2>
     <div class="klist">
-      <b>Prüfung</b><span>Klausur, 60 Minuten (laut Modulbeschreibung)</span>
-      <b>Studienleistung</b><span>Vortrag, 10 Minuten, nur bestehen</span>
-      <b>Start</b><span>Do 29.10., 8:15 Uhr, online über Zoom</span>
-      <b>Termin</b><span>${when}</span>
+      <b>Form</b><span><b>Essayklausur, 60 Minuten</b>, in Präsenz in der PC-Hall Essen (A-009), keine Hilfsmittel</span>
+      <b>Aufgabe</b><span>ein Essay von <b>etwa 500 Wörtern</b> zu <b>einer von drei Fragen</b>. Die Fragen kommen aus den Themen der wöchentlichen Präsentationen.</span>
+      <b>Bewertung</b><span>bestanden oder nicht bestanden. Vier Kriterien: Aufbau und Struktur, Argumentation, Fachwissen, Anwendung des fachspezifischen Wissens. Je Kriterium „gut“, „hinreichend“ oder „unzureichend“. Bestanden, wenn kein Kriterium unzureichend ist.</span>
+      <b>Termin</b><span>${when}, 8–10 Uhr. Wiederholung: Termin folgt</span>
+      <b>Themen</b><span>werden am Ende der Vorlesungszeit abgestimmt und in der Abschlusssitzung am 28.01. (Zoom) bekannt gegeben, die konkreten Fragen nicht</span>
     </div>
-    <p class="small muted" style="margin:0">Die Modulbeschreibung nennt noch Bieber als Dozenten. Was Dr. Schwarz genau prüft, trage ich nach der ersten Sitzung ein. Sobald Folien im Projekt liegen, kommen hier Lektionen, Karten und Probeklausur dazu.</p></div>`;
+    <p class="small muted" style="margin:0">Quelle: Verlaufsplan und Moodle-Kurs von Dr. Oliver Schwarz. Die Projektbeschreibung nennt noch Bieber und „Klausur“, es gilt der Verlaufsplan.</p></div>
+  <div class="block"><h2>Weitere Anforderungen</h2>
+    <div class="klist">
+      <b>Lektüre</b><span>Textgrundlage jeder Sitzung vorbereitend lesen</span>
+      <b>Presseschau</b><span>etwa 10 Minuten, vertonte PPT als MP4 (siehe unten)</span>
+      <b>Bibliotheksschein</b><span>dreiteilig, empfohlen ist „Fachrecherche Politikwissenschaft“. Bestätigung als PDF bis <b>Fr 05.02.2027</b> in Moodle hochladen</span>
+    </div></div>`;
 }
 function essayHowTo(){
   return `<div class="block">
@@ -120,6 +127,31 @@ function essayHowTo(){
       <li><b>Hauptteil:</b> je Absatz ein Gedanke. Begriff erklären, mit Autor belegen, an einem Land oder Beispiel zeigen.</li>
       <li><b>Fazit:</b> Frage direkt beantworten, eigene begründete Einschätzung, Grenzen nennen.</li>
       <li><b>Schluss</b> (5 Min.): Durchlesen, Fachbegriffe prüfen.</li>
+    </ol></div>`;
+}
+/* Seminar: Presseschau (Studienleistung) und Essay-Hinweise, nach dem Verlaufsplan von Dr. Schwarz */
+function seHowTo(){
+  const open=Date.now()<new Date(2026,10,5).getTime();
+  return `<div class="block"><h2>Presseschau (Studienleistung)</h2>
+    ${open?`<p class="small" style="margin:0 0 8px"><b>Thema wählen bis Mi 04.11., 23:59</b> in Moodle unter „Vergabe Presseschauen und Referate“.</p>`:""}
+    <div class="klist">
+      <b>Länge</b><span>etwa 10 Minuten (ein Referat wären 20–25 Minuten)</span>
+      <b>Inhalt</b><span>Presseberichte der <b>vergangenen Woche</b> zu seminarrelevanten Themen</span>
+      <b>Zeitungen</b><span>FAZ, Handelsblatt, Süddeutsche, Welt; dazu FAS, Welt am Sonntag, Die Zeit</span>
+      <b>Folien</b><span>PPT mit Schlagzeilen und ggf. Bildern, Grafiken, Tabellen oder Textstellen. Vorbild: Presseschau des Deutschlandfunks</span>
+      <b>Abgabe</b><span>Folien selbst vertonen, <b>nur als MP4</b> auf Sciebo hochladen, Link und PDF der Folien per Mail an Dr. Schwarz, <b>am Vortag der Sitzung bis 12 Uhr</b></span>
+    </div>
+    <p class="small muted" style="margin:0">Anleitungen zum Vertonen (Windows und Mac) sind im Verlaufsplan verlinkt. Für Gliederung, Folien und Sprechtext kannst du mich im Projekt-Chat fragen.</p></div>
+  <div class="block">
+    <h2>Wie schreibe ich das Essay bei Schwarz? <span class="erg">Ergänzung</span></h2>
+    <p class="small muted">Vorgaben aus dem Verlaufsplan: etwa 500 Wörter, 60 Minuten, eine von drei Fragen, vier Kriterien. Die Schritte darunter sind allgemeine Regeln, keine Vorgaben von Schwarz. Er verweist auf die Göttinger Handreichung „Einen wissenschaftlichen Essay schreiben“.</p>
+    <ol class="gl">
+      <li><b>Frage wählen</b> (5 Min.): alle drei lesen, die nehmen, zu der dir Autoren und ein Beispiel einfallen.</li>
+      <li><b>Gliedern</b> (10 Min.): These, zwei bis drei Argumente mit Autor, ein Gegenargument, Fazit. 500 Wörter sind nur fünf bis sechs Absätze.</li>
+      <li><b>Einleitung</b> (ca. 80 Wörter): Thema, zentraler Begriff, Fragestellung, deine These.</li>
+      <li><b>Hauptteil</b> (ca. 330 Wörter): je Absatz ein Argument. Begriff klären (Fachwissen), auf die Frage beziehen (Anwendung), begründen (Argumentation).</li>
+      <li><b>Fazit</b> (ca. 80 Wörter): Frage direkt beantworten, Position begründen, Grenze nennen.</li>
+      <li><b>Durchlesen</b> (5 Min.): Roter Faden? Jedes der vier Kriterien sichtbar?</li>
     </ol></div>`;
 }
 /* Unklar markierte Lektionen auf der Startseite */
@@ -235,7 +267,7 @@ function unclearPrompt(n,x){
   d.querySelectorAll("td,th").forEach(el=>el.append(" | "));
   const txt=d.textContent.replace(/[ \t]+\n/g,"\n").replace(/\n{3,}/g,"\n\n").trim();
   const ch=chOf(n), C=COURSES[ch.c];
-  return `Ich lerne für das Modul Grundlagen Politik I (UDE, Lehramt GyGe), ${C.short} „${C.title}“ bei ${C.who}. Die Prüfung ist ${ch.c==="vl"?"ein Essay von 60 Minuten":"eine Klausur"}. Diese Lektion verstehe ich noch nicht.
+  return `Ich lerne für das Modul Grundlagen Politik I (UDE, Lehramt GyGe), ${C.short} „${C.title}“ bei ${C.who}. Die Prüfung ist ${ch.c==="vl"?"ein Essay von 60 Minuten":"eine Essayklausur: etwa 500 Wörter in 60 Minuten zu einer von drei Fragen, bestanden oder nicht"}. Diese Lektion verstehe ich noch nicht.
 
 Sitzung ${ch.no}: ${ch.title}
 Lektion: ${x.t}
@@ -364,15 +396,15 @@ function renderPractice(){
     <div class="block"><div class="modes">
       <button class="mode" id="pK"><span class="t">Fällige Karten</span><span class="n">${dueCards(0).length} fällig</span><span class="d">Alle Karten und Begriffe, die heute dran sind. Neue Karten lernst du in der jeweiligen Sitzung.</span></button>
       <button class="mode" id="pQ"><span class="t">Verständnisfragen</span><span class="n">${qDue().length} fällig</span><span class="d">Erst selbst überlegen, dann die Auswahl. Falsche Fragen kommen morgen wieder.</span></button>
-      ${WH.length?`<button class="mode" id="pW"><span class="t">Was gehört wohin?</span><span class="n">${WH.length} Aussagen</span><span class="d">Autoren, Regimetypen, Teilregime, Polity/Politics/Policy. Verwechseltes kommt öfter.</span></button>`:""}
+      ${WH.length?`<button class="mode" id="pW"><span class="t">Was gehört wohin?</span><span class="n">${WH.length} Aussagen</span><span class="d">${state.course==="se"?"Autoren, Zugänge der Regierungsforschung, Regierungssysteme, Policy-Phasen. Verwechseltes kommt öfter.":"Autoren, Regimetypen, Teilregime, Polity/Politics/Policy. Verwechseltes kommt öfter."}</span></button>`:""}
       ${T.length?`<button class="mode" id="pB"><span class="t">Begriffe und Abkürzungen</span><span class="n">${T.length} Begriffe</span><span class="d">In beide Richtungen, dazu das Lexikon mit Beispiel und typischer Verwechslung.</span></button>`:""}
       <button class="mode" id="pKr"><span class="t">Selbsttest gemischt</span><span class="n">${kreuzOf(0).filter(x=>(kzStat(x.id)||{}).best===4).length}/${kreuzOf(0).length} fehlerfrei</span><span class="d">Fünf Aufgaben mit je drei Aussagen, bevorzugt neue und solche mit Fehlern.</span></button>
     </div></div>
-    ${W.length?`<p class="sect"><span>Im Prüfungsformat</span><span>Essay, 60 Min.</span></p>
+    ${W.length?`<p class="sect"><span>Im Prüfungsformat</span><span>${state.course==="se"?"Essay, ca. 500 Wörter, 60 Min.":"Essay, 60 Min."}</span></p>
     <div class="block"><div class="modes">
       <button class="mode" id="pO"><span class="t">Gliederung in 10 Minuten</span><span class="n">${W.filter(x=>(state.outl||{})[x.id]).length}/${W.length}</span><span class="d">Die wichtigste Essay-Fähigkeit: Frage zerlegen und eine tragfähige Gliederung bauen.</span></button>
       <button class="mode" id="pW2"><span class="t">Essay-Fragen schreiben</span><span class="n">${W.filter(x=>essayScore(x.id)).length}/${W.length}</span><span class="d">Eine Frage, mit oder ohne Gliederungshilfe. Danach Erwartungshorizont und Musteressay.</span></button>
-      <button class="mode" id="pX"><span class="t">Probe-Essay, 60 Minuten</span><span class="n">${state.examRun?"läuft":(state.exams||[]).filter(e=>(e.c||"vl")===state.course).length+"×"}</span><span class="d">Wie am Prüfungstag: eine Frage, Timer, keine Hilfen. Danach selbst oder von Claude bewerten lassen.</span></button>
+      <button class="mode" id="pX"><span class="t">Probe-Essay, 60 Minuten</span><span class="n">${state.examRun?"läuft":(state.exams||[]).filter(e=>(e.c||"vl")===state.course).length+"×"}</span><span class="d">${state.course==="se"?"Wie am 04.02.: drei Fragen, eine wählen, 60 Minuten, keine Hilfen. Danach nach den vier Kriterien bewerten.":"Wie am Prüfungstag: eine Frage, Timer, keine Hilfen. Danach selbst oder von Claude bewerten lassen."}</span></button>
     </div></div>`:""}`;
   $("#pK").onclick=()=>openCards(0);
   $("#pQ").onclick=()=>{ const d=qDue(); openRecall(d.length?d.slice(0,8):shuffle(allQuestions()).slice(0,8)); };
