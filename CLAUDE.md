@@ -65,13 +65,13 @@ Damit nichts wandert: Jede Funktion hat in allen Apps denselben Platz. Wer etwas
 8. Fortschritt zurücksetzen
 
 **Gestaltung („Die Reihe“):** Jede App ist ein Band einer Reihe, erkennbar an Bandfarbe und römischer Ziffer wie im App-Symbol.
-- Gemeinsames Design in `src/design.css` (W&G I: eigener Block in der `index.html`), wortgleich in allen Apps, von `build.py` in `head.html` eingesetzt. Je App stehen in `head.html` nur `--accent`, `--accent-ink`, `--plate-top`, `--plate-bot`, `--numeral`, hell und dunkel.
+- Gemeinsames Design in `src/design.css` (W&G I: `design.css` im Hauptordner), wortgleich in allen Apps, von `build.py` bzw. `stamp.py` eingesetzt. Schrift in `fonts/`, in `sw.js` im Offline-Speicher. Je App stehen in `head.html` nur `--accent`, `--accent-ink`, `--plate-top`, `--plate-bot`, `--numeral`, hell und dunkel.
 - Kräftige Farbe nur auf der Platte „Heute“. Sonst ruhige Gruppen ohne Rahmen und ohne Schatten; erhöht sind nur Platte und Lernkarte (mit Stapel dahinter).
 - Glas nur für Bedienleisten: Tableiste als schwebende Kapsel mit Symbolen (`NAV_ICONS` in `status.js`), daneben der runde Knopf „Aa“ für die Schriftgröße, Hinweise, Leiste der Tageseinheit. Nie Glas auf Inhalten.
 - Titel, Kartenvorderseiten und Zitate in Newsreader (`fonts/`, SIL OFL, im Offline-Speicher), Text in der Systemschrift (SF Pro auf iPad und iPhone). Keine Etiketten in Großbuchstaben.
 - Bewegung nur als Antwort auf Tippen (Seitenwechsel, Karte, Drücken), `prefers-reduced-motion` und `prefers-reduced-transparency` beachten.
 - Neue Blöcke: Überschrift `h2` im `.block`, Nebeninfo `.small.muted`, aufklappbare Kurzinfos als `details.block.upl`, Knöpfe `.btn` (voll) bzw. `.btn.ghost` (getönt).
-- Bis zur Übernahme gilt in BiWi II, Wirtschaft II und W&G I noch der alte Stand (Tabelle „Bausteine“).
+- Ändern: `design.css` in einer App anpassen, Talib zeigen, nach Freigabe wortgleich in alle Apps kopieren. Was nur eine App braucht, steht in deren eigener CSS (W&G I: Block „Anpassungen der älteren Einzeldatei“).
 
 ### Lernprinzipien (aus der Forschung, nicht ohne Grund ändern)
 
@@ -110,13 +110,14 @@ Stand der Recherche vom 03.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Hinweis Schlaf nach abendlicher Einheit | ✓ | ✓ | ✓ | ✓ |
 | Alles aufschreiben (freies Abrufen) | ○ | ✓ | ○ | ○ |
 | Tempo im Probe-Essay | – | ✓ | – | – |
-| Design „Die Reihe“ (`design.css`, Newsreader, Glas-Tableiste mit Symbolen, Platte „Heute“, Knopf „Aa“) | ○ | ✓ | ○ | ○ |
+| Design „Die Reihe“ (`design.css`, Newsreader, Glas-Tableiste mit Symbolen, Platte „Heute“, Knopf „Aa“) | ✓ | ✓ | ✓ | ✓ |
 | Stichtag 31.01., wenn der Prüfungstermin unbekannt ist | – (Termin bekannt) | – (Termine bekannt) | ✓ | ✓ (Sozialstruktur) |
 
 ### Logbuch
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-03 · alle · Projekt Politik I · Design „Die Reihe“ in BiWi II (Pflaume, II), Wirtschaft II (Blau, II) und W&G I (Grün, I, fünf Reiter mit Symbolen) übernommen · Talib hat das Muster in Politik I freigegeben
 - 2026-11-03 · Politik I · Projekt Politik I · Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel · Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps
 - 2026-11-03 · alle · Projekt Politik I · Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle) · Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht
 - 2026-11-03 · Politik I · Projekt Politik I · Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars · Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben
