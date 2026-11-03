@@ -30,7 +30,7 @@ Grundgerüst und Lernformen aus Wirtschaft II übernommen und auf zwei Veranstal
 | `terms.js` | Begriffe und Abkürzungen: Karten in beide Richtungen (`b-`, `br-`) und Lexikon |
 | `session.js` | Tägliche Einheit „Heute“ mit Schrittleiste, übt nur begonnene Sitzungen |
 | `plan.js` | Prüfungstermin je Veranstaltung (Standard aus der Folie), Probe-Essay-Plan, Schwachstellen |
-| `status.js` | Stand der Unterlagen (`UPLOADS`, je Sitzung in der Inhaltsdatei eintragen, nur Hochgeladenes), Erledigt-Liste je Veranstaltung (`TODOS`, `state.todo`), Motivationssatz unter der Wochenübersicht |
+| `status.js` | Stand der Unterlagen (`UPLOADS`: je Sitzung bzw. Block mit Einzeldateien `items` und `ok`; `known:true` nur, wenn der volle Umfang aus Moodle-Screenshot, Verlaufsplan oder Folie bekannt ist, sonst `known:false` mit Hinweis auf fehlenden Screenshot; nur Begonnenes eintragen), Erledigt-Liste je Veranstaltung (`TODOS`, `state.todo`), Motivationssatz unter der Wochenübersicht |
 | `kreuz.js` | Selbsttest (drei Aussagen, wahr/falsch) |
 | `essay.js` | Essay-Trainer, Probe-Essay mit 60-Min.-Timer, Gliederung in 10 Minuten. Seminar: Wortziel 500, vier Kriterien (gut/hinreichend/unzureichend), Probe-Essay mit drei Fragen zur Wahl |
 | `content_v1.js`, `content_v1_lit.js` | Vorlesung Sitzung 1: Folien und Lektüre (Patzelt, Lauth, Merkel) |

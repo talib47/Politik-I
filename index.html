@@ -277,9 +277,15 @@ svg .sarrow{fill:var(--accent)}
 .upl summary::after{content:"›";color:var(--muted);transition:transform .2s}
 .upl[open] summary::after{transform:rotate(90deg)}
 .upl-last{font-size:.875rem;color:var(--muted);margin-left:auto}
-.upl-list{margin-top:10px;display:grid;gap:6px}
-.upl-list div{display:grid;grid-template-columns:1.4rem 3.2rem minmax(0,1fr);gap:6px;font-size:.875rem;align-items:baseline}
-.upl-list b{color:var(--accent)} .upl-list span:nth-child(2){color:var(--muted)}
+.upl-u{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.upl-h{display:flex;gap:8px;align-items:baseline;margin:0 0 4px;font-size:.875rem}
+.upl-h b{color:var(--accent)} .upl-h .upst{margin-left:auto}
+.upst{font-size:.75rem;font-weight:600}
+.upst.full{color:var(--good)} .upst.part{color:var(--gold)} .upst.unk{color:var(--muted);font-style:italic}
+.upl-i{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:.8125rem}
+.upl-i li{display:flex;gap:6px;align-items:baseline} .upl-i li>span:first-child{width:1rem;flex:none;color:var(--good)}
+.upl-i li.miss>span:first-child{color:var(--muted)}
+.upl-src{margin:4px 0 0;font-size:.75rem}
 .motiv{margin:12px 0 0;font-size:.875rem;color:var(--muted);font-style:italic;text-align:center}
 .todo.on>span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
 .week7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px}
@@ -1430,13 +1436,24 @@ function bindWeak(){
    Inhaltsdatei selbst ein: UPLOADS.push({c, ch, what}). Nichts Zukünftiges eintragen, die Liste endet beim letzten Upload.
    TODOS: Aufgaben neben dem Lernen je Veranstaltung (aus Folien und Verlaufsplan). Abgehakt in state.todo[id] = Zeitstempel. */
 const UPLOADS=[];
+/* Eintrag je Sitzung oder Block:
+   {c, ch, items:[{t:"Kurzname", k:"Folien|Textgrundlage|Empfehlung|Lektüre", ok:true|false}], known:true|false, src:"woher der Umfang bekannt ist"}
+   known:true  = der vollständige Umfang ist bekannt (Moodle-Screenshot, Verlaufsplan, Folie). Fehlendes steht dann mit ok:false drin.
+   known:false = nur bekannt, dass das Hochgeladene dazugehört; der Umfang fehlt noch. */
+const UNIT={vl:"Sitzung", se:"Block"};
+const ROM=["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];
+const unitNo=c=>state.course==="se"?ROM[c.no]||c.no:c.no;
+function upState(u){ if(!u.known) return {cls:"unk", txt:"Umfang unbekannt"}; const m=u.items.filter(x=>!x.ok).length; return m?{cls:"part", txt:`${u.items.length-m} von ${u.items.length}`}:{cls:"full", txt:"vollständig"}; }
 function uploadsBlock(){
   const L=UPLOADS.filter(u=>u.c===state.course).sort((a,b)=>a.ch-b.ch);
   if(!L.length) return "";
-  const last=L[L.length-1], lc=chOf(last.ch);
-  return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">bis Sitzung ${lc.no} · ${lc.date}</span></summary>
-    <div class="upl-list">${L.map(u=>{ const c=chOf(u.ch); return `<div><b>${c.no}</b><span>${c.date}</span><span>${u.what}</span></div>`; }).join("")}</div>
-    <p class="small muted" style="margin:8px 0 0">Alles darunter fehlt noch im Projekt.</p></details>`;
+  const last=L[L.length-1], lc=chOf(last.ch), U=UNIT[state.course]||"Sitzung", ls=upState(last);
+  return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">bis ${U} ${unitNo(lc)} · <span class="upst ${ls.cls}">${ls.txt}</span></span></summary>
+    ${L.map(u=>{ const c=chOf(u.ch), st=upState(u);
+      return `<div class="upl-u"><p class="upl-h"><b>${U} ${unitNo(c)}</b><span class="muted">${c.date}</span><span class="upst ${st.cls}">${st.txt}</span></p>
+        <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</li>`).join("")}</ul>
+        <p class="upl-src small muted">${u.known?`Umfang laut ${u.src}.`:`Den Überblick, was alles zu ${U} ${unitNo(c)} gehört, habe ich noch nicht gesehen. Schick mir dazu den Moodle-Screenshot.`}</p></div>`; }).join("")}
+    <p class="small muted" style="margin:8px 0 0">Alles nach ${U} ${unitNo(lc)} fehlt noch im Projekt.</p></details>`;
 }
 
 const TODOS={
@@ -1747,7 +1764,9 @@ function renderOutline(){
    Inhalte aus der Lektüre (Merkel 2013, Lauth 2015, Patzelt 2023) sind als Lektüre markiert (lit / litbox), alles andere über die Folien hinaus als Ergänzung (erg / ergbox).
    Lektüre der Selbstlernphase (22. und 29.10.): Patzelt 2023 Kap. 1 und 3, Lauth 2015, Merkel 2013. Neue Lektionen dazu in content_v1_lit.js. */
 const ERG='<span class="erg">Ergänzung</span>';
-UPLOADS.push({c:"vl", ch:1, what:"Folien, Lektüre Patzelt Kap. 1 und 3, Lauth 2015, Merkel 2013"});
+UPLOADS.push({c:"vl", ch:1, known:true, src:"Folie „Selbstlernphase“ (15.10.)", items:[
+ {k:"Folien", t:"Einführung 15.10.", ok:true}, {k:"Lektüre", t:"Patzelt 2023, Kap. 1", ok:true}, {k:"Lektüre", t:"Patzelt 2023, Kap. 3", ok:true},
+ {k:"Lektüre", t:"Lauth 2015", ok:true}, {k:"Lektüre", t:"Merkel 2013", ok:true}]});
 chOf(1).lit="Lektüre: Patzelt (2023, S. 11–36 und 111–367), Lauth (2015), Merkel (2013). Selbstlernphase am 22. und 29.10. mit Fragen und Essay-Aufgabe auf Acemate.";
 
 /* Kleine Schaubilder (Farben über CSS-Variablen, funktionieren hell und dunkel) */
@@ -2602,7 +2621,9 @@ termsReady();
    Literaturempfehlungen (als Empfehlung markiert, litbox/lit): Croissant (2010), Lauth (2010), Pickel/Pickel (2016), Schneider/Janning (2006).
    Darüber hinaus: erg/ergbox. IDs se1-… nie umbenennen. */
 const EMPF=t=>`<p class="small muted" style="margin:0 0 10px">Grundlage: ${t}. Literaturempfehlung zur Vertiefung, keine Textgrundlage.</p>`;
-UPLOADS.push({c:"se", ch:101, what:"Korte/Fröhlich, Empfehlungen Croissant, Lauth, Pickel/Pickel, Schneider/Janning"});
+UPLOADS.push({c:"se", ch:101, known:true, src:"Moodle-Screenshot (29.10.) und Verlaufsplan", items:[
+ {k:"Textgrundlage", t:"Korte/Fröhlich 2009", ok:true}, {k:"Empfehlung", t:"Croissant 2010", ok:true}, {k:"Empfehlung", t:"Lauth 2010", ok:true},
+ {k:"Empfehlung", t:"Pickel/Pickel 2016", ok:true}, {k:"Empfehlung", t:"Schneider/Janning 2006", ok:true}, {k:"Material", t:"Verlaufsplan", ok:true}]});
 chOf(101).lit="Textgrundlage: Korte/Fröhlich (2009), Kap. 1. Empfehlungen: Croissant (2010), Lauth (2010), Pickel/Pickel (2016), Schneider/Janning (2006). Alle als PDF im Moodle-Kurs.";
 
 const FIG_ZUGAENGE=`<svg viewBox="0 0 360 200" role="img" aria-label="Vier Zugänge der Regierungsforschung" style="width:100%;max-width:440px;display:block;margin:10px auto;font:12px var(--sans)">
@@ -3315,7 +3336,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="a48c03c6b280", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="3a365ec58247", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }

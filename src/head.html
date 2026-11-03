@@ -277,9 +277,15 @@ svg .sarrow{fill:var(--accent)}
 .upl summary::after{content:"›";color:var(--muted);transition:transform .2s}
 .upl[open] summary::after{transform:rotate(90deg)}
 .upl-last{font-size:.875rem;color:var(--muted);margin-left:auto}
-.upl-list{margin-top:10px;display:grid;gap:6px}
-.upl-list div{display:grid;grid-template-columns:1.4rem 3.2rem minmax(0,1fr);gap:6px;font-size:.875rem;align-items:baseline}
-.upl-list b{color:var(--accent)} .upl-list span:nth-child(2){color:var(--muted)}
+.upl-u{margin-top:12px;padding-top:10px;border-top:1px solid var(--line)}
+.upl-h{display:flex;gap:8px;align-items:baseline;margin:0 0 4px;font-size:.875rem}
+.upl-h b{color:var(--accent)} .upl-h .upst{margin-left:auto}
+.upst{font-size:.75rem;font-weight:600}
+.upst.full{color:var(--good)} .upst.part{color:var(--gold)} .upst.unk{color:var(--muted);font-style:italic}
+.upl-i{list-style:none;margin:0;padding:0;display:grid;gap:2px;font-size:.8125rem}
+.upl-i li{display:flex;gap:6px;align-items:baseline} .upl-i li>span:first-child{width:1rem;flex:none;color:var(--good)}
+.upl-i li.miss>span:first-child{color:var(--muted)}
+.upl-src{margin:4px 0 0;font-size:.75rem}
 .motiv{margin:12px 0 0;font-size:.875rem;color:var(--muted);font-style:italic;text-align:center}
 .todo.on>span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
 .week7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px}

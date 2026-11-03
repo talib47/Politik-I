@@ -3,13 +3,24 @@
    Inhaltsdatei selbst ein: UPLOADS.push({c, ch, what}). Nichts Zukünftiges eintragen, die Liste endet beim letzten Upload.
    TODOS: Aufgaben neben dem Lernen je Veranstaltung (aus Folien und Verlaufsplan). Abgehakt in state.todo[id] = Zeitstempel. */
 const UPLOADS=[];
+/* Eintrag je Sitzung oder Block:
+   {c, ch, items:[{t:"Kurzname", k:"Folien|Textgrundlage|Empfehlung|Lektüre", ok:true|false}], known:true|false, src:"woher der Umfang bekannt ist"}
+   known:true  = der vollständige Umfang ist bekannt (Moodle-Screenshot, Verlaufsplan, Folie). Fehlendes steht dann mit ok:false drin.
+   known:false = nur bekannt, dass das Hochgeladene dazugehört; der Umfang fehlt noch. */
+const UNIT={vl:"Sitzung", se:"Block"};
+const ROM=["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];
+const unitNo=c=>state.course==="se"?ROM[c.no]||c.no:c.no;
+function upState(u){ if(!u.known) return {cls:"unk", txt:"Umfang unbekannt"}; const m=u.items.filter(x=>!x.ok).length; return m?{cls:"part", txt:`${u.items.length-m} von ${u.items.length}`}:{cls:"full", txt:"vollständig"}; }
 function uploadsBlock(){
   const L=UPLOADS.filter(u=>u.c===state.course).sort((a,b)=>a.ch-b.ch);
   if(!L.length) return "";
-  const last=L[L.length-1], lc=chOf(last.ch);
-  return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">bis Sitzung ${lc.no} · ${lc.date}</span></summary>
-    <div class="upl-list">${L.map(u=>{ const c=chOf(u.ch); return `<div><b>${c.no}</b><span>${c.date}</span><span>${u.what}</span></div>`; }).join("")}</div>
-    <p class="small muted" style="margin:8px 0 0">Alles darunter fehlt noch im Projekt.</p></details>`;
+  const last=L[L.length-1], lc=chOf(last.ch), U=UNIT[state.course]||"Sitzung", ls=upState(last);
+  return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">bis ${U} ${unitNo(lc)} · <span class="upst ${ls.cls}">${ls.txt}</span></span></summary>
+    ${L.map(u=>{ const c=chOf(u.ch), st=upState(u);
+      return `<div class="upl-u"><p class="upl-h"><b>${U} ${unitNo(c)}</b><span class="muted">${c.date}</span><span class="upst ${st.cls}">${st.txt}</span></p>
+        <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</li>`).join("")}</ul>
+        <p class="upl-src small muted">${u.known?`Umfang laut ${u.src}.`:`Den Überblick, was alles zu ${U} ${unitNo(c)} gehört, habe ich noch nicht gesehen. Schick mir dazu den Moodle-Screenshot.`}</p></div>`; }).join("")}
+    <p class="small muted" style="margin:8px 0 0">Alles nach ${U} ${unitNo(lc)} fehlt noch im Projekt.</p></details>`;
 }
 
 const TODOS={
