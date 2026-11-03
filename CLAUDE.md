@@ -13,8 +13,8 @@ Der Abschnitt **Gemeinsam** ist in allen vier Repos wortgleich. Der Abschnitt **
 |---|---|---|---|
 | BiWi II | talib47/BiWi-II | Psychologie im Lehramt (Heine), vier Schwerpunkte | Klausur am PC, 17.02.2027 |
 | Politik I | talib47/Politik-I | Vorlesung Schwanholz · Seminar Schwarz | Essay 60 Min. 04.02. 14 Uhr · Essayklausur 04.02. 8 Uhr |
-| Wirtschaft II | talib47/Wirtschaft-II | Makroökonomik (Bank), alle 8 Kapitel fertig | Klausur, Termin offen |
-| W&G I | talib47/Wirtschaft-und-Gesellschaft-I | Ökonomisches Denken (Becker) · Sozialstruktur (Erlinghagen) | 4 Moodle-Quizze · Klausur am PC (Single Choice) |
+| Wirtschaft II | talib47/Wirtschaft-II | Makroökonomik (Bank), alle 8 Kapitel fertig | Klausur, Termin offen: Stichtag 31.01.2027 angenommen |
+| W&G I | talib47/Wirtschaft-und-Gesellschaft-I | Ökonomisches Denken (Becker) · Sozialstruktur (Erlinghagen) | 4 Moodle-Quizze (ab 16.11., 07.12., 25.01., 07.02., Abgabe bis 21.02.) · Klausur am PC (Single Choice), Termin offen: Stichtag 31.01.2027 angenommen |
 
 Live jeweils unter `https://talib47.github.io/<Repo>/`.
 
@@ -31,7 +31,8 @@ Live jeweils unter `https://talib47.github.io/<Repo>/`.
 5. **Bauen und prüfen:** `python3 build.py` (W&G I: `python3 stamp.py`), `version.txt` immer mitcommitten. Vor dem Push `node --check`, doppelte IDs prüfen, Headless-Browser bei 360 px hell und dunkel ohne Fehler und ohne Überlauf. Commit als `Claude <noreply@anthropic.com>` auf `main`.
 6. **Inhalte:** Grundlage sind nur Talibs Unterlagen (Folien, Texte, Moodle-Screenshots). Alles darüber hinaus wird markiert (`erg`/`ergbox`, Lektüre `lit`/`litbox`). Widerspricht etwas den Unterlagen, gilt die Unterlage.
 7. **Hochgeladen-Übersicht pflegen:** Jede neu eingebaute Sitzung bzw. jeder Block bekommt einen `UPLOADS`-Eintrag mit Einzeldateien. `known:true` nur, wenn der Umfang aus Moodle-Screenshot, Verlaufsplan oder Folie bekannt ist.
-8. **Ton:** Deutsch, kurz, fürs Handy. Nachname immer „Gündoğdu“.
+8. **Prüfungstermine:** nur aus den Unterlagen (Folie, Verlaufsplan, Moodle). Steht ein Termin nicht sicher fest, gilt der **Stichtag 31.01.** des Semesters: Bis dahin soll alles sitzen. Die App zeigt das als Annahme („Stichtag“) und rechnet Abstände und Probeklausuren danach. Trägt Talib einen Termin ein, gilt seiner. Sobald ein Termin in Unterlagen auftaucht, als Standard eintragen und die Tabelle oben anpassen.
+9. **Ton:** Deutsch, kurz, fürs Handy. Nachname immer „Gündoğdu“.
 
 ### Aufbau jeder App (fester Platz für alles)
 
@@ -70,7 +71,7 @@ Damit nichts wandert: Jede Funktion hat in allen Apps denselben Platz. Wer etwas
 Stand der Recherche vom 03.11.2026. Jede App folgt diesen Regeln. Wer davon abweicht, begründet es im Logbuch.
 
 1. **Abrufen statt Lesen:** Erst antworten, dann aufdecken. Abrufüben schlägt Wiederlesen deutlich, besonders mit Rückmeldung und bei echtem Erinnern statt Wiedererkennen (Rowland 2014: g ≈ 0,5 insgesamt, freies und gestütztes Erinnern mit Rückmeldung g ≈ 0,7–0,8, Wiedererkennen nur ≈ 0,36). Deshalb: bei Auswahlfragen erst selbst abrufen, dann „Auswahl zeigen“; zu jeder falschen Option eine Begründung.
-2. **Abstände, an die Prüfung angepasst:** Grundplan 1, 3, 7, 16, 35 Tage. Der beste Abstand ist ein Bruchteil der Zeit bis zur Prüfung, bei 5 Wochen etwa ein Viertel, bei 10 Wochen etwa ein Sechstel; zu kurz schadet mehr als zu lang (Cepeda et al. 2008). Darum `spaceDays()`: höchstens ein Drittel der Resttage, ±10 % Streuung ab 3 Tagen. Gilt für Karten, Verständnisfragen und Kreuzaufgaben. Ohne Prüfungstermin greift nur die Streuung, darum steht „Termin eintragen“ in den Erledigt-Listen.
+2. **Abstände, an die Prüfung angepasst:** Grundplan 1, 3, 7, 16, 35 Tage. Der beste Abstand ist ein Bruchteil der Zeit bis zur Prüfung, bei 5 Wochen etwa ein Viertel, bei 10 Wochen etwa ein Sechstel; zu kurz schadet mehr als zu lang (Cepeda et al. 2008). Darum `spaceDays()`: höchstens ein Drittel der Resttage, ±10 % Streuung ab 3 Tagen. Gilt für Karten, Verständnisfragen und Kreuzaufgaben. Ist der Termin unbekannt, rechnet die App mit dem Stichtag 31.01. (Regel 8).
 3. **Wiederholen, bis es einmal sitzt:** Nicht sichere Karten kommen in derselben Runde wieder (höchstens dreimal) und am nächsten Tag noch einmal. Das ist „successive relearning“ (Rawson, Dunlosky): einmal richtig je Runde, über mehrere Tage verteilt. Ergebnis in Studien: über 10 % bessere Klausuren und deutlich besseres Behalten.
 4. **Neues jeden Tag ein wenig:** Die Tageseinheit nimmt 5 neue Karten dazu, solange weniger als 25 fällig sind. Sonst stauen sich ungesehene Karten bis kurz vor der Prüfung.
 5. **Mischen mit Maß:** Gemischtes Üben hilft vor allem beim Unterscheiden ähnlicher Kategorien (Autoren, Typen, Denkschulen); für reine Texte zeigt die Meta-Analyse keinen sicheren Vorteil (Brunmair & Richter 2019). Darum mischen „Was gehört wohin?“ und die Tageseinheit, Lektionen bleiben in ihrer Reihenfolge. Keine übertriebenen Versprechen im Text.
@@ -102,11 +103,13 @@ Stand der Recherche vom 03.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Hinweis Schlaf nach abendlicher Einheit | ✓ | ✓ | ✓ | ✓ |
 | Alles aufschreiben (freies Abrufen) | ○ | ✓ | ○ | ○ |
 | Tempo im Probe-Essay | – | ✓ | – | – |
+| Stichtag 31.01., wenn der Prüfungstermin unbekannt ist | – (Termin bekannt) | – (Termine bekannt) | ✓ | ✓ (Sozialstruktur) |
 
 ### Logbuch
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-03 · alle · Projekt Politik I · Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle) · Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht
 - 2026-11-03 · Politik I · Projekt Politik I · Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars · Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben
 - 2026-11-03 · alle · Projekt Politik I · Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten · Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“
 - 2026-11-03 · alle · Projekt Politik I · Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js` · Von Talib bestätigt, einheitlich in allen Apps

@@ -12,7 +12,8 @@
    2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
    3. Motivationssatz unter der Wochenübersicht.
    4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt __BRUECKE__).
-   5. Abstände vor der Prüfung (spaceDays), siehe unten. */
+   5. Abstände vor der Prüfung (spaceDays), siehe unten.
+   Prüfungstermin unbekannt: Die App rechnet mit dem Stichtag 31.01. und meldet das über APP.examAssumed() (dann „bis zum Stichtag“). */
 const UPLOADS=[];
 const CK=()=>APP.halves?state.course:"main";
 const upOrder=u=>u.base?-1:(u.o!=null?u.o:u.ch!=null?u.ch:u.no||0);
@@ -56,7 +57,7 @@ function motivLine(){
   else if(gap===1) m=pick(["Gestern geübt. Eine kurze Einheit heute hält dich im Fluss.","Gestern warst du dran. Heute fünf Minuten, und die Serie läuft weiter."]);
   else if(gap<=3) m=pick([`Seit ${gap} Tagen Pause. Eine kleine Runde heute, mehr braucht es nicht.`,`${gap} Tage ohne Üben. Starte heute mit den fälligen Karten.`]);
   else m=pick([`Seit ${gap} Tagen nichts gemacht. Kein Drama, fang heute mit fünf Minuten an.`,`${gap} Tage Pause. Das Wiederholen holt schnell wieder auf, fang einfach an.`,`Lange nichts geübt. Eine Lektion heute, und du bist wieder drin.`]);
-  if(left!=null&&left>0&&left<=21) m+=` Noch ${left} ${left===1?"Tag":"Tage"} bis zur Prüfung.`;
+  if(left!=null&&left>0&&left<=21) m+=` Noch ${left} ${left===1?"Tag":"Tage"} ${APP.examAssumed&&APP.examAssumed()?"bis zum Stichtag":"bis zur Prüfung"}.`;
   return `<p class="motiv">${m}</p>`;
 }
 
