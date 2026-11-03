@@ -49,7 +49,7 @@ function renderNav(){
   $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.v));
 }
 function go(v){ view=v; render(); window.scrollTo(0,0); }
-function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,sessdone:renderHome})[view](); addSwitch(); updateSessBar(); }
+function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,dump:renderDump,sessdone:renderHome})[view](); addSwitch(); updateSessBar(); }
 const backTo=label=>`<button class="crumb" id="crumb">← ${label}</button>`;
 function bindCrumb(fn){ const b=$("#crumb"); if(b) b.onclick=fn; }
 const chLabel=n=>{ const c=chOf(n); return c?"Sitzung "+c.no:""; };
@@ -176,10 +176,11 @@ function renderChapter(){
     ${ch.lit?`<p class="small muted">${ch.lit}</p>`:""}
     <div class="block"><div class="modes">
       <button class="mode" id="mL"><span class="t">Theorie</span><span class="n">${nl}/${L.length}</span><span class="d">${L.length} kurze Lektionen. Zu jeder erst selbst überlegen, dann die Auswahl.</span></button>
-      ${K.length?`<button class="mode" id="mK"><span class="t">Karten</span><span class="n">${dueCards(n).length} fällig · ${K.filter(x=>!isSeen(x.id)).length} neu</span><span class="d">Begriffe, Autoren, Aufzählungen. Drei Stufen: nicht gewusst, unsicher, sicher.</span></button>`:""}
+      ${K.length?`<button class="mode" id="mK"><span class="t">Karten</span><span class="n">${dueCards(n).length} fällig · ${K.filter(x=>!isSeen(x.id)).length} neu</span><span class="d">Begriffe, Autoren, Aufzählungen. Erst antworten, dann aufdecken und wischen: rechts sicher, links nicht sicher.</span></button>`:""}
       ${Q.length?`<button class="mode" id="mQ"><span class="t">Verständnisfragen</span><span class="n">${qd} fällig</span><span class="d">Die Fragen aus den Lektionen, mit wachsendem Abstand wiederholt.</span></button>`:""}
       ${WH.length?`<button class="mode" id="mW2"><span class="t">Was gehört wohin?</span><span class="n">${WH.filter(x=>(state.who||{})[x.id]&&state.who[x.id].last).length}/${WH.length}</span><span class="d">Aussagen dem richtigen Autor, Regimetyp oder Teilregime zuordnen.</span></button>`:""}
       ${X.length?`<button class="mode" id="mX"><span class="t">Selbsttest</span><span class="n">${nx}/${X.length} fehlerfrei</span><span class="d">Je drei Aussagen, wahr oder falsch. Prüft, ob du die Begriffe sauber auseinanderhältst.</span></button>`:""}
+      ${nl?`<button class="mode" id="mD"><span class="t">Alles aufschreiben</span><span class="n">${(state.dump||{})[n]?state.dump[n].p+"/"+state.dump[n].max:"neu"}</span><span class="d">5 Minuten aus dem Gedächtnis aufschreiben, was du zu dieser Sitzung weißt. Danach mit den Kernpunkten abgleichen.</span></button>`:""}
       ${W.length?`<button class="mode" id="mO"><span class="t">Gliederung in 10 Minuten</span><span class="n">${W.filter(x=>(state.outl||{})[x.id]).length}/${W.length}</span><span class="d">Prüfungsfrage lesen, nur die Gliederung schreiben, mit dem Vorschlag abgleichen.</span></button>
       <button class="mode" id="mW"><span class="t">Essay schreiben</span><span class="n">${nw}/${W.length}</span><span class="d">Ganze Antwort schreiben, am Erwartungshorizont abhaken, Musteressay lesen.</span></button>`:""}
     </div></div>
@@ -192,6 +193,7 @@ function renderChapter(){
   if($("#mW2")) $("#mW2").onclick=()=>openWho(8,n);
   if($("#mX")) $("#mX").onclick=()=>openKreuz(n);
   if($("#mO")) $("#mO").onclick=()=>openOutline(n);
+  if($("#mD")) $("#mD").onclick=()=>openDump(n);
   if($("#mW")) $("#mW").onclick=()=>openEssay(n);
   document.querySelectorAll(".titem").forEach(b=>b.onclick=()=>openLesson(n,+b.dataset.i));
 }
@@ -325,7 +327,7 @@ function renderCards(){
     const when=nextDue? Math.round((dayStart(nextDue)-dayStart())/864e5) : null;
     $("#app").innerHTML=`${backTo(deckLabel(n))}<h1>${D.length?(left?"Runde geschafft":"Für heute erledigt"):"Nichts fällig"}</h1>
       <div class="block">${D.length?`<p>${cur.right} sicher, ${cur.unsure||0} nicht sicher.</p>`:""}
-      <p class="small muted">${left?`Noch ${left} Karten fällig oder neu.`:`Alle Karten${n?" dieses Stapels":""} sind auf dem Stand. ${when!=null?`Die nächsten werden ${when<=0?"heute":when===1?"morgen":"in "+when+" Tagen"} fällig.`:""}`} Sichere Karten kommen nach 1, 3, 7, 16 und 35 Tagen wieder, nicht sichere gleich in dieser Runde und morgen noch einmal.</p>
+      <p class="small muted">${left?`Noch ${left} Karten fällig oder neu.`:`Alle Karten${n?" dieses Stapels":""} sind auf dem Stand. ${when!=null?`Die nächsten werden ${when<=0?"heute":when===1?"morgen":"in "+when+" Tagen"} fällig.`:""}`} Sichere Karten kommen nach etwa 1, 3, 7, 16 und 35 Tagen wieder, vor der Prüfung in kürzeren Abständen. Nicht sichere kommen in derselben Runde wieder, bis du sie einmal sicher weißt, und morgen noch einmal.</p>
       <div class="row">${sess?sessBtn():`${left?`<button class="btn" id="again">Weiter</button>`:""}${allCards(n).length?`<button class="btn ghost" id="free">Freiwillig weiterüben</button>`:""}<button class="btn ghost" id="out">Fertig</button>`}</div></div>`;
     bindCrumb(()=>deckBack(n)); if($("#again")) $("#again").onclick=()=>openCards(n); if($("#free")) $("#free").onclick=()=>openCards(n,true); if($("#out")) $("#out").onclick=()=>deckBack(n); return;
   }
@@ -368,11 +370,11 @@ function renderCards(){
     const b0=cardBox(c.id), old=state.due[c.id]||0;
     cur.hist.push({ci:cur.ci, id:c.id, box:state.box[c.id], due:state.due[c.id], lapse:state.lapses[c.id], right:cur.right, unsure:cur.unsure, len:D.length, rq:Object.assign({},cur.requeued), typed:cur.typed});
     const b1= lv===2? Math.min(5,Math.max(b0,1)+1) : Math.max(1,b0-1);
-    const nd= lv===2? dayStart()+(b0===5?35:INTERVAL[b1])*864e5 : dayStart()+864e5;
+    const nd= lv===2? dayStart()+spaceDays(b0===5?35:INTERVAL[b1])*864e5 : dayStart()+864e5;
     if(!cur.free){ state.box[c.id]=b1; state.due[c.id]=nd; }
     else if(lv<2){ state.box[c.id]=Math.min(b0||1,b1); state.due[c.id]=Math.min(old||nd,nd); }
     if(lv===2) cur.right++;
-    else { cur.unsure=(cur.unsure||0)+1; state.lapses[c.id]=(state.lapses[c.id]||0)+1; if(!cur.requeued[c.id]){ cur.requeued[c.id]=1; D.push(c); } }
+    else { cur.unsure=(cur.unsure||0)+1; state.lapses[c.id]=(state.lapses[c.id]||0)+1; if((cur.requeued[c.id]||0)<3){ cur.requeued[c.id]=(cur.requeued[c.id]||0)+1; D.push(c); } }
     logDay(); save(); cur.ci++; cur.flip=false; cur.typed=""; renderCards(); window.scrollTo(0,0); }
   if($("#yes")) $("#yes").onclick=()=>{ cur.enter=true; grade(2); };
   if($("#mid")) $("#mid").onclick=()=>{ cur.enter=true; grade(1); };
@@ -392,7 +394,7 @@ function renderPractice(){
   }
   const W=essaysOf(0), WH=whoOf(0), T=allCards("b");
   $("#app").innerHTML=`<p class="eyebrow">${C.eyebrow}</p><h1>Üben</h1>
-    <p class="muted">Gemischt aus allen fertigen Sitzungen (${ready.map(n=>chOf(n).no).join(", ")}). Gemischtes Üben ist anstrengender als blockweises, bleibt aber deutlich besser hängen.</p>
+    <p class="muted">Gemischt aus allen fertigen Sitzungen (${ready.map(n=>chOf(n).no).join(", ")}). Gemischt heißt: Du musst jedes Mal erst erkennen, worum es geht. Das trainiert genau das Unterscheiden ähnlicher Begriffe, das die Prüfung verlangt.</p>
     <p class="sect"><span>Wiederholen</span><span></span></p>
     <div class="block"><div class="modes">
       <button class="mode" id="pK"><span class="t">Fällige Karten</span><span class="n">${dueCards(0).length} fällig</span><span class="d">Alle Karten und Begriffe, die heute dran sind. Neue Karten lernst du in der jeweiligen Sitzung.</span></button>
@@ -403,6 +405,7 @@ function renderPractice(){
     </div></div>
     ${W.length?`<p class="sect"><span>Im Prüfungsformat</span><span>${state.course==="se"?"Essay, ca. 500 Wörter, 60 Min.":"Essay, 60 Min."}</span></p>
     <div class="block"><div class="modes">
+      <button class="mode" id="pD"><span class="t">Alles aufschreiben</span><span class="n">${Object.keys(state.dump||{}).filter(k=>chOf(+k)&&chOf(+k).c===state.course).length}/${ready.length}</span><span class="d">Eine Sitzung, 5 Minuten, alles aus dem Gedächtnis. Trainiert genau das, was der Essay verlangt: Wissen ohne Hilfen ordnen.</span></button>
       <button class="mode" id="pO"><span class="t">Gliederung in 10 Minuten</span><span class="n">${W.filter(x=>(state.outl||{})[x.id]).length}/${W.length}</span><span class="d">Die wichtigste Essay-Fähigkeit: Frage zerlegen und eine tragfähige Gliederung bauen.</span></button>
       <button class="mode" id="pW2"><span class="t">Essay-Fragen schreiben</span><span class="n">${W.filter(x=>essayScore(x.id)).length}/${W.length}</span><span class="d">Eine Frage, mit oder ohne Gliederungshilfe. Danach Erwartungshorizont und Musteressay.</span></button>
       <button class="mode" id="pX"><span class="t">Probe-Essay, 60 Minuten</span><span class="n">${state.examRun?"läuft":(state.exams||[]).filter(e=>(e.c||"vl")===state.course).length+"×"}</span><span class="d">${state.course==="se"?"Wie am 04.02.: drei Fragen, eine wählen, 60 Minuten, keine Hilfen. Danach nach den vier Kriterien bewerten.":"Wie am Prüfungstag: eine Frage, Timer, keine Hilfen. Danach selbst oder von Claude bewerten lassen."}</span></button>
@@ -413,6 +416,7 @@ function renderPractice(){
   if($("#pB")) $("#pB").onclick=()=>go("terms");
   $("#pKr").onclick=()=>openKreuz(0);
   if($("#pO")) $("#pO").onclick=()=>openOutline(0);
+  if($("#pD")) $("#pD").onclick=()=>openDump(0);
   if($("#pW2")) $("#pW2").onclick=()=>openEssay(0);
   if($("#pX")) $("#pX").onclick=()=>go("exam");
 }
@@ -442,3 +446,12 @@ function renderStats(){
   bindSync(); bindExamPlan(); bindWeak(); bindTodo();
   $("#rst").onclick=()=>{ if(!statsArmed){ statsArmed=true; render(); return; } const c=state.course; state={}; norm(); state.course=c; save(); flushPush(); statsArmed=false; toast("Zurückgesetzt"); render(); };
 }
+
+/* Tastatur (iPad mit Tastatur): Leertaste oder Enter dreht die Karte, → sicher, ← nicht sicher, Z eine Karte zurück */
+document.addEventListener("keydown",e=>{
+  if(view!=="cards"||e.metaKey||e.ctrlKey||e.altKey||(e.target.closest&&e.target.closest("textarea,input,select"))) return;
+  const c=$("#theCard"); if(!c||document.activeElement===c) return;
+  const k=e.key, hit=id=>{ const b=$(id); if(b){ e.preventDefault(); b.click(); } };
+  if(k===" "||k==="Enter"){ e.preventDefault(); c.click(); }
+  else if(k==="ArrowRight") hit("#yes"); else if(k==="ArrowLeft") hit("#mid"); else if(k==="z"||k==="Z") hit("#cprev");
+});

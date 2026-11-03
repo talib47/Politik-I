@@ -14,7 +14,7 @@ function qDue(){ const now=Date.now(); return allQuestions().filter(q=>{ const s
 function qGrade(id,ok,idk){
   const s=qInfo(id)||{b:0};
   const b1= ok? Math.min(5,Math.max(s.b,1)+1) : 1;
-  state.qbox[id]={b:b1, due:dayStart()+(ok?(s.b===5?35:INTERVAL[b1]):1)*864e5};
+  state.qbox[id]={b:b1, due:dayStart()+(ok?spaceDays(s.b===5?35:INTERVAL[b1]):1)*864e5};
   if(!ok&&!idk) state.qlapses[id]=(state.qlapses[id]||0)+1;
 }
 /* Reihenfolge der Antworten je Frage und Tag gemischt (damit man sich nicht die Position merkt), beim Neuzeichnen stabil */

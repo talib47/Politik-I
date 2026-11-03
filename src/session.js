@@ -13,11 +13,12 @@ function planToday(){
   const lesson=nx&&nx.lesson?{k:"lesson", t:"Neu lernen", d:nx.title, min:5, go:nx.go}:null;
   if(!dc&&!dq&&lesson) S.push(lesson);
   if(dc) S.push({k:"cards", t:"Karten wiederholen", d:`${Math.min(dc,20)} fällige Karten`, min:Math.max(2,Math.round(Math.min(dc,20)*.4))});
-  else { const n=freshChapter(); if(n) S.push({k:"newcards", n, t:"Neue Karten", d:`5 neue Karten aus Sitzung ${chOf(n).no}`, min:3}); }
+  if(dc<25){ const n=freshChapter(); if(n) S.push({k:"newcards", n, t:"Neue Karten", d:`5 neue Karten aus Sitzung ${chOf(n).no}`, min:3}); }
   if(dq) S.push({k:"recall", t:"Verständnisfragen", d:`${Math.min(dq,6)} fällige Fragen aus den Lektionen`, min:3});
   if(half) S.push({k:"outline", t:"Gliederung in 10 Minuten", d:"eine Prüfungsfrage gliedern, wie am Anfang des Essays", min:10});
-  if(started.length){ const rot=["who","kreuz","terms"][dayIndex()%3];
+  if(started.length){ const rot=["who","kreuz","dump","terms"][dayIndex()%4];
     if(rot==="who"&&whoOf(0).length) S.push({k:"who", t:"Was gehört wohin?", d:"6 Aussagen zuordnen", min:3});
+    else if(rot==="dump"&&pickDump()) S.push({k:"dump", t:"Alles aufschreiben", d:`5 Minuten aus dem Gedächtnis: ${chLabel(pickDump().n)}`, min:7});
     else if(rot==="terms"&&allCards("b").length) S.push({k:"terms", t:"Begriffe", d:"8 Begriffe, gemischt in beide Richtungen", min:3});
     else if(kreuzOf(0).length) S.push({k:"kreuz", t:"Selbsttest", d:"Aussagen als wahr oder falsch erkennen", min:4}); }
   if(lesson&&!S.includes(lesson)) S.push(lesson);
@@ -33,6 +34,7 @@ function runStep(){
     newcards:()=>openCards(s.n,false,allCards(s.n).filter(x=>!isSeen(x.id)).slice(0,5)),
     recall:()=>openRecall(qDue().slice(0,6)),
     outline:()=>openOutline(0),
+    dump:()=>openDump(0),
     who:()=>openWho(6),
     terms:()=>openCards("b",false,termsForToday()),
     kreuz:()=>openKreuz(0),
@@ -45,7 +47,7 @@ function finishSession(){
   const min=Math.max(1,Math.round((Date.now()-sess.t0)/60000)); state.sessions[today()]=min; save();
   sess=null; updateSessBar(); view="sessdone"; renderNav();
   $("#app").innerHTML=`<p class="eyebrow">Heute</p><h1>Geschafft</h1><div class="block"><p>Deine Einheit ist fertig, etwa ${min} Minuten.</p>
-    <p class="small muted">Morgen stellt die App eine neue Einheit zusammen. Was du heute nicht sicher wusstest, ist dann wieder dabei.</p>
+    <p class="small muted">Morgen stellt die App eine neue Einheit zusammen. Was du heute nicht sicher wusstest, ist dann wieder dabei.${new Date().getHours()>=18?" Abends gelernt? Dann mach morgen früh kurz die fälligen Karten: Mit Schlaf zwischen zwei Runden sitzt der Stoff schneller und länger.":""}</p>
     <div class="row"><button class="btn" id="sdHome">Zum Lernpfad</button></div></div>`;
   $("#sdHome").onclick=()=>go("home"); window.scrollTo(0,0);
 }

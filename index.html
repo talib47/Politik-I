@@ -31,7 +31,9 @@
   --accent:#E7A5B0; --accent-ink:#22100F; --accent-soft:#3B2529;
   --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
 *{box-sizing:border-box}
-html{font-size:calc(100% * var(--z,1))}
+html{font-size:calc(var(--base,100%) * var(--z,1))}
+@media (min-width:768px){:root{--base:106.25%}}
+@media (min-width:1100px){:root{--base:112.5%}}
 .zoom{position:fixed;right:max(12px, env(safe-area-inset-right, 0px));bottom:calc(72px + env(safe-area-inset-bottom, 0px));display:flex;flex-direction:column;gap:8px;z-index:6}
 .zoom button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);background:var(--surface);color:var(--ink);font-size:22px;line-height:1;opacity:.9;box-shadow:0 1px 4px rgba(0,0,0,.15)}
 .tag{display:inline-block;font-family:var(--sans);font-size:.68rem;font-weight:600;letter-spacing:.04em;text-transform:uppercase;padding:1px 7px;border-radius:999px;vertical-align:middle;white-space:nowrap}
@@ -429,7 +431,7 @@ function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
 let state;
 try{ state=JSON.parse(lsGet(KEY)||"null"); }catch(e){ state=null; }
 if(!state||typeof state!=="object") state={};
-function norm(){ for(const k of ["days","lessons","box","due","lapses","qbox","qlapses","who","outl","essays","drafts","kreuz","unclear","examDates","sessions","todo"]) if(!state[k]||typeof state[k]!=="object") state[k]={}; }
+function norm(){ for(const k of ["days","lessons","box","due","lapses","qbox","qlapses","who","outl","essays","drafts","kreuz","unclear","examDates","sessions","todo","dump"]) if(!state[k]||typeof state[k]!=="object") state[k]={}; }
 norm();
 if(state.course!=="se") state.course="vl";
 function save(){ state.updated=Date.now(); lsSet(KEY,JSON.stringify(state)); schedulePush(); }
@@ -758,7 +760,7 @@ function renderNav(){
   $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.v));
 }
 function go(v){ view=v; render(); window.scrollTo(0,0); }
-function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,sessdone:renderHome})[view](); addSwitch(); updateSessBar(); }
+function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,dump:renderDump,sessdone:renderHome})[view](); addSwitch(); updateSessBar(); }
 const backTo=label=>`<button class="crumb" id="crumb">← ${label}</button>`;
 function bindCrumb(fn){ const b=$("#crumb"); if(b) b.onclick=fn; }
 const chLabel=n=>{ const c=chOf(n); return c?"Sitzung "+c.no:""; };
@@ -885,10 +887,11 @@ function renderChapter(){
     ${ch.lit?`<p class="small muted">${ch.lit}</p>`:""}
     <div class="block"><div class="modes">
       <button class="mode" id="mL"><span class="t">Theorie</span><span class="n">${nl}/${L.length}</span><span class="d">${L.length} kurze Lektionen. Zu jeder erst selbst überlegen, dann die Auswahl.</span></button>
-      ${K.length?`<button class="mode" id="mK"><span class="t">Karten</span><span class="n">${dueCards(n).length} fällig · ${K.filter(x=>!isSeen(x.id)).length} neu</span><span class="d">Begriffe, Autoren, Aufzählungen. Drei Stufen: nicht gewusst, unsicher, sicher.</span></button>`:""}
+      ${K.length?`<button class="mode" id="mK"><span class="t">Karten</span><span class="n">${dueCards(n).length} fällig · ${K.filter(x=>!isSeen(x.id)).length} neu</span><span class="d">Begriffe, Autoren, Aufzählungen. Erst antworten, dann aufdecken und wischen: rechts sicher, links nicht sicher.</span></button>`:""}
       ${Q.length?`<button class="mode" id="mQ"><span class="t">Verständnisfragen</span><span class="n">${qd} fällig</span><span class="d">Die Fragen aus den Lektionen, mit wachsendem Abstand wiederholt.</span></button>`:""}
       ${WH.length?`<button class="mode" id="mW2"><span class="t">Was gehört wohin?</span><span class="n">${WH.filter(x=>(state.who||{})[x.id]&&state.who[x.id].last).length}/${WH.length}</span><span class="d">Aussagen dem richtigen Autor, Regimetyp oder Teilregime zuordnen.</span></button>`:""}
       ${X.length?`<button class="mode" id="mX"><span class="t">Selbsttest</span><span class="n">${nx}/${X.length} fehlerfrei</span><span class="d">Je drei Aussagen, wahr oder falsch. Prüft, ob du die Begriffe sauber auseinanderhältst.</span></button>`:""}
+      ${nl?`<button class="mode" id="mD"><span class="t">Alles aufschreiben</span><span class="n">${(state.dump||{})[n]?state.dump[n].p+"/"+state.dump[n].max:"neu"}</span><span class="d">5 Minuten aus dem Gedächtnis aufschreiben, was du zu dieser Sitzung weißt. Danach mit den Kernpunkten abgleichen.</span></button>`:""}
       ${W.length?`<button class="mode" id="mO"><span class="t">Gliederung in 10 Minuten</span><span class="n">${W.filter(x=>(state.outl||{})[x.id]).length}/${W.length}</span><span class="d">Prüfungsfrage lesen, nur die Gliederung schreiben, mit dem Vorschlag abgleichen.</span></button>
       <button class="mode" id="mW"><span class="t">Essay schreiben</span><span class="n">${nw}/${W.length}</span><span class="d">Ganze Antwort schreiben, am Erwartungshorizont abhaken, Musteressay lesen.</span></button>`:""}
     </div></div>
@@ -901,6 +904,7 @@ function renderChapter(){
   if($("#mW2")) $("#mW2").onclick=()=>openWho(8,n);
   if($("#mX")) $("#mX").onclick=()=>openKreuz(n);
   if($("#mO")) $("#mO").onclick=()=>openOutline(n);
+  if($("#mD")) $("#mD").onclick=()=>openDump(n);
   if($("#mW")) $("#mW").onclick=()=>openEssay(n);
   document.querySelectorAll(".titem").forEach(b=>b.onclick=()=>openLesson(n,+b.dataset.i));
 }
@@ -1034,7 +1038,7 @@ function renderCards(){
     const when=nextDue? Math.round((dayStart(nextDue)-dayStart())/864e5) : null;
     $("#app").innerHTML=`${backTo(deckLabel(n))}<h1>${D.length?(left?"Runde geschafft":"Für heute erledigt"):"Nichts fällig"}</h1>
       <div class="block">${D.length?`<p>${cur.right} sicher, ${cur.unsure||0} nicht sicher.</p>`:""}
-      <p class="small muted">${left?`Noch ${left} Karten fällig oder neu.`:`Alle Karten${n?" dieses Stapels":""} sind auf dem Stand. ${when!=null?`Die nächsten werden ${when<=0?"heute":when===1?"morgen":"in "+when+" Tagen"} fällig.`:""}`} Sichere Karten kommen nach 1, 3, 7, 16 und 35 Tagen wieder, nicht sichere gleich in dieser Runde und morgen noch einmal.</p>
+      <p class="small muted">${left?`Noch ${left} Karten fällig oder neu.`:`Alle Karten${n?" dieses Stapels":""} sind auf dem Stand. ${when!=null?`Die nächsten werden ${when<=0?"heute":when===1?"morgen":"in "+when+" Tagen"} fällig.`:""}`} Sichere Karten kommen nach etwa 1, 3, 7, 16 und 35 Tagen wieder, vor der Prüfung in kürzeren Abständen. Nicht sichere kommen in derselben Runde wieder, bis du sie einmal sicher weißt, und morgen noch einmal.</p>
       <div class="row">${sess?sessBtn():`${left?`<button class="btn" id="again">Weiter</button>`:""}${allCards(n).length?`<button class="btn ghost" id="free">Freiwillig weiterüben</button>`:""}<button class="btn ghost" id="out">Fertig</button>`}</div></div>`;
     bindCrumb(()=>deckBack(n)); if($("#again")) $("#again").onclick=()=>openCards(n); if($("#free")) $("#free").onclick=()=>openCards(n,true); if($("#out")) $("#out").onclick=()=>deckBack(n); return;
   }
@@ -1077,11 +1081,11 @@ function renderCards(){
     const b0=cardBox(c.id), old=state.due[c.id]||0;
     cur.hist.push({ci:cur.ci, id:c.id, box:state.box[c.id], due:state.due[c.id], lapse:state.lapses[c.id], right:cur.right, unsure:cur.unsure, len:D.length, rq:Object.assign({},cur.requeued), typed:cur.typed});
     const b1= lv===2? Math.min(5,Math.max(b0,1)+1) : Math.max(1,b0-1);
-    const nd= lv===2? dayStart()+(b0===5?35:INTERVAL[b1])*864e5 : dayStart()+864e5;
+    const nd= lv===2? dayStart()+spaceDays(b0===5?35:INTERVAL[b1])*864e5 : dayStart()+864e5;
     if(!cur.free){ state.box[c.id]=b1; state.due[c.id]=nd; }
     else if(lv<2){ state.box[c.id]=Math.min(b0||1,b1); state.due[c.id]=Math.min(old||nd,nd); }
     if(lv===2) cur.right++;
-    else { cur.unsure=(cur.unsure||0)+1; state.lapses[c.id]=(state.lapses[c.id]||0)+1; if(!cur.requeued[c.id]){ cur.requeued[c.id]=1; D.push(c); } }
+    else { cur.unsure=(cur.unsure||0)+1; state.lapses[c.id]=(state.lapses[c.id]||0)+1; if((cur.requeued[c.id]||0)<3){ cur.requeued[c.id]=(cur.requeued[c.id]||0)+1; D.push(c); } }
     logDay(); save(); cur.ci++; cur.flip=false; cur.typed=""; renderCards(); window.scrollTo(0,0); }
   if($("#yes")) $("#yes").onclick=()=>{ cur.enter=true; grade(2); };
   if($("#mid")) $("#mid").onclick=()=>{ cur.enter=true; grade(1); };
@@ -1101,7 +1105,7 @@ function renderPractice(){
   }
   const W=essaysOf(0), WH=whoOf(0), T=allCards("b");
   $("#app").innerHTML=`<p class="eyebrow">${C.eyebrow}</p><h1>Üben</h1>
-    <p class="muted">Gemischt aus allen fertigen Sitzungen (${ready.map(n=>chOf(n).no).join(", ")}). Gemischtes Üben ist anstrengender als blockweises, bleibt aber deutlich besser hängen.</p>
+    <p class="muted">Gemischt aus allen fertigen Sitzungen (${ready.map(n=>chOf(n).no).join(", ")}). Gemischt heißt: Du musst jedes Mal erst erkennen, worum es geht. Das trainiert genau das Unterscheiden ähnlicher Begriffe, das die Prüfung verlangt.</p>
     <p class="sect"><span>Wiederholen</span><span></span></p>
     <div class="block"><div class="modes">
       <button class="mode" id="pK"><span class="t">Fällige Karten</span><span class="n">${dueCards(0).length} fällig</span><span class="d">Alle Karten und Begriffe, die heute dran sind. Neue Karten lernst du in der jeweiligen Sitzung.</span></button>
@@ -1112,6 +1116,7 @@ function renderPractice(){
     </div></div>
     ${W.length?`<p class="sect"><span>Im Prüfungsformat</span><span>${state.course==="se"?"Essay, ca. 500 Wörter, 60 Min.":"Essay, 60 Min."}</span></p>
     <div class="block"><div class="modes">
+      <button class="mode" id="pD"><span class="t">Alles aufschreiben</span><span class="n">${Object.keys(state.dump||{}).filter(k=>chOf(+k)&&chOf(+k).c===state.course).length}/${ready.length}</span><span class="d">Eine Sitzung, 5 Minuten, alles aus dem Gedächtnis. Trainiert genau das, was der Essay verlangt: Wissen ohne Hilfen ordnen.</span></button>
       <button class="mode" id="pO"><span class="t">Gliederung in 10 Minuten</span><span class="n">${W.filter(x=>(state.outl||{})[x.id]).length}/${W.length}</span><span class="d">Die wichtigste Essay-Fähigkeit: Frage zerlegen und eine tragfähige Gliederung bauen.</span></button>
       <button class="mode" id="pW2"><span class="t">Essay-Fragen schreiben</span><span class="n">${W.filter(x=>essayScore(x.id)).length}/${W.length}</span><span class="d">Eine Frage, mit oder ohne Gliederungshilfe. Danach Erwartungshorizont und Musteressay.</span></button>
       <button class="mode" id="pX"><span class="t">Probe-Essay, 60 Minuten</span><span class="n">${state.examRun?"läuft":(state.exams||[]).filter(e=>(e.c||"vl")===state.course).length+"×"}</span><span class="d">${state.course==="se"?"Wie am 04.02.: drei Fragen, eine wählen, 60 Minuten, keine Hilfen. Danach nach den vier Kriterien bewerten.":"Wie am Prüfungstag: eine Frage, Timer, keine Hilfen. Danach selbst oder von Claude bewerten lassen."}</span></button>
@@ -1122,6 +1127,7 @@ function renderPractice(){
   if($("#pB")) $("#pB").onclick=()=>go("terms");
   $("#pKr").onclick=()=>openKreuz(0);
   if($("#pO")) $("#pO").onclick=()=>openOutline(0);
+  if($("#pD")) $("#pD").onclick=()=>openDump(0);
   if($("#pW2")) $("#pW2").onclick=()=>openEssay(0);
   if($("#pX")) $("#pX").onclick=()=>go("exam");
 }
@@ -1152,6 +1158,15 @@ function renderStats(){
   $("#rst").onclick=()=>{ if(!statsArmed){ statsArmed=true; render(); return; } const c=state.course; state={}; norm(); state.course=c; save(); flushPush(); statsArmed=false; toast("Zurückgesetzt"); render(); };
 }
 
+/* Tastatur (iPad mit Tastatur): Leertaste oder Enter dreht die Karte, → sicher, ← nicht sicher, Z eine Karte zurück */
+document.addEventListener("keydown",e=>{
+  if(view!=="cards"||e.metaKey||e.ctrlKey||e.altKey||(e.target.closest&&e.target.closest("textarea,input,select"))) return;
+  const c=$("#theCard"); if(!c||document.activeElement===c) return;
+  const k=e.key, hit=id=>{ const b=$(id); if(b){ e.preventDefault(); b.click(); } };
+  if(k===" "||k==="Enter"){ e.preventDefault(); c.click(); }
+  else if(k==="ArrowRight") hit("#yes"); else if(k==="ArrowLeft") hit("#mid"); else if(k==="z"||k==="Z") hit("#cprev");
+});
+
 /* ================= Verständnisfragen: erst selbst abrufen, dann Auswahl; Wiederholung mit Abstand (aus Wirtschaft II) =================
    Jede Frage aus den Lektionen bekommt ein eigenes Fach wie eine Karteikarte (state.qbox), ID = Lektions-ID#Nummer.
    Ältere Antworten (vor dieser Funktion) werden aus state.lessons abgeleitet, ohne etwas zu speichern.
@@ -1168,7 +1183,7 @@ function qDue(){ const now=Date.now(); return allQuestions().filter(q=>{ const s
 function qGrade(id,ok,idk){
   const s=qInfo(id)||{b:0};
   const b1= ok? Math.min(5,Math.max(s.b,1)+1) : 1;
-  state.qbox[id]={b:b1, due:dayStart()+(ok?(s.b===5?35:INTERVAL[b1]):1)*864e5};
+  state.qbox[id]={b:b1, due:dayStart()+(ok?spaceDays(s.b===5?35:INTERVAL[b1]):1)*864e5};
   if(!ok&&!idk) state.qlapses[id]=(state.qlapses[id]||0)+1;
 }
 /* Reihenfolge der Antworten je Frage und Tag gemischt (damit man sich nicht die Position merkt), beim Neuzeichnen stabil */
@@ -1303,11 +1318,12 @@ function planToday(){
   const lesson=nx&&nx.lesson?{k:"lesson", t:"Neu lernen", d:nx.title, min:5, go:nx.go}:null;
   if(!dc&&!dq&&lesson) S.push(lesson);
   if(dc) S.push({k:"cards", t:"Karten wiederholen", d:`${Math.min(dc,20)} fällige Karten`, min:Math.max(2,Math.round(Math.min(dc,20)*.4))});
-  else { const n=freshChapter(); if(n) S.push({k:"newcards", n, t:"Neue Karten", d:`5 neue Karten aus Sitzung ${chOf(n).no}`, min:3}); }
+  if(dc<25){ const n=freshChapter(); if(n) S.push({k:"newcards", n, t:"Neue Karten", d:`5 neue Karten aus Sitzung ${chOf(n).no}`, min:3}); }
   if(dq) S.push({k:"recall", t:"Verständnisfragen", d:`${Math.min(dq,6)} fällige Fragen aus den Lektionen`, min:3});
   if(half) S.push({k:"outline", t:"Gliederung in 10 Minuten", d:"eine Prüfungsfrage gliedern, wie am Anfang des Essays", min:10});
-  if(started.length){ const rot=["who","kreuz","terms"][dayIndex()%3];
+  if(started.length){ const rot=["who","kreuz","dump","terms"][dayIndex()%4];
     if(rot==="who"&&whoOf(0).length) S.push({k:"who", t:"Was gehört wohin?", d:"6 Aussagen zuordnen", min:3});
+    else if(rot==="dump"&&pickDump()) S.push({k:"dump", t:"Alles aufschreiben", d:`5 Minuten aus dem Gedächtnis: ${chLabel(pickDump().n)}`, min:7});
     else if(rot==="terms"&&allCards("b").length) S.push({k:"terms", t:"Begriffe", d:"8 Begriffe, gemischt in beide Richtungen", min:3});
     else if(kreuzOf(0).length) S.push({k:"kreuz", t:"Selbsttest", d:"Aussagen als wahr oder falsch erkennen", min:4}); }
   if(lesson&&!S.includes(lesson)) S.push(lesson);
@@ -1323,6 +1339,7 @@ function runStep(){
     newcards:()=>openCards(s.n,false,allCards(s.n).filter(x=>!isSeen(x.id)).slice(0,5)),
     recall:()=>openRecall(qDue().slice(0,6)),
     outline:()=>openOutline(0),
+    dump:()=>openDump(0),
     who:()=>openWho(6),
     terms:()=>openCards("b",false,termsForToday()),
     kreuz:()=>openKreuz(0),
@@ -1335,7 +1352,7 @@ function finishSession(){
   const min=Math.max(1,Math.round((Date.now()-sess.t0)/60000)); state.sessions[today()]=min; save();
   sess=null; updateSessBar(); view="sessdone"; renderNav();
   $("#app").innerHTML=`<p class="eyebrow">Heute</p><h1>Geschafft</h1><div class="block"><p>Deine Einheit ist fertig, etwa ${min} Minuten.</p>
-    <p class="small muted">Morgen stellt die App eine neue Einheit zusammen. Was du heute nicht sicher wusstest, ist dann wieder dabei.</p>
+    <p class="small muted">Morgen stellt die App eine neue Einheit zusammen. Was du heute nicht sicher wusstest, ist dann wieder dabei.${new Date().getHours()>=18?" Abends gelernt? Dann mach morgen früh kurz die fälligen Karten: Mit Schlaf zwischen zwei Runden sitzt der Stoff schneller und länger.":""}</p>
     <div class="row"><button class="btn" id="sdHome">Zum Lernpfad</button></div></div>`;
   $("#sdHome").onclick=()=>go("home"); window.scrollTo(0,0);
 }
@@ -1434,49 +1451,68 @@ function bindWeak(){
   if($("#wkE")) $("#wkE").onclick=()=>openEssay(0,D.weakE[0].id);
 }
 
-/* ================= Stand der Unterlagen, Erledigt-Liste, Motivation =================
-   UPLOADS: nur was wirklich im claude.ai-Projekt liegt und eingebaut ist. Jede neue Sitzung trägt sich in ihrer
-   Inhaltsdatei selbst ein: UPLOADS.push({c, ch, what}). Nichts Zukünftiges eintragen, die Liste endet beim letzten Upload.
-   TODOS: Aufgaben neben dem Lernen je Veranstaltung (aus Folien und Verlaufsplan). Abgehakt in state.todo[id] = Zeitstempel. */
-const UPLOADS=[];
-/* Eintrag je Sitzung oder Block:
-   {c, ch, items:[{t:"Kurzname", k:"Folien|Textgrundlage|Empfehlung|Lektüre", ok:true|false}], known:true|false, src:"woher der Umfang bekannt ist"}
-   known:true  = der vollständige Umfang ist bekannt (Moodle-Screenshot, Verlaufsplan, Folie). Fehlendes steht dann mit ok:false drin.
-   known:false = nur bekannt, dass das Hochgeladene dazugehört; der Umfang fehlt noch. */
-const UNIT={vl:"Sitzung", se:"Block"};
+/* ================= Einstellungen nur dieser App für die gemeinsamen Bausteine (status.js) ================= */
 const ROM=["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];
-const unitNo=c=>state.course==="se"?ROM[c.no]||c.no:c.no;
+const APP={
+ name:"Politik I",
+ halves:true,                                   /* zwei Hälften mit Umschalter: vl und se */
+ chap:n=>chOf(n),
+ unit:u=>u.c==="se"?"Block":"Sitzung",
+ unitNo:c=>c.c==="se"?(ROM[c.no]||c.no):c.no,
+ examTs:()=>examDateTs(),                       /* Prüfungstermin der gewählten Hälfte */
+ todos:{
+  vl:[
+   {id:"vl-acemate", t:"Selbstlernphase: Fragen und Essay-Aufgabe auf Acemate", d:"22. und 29.10."},
+   {id:"vl-his", t:"Zur Prüfung in HIS in One angemeldet", d:"Frist im HIS prüfen"},
+   {id:"vl-qa", t:"Q&A zur Prüfung", d:"21.01."}
+  ],
+  se:[
+   {id:"se-wahl", t:"Presseschau-Wahl in Moodle abgegeben", d:"bis Mi 04.11., 23:59"},
+   {id:"se-termin", t:"Presseschau-Termin zugeteilt und notiert", d:"ab Do 05.11., 10 Uhr"},
+   {id:"se-presse", t:"Presseschau aufgenommen, MP4 auf Sciebo, Link und PDF per Mail", d:"Vortag der Sitzung, 12 Uhr"},
+   {id:"se-bib1", t:"Bibliotheksschein Teil 1"},
+   {id:"se-bib2", t:"Bibliotheksschein Teil 2"},
+   {id:"se-bib3", t:"Bibliotheksschein Teil 3: Fachrecherche Politikwissenschaft"},
+   {id:"se-bibup", t:"Bestätigung als PDF in Moodle hochgeladen", d:"bis Fr 05.02."},
+   {id:"se-his", t:"Zur Prüfung in HIS in One angemeldet", d:"Frist im HIS prüfen"}
+  ]}
+};
+
+/* ================= Gemeinsame Bausteine aller modularen Lern-Apps (wortgleich in BiWi II, Politik I, Wirtschaft II) =================
+   Was je App verschieden ist, steht in appcfg.js (Objekt APP). Diese Datei nur so ändern, dass sie in allen Apps gleich bleibt.
+
+   1. Hochgeladen-Übersicht (UPLOADS): nur, was wirklich im claude.ai-Projekt liegt und eingebaut ist.
+      Eintrag je Sitzung, Kapitel oder Block, eingetragen in der Inhaltsdatei:
+      {c (nur bei zwei Hälften), ch (Kapitelnummer) oder no (angezeigte Nummer), o (Reihenfolge, sonst ch/no), date,
+       base:true (Grundlagen wie Lehrbuch oder Altklausuren, stehen oben und zählen nicht als „bis“),
+       items:[{k:"Folien|Textgrundlage|Empfehlung|Lektüre", t:"Kurzname", ok:true|false}],
+       known:true|false, src:"woher der Umfang bekannt ist"}
+      known:true  = der vollständige Umfang ist bekannt (Moodle-Screenshot, Verlaufsplan, Folie). Fehlendes steht mit ok:false drin.
+      known:false = nur bekannt, dass das Hochgeladene dazugehört.
+   2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
+   3. Motivationssatz unter der Wochenübersicht.
+   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}, {"d": "2026-11-03", "a": "alle", "w": "Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js`", "y": "Von Talib bestätigt, einheitlich in allen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik)", "y": "Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen"}, {"d": "2026-11-03", "a": "Politik I", "w": "Claude-Brücke eingeführt: gemeinsame Bauanleitung CLAUDE.md mit Logbuch und Bausteine-Tabelle, Block unter Statistik", "y": "Damit jeder Chat in jedem Projekt weiß, was in den anderen Apps geändert wurde und warum"}, {"d": "2026-11-03", "a": "Politik I", "w": "Hochgeladen-Übersicht nach Sitzung/Block: Einzeldateien, Stand „vollständig“, „x von y“ oder „Umfang unbekannt“", "y": "Talib will beim Öffnen sehen, wie weit die Unterlagen reichen und ob ein Block komplett ist"}]).
+   5. Abstände vor der Prüfung (spaceDays), siehe unten. */
+const UPLOADS=[];
+const CK=()=>APP.halves?state.course:"main";
+const upOrder=u=>u.base?-1:(u.o!=null?u.o:u.ch!=null?u.ch:u.no||0);
+function upName(u){ if(u.base) return "Grundlagen"; const c=u.ch!=null?APP.chap(u.ch):null; return APP.unit(u)+" "+(u.no!=null?u.no:c?APP.unitNo(c):""); }
+function upDate(u){ if(u.date!=null) return u.date; const c=u.ch!=null?APP.chap(u.ch):null; return (c&&c.date)||""; }
 function upState(u){ if(!u.known) return {cls:"unk", txt:"Umfang unbekannt"}; const m=u.items.filter(x=>!x.ok).length; return m?{cls:"part", txt:`${u.items.length-m} von ${u.items.length}`}:{cls:"full", txt:"vollständig"}; }
 function uploadsBlock(){
-  const L=UPLOADS.filter(u=>u.c===state.course).sort((a,b)=>a.ch-b.ch);
-  if(!L.length) return "";
-  const last=L[L.length-1], lc=chOf(last.ch), U=UNIT[state.course]||"Sitzung", ls=upState(last);
-  return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">bis ${U} ${unitNo(lc)} · <span class="upst ${ls.cls}">${ls.txt}</span></span></summary>
-    ${L.map(u=>{ const c=chOf(u.ch), st=upState(u);
-      return `<div class="upl-u"><p class="upl-h"><b>${U} ${unitNo(c)}</b><span class="muted">${c.date}</span><span class="upst ${st.cls}">${st.txt}</span></p>
-        <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</li>`).join("")}</ul>
-        <p class="upl-src small muted">${u.known?`Umfang laut ${u.src}.`:`Den Überblick, was alles zu ${U} ${unitNo(c)} gehört, habe ich noch nicht gesehen. Schick mir dazu den Moodle-Screenshot.`}</p></div>`; }).join("")}
-    <p class="small muted" style="margin:8px 0 0">Alles nach ${U} ${unitNo(lc)} fehlt noch im Projekt.</p></details>`;
+  const L=UPLOADS.filter(u=>!APP.halves||u.c===state.course).sort((a,b)=>upOrder(a)-upOrder(b));
+  const U=L.filter(u=>!u.base); if(!L.length) return "";
+  const last=U[U.length-1], ls=last?upState(last):null;
+  return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">${last?`bis ${upName(last)} · <span class="upst ${ls.cls}">${ls.txt}</span>`:"nur Grundlagen"}</span></summary>
+    ${L.map(u=>{ const st=upState(u);
+      return `<div class="upl-u"><p class="upl-h"><b>${upName(u)}</b><span class="muted">${upDate(u)}</span><span class="upst ${st.cls}">${st.txt}</span></p>
+        <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span><span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</span></li>`).join("")}</ul>
+        <p class="upl-src small muted">${u.known?`Umfang laut ${u.src}.`:`Den Überblick, was alles zu ${u.base?"den Grundlagen":upName(u)} gehört, habe ich noch nicht gesehen. Schick mir dazu den Moodle-Screenshot.`}</p></div>`; }).join("")}
+    ${last?`<p class="small muted" style="margin:8px 0 0">Alles nach ${upName(last)} fehlt noch im Projekt.</p>`:""}</details>`;
 }
 
-const TODOS={
- vl:[
-  {id:"vl-acemate", t:"Selbstlernphase: Fragen und Essay-Aufgabe auf Acemate", d:"22. und 29.10."},
-  {id:"vl-his", t:"Zur Prüfung in HIS in One angemeldet", d:"Frist im HIS prüfen"},
-  {id:"vl-qa", t:"Q&A zur Prüfung", d:"21.01."}
- ],
- se:[
-  {id:"se-wahl", t:"Presseschau-Wahl in Moodle abgegeben", d:"bis Mi 04.11., 23:59"},
-  {id:"se-termin", t:"Presseschau-Termin zugeteilt und notiert", d:"ab Do 05.11., 10 Uhr"},
-  {id:"se-presse", t:"Presseschau aufgenommen, MP4 auf Sciebo, Link und PDF per Mail", d:"Vortag der Sitzung, 12 Uhr"},
-  {id:"se-bib1", t:"Bibliotheksschein Teil 1"},
-  {id:"se-bib2", t:"Bibliotheksschein Teil 2"},
-  {id:"se-bib3", t:"Bibliotheksschein Teil 3: Fachrecherche Politikwissenschaft"},
-  {id:"se-bibup", t:"Bestätigung als PDF in Moodle hochgeladen", d:"bis Fr 05.02."},
-  {id:"se-his", t:"Zur Prüfung in HIS in One angemeldet", d:"Frist im HIS prüfen"}
- ]};
 function todoBlock(){
-  const L=TODOS[state.course]||[]; if(!L.length) return "";
+  const L=(APP.todos||{})[CK()]||[]; if(!L.length) return "";
   const done=L.filter(x=>state.todo[x.id]).length;
   return `<div class="block"><h2>Erledigt? <span class="small muted" style="font-weight:400">${done} von ${L.length}</span></h2>
     ${L.map(x=>`<label class="check todo${state.todo[x.id]?" on":""}"><input type="checkbox" data-todo="${x.id}" ${state.todo[x.id]?"checked":""}><span>${x.t}${x.d?`<span class="small muted"> · ${x.d}</span>`:""}</span></label>`).join("")}</div>`;
@@ -1492,24 +1528,40 @@ function motivLine(){
   const pick=a=>a[new Date().getDate()%a.length];
   const t=at(0); let streak=0; for(let i=t?0:1;i<60&&at(i);i++) streak++;
   let gap=null; for(let i=0;i<60;i++) if(at(i)){ gap=i; break; }
+  const T=APP.examTs&&APP.examTs(), left=T?Math.ceil((T-dayStart())/864e5):null;
   let m;
   if(gap===null) m=pick(["Noch nichts geübt. Fünf Minuten reichen für den Anfang.","Der erste Schritt ist der kleinste: eine Lektion, dann ist das Eis gebrochen."]);
-  else if(t&&streak>=3) m=pick([`${streak} Tage am Stück. Genau so bleibt es hängen.`,`Seit ${streak} Tagen dabei. Die Klausur merkt das.`,`${streak} Tage in Folge, stark. Morgen kurz weitermachen reicht.`]);
+  else if(t&&streak>=3) m=pick([`${streak} Tage am Stück. Genau so bleibt es hängen.`,`Seit ${streak} Tagen dabei. Die Prüfung merkt das.`,`${streak} Tage in Folge, stark. Morgen kurz weitermachen reicht.`]);
   else if(t) m=pick(["Heute schon geübt. Jede Runde zählt.","Für heute ist was geschafft. Gut gemacht.","Heute erledigt. Kurz und regelmäßig schlägt lang und selten."]);
   else if(gap===1) m=pick(["Gestern geübt. Eine kurze Einheit heute hält dich im Fluss.","Gestern warst du dran. Heute fünf Minuten, und die Serie läuft weiter."]);
   else if(gap<=3) m=pick([`Seit ${gap} Tagen Pause. Eine kleine Runde heute, mehr braucht es nicht.`,`${gap} Tage ohne Üben. Starte heute mit den fälligen Karten.`]);
   else m=pick([`Seit ${gap} Tagen nichts gemacht. Kein Drama, fang heute mit fünf Minuten an.`,`${gap} Tage Pause. Das Wiederholen holt schnell wieder auf, fang einfach an.`,`Lange nichts geübt. Eine Lektion heute, und du bist wieder drin.`]);
+  if(left!=null&&left>0&&left<=21) m+=` Noch ${left} ${left===1?"Tag":"Tage"} bis zur Prüfung.`;
   return `<p class="motiv">${m}</p>`;
 }
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
-const BRUECKE=[{"d": "2026-11-03", "a": "alle", "w": "CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik)", "y": "Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen"}, {"d": "2026-11-03", "a": "Politik I", "w": "Claude-Brücke eingeführt: gemeinsame Bauanleitung CLAUDE.md mit Logbuch und Bausteine-Tabelle, Block unter Statistik", "y": "Damit jeder Chat in jedem Projekt weiß, was in den anderen Apps geändert wurde und warum"}, {"d": "2026-11-03", "a": "Politik I", "w": "Hochgeladen-Übersicht nach Sitzung/Block: Einzeldateien, Stand „vollständig“, „x von y“ oder „Umfang unbekannt“", "y": "Talib will beim Öffnen sehen, wie weit die Unterlagen reichen und ob ein Block komplett ist"}, {"d": "2026-11-03", "a": "Politik I", "w": "Erledigt-Liste (Presseschau, Bibliotheksschein, Anmeldung) und Motivationssatz unter der Wochenübersicht", "y": "Aufgaben neben dem Lernen abhaken, kleine Ermutigung je nach Lernpause"}, {"d": "2026-10-29", "a": "Politik I", "w": "Seminar Schwarz: Sitzungsplan, Essayklausur (500 Wörter, drei Fragen, vier Kriterien), Presseschau, Block I", "y": "Erste Zoom-Sitzung, Verlaufsplan und Moodle-Kurs liegen vor"}, {"d": "2026-10-28", "a": "alle", "w": "Offline-Modus mit eigenem Cache-Präfix je App", "y": "Apps sollen ohne Internet starten"}];
+const BRUECKE=[{"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}, {"d": "2026-11-03", "a": "alle", "w": "Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js`", "y": "Von Talib bestätigt, einheitlich in allen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik)", "y": "Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen"}, {"d": "2026-11-03", "a": "Politik I", "w": "Claude-Brücke eingeführt: gemeinsame Bauanleitung CLAUDE.md mit Logbuch und Bausteine-Tabelle, Block unter Statistik", "y": "Damit jeder Chat in jedem Projekt weiß, was in den anderen Apps geändert wurde und warum"}, {"d": "2026-11-03", "a": "Politik I", "w": "Hochgeladen-Übersicht nach Sitzung/Block: Einzeldateien, Stand „vollständig“, „x von y“ oder „Umfang unbekannt“", "y": "Talib will beim Öffnen sehen, wie weit die Unterlagen reichen und ob ein Block komplett ist"}];
 function bridgeBlock(){
   if(!BRUECKE.length) return "";
   const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
   return `<details class="block upl brk"><summary><span class="eyebrow" style="margin:0">Claude-Brücke</span><span class="upl-last">zuletzt ${f(BRUECKE[0].d)}</span></summary>
-    <ul class="brk-l">${BRUECKE.map(x=>`<li><span class="muted">${f(x.d)}${x.a!=="Politik I"?" · "+x.a:""}</span><b>${x.w}</b><span class="small muted">${x.y}</span></li>`).join("")}</ul>
+    <ul class="brk-l">${BRUECKE.map(x=>`<li><span class="muted">${f(x.d)}${x.a!==APP.name?" · "+x.a:""}</span><b>${x.w}</b><span class="small muted">${x.y}</span></li>`).join("")}</ul>
     <p class="small muted" style="margin:8px 0 0">Jeder Claude-Chat liest vor der Arbeit die gemeinsame Bauanleitung (CLAUDE.md) und trägt seine Änderungen dort ein. So wissen alle Apps voneinander.</p></details>`;
+}
+
+/* Abstände vor der Prüfung.
+   Forschung (Cepeda et al. 2008): Der beste Abstand zwischen zwei Wiederholungen wächst mit der Zeit bis zur Prüfung,
+   ist aber nur ein Bruchteil davon (bei 5 Wochen etwa ein Viertel, bei 10 Wochen etwa ein Sechstel). Zu kurz schadet mehr als zu lang.
+   Darum: der feste Plan (1, 3, 7, 16, 35 Tage) bleibt, aber höchstens ein Drittel der Resttage bis zur Prüfung, damit jede Karte
+   vor der Prüfung noch mehrmals drankommt und nie erst danach. Dazu ±10 % Streuung ab 3 Tagen, damit nicht alle Karten
+   eines Lerntags am selben Tag wieder fällig werden. Ohne Prüfungstermin bleibt der Plan, wie er ist. */
+function spaceDays(d,T){
+  if(d<=1) return d;
+  let x=d>=3?Math.max(2,Math.round(d*(0.9+Math.random()*0.2))):d;
+  if(T==null&&APP.examTs) T=APP.examTs();
+  if(T){ const left=Math.round((T-dayStart())/864e5); if(left>2) x=Math.min(x,Math.max(1,Math.floor(left/3))); }
+  return x;
 }
 
 /* ================= Selbsttest: je Aufgabe ein Satzanfang und drei Aussagen, jede wahr oder falsch =================
@@ -1705,7 +1757,10 @@ function renderExam(){
     return;
   }
   const pts=()=>x.k.filter((_,j)=>e.checks[j]).length;
-  $("#app").innerHTML=`<p class="eyebrow">Probe-Essay · Bewertung · ${Math.min(e.min,Math.round((e.used||0)/60000))} von ${e.min} Minuten genutzt · ${wordCount(e.text)} Wörter</p>
+  const usedMin=Math.max(1,Math.min(e.min,Math.round((e.used||0)/60000))), wpm=Math.round(wordCount(e.text)/usedMin*10)/10;
+  const tempo=isSE(x)&&e.min>=60?(wordCount(e.text)>=SE_WORDS*.8?`Tempo passt: ${String(wpm).replace(".",",")} Wörter pro Minute.`:`Für etwa ${SE_WORDS} Wörter in 60 Minuten brauchst du im Schnitt gut 8 Wörter pro Minute, Planung eingerechnet. Du lagst bei ${String(wpm).replace(".",",")}. Die Prüfung schreibst du am PC: Übe Probe-Essays am iPad mit Tastatur.`):"";
+  $("#app").innerHTML=`<p class="eyebrow">Probe-Essay · Bewertung · ${usedMin} von ${e.min} Minuten genutzt · ${wordCount(e.text)} Wörter</p>
+    ${tempo?`<p class="small muted" style="margin:0 0 10px">${tempo}</p>`:""}
     <div class="block"><p style="margin:0"><b>${x.q}</b></p></div>
     <div class="block"><h3>Dein Essay</h3>${(e.text||"").trim()?`<p class="essaytext">${esc(e.text)}</p>`:`<p class="small muted" style="margin:0">Kein Text.</p>`}</div>
     <div class="block"><h3>Erwartungshorizont</h3><p class="small muted">Streng abhaken: nur, was wirklich im Text steht.</p>
@@ -1768,6 +1823,61 @@ function renderOutline(){
     const store=()=>{ if(O.saved) return; const h=state.outl[x.id]||{n:0}; state.outl[x.id]={p:pts(),max:x.gl.length,n:h.n+1,t:Date.now()}; O.saved=true; logDay(); save(); };
     $("#oSave").onclick=()=>{ store(); toast(`${pts()} von ${x.gl.length} gespeichert`); if(sess) sessNext(); else renderOutline(); };
     $("#oEssay").onclick=()=>{ store(); state.drafts=state.drafts||{}; if(!(state.drafts[x.id]||"").trim()&&O.text.trim()){ state.drafts[x.id]=O.text.trim()+"\n\n"; save(); } openEssay(n,x.id); };
+  }
+  bindCrumb(backFn);
+}
+
+/* ================= Alles aufschreiben (freies Abrufen) =================
+   Forschung: Freies Abrufen mit anschließendem Abgleich gehört zu den wirksamsten Formen des Abrufübens
+   (Rowland 2014, freies Abrufen mit Rückmeldung g ≈ 0,8). Kurze Texte aus dem Gedächtnis bringen so viel
+   wie lange Texte mit offenem Buch (Studie „Two routes to the same place“: quick closed-book essays). Genau das verlangt der Essay:
+   Wissen ohne Hilfen ordnen und aufschreiben.
+   Ablauf: Sitzung wählen, 5 Minuten alles aufschreiben, was du weißt, danach die Lektionen der Sitzung als Kernpunkte
+   abhaken. Ergebnis in state.dump[n] = {p, max, t, w, k} (k = Anzahl Versuche). Nichts davon ändert IDs. */
+const DUMP_MIN=5;
+const dumpPoints=n=>(LESSONS[n]||[]).map(x=>x.t);
+const dumpReady=()=>courseChs().filter(ch=>(LESSONS[ch.n]||[]).some(x=>lessonState(x.id)));
+function pickDump(){ const R=dumpReady(), d=state.dump||{}; return R.slice().sort((a,b)=>((d[a.n]||{}).t||0)-((d[b.n]||{}).t||0))[0]; }
+function openDump(n){ const ch=n?chOf(n):pickDump(); cur.dp={n:ch&&ch.n, phase:"write", t0:Date.now(), text:"", checks:{}}; go("dump"); }
+let dumpTimer=null;
+function renderDump(){
+  clearInterval(dumpTimer);
+  const D=cur.dp, n=D.n, ch=n&&chOf(n), back=sess?"Heute":"Üben", backFn=()=>go(sess?"home":"practice");
+  if(!ch){ $("#app").innerHTML=`${backTo(back)}<h1>Alles aufschreiben</h1><div class="block"><p class="muted" style="margin:0">Lies zuerst eine Lektion. Dann kannst du hier aufschreiben, was hängen geblieben ist.</p></div>`; bindCrumb(backFn); return; }
+  const last=(state.dump||{})[n];
+  const head=`${backTo(back)}<p class="eyebrow">Alles aufschreiben · ${COURSES[ch.c].short} · ${chLabel(n)}${last?` · zuletzt ${last.p} von ${last.max}`:""}</p>
+    <h1>${ch.title}</h1>`;
+  if(D.phase==="write"){
+    const others=dumpReady().filter(c=>c.n!==n);
+    $("#app").innerHTML=`${head}
+      <div class="block"><p class="small" style="margin:0"><b>Auftrag:</b> Schreib in ${DUMP_MIN} Minuten alles auf, was du zu dieser Sitzung noch weißt: Begriffe, Autoren, Modelle, Beispiele, Zusammenhänge. Stichworte reichen. Nicht nachschauen.</p>
+        <p class="small muted" style="margin:6px 0 0">Was dir nicht einfällt, ist genau das, was du danach gezielt wiederholst.</p></div>
+      <div class="etop"><span class="small muted">Richtwert ${DUMP_MIN} Minuten</span><span class="clock" id="dtime">${mmss(DUMP_MIN*60000)}</span></div>
+      <div class="essay"><textarea id="dt" style="min-height:14rem" placeholder="Alles, was dir einfällt …">${esc(D.text)}</textarea><p class="wc" id="dwc">${wordCount(D.text)} Wörter</p></div>
+      <div class="row" style="margin-top:8px"><button class="btn" id="dDone">Abgleichen</button>${others.length?`<button class="btn ghost" id="dOther">Andere Sitzung</button>`:""}</div>`;
+    const ta=$("#dt"); ta.oninput=e=>{ D.text=e.target.value; $("#dwc").textContent=wordCount(D.text)+" Wörter"; };
+    $("#dDone").onclick=()=>{ D.used=Date.now()-D.t0; D.phase="check"; renderDump(); window.scrollTo(0,0); };
+    if($("#dOther")) $("#dOther").onclick=()=>{ const o=others.sort((a,b)=>(((state.dump||{})[a.n]||{}).t||0)-(((state.dump||{})[b.n]||{}).t||0))[0]; openDump(o.n); };
+    dumpTimer=setInterval(()=>{ const c=$("#dtime"); if(!c||view!=="dump"){ clearInterval(dumpTimer); return; } const l=D.t0+DUMP_MIN*60000-Date.now(); c.textContent=l>0?mmss(l):"Zeit um"; if(l<=0) c.style.color="var(--bad)"; },1000);
+  } else {
+    const P=dumpPoints(n), pts=()=>P.filter((_,j)=>D.checks[j]).length;
+    $("#app").innerHTML=`${head}
+      <div class="block"><h3>Dein Text</h3>${D.text.trim()?`<p class="essaytext">${esc(D.text)}</p>`:`<p class="small muted" style="margin:0">Leer. Kein Problem: Schau dir die Kernpunkte an und versuch es in ein paar Tagen noch einmal.</p>`}
+        <p class="small muted" style="margin:6px 0 0">${wordCount(D.text)} Wörter in ${(m=>m===1?"1 Minute":m+" Minuten")(Math.max(1,Math.round((D.used||0)/60000)))}.</p></div>
+      <div class="block"><h3>Kernpunkte der Sitzung</h3><p class="small muted">Hak ab, wozu in deinem Text etwas Richtiges steht. Ein Stichwort reicht.</p>
+        ${P.map((t,j)=>`<label class="check"><input type="checkbox" id="d${j}" ${D.checks[j]?"checked":""}><span>${t}</span></label>`).join("")}
+        <p class="pts" id="dp">${pts()} von ${P.length}</p>
+        <div class="row"><button class="btn" id="dSave">Speichern</button></div></div>
+      <div class="block"><h3>Was fehlte?</h3><p class="small muted" style="margin:0">Nicht abgehakte Punkte öffnest du direkt als Lektion. Am wirksamsten: kurz nachlesen, dann in ein paar Tagen wieder aufschreiben.</p>
+        <div class="tlist" id="dMiss" style="margin-top:8px"></div></div>
+      ${sess?`<div class="row" style="margin-bottom:14px">${sessBtn()}</div>`:""}`;
+    const miss=()=>{ const el=$("#dMiss"); const M=P.map((t,j)=>[t,j]).filter(([,j])=>!D.checks[j]);
+      el.innerHTML=M.length?M.map(([t,j])=>`<button class="titem" data-li="${j}"><span class="t">${t}</span></button>`).join(""):`<p class="small muted" style="margin:0">Nichts. Alle Kernpunkte waren drin, stark.</p>`;
+      el.querySelectorAll("[data-li]").forEach(b=>b.onclick=()=>openLesson(n,+b.dataset.li)); };
+    miss();
+    document.querySelectorAll(".check input").forEach(c=>c.onchange=()=>{ D.checks[+c.id.slice(1)]=c.checked; $("#dp").textContent=`${pts()} von ${P.length}`; miss(); });
+    $("#dSave").onclick=()=>{ if(!D.saved){ state.dump=state.dump||{}; const h=state.dump[n]||{k:0}; state.dump[n]={p:pts(),max:P.length,t:Date.now(),w:wordCount(D.text),k:h.k+1}; D.saved=true; logDay(); save(); }
+      toast(`${pts()} von ${P.length} gespeichert`); if(sess) sessNext(); else renderDump(); };
   }
   bindCrumb(backFn);
 }
@@ -3349,7 +3459,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="b8c37d2a8312", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="dd07cc423c3d", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }

@@ -1,0 +1,26 @@
+/* ================= Einstellungen nur dieser App für die gemeinsamen Bausteine (status.js) ================= */
+const ROM=["","I","II","III","IV","V","VI","VII","VIII","IX","X","XI","XII"];
+const APP={
+ name:"Politik I",
+ halves:true,                                   /* zwei Hälften mit Umschalter: vl und se */
+ chap:n=>chOf(n),
+ unit:u=>u.c==="se"?"Block":"Sitzung",
+ unitNo:c=>c.c==="se"?(ROM[c.no]||c.no):c.no,
+ examTs:()=>examDateTs(),                       /* Prüfungstermin der gewählten Hälfte */
+ todos:{
+  vl:[
+   {id:"vl-acemate", t:"Selbstlernphase: Fragen und Essay-Aufgabe auf Acemate", d:"22. und 29.10."},
+   {id:"vl-his", t:"Zur Prüfung in HIS in One angemeldet", d:"Frist im HIS prüfen"},
+   {id:"vl-qa", t:"Q&A zur Prüfung", d:"21.01."}
+  ],
+  se:[
+   {id:"se-wahl", t:"Presseschau-Wahl in Moodle abgegeben", d:"bis Mi 04.11., 23:59"},
+   {id:"se-termin", t:"Presseschau-Termin zugeteilt und notiert", d:"ab Do 05.11., 10 Uhr"},
+   {id:"se-presse", t:"Presseschau aufgenommen, MP4 auf Sciebo, Link und PDF per Mail", d:"Vortag der Sitzung, 12 Uhr"},
+   {id:"se-bib1", t:"Bibliotheksschein Teil 1"},
+   {id:"se-bib2", t:"Bibliotheksschein Teil 2"},
+   {id:"se-bib3", t:"Bibliotheksschein Teil 3: Fachrecherche Politikwissenschaft"},
+   {id:"se-bibup", t:"Bestätigung als PDF in Moodle hochgeladen", d:"bis Fr 05.02."},
+   {id:"se-his", t:"Zur Prüfung in HIS in One angemeldet", d:"Frist im HIS prüfen"}
+  ]}
+};

@@ -142,7 +142,10 @@ function renderExam(){
     return;
   }
   const pts=()=>x.k.filter((_,j)=>e.checks[j]).length;
-  $("#app").innerHTML=`<p class="eyebrow">Probe-Essay · Bewertung · ${Math.min(e.min,Math.round((e.used||0)/60000))} von ${e.min} Minuten genutzt · ${wordCount(e.text)} Wörter</p>
+  const usedMin=Math.max(1,Math.min(e.min,Math.round((e.used||0)/60000))), wpm=Math.round(wordCount(e.text)/usedMin*10)/10;
+  const tempo=isSE(x)&&e.min>=60?(wordCount(e.text)>=SE_WORDS*.8?`Tempo passt: ${String(wpm).replace(".",",")} Wörter pro Minute.`:`Für etwa ${SE_WORDS} Wörter in 60 Minuten brauchst du im Schnitt gut 8 Wörter pro Minute, Planung eingerechnet. Du lagst bei ${String(wpm).replace(".",",")}. Die Prüfung schreibst du am PC: Übe Probe-Essays am iPad mit Tastatur.`):"";
+  $("#app").innerHTML=`<p class="eyebrow">Probe-Essay · Bewertung · ${usedMin} von ${e.min} Minuten genutzt · ${wordCount(e.text)} Wörter</p>
+    ${tempo?`<p class="small muted" style="margin:0 0 10px">${tempo}</p>`:""}
     <div class="block"><p style="margin:0"><b>${x.q}</b></p></div>
     <div class="block"><h3>Dein Essay</h3>${(e.text||"").trim()?`<p class="essaytext">${esc(e.text)}</p>`:`<p class="small muted" style="margin:0">Kein Text.</p>`}</div>
     <div class="block"><h3>Erwartungshorizont</h3><p class="small muted">Streng abhaken: nur, was wirklich im Text steht.</p>

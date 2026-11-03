@@ -65,6 +65,20 @@ Damit nichts wandert: Jede Funktion hat in allen Apps denselben Platz. Wer etwas
 
 **Gestaltung:** Farben nur über die Tokens in `head.html`, hell und dunkel. Neue Blöcke dezent: Überschrift `h2` im `.block`, Nebeninfo `.small.muted`, aufklappbare Kurzinfos als `details.block.upl`. Jede App behält ihre Akzentfarbe.
 
+### Lernprinzipien (aus der Forschung, nicht ohne Grund ändern)
+
+Stand der Recherche vom 03.11.2026. Jede App folgt diesen Regeln. Wer davon abweicht, begründet es im Logbuch.
+
+1. **Abrufen statt Lesen:** Erst antworten, dann aufdecken. Abrufüben schlägt Wiederlesen deutlich, besonders mit Rückmeldung und bei echtem Erinnern statt Wiedererkennen (Rowland 2014: g ≈ 0,5 insgesamt, freies und gestütztes Erinnern mit Rückmeldung g ≈ 0,7–0,8, Wiedererkennen nur ≈ 0,36). Deshalb: bei Auswahlfragen erst selbst abrufen, dann „Auswahl zeigen“; zu jeder falschen Option eine Begründung.
+2. **Abstände, an die Prüfung angepasst:** Grundplan 1, 3, 7, 16, 35 Tage. Der beste Abstand ist ein Bruchteil der Zeit bis zur Prüfung, bei 5 Wochen etwa ein Viertel, bei 10 Wochen etwa ein Sechstel; zu kurz schadet mehr als zu lang (Cepeda et al. 2008). Darum `spaceDays()`: höchstens ein Drittel der Resttage, ±10 % Streuung ab 3 Tagen. Gilt für Karten, Verständnisfragen und Kreuzaufgaben. Ohne Prüfungstermin greift nur die Streuung, darum steht „Termin eintragen“ in den Erledigt-Listen.
+3. **Wiederholen, bis es einmal sitzt:** Nicht sichere Karten kommen in derselben Runde wieder (höchstens dreimal) und am nächsten Tag noch einmal. Das ist „successive relearning“ (Rawson, Dunlosky): einmal richtig je Runde, über mehrere Tage verteilt. Ergebnis in Studien: über 10 % bessere Klausuren und deutlich besseres Behalten.
+4. **Neues jeden Tag ein wenig:** Die Tageseinheit nimmt 5 neue Karten dazu, solange weniger als 25 fällig sind. Sonst stauen sich ungesehene Karten bis kurz vor der Prüfung.
+5. **Mischen mit Maß:** Gemischtes Üben hilft vor allem beim Unterscheiden ähnlicher Kategorien (Autoren, Typen, Denkschulen); für reine Texte zeigt die Meta-Analyse keinen sicheren Vorteil (Brunmair & Richter 2019). Darum mischen „Was gehört wohin?“ und die Tageseinheit, Lektionen bleiben in ihrer Reihenfolge. Keine übertriebenen Versprechen im Text.
+6. **Essays aus dem Gedächtnis:** Kurze Texte ohne Hilfen bringen so viel wie lange mit offenem Buch. Darum „Alles aufschreiben“ (5 Minuten freies Abrufen, dann Abgleich mit den Kernpunkten) und Probe-Essays ohne Hilfen mit Timer.
+7. **Schlaf zwischen zwei Runden:** Wer abends lernt und morgens wiederholt, braucht etwa halb so viel Wiederholung und behält länger (Mazza et al. 2016). Die App gibt diesen Hinweis nach abendlichen Einheiten.
+8. **Prüfungsnah üben:** Format, Zeit und Gerät wie in der Prüfung. Politik und BiWi werden am PC geschrieben: Probe-Essays und offene Aufgaben mit Tastatur üben. Der Probe-Essay im Seminar zeigt das Tempo (Ziel gut 8 Wörter pro Minute).
+9. **iPad:** Talib lernt meist am iPad, abends. Ab 768 px Breite ist die Schrift etwas größer (`--base`), Karten lassen sich mit Tastatur bedienen (Leertaste, ← →, Z). Tippflächen groß, nichts nur über Hover.
+
 ### Bausteine
 
 ✓ = eingebaut · ○ = offen · – = passt nicht
@@ -75,16 +89,27 @@ Damit nichts wandert: Jede Funktion hat in allen Apps denselben Platz. Wer etwas
 | Update-Check (version.txt) | ✓ | ✓ | ✓ | ✓ |
 | Karten wischen, eine zurück | ✓ | ✓ | ✓ | ✓ |
 | Geräte-Abgleich unter Statistik | ✓ | ✓ | ✓ | ✓ |
-| Hochgeladen-Übersicht je Hälfte, nach Sitzung/Block | ○ | ✓ | ○ | ○ |
-| Erledigt-Liste unter Statistik | ○ | ✓ | ○ | ○ |
-| Motivationssatz unter der Wochenübersicht | ○ | ✓ | ○ | ○ |
-| Claude-Brücke (diese Datei + Block unter Statistik) | ○ | ✓ | ○ | ○ |
-| Statistik in der festen Reihenfolge | ✓ | ✓ | ○ (Prüfung und Schwachstellen stehen nach „Nach Kapitel“) | ○ prüfen |
+| Hochgeladen-Übersicht je Hälfte, nach Sitzung/Block | ✓ | ✓ | ✓ | ✓ |
+| Erledigt-Liste unter Statistik | ✓ | ✓ | ✓ | ✓ |
+| Motivationssatz unter der Wochenübersicht | ✓ | ✓ | ✓ | ✓ |
+| Claude-Brücke (diese Datei + Block unter Statistik) | ✓ | ✓ | ✓ | ✓ |
+| Statistik in der festen Reihenfolge | ✓ | ✓ | ✓ | ✓ |
+| Abstände vor der Prüfung (`spaceDays`) | ✓ | ✓ | ✓ | ✓ |
+| Nicht sichere Karten bis zu dreimal in derselben Runde | ✓ | ✓ | ✓ | ✓ |
+| Tageseinheit: neue Karten auch bei fälligen | ✓ | ✓ | ✓ | – (eigene Tageseinheit) |
+| Tastatur für Karten | ✓ | ✓ | ✓ | ✓ |
+| Größere Schrift auf dem iPad | ✓ | ✓ | ✓ | ✓ |
+| Hinweis Schlaf nach abendlicher Einheit | ✓ | ✓ | ✓ | ✓ |
+| Alles aufschreiben (freies Abrufen) | ○ | ✓ | ○ | ○ |
+| Tempo im Probe-Essay | – | ✓ | – | – |
 
 ### Logbuch
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-03 · Politik I · Projekt Politik I · Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars · Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben
+- 2026-11-03 · alle · Projekt Politik I · Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten · Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“
+- 2026-11-03 · alle · Projekt Politik I · Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js` · Von Talib bestätigt, einheitlich in allen Apps
 - 2026-11-03 · alle · Projekt Politik I · CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik) · Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen
 - 2026-11-03 · Politik I · Projekt Politik I · Claude-Brücke eingeführt: gemeinsame Bauanleitung CLAUDE.md mit Logbuch und Bausteine-Tabelle, Block unter Statistik · Damit jeder Chat in jedem Projekt weiß, was in den anderen Apps geändert wurde und warum
 - 2026-11-03 · Politik I · Projekt Politik I · Hochgeladen-Übersicht nach Sitzung/Block: Einzeldateien, Stand „vollständig“, „x von y“ oder „Umfang unbekannt“ · Talib will beim Öffnen sehen, wie weit die Unterlagen reichen und ob ein Block komplett ist
@@ -103,3 +128,4 @@ Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Bloc
 - Neue Sitzung: `src/content_v<Nr>*.js` bzw. `src/content_s<Nr>*.js` anlegen, in `build.py` vor `start.js` eintragen, `UPLOADS` eintragen.
 - Literaturliste aller Seminarblöcke ist aus den Moodle-Screenshots vom 29.10. bekannt (siehe Verlaufsplan `online_03.pdf` im claude.ai-Projekt).
 - Projekt-PDFs dürfen nach dem Einbau gelöscht werden, die App enthält den Lernstoff.
+- Gemeinsame Bausteine: `src/status.js` (wortgleich mit BiWi II und Wirtschaft II), Einstellungen in `src/appcfg.js`. „Alles aufschreiben“ in `src/dump.js` (Muster für die anderen Apps).
