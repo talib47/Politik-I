@@ -33,6 +33,7 @@ Live jeweils unter `https://talib47.github.io/<Repo>/`.
 7. **Hochgeladen-Übersicht pflegen:** Jede neu eingebaute Sitzung bzw. jeder Block bekommt einen `UPLOADS`-Eintrag mit Einzeldateien. `known:true` nur, wenn der Umfang aus Moodle-Screenshot, Verlaufsplan oder Folie bekannt ist.
 8. **Prüfungstermine:** nur aus den Unterlagen (Folie, Verlaufsplan, Moodle). Steht ein Termin nicht sicher fest, gilt der **Stichtag 31.01.** des Semesters: Bis dahin soll alles sitzen. Die App zeigt das als Annahme („Stichtag“) und rechnet Abstände und Probeklausuren danach. Trägt Talib einen Termin ein, gilt seiner. Sobald ein Termin in Unterlagen auftaucht, als Standard eintragen und die Tabelle oben anpassen.
 9. **Ton:** Deutsch, kurz, fürs Handy. Nachname immer „Gündoğdu“.
+10. **Prüfauftrag:** Schreibt Talib „Prüfauftrag“ (mit App und Umfang), gilt `PRUEFAUFTRAG.md` im Repo, wortgleich in allen vier Repos.
 
 ### Aufbau jeder App (fester Platz für alles)
 
@@ -113,13 +114,15 @@ Stand der Recherche vom 03.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Alles aufschreiben (freies Abrufen) | ○ | ✓ | ○ | ○ |
 | Tempo im Probe-Essay | – | ✓ | – | – |
 | Design „Die Reihe“ (`design.css`, Newsreader, Glas-Tableiste mit Symbolen, Platte „Heute“, Knopf „Aa“) | ✓ | ✓ | ✓ | ✓ |
-| Lernmodus ohne Ablenkung (Leiste weg, oben Schließen und Fortschritt, Esc; `focusBar` in `status.js`, `APP.focus` in `appcfg.js`) | ○ | ✓ | ○ | ○ |
+| Lernmodus ohne Ablenkung (Leiste weg, oben Schließen und Fortschritt, Esc; `focusBar` in `status.js`, `APP.focus` in `appcfg.js`) | ✓ | ✓ | ✓ | ✓ |
 | Stichtag 31.01., wenn der Prüfungstermin unbekannt ist | – (Termin bekannt) | – (Termine bekannt) | ✓ | ✓ (Sozialstruktur) |
 
 ### Logbuch
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-03 · alle · Projekt Politik I · Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht) · Talib will die Apps regelmäßig von Grund auf prüfen lassen
+- 2026-11-03 · alle · Projekt Politik I · Lernmodus in BiWi II, Wirtschaft II und W&G I übernommen (W&G I: Fragenrunde, Karten, Wer sagt das?, laufendes Quiz; Umschalter dort ausgeblendet) · Talib hat das Muster freigegeben
 - 2026-11-03 · Politik I · Projekt Politik I · Lernmodus ohne Ablenkung als Muster: in Lernansichten und der Tageseinheit keine Tableiste, oben Schließen, Fortschritt und n/m, Esc schließt; Leiste der Tageseinheit mit Schritten · Talib hat ihn aus vier Vorschlägen gewählt; mehr Platz und keine Fehltipps beim Wischen
 - 2026-11-03 · alle · Projekt Politik I · Abstände geprüft (automatische Messung in allen Ansichten) und nach festem Raster korrigiert: kleine Zeile über Titeln, Titel zu Text, Listen in Gruppen · Talib: kleine Sätze klebten an Titeln wie „Üben“
 - 2026-11-03 · alle · Projekt Politik I · Design „Die Reihe“ in BiWi II (Pflaume, II), Wirtschaft II (Blau, II) und W&G I (Grün, I, fünf Reiter mit Symbolen) übernommen · Talib hat das Muster in Politik I freigegeben

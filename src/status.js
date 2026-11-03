@@ -76,10 +76,10 @@ const NAV_ICONS=(()=>{ const s=b=>`<svg viewBox="0 0 24 24" fill="none" stroke="
 /* Lernmodus ohne Ablenkung: Beim Lernen (Karten, Fragen, Zuordnen, Selbsttest, Essays, Alles aufschreiben) und während der
    ganzen Tageseinheit verschwinden Tableiste und „Aa“. Oben steht eine schmale Leiste mit Schließen, Fortschritt und n/m
    (in der Tageseinheit übernimmt das die Leiste der Einheit). Schließen tut dasselbe wie der Zurück-Link der Ansicht.
-   Esc schließt, außer beim Tippen in ein Textfeld. Je App in appcfg.js: APP.focus = {views, prog(), title(), exit()}. */
+   Esc schließt, außer beim Tippen in ein Textfeld. Je App in appcfg.js: APP.focus = {views oder on(), prog(), title(), exit()}. */
 function focusBar(){
   const F=APP.focus; if(!F) return;
-  const on=!!sess||F.views.includes(view), bar=on&&!sess;
+  const on=!!sess||(F.on?F.on():F.views.includes(view)), bar=on&&!sess;
   document.body.classList.toggle("focus",on); document.body.classList.toggle("fbon",bar);
   let el=document.getElementById("focusbar");
   if(!el){ el=document.createElement("div"); el.id="focusbar"; el.hidden=true; document.body.insertBefore(el,document.getElementById("app")); }
