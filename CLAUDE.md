@@ -71,6 +71,7 @@ Damit nichts wandert: Jede Funktion hat in allen Apps denselben Platz. Wer etwas
 - Titel, Kartenvorderseiten und Zitate in Newsreader (`fonts/`, SIL OFL, im Offline-Speicher), Text in der Systemschrift (SF Pro auf iPad und iPhone). Keine Etiketten in Großbuchstaben.
 - Bewegung nur als Antwort auf Tippen (Seitenwechsel, Karte, Drücken), `prefers-reduced-motion` und `prefers-reduced-transparency` beachten.
 - Neue Blöcke: Überschrift `h2` im `.block`, Nebeninfo `.small.muted`, aufklappbare Kurzinfos als `details.block.upl`, Knöpfe `.btn` (voll) bzw. `.btn.ghost` (getönt).
+- Abstände nach festem Raster (4 · 8 · 12 · 16 · 24 · 32 px, Block „Abstände“ in `design.css`): kleine Zeile über einem Titel 8 px, Titel zu Text 10–14 px, Zeile in Listen 14 px Innenabstand. Keine Abstände per `style=` im Code, sondern Regeln in `design.css`.
 - Ändern: `design.css` in einer App anpassen, Talib zeigen, nach Freigabe wortgleich in alle Apps kopieren. Was nur eine App braucht, steht in deren eigener CSS (W&G I: Block „Anpassungen der älteren Einzeldatei“).
 
 ### Lernprinzipien (aus der Forschung, nicht ohne Grund ändern)
@@ -117,6 +118,7 @@ Stand der Recherche vom 03.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-03 · alle · Projekt Politik I · Abstände geprüft (automatische Messung in allen Ansichten) und nach festem Raster korrigiert: kleine Zeile über Titeln, Titel zu Text, Listen in Gruppen · Talib: kleine Sätze klebten an Titeln wie „Üben“
 - 2026-11-03 · alle · Projekt Politik I · Design „Die Reihe“ in BiWi II (Pflaume, II), Wirtschaft II (Blau, II) und W&G I (Grün, I, fünf Reiter mit Symbolen) übernommen · Talib hat das Muster in Politik I freigegeben
 - 2026-11-03 · Politik I · Projekt Politik I · Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel · Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps
 - 2026-11-03 · alle · Projekt Politik I · Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle) · Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht

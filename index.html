@@ -463,14 +463,29 @@ button{touch-action:manipulation}
 :focus-visible{outline:2.5px solid color-mix(in srgb,var(--accent) 75%,transparent);outline-offset:2px}
 main{padding-top:14px;padding-bottom:calc(124px + env(safe-area-inset-bottom,0px))}
 h1,h2,h3,.card .front,.who,.quote,.motiv{font-family:var(--serif);font-optical-sizing:auto;font-kerning:normal}
-h1{font-size:2.125rem;font-weight:600;line-height:1.06;letter-spacing:-.02em;margin:0 0 .5em}
-h2{font-size:1.375rem;font-weight:600;line-height:1.18;letter-spacing:-.012em}
-h3{font-size:1.125rem;font-weight:600;line-height:1.25;letter-spacing:-.005em}
+h1{font-size:2.125rem;font-weight:600;line-height:1.1;letter-spacing:-.02em;margin:0 0 14px}
+h2{font-size:1.375rem;font-weight:600;line-height:1.2;letter-spacing:-.012em;margin:0 0 10px}
+h3{font-size:1.125rem;font-weight:600;line-height:1.3;letter-spacing:-.005em;margin:0 0 8px}
 p,li{text-wrap:pretty}
-.eyebrow{font-size:.8125rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);margin:0 0 .3em}
+.eyebrow{font-size:.8125rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);margin:0 0 8px;line-height:1.35}
+
+/* ---------- Abstände: ein festes Raster (4 · 8 · 12 · 16 · 24 · 32 px), damit kleine Zeilen nie an Titeln kleben ---------- */
+.eyebrow+h1,.eyebrow+h2,.eyebrow+h3{margin-top:2px}
+.block>h2:first-child,.block>h3:first-child{margin-top:0}
+.mode,.titem{row-gap:4px}
+.chap{row-gap:5px}
+.plan li span{margin-top:2px}
+.brk-l li{gap:3px}
+.week7 .dt{margin-top:1px}
+.week7 .n{margin-top:6px}
+.lnav{margin-top:18px}
+.sect+.block,.sect+.tlist{margin-top:0}
+/* Listen in Gruppen: Zeilenabstand ersetzt den Rand, oben und unten gleich viel Luft */
+.block>.modes:first-child,.block>.tlist:first-child{margin-top:-6px}
+.block>.modes:last-child,.block>.tlist:last-child{margin-bottom:-6px}
 .sect{font-size:1.0625rem;font-weight:650;letter-spacing:-.008em;text-transform:none;color:var(--ink);margin:26px 2px 10px;align-items:baseline}
 .sect>span+span{font-size:.8125rem;font-weight:500;color:var(--muted);letter-spacing:0}
-.crumb{display:inline-flex;align-items:center;gap:4px;font-size:.9375rem;font-weight:600;color:var(--accent);padding:6px 0;margin:0 0 10px}
+.crumb{display:inline-flex;align-items:center;gap:4px;font-size:.9375rem;font-weight:600;color:var(--accent);padding:6px 0;margin:0 0 14px}
 
 /* ---------- Gruppen (ruhig, ohne Rahmen und ohne Schatten) ---------- */
 .block{background:var(--surface);border:0;border-radius:var(--r-m);padding:18px;margin:0 0 12px}
@@ -482,7 +497,7 @@ p,li{text-wrap:pretty}
   box-shadow:0 18px 36px -26px var(--plate-bot)}
 .block.today::after{content:var(--numeral);position:absolute;right:.14em;bottom:-.24em;z-index:-1;font:500 12.5rem/1 var(--serif);letter-spacing:-.02em;color:#fff;opacity:.08;pointer-events:none}
 .block.today .eyebrow{color:rgba(255,255,255,.8)}
-.block.today h2{color:#fff;font-size:1.75rem;letter-spacing:-.018em;margin:0 0 .45em}
+.block.today h2{color:#fff;font-size:1.75rem;letter-spacing:-.018em;margin:2px 0 12px}
 .block.today .muted,.block.today .small.muted,.block.today .plan li span{color:rgba(255,255,255,.8)}
 .block.today b,.block.today a,.block.today .wlink{color:#fff}
 .block.today .plan{padding-left:1.3em;margin:4px 0 14px}
@@ -1718,7 +1733,7 @@ const APP={
       known:false = nur bekannt, dass das Hochgeladene dazugehört.
    2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
    3. Motivationssatz unter der Wochenübersicht.
-   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-03", "a": "alle", "w": "Design „Die Reihe“ in BiWi II (Pflaume, II), Wirtschaft II (Blau, II) und W&G I (Grün, I, fünf Reiter mit Symbolen) übernommen", "y": "Talib hat das Muster in Politik I freigegeben"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel", "y": "Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle)", "y": "Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}, {"d": "2026-11-03", "a": "alle", "w": "Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js`", "y": "Von Talib bestätigt, einheitlich in allen Apps"}]).
+   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-03", "a": "alle", "w": "Abstände geprüft (automatische Messung in allen Ansichten) und nach festem Raster korrigiert: kleine Zeile über Titeln, Titel zu Text, Listen in Gruppen", "y": "Talib: kleine Sätze klebten an Titeln wie „Üben“"}, {"d": "2026-11-03", "a": "alle", "w": "Design „Die Reihe“ in BiWi II (Pflaume, II), Wirtschaft II (Blau, II) und W&G I (Grün, I, fünf Reiter mit Symbolen) übernommen", "y": "Talib hat das Muster in Politik I freigegeben"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel", "y": "Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle)", "y": "Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}]).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
    6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
    Prüfungstermin unbekannt: Die App rechnet mit dem Stichtag 31.01. und meldet das über APP.examAssumed() (dann „bis zum Stichtag“). */
@@ -1780,7 +1795,7 @@ const NAV_ICONS=(()=>{ const s=b=>`<svg viewBox="0 0 24 24" fill="none" stroke="
   return {home:book, overview:book, practice:target, stats:bars, cards, quiz, exam:quiz}; })();
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
-const BRUECKE=[{"d": "2026-11-03", "a": "alle", "w": "Design „Die Reihe“ in BiWi II (Pflaume, II), Wirtschaft II (Blau, II) und W&G I (Grün, I, fünf Reiter mit Symbolen) übernommen", "y": "Talib hat das Muster in Politik I freigegeben"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel", "y": "Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle)", "y": "Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}, {"d": "2026-11-03", "a": "alle", "w": "Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js`", "y": "Von Talib bestätigt, einheitlich in allen Apps"}];
+const BRUECKE=[{"d": "2026-11-03", "a": "alle", "w": "Abstände geprüft (automatische Messung in allen Ansichten) und nach festem Raster korrigiert: kleine Zeile über Titeln, Titel zu Text, Listen in Gruppen", "y": "Talib: kleine Sätze klebten an Titeln wie „Üben“"}, {"d": "2026-11-03", "a": "alle", "w": "Design „Die Reihe“ in BiWi II (Pflaume, II), Wirtschaft II (Blau, II) und W&G I (Grün, I, fünf Reiter mit Symbolen) übernommen", "y": "Talib hat das Muster in Politik I freigegeben"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel", "y": "Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle)", "y": "Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}];
 function bridgeBlock(){
   if(!BRUECKE.length) return "";
   const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
@@ -3701,7 +3716,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="9f641fb24590", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="cc143173ba5d", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }
