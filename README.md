@@ -7,6 +7,8 @@ Modul Grundlagen Politik I (UDE, Lehramt GyGe), zwei getrennt geprüfte Veransta
 - **Vorlesung** „Politische Systeme im Vergleich“ (PD Dr. Julia Schwanholz, Do 14–16). Prüfung: Essay, 60 Min. am PC, unbenotet. 04.02.2027, Zweittermin 04.03.2027.
 - **Seminar** „Das politische System Deutschlands und der EU“ (Dr. Oliver Schwarz, online, asynchron über Moodle). Prüfung: Essayklausur, etwa 500 Wörter zu einer von drei Fragen, 60 Min., 04.02.2027, 8–10 Uhr, PC-Hall Essen; bestanden, wenn keines der vier Kriterien (Aufbau und Struktur, Argumentation, Fachwissen, Anwendung) unzureichend ist. Studienleistung: Presseschau (10 Min., vertonte PPT als MP4) und Bibliotheksschein.
 
+Vor jeder Arbeit `CLAUDE.md` lesen (Claude-Brücke: gemeinsame Regeln, Bausteine aller Apps, Logbuch).
+
 Eine Datei (`index.html`, Vanilla-JS, kein Framework), gebaut aus den Modulen in `src/`:
 
 ```

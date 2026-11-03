@@ -435,6 +435,7 @@ function renderStats(){
     ${weakBlock()}
     <div class="block"><h2>${COURSES[state.course].short}: nach Sitzung</h2>${ready.length?ready.map(c=>{ const p=chapterProgress(c.n);
       return `<div class="srow ch"><span>Sitzung ${c.no}: ${c.title}</span><span class="small muted">${[["Theorie",p.l,1],["Karten",p.k,(CARDS[c.n]||[]).length],["Selbsttest",p.x,kreuzOf(c.n).length],["Schreiben",p.w,essaysOf(c.n).length]].filter(x=>x[2]).map(x=>x[0]+" "+Math.round(x[1]*100)+" %").join(" · ")}</span><span class="pts">${p.total} %</span></div>`;}).join(""):`<p class="small muted" style="margin:0">Noch keine Sitzungen mit Inhalten.</p>`}</div>
+    ${bridgeBlock()}
     ${syncBox()}
     <div class="block"><h3>Fortschritt zurücksetzen</h3><p class="small muted">Löscht deinen gesamten Lernstand (Vorlesung und Seminar), auch auf den verbundenen Geräten.</p>
       <button class="btn warn" id="rst">${statsArmed?"Wirklich zurücksetzen":"Zurücksetzen"}</button></div>`;

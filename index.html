@@ -286,6 +286,8 @@ svg .sarrow{fill:var(--accent)}
 .upl-i li{display:flex;gap:6px;align-items:baseline} .upl-i li>span:first-child{width:1rem;flex:none;color:var(--good)}
 .upl-i li.miss>span:first-child{color:var(--muted)}
 .upl-src{margin:4px 0 0;font-size:.75rem}
+.brk-l{list-style:none;margin:10px 0 0;padding:0;display:grid;gap:10px}
+.brk-l li{display:grid;gap:1px;font-size:.875rem} .brk-l li>span:first-child{font-size:.75rem}
 .motiv{margin:12px 0 0;font-size:.875rem;color:var(--muted);font-style:italic;text-align:center}
 .todo.on>span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
 .week7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px}
@@ -1142,6 +1144,7 @@ function renderStats(){
     ${weakBlock()}
     <div class="block"><h2>${COURSES[state.course].short}: nach Sitzung</h2>${ready.length?ready.map(c=>{ const p=chapterProgress(c.n);
       return `<div class="srow ch"><span>Sitzung ${c.no}: ${c.title}</span><span class="small muted">${[["Theorie",p.l,1],["Karten",p.k,(CARDS[c.n]||[]).length],["Selbsttest",p.x,kreuzOf(c.n).length],["Schreiben",p.w,essaysOf(c.n).length]].filter(x=>x[2]).map(x=>x[0]+" "+Math.round(x[1]*100)+" %").join(" · ")}</span><span class="pts">${p.total} %</span></div>`;}).join(""):`<p class="small muted" style="margin:0">Noch keine Sitzungen mit Inhalten.</p>`}</div>
+    ${bridgeBlock()}
     ${syncBox()}
     <div class="block"><h3>Fortschritt zurücksetzen</h3><p class="small muted">Löscht deinen gesamten Lernstand (Vorlesung und Seminar), auch auf den verbundenen Geräten.</p>
       <button class="btn warn" id="rst">${statsArmed?"Wirklich zurücksetzen":"Zurücksetzen"}</button></div>`;
@@ -1497,6 +1500,16 @@ function motivLine(){
   else if(gap<=3) m=pick([`Seit ${gap} Tagen Pause. Eine kleine Runde heute, mehr braucht es nicht.`,`${gap} Tage ohne Üben. Starte heute mit den fälligen Karten.`]);
   else m=pick([`Seit ${gap} Tagen nichts gemacht. Kein Drama, fang heute mit fünf Minuten an.`,`${gap} Tage Pause. Das Wiederholen holt schnell wieder auf, fang einfach an.`,`Lange nichts geübt. Eine Lektion heute, und du bist wieder drin.`]);
   return `<p class="motiv">${m}</p>`;
+}
+
+/* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
+const BRUECKE=[{"d": "2026-11-03", "a": "Politik I", "w": "Claude-Brücke eingeführt: gemeinsame Bauanleitung CLAUDE.md mit Logbuch und Bausteine-Tabelle, Block unter Statistik", "y": "Damit jeder Chat in jedem Projekt weiß, was in den anderen Apps geändert wurde und warum"}, {"d": "2026-11-03", "a": "Politik I", "w": "Hochgeladen-Übersicht nach Sitzung/Block: Einzeldateien, Stand „vollständig“, „x von y“ oder „Umfang unbekannt“", "y": "Talib will beim Öffnen sehen, wie weit die Unterlagen reichen und ob ein Block komplett ist"}, {"d": "2026-11-03", "a": "Politik I", "w": "Erledigt-Liste (Presseschau, Bibliotheksschein, Anmeldung) und Motivationssatz unter der Wochenübersicht", "y": "Aufgaben neben dem Lernen abhaken, kleine Ermutigung je nach Lernpause"}, {"d": "2026-10-29", "a": "Politik I", "w": "Seminar Schwarz: Sitzungsplan, Essayklausur (500 Wörter, drei Fragen, vier Kriterien), Presseschau, Block I", "y": "Erste Zoom-Sitzung, Verlaufsplan und Moodle-Kurs liegen vor"}, {"d": "2026-10-28", "a": "alle", "w": "Offline-Modus mit eigenem Cache-Präfix je App", "y": "Apps sollen ohne Internet starten"}, {"d": "2026-10-26", "a": "alle", "w": "Update-Check und Karten wie in BiWi II (tippen, wischen, eine zurück)", "y": "einheitliches Lernen in allen Apps"}];
+function bridgeBlock(){
+  if(!BRUECKE.length) return "";
+  const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
+  return `<details class="block upl brk"><summary><span class="eyebrow" style="margin:0">Claude-Brücke</span><span class="upl-last">zuletzt ${f(BRUECKE[0].d)}</span></summary>
+    <ul class="brk-l">${BRUECKE.map(x=>`<li><span class="muted">${f(x.d)}${x.a!=="Politik I"?" · "+x.a:""}</span><b>${x.w}</b><span class="small muted">${x.y}</span></li>`).join("")}</ul>
+    <p class="small muted" style="margin:8px 0 0">Jeder Claude-Chat liest vor der Arbeit die gemeinsame Bauanleitung (CLAUDE.md) und trägt seine Änderungen dort ein. So wissen alle Apps voneinander.</p></details>`;
 }
 
 /* ================= Selbsttest: je Aufgabe ein Satzanfang und drei Aussagen, jede wahr oder falsch =================
@@ -3336,7 +3349,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="3a365ec58247", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="2cae7ccf3a43", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }

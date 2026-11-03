@@ -65,3 +65,13 @@ function motivLine(){
   else m=pick([`Seit ${gap} Tagen nichts gemacht. Kein Drama, fang heute mit fünf Minuten an.`,`${gap} Tage Pause. Das Wiederholen holt schnell wieder auf, fang einfach an.`,`Lange nichts geübt. Eine Lektion heute, und du bist wieder drin.`]);
   return `<p class="motiv">${m}</p>`;
 }
+
+/* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
+const BRUECKE=__BRUECKE__;
+function bridgeBlock(){
+  if(!BRUECKE.length) return "";
+  const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
+  return `<details class="block upl brk"><summary><span class="eyebrow" style="margin:0">Claude-Brücke</span><span class="upl-last">zuletzt ${f(BRUECKE[0].d)}</span></summary>
+    <ul class="brk-l">${BRUECKE.map(x=>`<li><span class="muted">${f(x.d)}${x.a!=="Politik I"?" · "+x.a:""}</span><b>${x.w}</b><span class="small muted">${x.y}</span></li>`).join("")}</ul>
+    <p class="small muted" style="margin:8px 0 0">Jeder Claude-Chat liest vor der Arbeit die gemeinsame Bauanleitung (CLAUDE.md) und trägt seine Änderungen dort ein. So wissen alle Apps voneinander.</p></details>`;
+}
