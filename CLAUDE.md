@@ -33,6 +33,38 @@ Live jeweils unter `https://talib47.github.io/<Repo>/`.
 7. **Hochgeladen-Übersicht pflegen:** Jede neu eingebaute Sitzung bzw. jeder Block bekommt einen `UPLOADS`-Eintrag mit Einzeldateien. `known:true` nur, wenn der Umfang aus Moodle-Screenshot, Verlaufsplan oder Folie bekannt ist.
 8. **Ton:** Deutsch, kurz, fürs Handy. Nachname immer „Gündoğdu“.
 
+### Aufbau jeder App (fester Platz für alles)
+
+Damit nichts wandert: Jede Funktion hat in allen Apps denselben Platz. Wer etwas verschiebt, ändert es in allen Apps und trägt es hier ein.
+
+**Reiter unten:** Lernpfad · Üben · Statistik. Ausnahme W&G I (älterer Einzeldatei-Aufbau): Übersicht · Üben · Karten · Quiz bzw. Klausur · Statistik.
+
+**Umschalter oben** (nur Apps mit zwei Hälften, Politik I und W&G I): auf Lernpfad, Üben und Statistik. Alles, was je Hälfte gilt, folgt dem Umschalter.
+
+**Lernpfad bzw. Übersicht, von oben nach unten:**
+1. Umschalter (falls zwei Hälften)
+2. Titel der Veranstaltung
+3. Hochgeladen-Übersicht (eine Zeile, aufklappbar)
+4. Heute: Lerneinheit
+5. Nochmal anschauen (als unklar markiert)
+6. Als Nächstes
+7. Sitzungen bzw. Kapitel
+8. So wird geprüft, danach Hinweise zum Prüfungsformat
+
+**Üben:** Wiederholen (fällige Karten, Verständnisfragen, Zuordnen, Begriffe, Selbsttest), danach „Im Prüfungsformat“ (Probeklausur oder Probe-Essay).
+
+**Statistik, von oben nach unten:**
+1. Letzte 7 Tage mit Motivationssatz darunter
+2. Erledigt? (Aufgaben neben dem Lernen)
+3. Prüfung und Probeklausuren (Termin, Plan)
+4. Deine Schwachstellen
+5. Nach Sitzung bzw. Kapitel (und fachspezifische Zusätze wie Rechenaufgaben)
+6. Claude-Brücke
+7. Geräte-Abgleich (verbinden, abgleichen, trennen)
+8. Fortschritt zurücksetzen
+
+**Gestaltung:** Farben nur über die Tokens in `head.html`, hell und dunkel. Neue Blöcke dezent: Überschrift `h2` im `.block`, Nebeninfo `.small.muted`, aufklappbare Kurzinfos als `details.block.upl`. Jede App behält ihre Akzentfarbe.
+
 ### Bausteine
 
 ✓ = eingebaut · ○ = offen · – = passt nicht
@@ -47,11 +79,13 @@ Live jeweils unter `https://talib47.github.io/<Repo>/`.
 | Erledigt-Liste unter Statistik | ○ | ✓ | ○ | ○ |
 | Motivationssatz unter der Wochenübersicht | ○ | ✓ | ○ | ○ |
 | Claude-Brücke (diese Datei + Block unter Statistik) | ○ | ✓ | ○ | ○ |
+| Statistik in der festen Reihenfolge | ✓ | ✓ | ○ (Prüfung und Schwachstellen stehen nach „Nach Kapitel“) | ○ prüfen |
 
 ### Logbuch
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-03 · alle · Projekt Politik I · CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik) · Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen
 - 2026-11-03 · Politik I · Projekt Politik I · Claude-Brücke eingeführt: gemeinsame Bauanleitung CLAUDE.md mit Logbuch und Bausteine-Tabelle, Block unter Statistik · Damit jeder Chat in jedem Projekt weiß, was in den anderen Apps geändert wurde und warum
 - 2026-11-03 · Politik I · Projekt Politik I · Hochgeladen-Übersicht nach Sitzung/Block: Einzeldateien, Stand „vollständig“, „x von y“ oder „Umfang unbekannt“ · Talib will beim Öffnen sehen, wie weit die Unterlagen reichen und ob ein Block komplett ist
 - 2026-11-03 · Politik I · Projekt Politik I · Erledigt-Liste (Presseschau, Bibliotheksschein, Anmeldung) und Motivationssatz unter der Wochenübersicht · Aufgaben neben dem Lernen abhaken, kleine Ermutigung je nach Lernpause
