@@ -64,7 +64,14 @@ Damit nichts wandert: Jede Funktion hat in allen Apps denselben Platz. Wer etwas
 7. Geräte-Abgleich (verbinden, abgleichen, trennen)
 8. Fortschritt zurücksetzen
 
-**Gestaltung:** Farben nur über die Tokens in `head.html`, hell und dunkel. Neue Blöcke dezent: Überschrift `h2` im `.block`, Nebeninfo `.small.muted`, aufklappbare Kurzinfos als `details.block.upl`. Jede App behält ihre Akzentfarbe.
+**Gestaltung („Die Reihe“):** Jede App ist ein Band einer Reihe, erkennbar an Bandfarbe und römischer Ziffer wie im App-Symbol.
+- Gemeinsames Design in `src/design.css` (W&G I: eigener Block in der `index.html`), wortgleich in allen Apps, von `build.py` in `head.html` eingesetzt. Je App stehen in `head.html` nur `--accent`, `--accent-ink`, `--plate-top`, `--plate-bot`, `--numeral`, hell und dunkel.
+- Kräftige Farbe nur auf der Platte „Heute“. Sonst ruhige Gruppen ohne Rahmen und ohne Schatten; erhöht sind nur Platte und Lernkarte (mit Stapel dahinter).
+- Glas nur für Bedienleisten: Tableiste als schwebende Kapsel mit Symbolen (`NAV_ICONS` in `status.js`), daneben der runde Knopf „Aa“ für die Schriftgröße, Hinweise, Leiste der Tageseinheit. Nie Glas auf Inhalten.
+- Titel, Kartenvorderseiten und Zitate in Newsreader (`fonts/`, SIL OFL, im Offline-Speicher), Text in der Systemschrift (SF Pro auf iPad und iPhone). Keine Etiketten in Großbuchstaben.
+- Bewegung nur als Antwort auf Tippen (Seitenwechsel, Karte, Drücken), `prefers-reduced-motion` und `prefers-reduced-transparency` beachten.
+- Neue Blöcke: Überschrift `h2` im `.block`, Nebeninfo `.small.muted`, aufklappbare Kurzinfos als `details.block.upl`, Knöpfe `.btn` (voll) bzw. `.btn.ghost` (getönt).
+- Bis zur Übernahme gilt in BiWi II, Wirtschaft II und W&G I noch der alte Stand (Tabelle „Bausteine“).
 
 ### Lernprinzipien (aus der Forschung, nicht ohne Grund ändern)
 
@@ -103,12 +110,14 @@ Stand der Recherche vom 03.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Hinweis Schlaf nach abendlicher Einheit | ✓ | ✓ | ✓ | ✓ |
 | Alles aufschreiben (freies Abrufen) | ○ | ✓ | ○ | ○ |
 | Tempo im Probe-Essay | – | ✓ | – | – |
+| Design „Die Reihe“ (`design.css`, Newsreader, Glas-Tableiste mit Symbolen, Platte „Heute“, Knopf „Aa“) | ○ | ✓ | ○ | ○ |
 | Stichtag 31.01., wenn der Prüfungstermin unbekannt ist | – (Termin bekannt) | – (Termine bekannt) | ✓ | ✓ (Sozialstruktur) |
 
 ### Logbuch
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-03 · Politik I · Projekt Politik I · Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel · Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps
 - 2026-11-03 · alle · Projekt Politik I · Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle) · Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht
 - 2026-11-03 · Politik I · Projekt Politik I · Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars · Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben
 - 2026-11-03 · alle · Projekt Politik I · Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten · Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“
@@ -132,3 +141,4 @@ Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Bloc
 - Literaturliste aller Seminarblöcke ist aus den Moodle-Screenshots vom 29.10. bekannt (siehe Verlaufsplan `online_03.pdf` im claude.ai-Projekt).
 - Projekt-PDFs dürfen nach dem Einbau gelöscht werden, die App enthält den Lernstoff.
 - Gemeinsame Bausteine: `src/status.js` (wortgleich mit BiWi II und Wirtschaft II), Einstellungen in `src/appcfg.js`. „Alles aufschreiben“ in `src/dump.js` (Muster für die anderen Apps).
+- Design-Muster: `src/design.css` und `fonts/` gehören zu allen Apps (beim Übertragen wortgleich kopieren, `sw.js` CORE um die Schrift ergänzen). Bandfarbe Politik I in `src/head.html`: Weinrot, Ziffer „I“.

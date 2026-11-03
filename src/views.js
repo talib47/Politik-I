@@ -45,10 +45,10 @@ let view="home", cur={};
 const TABS=[["home","Lernpfad"],["practice","Üben"],["stats","Statistik"]];
 const TAB_OF={home:"home",chapter:"home",lesson:"home",sessdone:"home",kreuz:"practice",cards:"practice",practice:"practice",stats:"stats",exam:"practice",essay:"practice",recall:"practice",who:"practice",terms:"practice",outline:"practice"};
 function renderNav(){
-  $("#nav").innerHTML=TABS.map(([k,l])=>`<button data-v="${k}"${TAB_OF[view]===k?' aria-current="page"':""}>${l}</button>`).join("");
+  $("#nav").innerHTML=TABS.map(([k,l])=>`<button data-v="${k}"${TAB_OF[view]===k?' aria-current="page"':""}>${NAV_ICONS[k]||""}<span>${l}</span></button>`).join("");
   $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.v));
 }
-function go(v){ view=v; render(); window.scrollTo(0,0); }
+function go(v){ view=v; const a=$("#app"); a.classList.remove("vin"); void a.offsetWidth; a.classList.add("vin"); render(); window.scrollTo(0,0); }
 function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,dump:renderDump,sessdone:renderHome})[view](); addSwitch(); updateSessBar(); }
 const backTo=label=>`<button class="crumb" id="crumb">← ${label}</button>`;
 function bindCrumb(fn){ const b=$("#crumb"); if(b) b.onclick=fn; }

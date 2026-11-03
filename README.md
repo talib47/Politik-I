@@ -21,7 +21,8 @@ Grundgerüst und Lernformen aus Wirtschaft II übernommen und auf zwei Veranstal
 
 | Datei | Inhalt |
 |---|---|
-| `head.html` | Kopf, Icons, Manifest, CSS aus Wirtschaft II (Farben als Tokens, Dunkelmodus, Akzent Weinrot) plus Politik-Klassen |
+| `head.html` | Kopf, Icons, Manifest, Bandfarbe Politik I (`--accent`, `--plate-top`, `--plate-bot`, `--numeral`), Grund-CSS und Politik-Klassen |
+| `design.css` | Gemeinsames Design aller Apps („Die Reihe“): Farben hell/dunkel, Newsreader-Titel, Platte „Heute“, Tableiste aus Glas mit Symbolen, Knopf „Aa“, Lernkarte mit Stapel. `build.py` setzt sie in `head.html` ein. Schrift in `fonts/` (SIL OFL) |
 | `core.js` | Speicher (`localStorage`), Geräte-Abgleich über GitHub, Hilfsfunktionen |
 | `content.js` | Veranstaltungen (`COURSES`), Sitzungsliste (`CHAPTERS`, `c` = vl/se, `no` = angezeigte Nummer) |
 | `cardinfo.js` | Kontextzeile (Vorderseite) und i-Infos (Rückseite) je Karte |
@@ -39,7 +40,7 @@ Grundgerüst und Lernformen aus Wirtschaft II übernommen und auf zwei Veranstal
 | `content_v1_train.js` | Sitzung 1: Begründungen falscher Antworten, Zuordnungen, Begriffe |
 | `content_s1.js` | Seminar Sitzung 1 (Kapitel 101): Lektionen mit Begründung je falscher Wahl (`w` direkt in der Frage), Karten, Selbsttests |
 | `content_s1_train.js` | Seminar Sitzung 1: Essays (Musteressay etwa 500 Wörter), Zuordnungen (`se_…`-Sets), Begriffe |
-| `start.js` | Start, Zoom, Token aus dem Link |
+| `start.js` | Start, Schriftgröße („Aa“), Token aus dem Link |
 
 Herkunft der Inhalte: Folien unmarkiert, Lektüre mit `lit`/`litbox`, sonstige Ergänzungen mit `erg`/`ergbox`.
 Seminar: keine Folien. Die Textgrundlage jeder Sitzung ist der Kern (unmarkiert), Literaturempfehlungen stehen als „Empfehlung“ (`EMPF()`, `litbox`), Ergänzungen wie gehabt.

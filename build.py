@@ -3,7 +3,7 @@ import os
 d=os.path.join(os.path.dirname(os.path.abspath(__file__)),'src')
 r=lambda f: open(os.path.join(d,f),encoding='utf-8').read()
 order=['core.js','content.js','cardinfo.js','format.js','views.js','recall.js','who.js','terms.js','session.js','plan.js','appcfg.js','status.js','kreuz.js','essay.js','dump.js','content_v1.js','content_v1_lit.js','content_v1_train.js','content_s1.js','content_s1_train.js','start.js']
-out=r('head.html')+''.join(r(f).rstrip()+'\n\n' for f in order)+'</script>\n'+r('update.html').rstrip()+'\n</body>\n</html>\n'
+out=r('head.html').replace('/*__DESIGN__*/',r('design.css').strip())+''.join(r(f).rstrip()+'\n\n' for f in order)+'</script>\n'+r('update.html').rstrip()+'\n</body>\n</html>\n'
 # Version = Prüfsumme des Inhalts; die App vergleicht sie mit version.txt und lädt sich bei Änderungen neu (update.html)
 import hashlib
 # Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md in die App übernehmen

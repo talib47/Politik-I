@@ -13,6 +13,7 @@
    3. Motivationssatz unter der Wochenübersicht.
    4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt __BRUECKE__).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
+   6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
    Prüfungstermin unbekannt: Die App rechnet mit dem Stichtag 31.01. und meldet das über APP.examAssumed() (dann „bis zum Stichtag“). */
 const UPLOADS=[];
 const CK=()=>APP.halves?state.course:"main";
@@ -60,6 +61,16 @@ function motivLine(){
   if(left!=null&&left>0&&left<=21) m+=` Noch ${left} ${left===1?"Tag":"Tage"} ${APP.examAssumed&&APP.examAssumed()?"bis zum Stichtag":"bis zur Prüfung"}.`;
   return `<p class="motiv">${m}</p>`;
 }
+
+/* Symbole der Tableiste: gleiche Bildsprache in allen Apps. Lernpfad = Buch, Üben = Zielscheibe, Statistik = Balken,
+   Karten = Kartenstapel, Quiz = Liste mit Häkchen. Flächen mit class="f" füllen sich beim aktiven Reiter leicht. */
+const NAV_ICONS=(()=>{ const s=b=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${b}</svg>`;
+  const book=s('<path class="f" d="M12 6.6C10.1 5.3 7.5 4.7 3.8 4.9v13.5c3.7-.2 6.3.4 8.2 1.7 1.9-1.3 4.5-1.9 8.2-1.7V4.9c-3.7-.2-6.3.4-8.2 1.7Z"/><path d="M12 6.6v13.5"/>');
+  const target=s('<circle cx="12" cy="12" r="8.6"/><circle class="f" cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>');
+  const bars=s('<rect class="f" x="4" y="12.5" width="4" height="7.5" rx="1.4"/><rect class="f" x="10" y="8" width="4" height="12" rx="1.4"/><rect class="f" x="16" y="4" width="4" height="16" rx="1.4"/>');
+  const cards=s('<rect class="f" x="7" y="3.6" width="13" height="15.4" rx="2.6"/><path d="M4.4 7.6v9.8a3 3 0 0 0 3 3h8.2"/>');
+  const quiz=s('<rect class="f" x="4" y="3.6" width="16" height="16.8" rx="3"/><path d="m7.8 9.2 1.6 1.6 2.8-3M7.8 15.4l1.6 1.6 2.8-3M15 9.6h1.6M15 15.8h1.6"/>');
+  return {home:book, overview:book, practice:target, stats:bars, cards, quiz, exam:quiz}; })();
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
 const BRUECKE=__BRUECKE__;

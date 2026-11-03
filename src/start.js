@@ -5,6 +5,9 @@
   apply();
   document.getElementById("zIn").onclick=()=>{ z=Math.min(1.8,Math.round((z+.1)*10)/10); apply(); };
   document.getElementById("zOut").onclick=()=>{ z=Math.max(.8,Math.round((z-.1)*10)/10); apply(); };
+  /* Schriftgröße: ein kleiner Knopf „Aa“, erst beim Tippen erscheinen „A“ kleiner und „A“ größer */
+  const zb=document.getElementById("zoom"), zt=document.getElementById("zT");
+  zt.onclick=()=>{ const o=zb.classList.toggle("open"); zt.setAttribute("aria-expanded",String(o)); };
 })();
 initToken();
 render();

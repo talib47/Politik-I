@@ -6,30 +6,19 @@
 <title>Politik I</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Politik I">
-<meta name="theme-color" content="#8A2E3B">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F2F2F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="apple-touch-icon" href="/Politik-I/apple-touch-icon.png?v=4">
 <link rel="icon" type="image/png" href="/Politik-I/icon-192.png?v=4">
 <link rel="manifest" href="/Politik-I/manifest.webmanifest?v=4">
 <style>
-/* Layout: eine schmale Lernspalte (max. 42rem) mit fester Tableiste unten, wie die W&G-I-App; eigene Akzentfarbe (Weinrot) für Politik I; Grundgerüst und Lernformen aus Wirtschaft II */
-:root{
-  --bg:#F3EEEF; --surface:#FBF9F9; --ink:#241A1C; --muted:#66595C; --line:#D9CDD0;
-  --accent:#8A2E3B; --accent-ink:#FFFFFF; --accent-soft:#F2DFE2;
-  --good:#2F7A4A; --good-soft:#DDEEE2; --bad:#A3392B; --bad-soft:#F4DEDA; --gold:#A87B1F;
-  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ color-scheme:dark;
-    --bg:#171113; --surface:#211A1C; --ink:#EEE5E7; --muted:#AE9FA3; --line:#3E3034;
-    --accent:#E7A5B0; --accent-ink:#22100F; --accent-soft:#3B2529;
-    --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
-}
-:root[data-theme="dark"]{ color-scheme:dark;
-  --bg:#171113; --surface:#211A1C; --ink:#EEE5E7; --muted:#AE9FA3; --line:#3E3034;
-  --accent:#E7A5B0; --accent-ink:#22100F; --accent-soft:#3B2529;
-  --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
+/* Layout: eine schmale Lernspalte (max. 42rem) mit Tableiste unten. Bandfarbe Politik I: Weinrot wie das App-Symbol, Ziffer I.
+   Nur diese fünf Werte sind je App verschieden; alle übrigen Farben, Schriften und Formen stehen im gemeinsamen Design (src/design.css). */
+:root{ --accent:#8A2E3B; --accent-ink:#FFFFFF; --plate-top:#A23A4B; --plate-bot:#5C1926; --numeral:"I"; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --accent:#EFA3AF; --accent-ink:#2A0D12; --plate-top:#86293A; --plate-bot:#3A0E17; } }
+:root[data-theme="dark"]{ --accent:#EFA3AF; --accent-ink:#2A0D12; --plate-top:#86293A; --plate-bot:#3A0E17; }
 *{box-sizing:border-box}
 html{font-size:calc(var(--base,100%) * var(--z,1))}
 @media (min-width:768px){:root{--base:106.25%}}
@@ -413,13 +402,251 @@ svg .fillB{fill:var(--accent-soft);opacity:.55;stroke:none}
 .otime{font-variant-numeric:tabular-nums;font-weight:600}
 .lexwarn::before{content:"Verwechslung: ";font-weight:600}
 </style>
+<style>
+/* ===================== Gemeinsames Design aller Lern-Apps („Die Reihe“) =====================
+   Wortgleich in allen Apps. Je App stehen in head.html nur: --accent, --accent-ink, --plate-top, --plate-bot, --numeral (hell und dunkel).
+   Idee: Jede App ist ein Band einer Reihe. Die Bandfarbe des App-Symbols erscheint kräftig nur an einer Stelle,
+   der Platte „Heute“ (mit der römischen Ziffer wie im Symbol). Alles andere ist ruhig und neutral wie in iOS:
+   helle bzw. schwarze Fläche, weiße bzw. dunkelgraue Gruppen, feine Trennlinien, Glas nur für die Bedienleisten (Tableiste,
+   Schriftgröße, Hinweise), wie Apples Liquid Glass. Titel in Newsreader (Production Type, SIL OFL, im Ordner fonts/),
+   Text in der Systemschrift (SF Pro auf iPad und iPhone). Keine Großbuchstaben-Etiketten, keine Schatten auf jeder Karte:
+   Erhöht sind nur die Platte und die Lernkarte. Bewegung nur als Antwort auf Tippen (Seitenwechsel, Karte, Drücken). */
+
+@font-face{font-family:"Newsreader";font-style:normal;font-weight:200 800;font-display:swap;
+  src:url("fonts/newsreader-latin.woff2") format("woff2-variations"),url("fonts/newsreader-latin.woff2") format("woff2");
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:"Newsreader";font-style:normal;font-weight:200 800;font-display:swap;
+  src:url("fonts/newsreader-latin-ext.woff2") format("woff2-variations"),url("fonts/newsreader-latin-ext.woff2") format("woff2");
+  unicode-range:U+0100-02BA,U+02BD-02C5,U+02C7-02CC,U+02CE-02D7,U+02DD-02FF,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF}
+
+/* ---------- Farben und Formen ---------- */
+:root{ color-scheme:light;
+  --bg:#F2F2F4; --surface:#FFFFFF; --surface2:#F7F7F9; --ink:#1B1B1F; --muted:#6C6C74; --line:#E3E3E8;
+  --fill:rgba(118,118,128,.10); --fill2:rgba(118,118,128,.18);
+  --good:#2D7A4E; --bad:#B43A2E; --gold:#9E7518;
+  --good-soft:color-mix(in srgb,var(--good) 10%,var(--surface)); --bad-soft:color-mix(in srgb,var(--bad) 9%,var(--surface));
+  --accent-soft:color-mix(in srgb,var(--accent) 8%,var(--surface));
+  --tint:color-mix(in srgb,var(--accent) 11%,transparent);
+  --thumb:#FFFFFF; --glass:rgba(250,250,252,.72); --glass-line:rgba(0,0,0,.07);
+  --serif:"Newsreader","Iowan Old Style",Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,system-ui,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  --r-l:24px; --r-m:18px; --r-s:12px;
+  --lift:0 1px 2px rgba(0,0,0,.04),0 16px 36px -18px rgba(0,0,0,.22);
+  --float:0 10px 30px -12px rgba(0,0,0,.28),0 1px 3px rgba(0,0,0,.06);
+  --check:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3.2 7.3 5.9 10 10.9 4.2' fill='none' stroke='%23fff' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ color-scheme:dark;
+  --bg:#000000; --surface:#1C1C1E; --surface2:#242427; --ink:#F3F3F5; --muted:#9D9DA5; --line:#2F2F34;
+  --fill:rgba(118,118,128,.20); --fill2:rgba(118,118,128,.30);
+  --good:#62C48C; --bad:#F2897E; --gold:#DDB35A;
+  --thumb:#5B5B60; --glass:rgba(30,30,33,.70); --glass-line:rgba(255,255,255,.09);
+  --tint:color-mix(in srgb,var(--accent) 17%,transparent);
+  --lift:0 0 0 1px rgba(255,255,255,.05),0 22px 44px -20px rgba(0,0,0,.9);
+  --float:0 12px 34px -12px rgba(0,0,0,.8),0 0 0 .5px rgba(255,255,255,.08);
+  --check:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3.2 7.3 5.9 10 10.9 4.2' fill='none' stroke='%23141416' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); } }
+:root[data-theme="dark"]{ color-scheme:dark;
+  --bg:#000000; --surface:#1C1C1E; --surface2:#242427; --ink:#F3F3F5; --muted:#9D9DA5; --line:#2F2F34;
+  --fill:rgba(118,118,128,.20); --fill2:rgba(118,118,128,.30);
+  --good:#62C48C; --bad:#F2897E; --gold:#DDB35A;
+  --thumb:#5B5B60; --glass:rgba(30,30,33,.70); --glass-line:rgba(255,255,255,.09);
+  --tint:color-mix(in srgb,var(--accent) 17%,transparent);
+  --lift:0 0 0 1px rgba(255,255,255,.05),0 22px 44px -20px rgba(0,0,0,.9);
+  --float:0 12px 34px -12px rgba(0,0,0,.8),0 0 0 .5px rgba(255,255,255,.08);
+  --check:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 14 14'%3E%3Cpath d='M3.2 7.3 5.9 10 10.9 4.2' fill='none' stroke='%23141416' stroke-width='2.1' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+
+/* ---------- Grundlagen ---------- */
+html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);letter-spacing:-.003em;text-rendering:optimizeLegibility;-webkit-tap-highlight-color:transparent}
+button{touch-action:manipulation}
+::selection{background:color-mix(in srgb,var(--accent) 24%,transparent)}
+:focus-visible{outline:2.5px solid color-mix(in srgb,var(--accent) 75%,transparent);outline-offset:2px}
+main{padding-top:14px;padding-bottom:calc(124px + env(safe-area-inset-bottom,0px))}
+h1,h2,h3,.card .front,.who,.quote,.motiv{font-family:var(--serif);font-optical-sizing:auto;font-kerning:normal}
+h1{font-size:2.125rem;font-weight:600;line-height:1.06;letter-spacing:-.02em;margin:0 0 .5em}
+h2{font-size:1.375rem;font-weight:600;line-height:1.18;letter-spacing:-.012em}
+h3{font-size:1.125rem;font-weight:600;line-height:1.25;letter-spacing:-.005em}
+p,li{text-wrap:pretty}
+.eyebrow{font-size:.8125rem;font-weight:600;letter-spacing:0;text-transform:none;color:var(--muted);margin:0 0 .3em}
+.sect{font-size:1.0625rem;font-weight:650;letter-spacing:-.008em;text-transform:none;color:var(--ink);margin:26px 2px 10px;align-items:baseline}
+.sect>span+span{font-size:.8125rem;font-weight:500;color:var(--muted);letter-spacing:0}
+.crumb{display:inline-flex;align-items:center;gap:4px;font-size:.9375rem;font-weight:600;color:var(--accent);padding:6px 0;margin:0 0 10px}
+
+/* ---------- Gruppen (ruhig, ohne Rahmen und ohne Schatten) ---------- */
+.block{background:var(--surface);border:0;border-radius:var(--r-m);padding:18px;margin:0 0 12px}
+.tlist .titem,.chap,.mode,.srow,.klist>b,.klist>span,.dlist>b,.dlist>span,.kv td,.cmp th,.cmp td,.kvq th,.kvq td,.mrows>div,.kz,.upl-u,.info dl div{border-top-color:var(--line)}
+
+/* ---------- Die Platte „Heute“: einziges kräftiges Element, Farbe und Ziffer wie das App-Symbol ---------- */
+.block.today{position:relative;overflow:hidden;isolation:isolate;border:0;border-radius:var(--r-l);padding:22px 20px 20px;color:#fff;
+  background:radial-gradient(120% 90% at 100% 0%,rgba(255,255,255,.13),transparent 55%),linear-gradient(165deg,var(--plate-top),var(--plate-bot));
+  box-shadow:0 18px 36px -26px var(--plate-bot)}
+.block.today::after{content:var(--numeral);position:absolute;right:.14em;bottom:-.24em;z-index:-1;font:500 12.5rem/1 var(--serif);letter-spacing:-.02em;color:#fff;opacity:.08;pointer-events:none}
+.block.today .eyebrow{color:rgba(255,255,255,.8)}
+.block.today h2{color:#fff;font-size:1.75rem;letter-spacing:-.018em;margin:0 0 .45em}
+.block.today .muted,.block.today .small.muted,.block.today .plan li span{color:rgba(255,255,255,.8)}
+.block.today b,.block.today a,.block.today .wlink{color:#fff}
+.block.today .plan{padding-left:1.3em;margin:4px 0 14px}
+.block.today .plan li{margin:.5em 0}
+.block.today .plan li::marker{color:rgba(255,255,255,.6);font-variant-numeric:tabular-nums}
+.block.today .btn{background:#fff;color:var(--plate-bot);box-shadow:0 10px 22px -12px rgba(0,0,0,.55)}
+.block.today .btn.ghost{background:rgba(255,255,255,.16);color:#fff;box-shadow:none}
+
+/* ---------- Knöpfe ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:46px;padding:12px 20px;border:0;border-radius:14px;
+  font-weight:600;letter-spacing:-.006em;background:var(--accent);color:var(--accent-ink);
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 1px 2px rgba(0,0,0,.1);transition:transform .16s cubic-bezier(.3,.7,.4,1),filter .16s,background-color .2s}
+.btn:active:not(:disabled){transform:scale(.97);filter:brightness(.93)}
+.btn.ghost{background:var(--tint);color:var(--accent);border:0;box-shadow:none}
+.btn.small{min-height:36px;padding:8px 14px;border-radius:11px;font-size:.875rem}
+.btn.warn{background:color-mix(in srgb,var(--bad) 11%,transparent);color:var(--bad);border:0;box-shadow:none}
+.btn:disabled{opacity:.4}
+@media (hover:hover){ .btn:hover:not(:disabled){filter:brightness(1.06)} .btn.ghost:hover:not(:disabled){filter:none;background:color-mix(in srgb,var(--accent) 16%,transparent)} }
+.tylink,.kg{border-radius:999px}
+
+/* ---------- Kleine Marken ---------- */
+.chip{border:0;background:var(--fill);color:var(--muted);padding:3px 9px;font-weight:600;font-size:.75rem;font-variant-numeric:tabular-nums}
+.chip.l1,.chip.unk,.chip.flag{background:color-mix(in srgb,var(--gold) 15%,transparent);color:var(--gold);border:0}
+.chip.l2{background:var(--tint);color:var(--accent);border:0}
+.chip.l3{background:color-mix(in srgb,var(--good) 14%,transparent);color:var(--good);border:0}
+.chip.soon{background:transparent;border:1px dashed color-mix(in srgb,var(--muted) 45%,transparent);padding:2px 8px}
+.tag,.erg,.lit{text-transform:none;letter-spacing:0;font-size:.6875rem;font-weight:650;border:0;padding:1px 7px;border-radius:999px}
+.tag.core,.lit{background:var(--tint);color:var(--accent);border:0}
+.tag.bg{background:var(--fill);color:var(--muted);border:0}
+.erg{background:color-mix(in srgb,var(--gold) 16%,transparent);color:var(--gold)}
+
+/* ---------- Umschalter (wie iOS) ---------- */
+.switch{background:var(--fill);border:0;border-radius:14px;padding:3px;gap:3px;margin:0 0 22px}
+.switch button{border-radius:11px;padding:8px 6px;color:var(--muted);font-weight:600;font-size:.9375rem;transition:background-color .22s,box-shadow .22s,color .22s}
+.switch button small{color:var(--muted);font-weight:500;font-size:.75rem}
+.switch button[aria-pressed="true"]{background:var(--thumb);color:var(--ink);box-shadow:0 3px 8px rgba(0,0,0,.12),0 1px 1px rgba(0,0,0,.05)}
+.switch button[aria-pressed="true"] small{color:color-mix(in srgb,var(--ink) 68%,transparent)}
+.seg,.wf{display:inline-flex;background:var(--fill);border:0;border-radius:12px;padding:2px;gap:2px;overflow:visible}
+.seg button,.wf button,.seg button+button,.wf button+button{border:0;border-radius:10px;background:transparent;color:var(--muted)}
+.seg button[aria-pressed="true"],.wf button[aria-pressed="true"]{background:var(--thumb);color:var(--ink);box-shadow:0 2px 6px rgba(0,0,0,.1)}
+.wf button.r{background:var(--good-soft);color:var(--good)}
+.wf button.w{background:var(--bad-soft);color:var(--bad)}
+
+/* ---------- Listen ---------- */
+.chap,.mode,.titem{transition:opacity .15s}
+.chap:not(:disabled):active,.mode:active,.titem:active{opacity:.5}
+.chap{padding:14px 0;grid-template-columns:2.3rem 1fr auto}
+.chap .no{font-family:var(--serif);font-size:1.5rem;font-weight:500;line-height:1;color:var(--accent);font-variant-numeric:lining-nums}
+.chap .t,.mode .t,.titem .t{letter-spacing:-.006em}
+.mode{padding:14px 0}
+.bar{height:4px;border-radius:999px;background:var(--fill)}
+.bar i{border-radius:999px}
+@media (hover:hover){ .chap:not(:disabled):hover .t,.mode:hover .t,.titem:hover .t{color:var(--accent)} }
+
+/* ---------- Aufklappbare Kurzinfos (Hochgeladen, Claude-Brücke) ---------- */
+.upl{padding:14px 16px;border-radius:var(--r-m)}
+.upl summary .eyebrow{color:var(--ink);font-size:.9375rem;font-weight:600}
+.upl summary::after{font-size:1.25rem;line-height:1;transition:transform .25s cubic-bezier(.3,.7,.4,1)}
+
+/* ---------- Häkchen (rund, wie in Erinnerungen) ---------- */
+.check{gap:12px;padding:8px 0}
+.check input[type=checkbox]{-webkit-appearance:none;appearance:none;width:22px;height:22px;flex:none;margin:1px 0 0;border-radius:50%;
+  border:1.6px solid color-mix(in srgb,var(--muted) 60%,transparent);background:transparent center/14px 14px no-repeat;cursor:pointer;
+  transition:background-color .18s,border-color .18s,transform .18s}
+.check input[type=checkbox]:checked{background-color:var(--accent);border-color:var(--accent);background-image:var(--check)}
+.check input[type=checkbox]:active:not(:disabled){transform:scale(.86)}
+.check input[type=checkbox]:disabled{opacity:.75;cursor:default}
+
+/* ---------- Eingaben ---------- */
+.dateinp,.inp input,.essay textarea,.copybox,select{background:var(--fill);border:1px solid transparent;border-radius:12px;color:var(--ink);transition:border-color .15s,box-shadow .15s}
+.dateinp:focus,.inp input:focus,.essay textarea:focus,.copybox:focus,select:focus{outline:none;border-color:color-mix(in srgb,var(--accent) 55%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 15%,transparent)}
+.essay textarea{padding:14px 16px;line-height:1.6;border-radius:16px}
+.essaytext{background:var(--fill);border-radius:14px;padding:12px 14px}
+
+/* ---------- Antwortauswahl ---------- */
+.mc{gap:8px}
+.mc button{background:var(--fill);border:1.5px solid transparent;border-radius:14px;padding:12px 14px;line-height:1.4;transition:background-color .15s,border-color .15s,transform .12s}
+.mc button:active:not(:disabled){transform:scale(.985)}
+.mc button.r{background:var(--good-soft);border-color:color-mix(in srgb,var(--good) 55%,transparent)}
+.mc button.w{background:var(--bad-soft);border-color:color-mix(in srgb,var(--bad) 50%,transparent)}
+.mc .idk{border:1.5px dashed var(--line);background:transparent}
+.fb{border-left-width:2px}
+
+/* ---------- Lernkarte: erhöht, mit Stapel dahinter ---------- */
+.swipewrap{isolation:isolate;margin-bottom:22px}
+.swipewrap::before,.swipewrap::after{content:"";position:absolute;top:22px;bottom:-8px;left:30px;right:30px;border-radius:var(--r-l);background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.05);opacity:.75;z-index:-1;pointer-events:none}
+.swipewrap::after{top:34px;bottom:-15px;left:46px;right:46px;opacity:.42;z-index:-2}
+.card{min-height:clamp(15rem,38vh,23rem);border-radius:var(--r-l);padding:22px 22px 20px;box-shadow:var(--lift);gap:12px}
+.card .front{font-size:1.5rem;font-weight:500;line-height:1.25;letter-spacing:-.012em}
+.card .cctx{font-size:.8125rem}
+.card .tap{font-size:.75rem;opacity:.85}
+.card .back{border-top-color:var(--line);padding-top:14px;line-height:1.55}
+.grade{gap:10px}
+
+/* ---------- Kästen in Lektionen ---------- */
+.merk,.litbox,.bsp{border:0;border-radius:16px;background:var(--accent-soft);padding:14px 16px;margin:14px 0}
+.merk>b:first-child,.litbox>b:first-child,.bsp .bh,.lesson .bsp .bh{text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:650;color:var(--accent);margin-bottom:4px}
+.ergbox{border:1.5px dashed color-mix(in srgb,var(--gold) 55%,transparent);border-radius:16px;padding:14px 16px}
+.ergbox>b:first-child{text-transform:none;letter-spacing:0;font-size:.8125rem;font-weight:650}
+.quote{border-left:2px solid var(--accent);padding:2px 0 2px 16px;font-size:1.125rem;line-height:1.5}
+.lesson p,.lesson li{line-height:1.6}
+.cmp thead th,.kvq th{letter-spacing:0}
+
+/* ---------- Statistik ---------- */
+.week7 .bw i{width:56%;max-width:1.5rem;border-radius:999px;background:color-mix(in srgb,var(--accent) 32%,var(--surface));opacity:1;min-height:5px}
+.week7 .d.today{background:var(--accent-soft);border-radius:14px}
+.week7 .d.today .bw i{background:var(--accent)}
+.week7 .n{font-family:var(--serif);font-size:1.0625rem;font-weight:600}
+.motiv{font-style:normal;font-size:1.0625rem;line-height:1.4;color:var(--muted);margin-top:16px}
+.todo.on>span{text-decoration-color:color-mix(in srgb,var(--muted) 50%,transparent)}
+
+/* ---------- Bedienleisten aus Glas (nur hier Glas, nie auf Inhalten) ---------- */
+nav,.zoom{--nb:max(10px,calc(env(safe-area-inset-bottom,0px) - 4px)); --nh:62px; --zw:62px; --gap:8px}
+nav{left:12px;right:calc(12px + var(--zw) + var(--gap));bottom:var(--nb);width:auto;margin:0;
+  display:flex;gap:2px;padding:5px;border:0;border-radius:999px;background:var(--glass);
+  -webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);box-shadow:var(--float),inset 0 0 0 .5px var(--glass-line)}
+nav button{flex:1;min-width:0;max-width:none;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:52px;padding:4px 2px;border-radius:999px;
+  font-size:.6875rem;font-weight:600;letter-spacing:.005em;color:var(--muted);transition:color .2s,background-color .25s}
+nav button svg{width:24px;height:24px;display:block;flex:none}
+nav button svg .f{fill:currentColor;fill-opacity:0;transition:fill-opacity .2s}
+nav button[aria-current="page"]{background:color-mix(in srgb,var(--accent) 13%,transparent);color:var(--accent)}
+nav button[aria-current="page"] svg .f{fill-opacity:.22}
+nav button:active{background:var(--fill)}
+.zoom{right:12px;bottom:var(--nb);width:var(--zw);min-height:var(--nh);flex-direction:column;align-items:center;justify-content:flex-end;gap:0;padding:5px;border-radius:calc(var(--zw) / 2);
+  background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);box-shadow:var(--float),inset 0 0 0 .5px var(--glass-line)}
+.zoom button{width:calc(var(--zw) - 10px);height:calc(var(--nh) - 10px);border:0;border-radius:50%;background:transparent;box-shadow:none;opacity:1;color:var(--muted);font:600 16px/1 var(--serif);display:grid;place-items:center}
+.zoom #zIn{order:1;font-size:22px;color:var(--ink)} .zoom #zOut{order:2;font-size:14px;color:var(--ink)} .zoom #zT{order:3}
+.zoom #zOut,.zoom #zIn{display:none}
+.zoom.open #zOut,.zoom.open #zIn{display:grid}
+.zoom.open #zT{color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,transparent)}
+.zoom button:active{background:var(--fill)}
+@media (min-width:700px){
+  nav,.zoom{--nh:56px; --zw:56px; --navw:30rem}
+  nav{left:calc(50% - (var(--navw) + var(--zw) + var(--gap)) / 2);right:auto;width:var(--navw)}
+  .zoom{right:auto;left:calc(50% - (var(--navw) + var(--zw) + var(--gap)) / 2 + var(--navw) + var(--gap))}
+  nav button{flex-direction:row;gap:7px;min-height:46px;font-size:.8125rem} nav button svg{width:22px;height:22px}
+}
+.toast{bottom:calc(max(10px,calc(env(safe-area-inset-bottom,0px) - 4px)) + 74px);background:color-mix(in srgb,var(--ink) 90%,transparent);color:var(--bg);
+  -webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border-radius:999px;padding:11px 18px;font-weight:600;font-size:.875rem;box-shadow:var(--float);text-align:center}
+#sessbar{background:var(--glass);-webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);border-bottom:.5px solid var(--glass-line)}
+.etop{background:color-mix(in srgb,var(--bg) 82%,transparent);-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+.sheet{background:rgba(0,0,0,.34)}
+.sheetin{background:var(--surface);border-radius:28px 28px 0 0;box-shadow:0 -12px 40px -14px rgba(0,0,0,.35)}
+.sheetin::before{content:"";display:block;width:38px;height:5px;border-radius:3px;background:var(--fill2);margin:-4px auto 14px}
+@media (prefers-reduced-transparency:reduce){ nav,.zoom,#sessbar,.toast,.etop{background:var(--surface);-webkit-backdrop-filter:none;backdrop-filter:none} .toast{background:var(--ink)} }
+@supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ nav,.zoom,#sessbar,.etop{background:var(--surface)} }
+
+/* ---------- Bewegung: nur als Antwort auf Tippen ---------- */
+@media (prefers-reduced-motion:no-preference){
+  #app.vin{animation:vin .26s cubic-bezier(.2,.8,.2,1)}
+  @keyframes vin{from{opacity:0;transform:translate3d(0,6px,0)}to{opacity:1;transform:none}}
+  .upl[open]>:not(summary){animation:fadein .22s ease-out}
+  @keyframes fadein{from{opacity:0}to{opacity:1}}
+  .toast{animation:toastin .28s cubic-bezier(.2,.9,.3,1.2)}
+  @keyframes toastin{from{opacity:0;transform:translate(-50%,10px) scale(.96)}to{opacity:1;transform:translate(-50%,0)}}
+}
+</style>
 <style>:root{padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
 <div id="sessbar" hidden></div>
 <main id="app"></main>
 <nav id="nav"></nav>
-<div class="zoom" role="group" aria-label="Schriftgröße"><button id="zIn" aria-label="Größer">+</button><button id="zOut" aria-label="Kleiner">−</button></div>
+<div class="zoom" id="zoom" role="group" aria-label="Schriftgröße"><button id="zOut" aria-label="Schrift kleiner">A</button><button id="zT" aria-label="Schriftgröße" aria-expanded="false">Aa</button><button id="zIn" aria-label="Schrift größer">A</button></div>
 
 <script>
 "use strict";
@@ -756,10 +983,10 @@ let view="home", cur={};
 const TABS=[["home","Lernpfad"],["practice","Üben"],["stats","Statistik"]];
 const TAB_OF={home:"home",chapter:"home",lesson:"home",sessdone:"home",kreuz:"practice",cards:"practice",practice:"practice",stats:"stats",exam:"practice",essay:"practice",recall:"practice",who:"practice",terms:"practice",outline:"practice"};
 function renderNav(){
-  $("#nav").innerHTML=TABS.map(([k,l])=>`<button data-v="${k}"${TAB_OF[view]===k?' aria-current="page"':""}>${l}</button>`).join("");
+  $("#nav").innerHTML=TABS.map(([k,l])=>`<button data-v="${k}"${TAB_OF[view]===k?' aria-current="page"':""}>${NAV_ICONS[k]||""}<span>${l}</span></button>`).join("");
   $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.v));
 }
-function go(v){ view=v; render(); window.scrollTo(0,0); }
+function go(v){ view=v; const a=$("#app"); a.classList.remove("vin"); void a.offsetWidth; a.classList.add("vin"); render(); window.scrollTo(0,0); }
 function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,dump:renderDump,sessdone:renderHome})[view](); addSwitch(); updateSessBar(); }
 const backTo=label=>`<button class="crumb" id="crumb">← ${label}</button>`;
 function bindCrumb(fn){ const b=$("#crumb"); if(b) b.onclick=fn; }
@@ -1491,8 +1718,9 @@ const APP={
       known:false = nur bekannt, dass das Hochgeladene dazugehört.
    2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
    3. Motivationssatz unter der Wochenübersicht.
-   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-03", "a": "alle", "w": "Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle)", "y": "Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}, {"d": "2026-11-03", "a": "alle", "w": "Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js`", "y": "Von Talib bestätigt, einheitlich in allen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik)", "y": "Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen"}, {"d": "2026-11-03", "a": "Politik I", "w": "Claude-Brücke eingeführt: gemeinsame Bauanleitung CLAUDE.md mit Logbuch und Bausteine-Tabelle, Block unter Statistik", "y": "Damit jeder Chat in jedem Projekt weiß, was in den anderen Apps geändert wurde und warum"}]).
+   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-03", "a": "Politik I", "w": "Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel", "y": "Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle)", "y": "Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}, {"d": "2026-11-03", "a": "alle", "w": "Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js`", "y": "Von Talib bestätigt, einheitlich in allen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik)", "y": "Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen"}]).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
+   6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
    Prüfungstermin unbekannt: Die App rechnet mit dem Stichtag 31.01. und meldet das über APP.examAssumed() (dann „bis zum Stichtag“). */
 const UPLOADS=[];
 const CK=()=>APP.halves?state.course:"main";
@@ -1541,8 +1769,18 @@ function motivLine(){
   return `<p class="motiv">${m}</p>`;
 }
 
+/* Symbole der Tableiste: gleiche Bildsprache in allen Apps. Lernpfad = Buch, Üben = Zielscheibe, Statistik = Balken,
+   Karten = Kartenstapel, Quiz = Liste mit Häkchen. Flächen mit class="f" füllen sich beim aktiven Reiter leicht. */
+const NAV_ICONS=(()=>{ const s=b=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${b}</svg>`;
+  const book=s('<path class="f" d="M12 6.6C10.1 5.3 7.5 4.7 3.8 4.9v13.5c3.7-.2 6.3.4 8.2 1.7 1.9-1.3 4.5-1.9 8.2-1.7V4.9c-3.7-.2-6.3.4-8.2 1.7Z"/><path d="M12 6.6v13.5"/>');
+  const target=s('<circle cx="12" cy="12" r="8.6"/><circle class="f" cx="12" cy="12" r="4.8"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/>');
+  const bars=s('<rect class="f" x="4" y="12.5" width="4" height="7.5" rx="1.4"/><rect class="f" x="10" y="8" width="4" height="12" rx="1.4"/><rect class="f" x="16" y="4" width="4" height="16" rx="1.4"/>');
+  const cards=s('<rect class="f" x="7" y="3.6" width="13" height="15.4" rx="2.6"/><path d="M4.4 7.6v9.8a3 3 0 0 0 3 3h8.2"/>');
+  const quiz=s('<rect class="f" x="4" y="3.6" width="16" height="16.8" rx="3"/><path d="m7.8 9.2 1.6 1.6 2.8-3M7.8 15.4l1.6 1.6 2.8-3M15 9.6h1.6M15 15.8h1.6"/>');
+  return {home:book, overview:book, practice:target, stats:bars, cards, quiz, exam:quiz}; })();
+
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
-const BRUECKE=[{"d": "2026-11-03", "a": "alle", "w": "Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle)", "y": "Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}, {"d": "2026-11-03", "a": "alle", "w": "Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js`", "y": "Von Talib bestätigt, einheitlich in allen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik)", "y": "Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen"}, {"d": "2026-11-03", "a": "Politik I", "w": "Claude-Brücke eingeführt: gemeinsame Bauanleitung CLAUDE.md mit Logbuch und Bausteine-Tabelle, Block unter Statistik", "y": "Damit jeder Chat in jedem Projekt weiß, was in den anderen Apps geändert wurde und warum"}];
+const BRUECKE=[{"d": "2026-11-03", "a": "Politik I", "w": "Neues Design „Die Reihe“ als Muster: neutrale Flächen wie iOS, Bandfarbe nur auf der Platte „Heute“ (mit Ziffer I wie im Symbol), Titel in Newsreader, Tableiste als Glas-Kapsel mit Symbolen, Schriftgröße als ein Knopf „Aa“, Umschalter wie iOS, runde Häkchen, Lernkarte mit Stapel", "y": "Talib wünscht eine Optik wie aus dem App Store, ohne Funktionen zu verlieren; nach seiner Freigabe in die anderen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "Unbekannter Prüfungstermin: Stichtag 31.01.2027 (Wirtschaft II, Sozialstruktur in W&G I), als Annahme gekennzeichnet, eigener Termin geht vor; bekannte Termine bleiben (Politik 04.02., BiWi 17.02., Quizze laut Moodle)", "y": "Talib: Bis Ende Januar soll alles sitzen, sofern kein Termin feststeht"}, {"d": "2026-11-03", "a": "Politik I", "w": "Neu: „Alles aufschreiben“ (5 Minuten freies Abrufen je Sitzung, Abgleich mit den Kernpunkten, auch in der Tageseinheit) und Tempo-Rückmeldung im Probe-Essay des Seminars", "y": "Freies Abrufen ist besonders wirksam und trainiert genau den Essay; die Klausur wird am PC geschrieben"}, {"d": "2026-11-03", "a": "alle", "w": "Lernen nach Forschungsstand: Abstände passen sich der Prüfung an (höchstens ein Drittel der Resttage, Streuung), nicht sichere Karten bis zu dreimal in derselben Runde, täglich ein paar neue Karten, Tastatur für Karten, größere Schrift auf dem iPad, Hinweis zum Schlaf nach Abendeinheiten", "y": "Tiefenanalyse aller Apps; Regeln stehen unter „Lernprinzipien“"}, {"d": "2026-11-03", "a": "alle", "w": "Hochgeladen-Übersicht, Erledigt-Liste, Motivationssatz und Brücken-Block in allen Apps; Statistik überall in der festen Reihenfolge; gemeinsamer Code in `status.js` (W&G I: angepasster Block in der index.html), Einstellungen je App in `appcfg.js`", "y": "Von Talib bestätigt, einheitlich in allen Apps"}, {"d": "2026-11-03", "a": "alle", "w": "CLAUDE.md in alle vier Repos verteilt, fester Aufbau jeder App festgelegt (Reiter, Reihenfolge auf Lernpfad und Statistik)", "y": "Talib hat die Brücken-Anweisung in alle vier Projekte kopiert; Funktionen sollen nicht mehr zwischen den Apps an verschiedenen Stellen landen"}];
 function bridgeBlock(){
   if(!BRUECKE.length) return "";
   const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
@@ -3446,6 +3684,9 @@ termsReady();
   apply();
   document.getElementById("zIn").onclick=()=>{ z=Math.min(1.8,Math.round((z+.1)*10)/10); apply(); };
   document.getElementById("zOut").onclick=()=>{ z=Math.max(.8,Math.round((z-.1)*10)/10); apply(); };
+  /* Schriftgröße: ein kleiner Knopf „Aa“, erst beim Tippen erscheinen „A“ kleiner und „A“ größer */
+  const zb=document.getElementById("zoom"), zt=document.getElementById("zT");
+  zt.onclick=()=>{ const o=zb.classList.toggle("open"); zt.setAttribute("aria-expanded",String(o)); };
 })();
 initToken();
 render();
@@ -3460,7 +3701,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="0564b12e74aa", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="787edeccc8d8", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }

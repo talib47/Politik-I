@@ -6,30 +6,19 @@
 <title>Politik I</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Politik I">
-<meta name="theme-color" content="#8A2E3B">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#F2F2F4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
+<link rel="preload" href="fonts/newsreader-latin.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="apple-touch-icon" href="/Politik-I/apple-touch-icon.png?v=4">
 <link rel="icon" type="image/png" href="/Politik-I/icon-192.png?v=4">
 <link rel="manifest" href="/Politik-I/manifest.webmanifest?v=4">
 <style>
-/* Layout: eine schmale Lernspalte (max. 42rem) mit fester Tableiste unten, wie die W&G-I-App; eigene Akzentfarbe (Weinrot) für Politik I; Grundgerüst und Lernformen aus Wirtschaft II */
-:root{
-  --bg:#F3EEEF; --surface:#FBF9F9; --ink:#241A1C; --muted:#66595C; --line:#D9CDD0;
-  --accent:#8A2E3B; --accent-ink:#FFFFFF; --accent-soft:#F2DFE2;
-  --good:#2F7A4A; --good-soft:#DDEEE2; --bad:#A3392B; --bad-soft:#F4DEDA; --gold:#A87B1F;
-  --serif:"Iowan Old Style","Palatino Linotype","Book Antiqua",Palatino,Georgia,serif;
-  --sans:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ color-scheme:dark;
-    --bg:#171113; --surface:#211A1C; --ink:#EEE5E7; --muted:#AE9FA3; --line:#3E3034;
-    --accent:#E7A5B0; --accent-ink:#22100F; --accent-soft:#3B2529;
-    --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
-}
-:root[data-theme="dark"]{ color-scheme:dark;
-  --bg:#171113; --surface:#211A1C; --ink:#EEE5E7; --muted:#AE9FA3; --line:#3E3034;
-  --accent:#E7A5B0; --accent-ink:#22100F; --accent-soft:#3B2529;
-  --good:#6CC28B; --good-soft:#1E3327; --bad:#E58373; --bad-soft:#3A2420; --gold:#D9AE55; }
+/* Layout: eine schmale Lernspalte (max. 42rem) mit Tableiste unten. Bandfarbe Politik I: Weinrot wie das App-Symbol, Ziffer I.
+   Nur diese fünf Werte sind je App verschieden; alle übrigen Farben, Schriften und Formen stehen im gemeinsamen Design (src/design.css). */
+:root{ --accent:#8A2E3B; --accent-ink:#FFFFFF; --plate-top:#A23A4B; --plate-bot:#5C1926; --numeral:"I"; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --accent:#EFA3AF; --accent-ink:#2A0D12; --plate-top:#86293A; --plate-bot:#3A0E17; } }
+:root[data-theme="dark"]{ --accent:#EFA3AF; --accent-ink:#2A0D12; --plate-top:#86293A; --plate-bot:#3A0E17; }
 *{box-sizing:border-box}
 html{font-size:calc(var(--base,100%) * var(--z,1))}
 @media (min-width:768px){:root{--base:106.25%}}
@@ -413,12 +402,15 @@ svg .fillB{fill:var(--accent-soft);opacity:.55;stroke:none}
 .otime{font-variant-numeric:tabular-nums;font-weight:600}
 .lexwarn::before{content:"Verwechslung: ";font-weight:600}
 </style>
+<style>
+/*__DESIGN__*/
+</style>
 <style>:root{padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
 <body>
 <div id="sessbar" hidden></div>
 <main id="app"></main>
 <nav id="nav"></nav>
-<div class="zoom" role="group" aria-label="Schriftgröße"><button id="zIn" aria-label="Größer">+</button><button id="zOut" aria-label="Kleiner">−</button></div>
+<div class="zoom" id="zoom" role="group" aria-label="Schriftgröße"><button id="zOut" aria-label="Schrift kleiner">A</button><button id="zT" aria-label="Schriftgröße" aria-expanded="false">Aa</button><button id="zIn" aria-label="Schrift größer">A</button></div>
 
 <script>
