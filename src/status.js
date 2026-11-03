@@ -14,6 +14,7 @@
    4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt __BRUECKE__).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
    6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
+   7. Lernmodus ohne Ablenkung (focusBar): Ansichten aus APP.focus.views und die ganze Tageseinheit blenden Tableiste und „Aa“ aus.
    Prüfungstermin unbekannt: Die App rechnet mit dem Stichtag 31.01. und meldet das über APP.examAssumed() (dann „bis zum Stichtag“). */
 const UPLOADS=[];
 const CK=()=>APP.halves?state.course:"main";
@@ -71,6 +72,27 @@ const NAV_ICONS=(()=>{ const s=b=>`<svg viewBox="0 0 24 24" fill="none" stroke="
   const cards=s('<rect class="f" x="7" y="3.6" width="13" height="15.4" rx="2.6"/><path d="M4.4 7.6v9.8a3 3 0 0 0 3 3h8.2"/>');
   const quiz=s('<rect class="f" x="4" y="3.6" width="16" height="16.8" rx="3"/><path d="m7.8 9.2 1.6 1.6 2.8-3M7.8 15.4l1.6 1.6 2.8-3M15 9.6h1.6M15 15.8h1.6"/>');
   return {home:book, overview:book, practice:target, stats:bars, cards, quiz, exam:quiz}; })();
+
+/* Lernmodus ohne Ablenkung: Beim Lernen (Karten, Fragen, Zuordnen, Selbsttest, Essays, Alles aufschreiben) und während der
+   ganzen Tageseinheit verschwinden Tableiste und „Aa“. Oben steht eine schmale Leiste mit Schließen, Fortschritt und n/m
+   (in der Tageseinheit übernimmt das die Leiste der Einheit). Schließen tut dasselbe wie der Zurück-Link der Ansicht.
+   Esc schließt, außer beim Tippen in ein Textfeld. Je App in appcfg.js: APP.focus = {views, prog(), title(), exit()}. */
+function focusBar(){
+  const F=APP.focus; if(!F) return;
+  const on=!!sess||F.views.includes(view), bar=on&&!sess;
+  document.body.classList.toggle("focus",on); document.body.classList.toggle("fbon",bar);
+  let el=document.getElementById("focusbar");
+  if(!el){ el=document.createElement("div"); el.id="focusbar"; el.hidden=true; document.body.insertBefore(el,document.getElementById("app")); }
+  if(!bar){ el.hidden=true; el.innerHTML=""; return; }
+  const p=F.prog?F.prog():null, t=F.title?F.title():"";
+  el.hidden=false;
+  el.innerHTML=`<div class="fbin"><button class="fx" id="fx" aria-label="Schließen"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg></button>`+
+    (p?`<div class="fprog" role="progressbar" aria-valuemin="0" aria-valuemax="${p.n}" aria-valuenow="${Math.min(p.i,p.n)}" aria-label="${t}"><i style="width:${Math.max(4,Math.min(100,p.i/p.n*100))}%"></i></div><span class="fn">${Math.min(p.i+1,p.n)}/${p.n}</span>`:`<span class="ft">${t}</span>`)+`</div>`;
+  document.getElementById("fx").onclick=()=>{ const c=document.getElementById("crumb"); if(c) c.click(); else F.exit(); };
+}
+new MutationObserver(()=>focusBar()).observe(document.getElementById("app"),{childList:true});
+document.addEventListener("keydown",e=>{ if(e.key!=="Escape"||!document.body.classList.contains("fbon")) return;
+  const a=document.activeElement; if(a&&/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)) return; const x=document.getElementById("fx"); if(x){ e.preventDefault(); x.click(); } });
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
 const BRUECKE=__BRUECKE__;

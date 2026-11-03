@@ -56,7 +56,7 @@ function updateSessBar(){
   if(!sess||!sess.steps[sess.i]){ b.hidden=true; b.innerHTML=""; return; }
   const s=sess.steps[sess.i];
   b.hidden=false;
-  b.innerHTML=`<div class="sbin"><span class="sbt"><b>Heute ${sess.i+1}/${sess.steps.length}</b> · ${s.t}</span><button class="btn small" id="sbNext">${sess.i<sess.steps.length-1?"Nächster Schritt":"Abschließen"}</button><button class="btn ghost small" id="sbEnd" aria-label="Einheit beenden">✕</button></div>`;
+  b.innerHTML=`<div class="sbin"><span class="sbt"><b>Heute ${sess.i+1}/${sess.steps.length}</b> · ${s.t}</span><button class="btn small" id="sbNext">${sess.i<sess.steps.length-1?"Nächster Schritt":"Abschließen"}</button><button class="btn ghost small" id="sbEnd" aria-label="Einheit beenden">✕</button></div><div class="sbs" aria-hidden="true">${sess.steps.map((_,j)=>`<i class="${j<sess.i?"on":j===sess.i?"now":""}"></i>`).join("")}</div>`;
   $("#sbNext").onclick=sessNext; $("#sbEnd").onclick=endSession;
 }
 const sessBtn=()=>`<button class="btn" id="sessGo">${sess&&sess.i<sess.steps.length-1?"Weiter zum nächsten Schritt":"Einheit abschließen"}</button>`;

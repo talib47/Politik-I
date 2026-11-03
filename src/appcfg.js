@@ -7,6 +7,14 @@ const APP={
  unit:u=>u.c==="se"?"Block":"Sitzung",
  unitNo:c=>c.c==="se"?(ROM[c.no]||c.no):c.no,
  examTs:()=>examDateTs(),                       /* Prüfungstermin der gewählten Hälfte */
+ focus:{                                        /* Lernmodus ohne Ablenkung (status.js) */
+  views:["cards","recall","who","kreuz","essay","exam","outline","dump"],
+  prog:()=>{ const P={cards:()=>cur.deck&&{i:cur.ci,n:cur.deck.length}, recall:()=>cur.rq&&{i:cur.rq.i,n:cur.rq.list.length},
+    who:()=>cur.wh&&{i:cur.wh.i,n:cur.wh.list.length}, kreuz:()=>cur.kr&&{i:cur.kr.i,n:cur.kr.items.length}}[view];
+    const r=P&&P(); return r&&r.n?r:null; },
+  title:()=>({cards:"Karten",recall:"Verständnisfragen",who:"Was gehört wohin?",kreuz:"Selbsttest",essay:"Essay",exam:"Probe-Essay",outline:"Gliederung",dump:"Alles aufschreiben"})[view]||"",
+  exit:()=>go(TAB_OF[view]||"home")
+ },
  todos:{
   vl:[
    {id:"vl-acemate", t:"Selbstlernphase: Fragen und Essay-Aufgabe auf Acemate", d:"22. und 29.10."},
