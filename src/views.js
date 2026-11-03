@@ -76,6 +76,7 @@ function renderHome(){
   $("#app").innerHTML=`
     <p class="eyebrow">${C.eyebrow}</p>
     <h1>${C.title}</h1>
+    ${uploadsBlock()}
     ${ready?todayBlock():""}
     ${homeReview()}
     ${nx&&ready?`<div class="block"><p class="eyebrow">Als Nächstes · ${nx.label}</p><h2>${nx.title}</h2><button class="btn ghost" id="goNext">Weiter lernen</button></div>`:""}
@@ -428,7 +429,8 @@ function renderStats(){
       <div class="week7">${days.map(([d,n],i)=>`<div class="d${i===6?" today":""}" title="${n===1?"1 Aktion":n+" Aktionen"}">
         <div class="bw"><i style="height:${n?Math.max(4,Math.round(n/mx*100)):0}%"></i></div>
         <span class="wd">${wd[d.getDay()]}</span><span class="dt">${d.getDate()}.${d.getMonth()+1}.</span>
-        <span class="n">${n||"–"}</span><span class="u">${n?(n===1?"Aktion":"Aktionen"):""}</span></div>`).join("")}</div></div>
+        <span class="n">${n||"–"}</span><span class="u">${n?(n===1?"Aktion":"Aktionen"):""}</span></div>`).join("")}</div>${motivLine()}</div>
+    ${todoBlock()}
     ${examPlanBlock()}
     ${weakBlock()}
     <div class="block"><h2>${COURSES[state.course].short}: nach Sitzung</h2>${ready.length?ready.map(c=>{ const p=chapterProgress(c.n);
@@ -436,6 +438,6 @@ function renderStats(){
     ${syncBox()}
     <div class="block"><h3>Fortschritt zurücksetzen</h3><p class="small muted">Löscht deinen gesamten Lernstand (Vorlesung und Seminar), auch auf den verbundenen Geräten.</p>
       <button class="btn warn" id="rst">${statsArmed?"Wirklich zurücksetzen":"Zurücksetzen"}</button></div>`;
-  bindSync(); bindExamPlan(); bindWeak();
+  bindSync(); bindExamPlan(); bindWeak(); bindTodo();
   $("#rst").onclick=()=>{ if(!statsArmed){ statsArmed=true; render(); return; } const c=state.course; state={}; norm(); state.course=c; save(); flushPush(); statsArmed=false; toast("Zurückgesetzt"); render(); };
 }

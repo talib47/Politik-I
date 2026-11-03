@@ -3,6 +3,7 @@
    Literaturempfehlungen (als Empfehlung markiert, litbox/lit): Croissant (2010), Lauth (2010), Pickel/Pickel (2016), Schneider/Janning (2006).
    Darüber hinaus: erg/ergbox. IDs se1-… nie umbenennen. */
 const EMPF=t=>`<p class="small muted" style="margin:0 0 10px">Grundlage: ${t}. Literaturempfehlung zur Vertiefung, keine Textgrundlage.</p>`;
+UPLOADS.push({c:"se", ch:101, what:"Korte/Fröhlich, Empfehlungen Croissant, Lauth, Pickel/Pickel, Schneider/Janning"});
 chOf(101).lit="Textgrundlage: Korte/Fröhlich (2009), Kap. 1. Empfehlungen: Croissant (2010), Lauth (2010), Pickel/Pickel (2016), Schneider/Janning (2006). Alle als PDF im Moodle-Kurs.";
 
 const FIG_ZUGAENGE=`<svg viewBox="0 0 360 200" role="img" aria-label="Vier Zugänge der Regierungsforschung" style="width:100%;max-width:440px;display:block;margin:10px auto;font:12px var(--sans)">

@@ -3,6 +3,7 @@
    Inhalte aus der Lektüre (Merkel 2013, Lauth 2015, Patzelt 2023) sind als Lektüre markiert (lit / litbox), alles andere über die Folien hinaus als Ergänzung (erg / ergbox).
    Lektüre der Selbstlernphase (22. und 29.10.): Patzelt 2023 Kap. 1 und 3, Lauth 2015, Merkel 2013. Neue Lektionen dazu in content_v1_lit.js. */
 const ERG='<span class="erg">Ergänzung</span>';
+UPLOADS.push({c:"vl", ch:1, what:"Folien, Lektüre Patzelt Kap. 1 und 3, Lauth 2015, Merkel 2013"});
 chOf(1).lit="Lektüre: Patzelt (2023, S. 11–36 und 111–367), Lauth (2015), Merkel (2013). Selbstlernphase am 22. und 29.10. mit Fragen und Essay-Aufgabe auf Acemate.";
 
 /* Kleine Schaubilder (Farben über CSS-Variablen, funktionieren hell und dunkel) */

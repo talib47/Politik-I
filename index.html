@@ -271,6 +271,17 @@ svg .sarrow{fill:var(--accent)}
 .unc{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
 .chip.unk{color:var(--gold);border-color:var(--gold)}
 .copybox{width:100%;min-height:8rem;margin-top:8px;border:1px solid var(--line);border-radius:10px;background:var(--bg);padding:8px;font-size:.85rem}
+.upl{padding:10px 14px}
+.upl summary{display:flex;align-items:baseline;justify-content:space-between;gap:10px;cursor:pointer;list-style:none}
+.upl summary::-webkit-details-marker{display:none}
+.upl summary::after{content:"›";color:var(--muted);transition:transform .2s}
+.upl[open] summary::after{transform:rotate(90deg)}
+.upl-last{font-size:.875rem;color:var(--muted);margin-left:auto}
+.upl-list{margin-top:10px;display:grid;gap:6px}
+.upl-list div{display:grid;grid-template-columns:1.4rem 3.2rem minmax(0,1fr);gap:6px;font-size:.875rem;align-items:baseline}
+.upl-list b{color:var(--accent)} .upl-list span:nth-child(2){color:var(--muted)}
+.motiv{margin:12px 0 0;font-size:.875rem;color:var(--muted);font-style:italic;text-align:center}
+.todo.on>span{color:var(--muted);text-decoration:line-through;text-decoration-color:var(--line)}
 .week7{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin-top:10px}
 .week7 .d{display:flex;flex-direction:column;align-items:center;text-align:center;min-width:0}
 .week7 .bw{height:80px;width:100%;display:flex;align-items:flex-end;justify-content:center}
@@ -410,7 +421,7 @@ function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
 let state;
 try{ state=JSON.parse(lsGet(KEY)||"null"); }catch(e){ state=null; }
 if(!state||typeof state!=="object") state={};
-function norm(){ for(const k of ["days","lessons","box","due","lapses","qbox","qlapses","who","outl","essays","drafts","kreuz","unclear","examDates","sessions"]) if(!state[k]||typeof state[k]!=="object") state[k]={}; }
+function norm(){ for(const k of ["days","lessons","box","due","lapses","qbox","qlapses","who","outl","essays","drafts","kreuz","unclear","examDates","sessions","todo"]) if(!state[k]||typeof state[k]!=="object") state[k]={}; }
 norm();
 if(state.course!=="se") state.course="vl";
 function save(){ state.updated=Date.now(); lsSet(KEY,JSON.stringify(state)); schedulePush(); }
@@ -766,6 +777,7 @@ function renderHome(){
   $("#app").innerHTML=`
     <p class="eyebrow">${C.eyebrow}</p>
     <h1>${C.title}</h1>
+    ${uploadsBlock()}
     ${ready?todayBlock():""}
     ${homeReview()}
     ${nx&&ready?`<div class="block"><p class="eyebrow">Als Nächstes · ${nx.label}</p><h2>${nx.title}</h2><button class="btn ghost" id="goNext">Weiter lernen</button></div>`:""}
@@ -1118,7 +1130,8 @@ function renderStats(){
       <div class="week7">${days.map(([d,n],i)=>`<div class="d${i===6?" today":""}" title="${n===1?"1 Aktion":n+" Aktionen"}">
         <div class="bw"><i style="height:${n?Math.max(4,Math.round(n/mx*100)):0}%"></i></div>
         <span class="wd">${wd[d.getDay()]}</span><span class="dt">${d.getDate()}.${d.getMonth()+1}.</span>
-        <span class="n">${n||"–"}</span><span class="u">${n?(n===1?"Aktion":"Aktionen"):""}</span></div>`).join("")}</div></div>
+        <span class="n">${n||"–"}</span><span class="u">${n?(n===1?"Aktion":"Aktionen"):""}</span></div>`).join("")}</div>${motivLine()}</div>
+    ${todoBlock()}
     ${examPlanBlock()}
     ${weakBlock()}
     <div class="block"><h2>${COURSES[state.course].short}: nach Sitzung</h2>${ready.length?ready.map(c=>{ const p=chapterProgress(c.n);
@@ -1126,7 +1139,7 @@ function renderStats(){
     ${syncBox()}
     <div class="block"><h3>Fortschritt zurücksetzen</h3><p class="small muted">Löscht deinen gesamten Lernstand (Vorlesung und Seminar), auch auf den verbundenen Geräten.</p>
       <button class="btn warn" id="rst">${statsArmed?"Wirklich zurücksetzen":"Zurücksetzen"}</button></div>`;
-  bindSync(); bindExamPlan(); bindWeak();
+  bindSync(); bindExamPlan(); bindWeak(); bindTodo();
   $("#rst").onclick=()=>{ if(!statsArmed){ statsArmed=true; render(); return; } const c=state.course; state={}; norm(); state.course=c; save(); flushPush(); statsArmed=false; toast("Zurückgesetzt"); render(); };
 }
 
@@ -1412,6 +1425,63 @@ function bindWeak(){
   if($("#wkE")) $("#wkE").onclick=()=>openEssay(0,D.weakE[0].id);
 }
 
+/* ================= Stand der Unterlagen, Erledigt-Liste, Motivation =================
+   UPLOADS: nur was wirklich im claude.ai-Projekt liegt und eingebaut ist. Jede neue Sitzung trägt sich in ihrer
+   Inhaltsdatei selbst ein: UPLOADS.push({c, ch, what}). Nichts Zukünftiges eintragen, die Liste endet beim letzten Upload.
+   TODOS: Aufgaben neben dem Lernen je Veranstaltung (aus Folien und Verlaufsplan). Abgehakt in state.todo[id] = Zeitstempel. */
+const UPLOADS=[];
+function uploadsBlock(){
+  const L=UPLOADS.filter(u=>u.c===state.course).sort((a,b)=>a.ch-b.ch);
+  if(!L.length) return "";
+  const last=L[L.length-1], lc=chOf(last.ch);
+  return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">bis Sitzung ${lc.no} · ${lc.date}</span></summary>
+    <div class="upl-list">${L.map(u=>{ const c=chOf(u.ch); return `<div><b>${c.no}</b><span>${c.date}</span><span>${u.what}</span></div>`; }).join("")}</div>
+    <p class="small muted" style="margin:8px 0 0">Alles darunter fehlt noch im Projekt.</p></details>`;
+}
+
+const TODOS={
+ vl:[
+  {id:"vl-acemate", t:"Selbstlernphase: Fragen und Essay-Aufgabe auf Acemate", d:"22. und 29.10."},
+  {id:"vl-his", t:"Zur Prüfung in HIS in One angemeldet", d:"Frist im HIS prüfen"},
+  {id:"vl-qa", t:"Q&A zur Prüfung", d:"21.01."}
+ ],
+ se:[
+  {id:"se-wahl", t:"Presseschau-Wahl in Moodle abgegeben", d:"bis Mi 04.11., 23:59"},
+  {id:"se-termin", t:"Presseschau-Termin zugeteilt und notiert", d:"ab Do 05.11., 10 Uhr"},
+  {id:"se-presse", t:"Presseschau aufgenommen, MP4 auf Sciebo, Link und PDF per Mail", d:"Vortag der Sitzung, 12 Uhr"},
+  {id:"se-bib1", t:"Bibliotheksschein Teil 1"},
+  {id:"se-bib2", t:"Bibliotheksschein Teil 2"},
+  {id:"se-bib3", t:"Bibliotheksschein Teil 3: Fachrecherche Politikwissenschaft"},
+  {id:"se-bibup", t:"Bestätigung als PDF in Moodle hochgeladen", d:"bis Fr 05.02."},
+  {id:"se-his", t:"Zur Prüfung in HIS in One angemeldet", d:"Frist im HIS prüfen"}
+ ]};
+function todoBlock(){
+  const L=TODOS[state.course]||[]; if(!L.length) return "";
+  const done=L.filter(x=>state.todo[x.id]).length;
+  return `<div class="block"><h2>Erledigt? <span class="small muted" style="font-weight:400">${done} von ${L.length}</span></h2>
+    ${L.map(x=>`<label class="check todo${state.todo[x.id]?" on":""}"><input type="checkbox" data-todo="${x.id}" ${state.todo[x.id]?"checked":""}><span>${x.t}${x.d?`<span class="small muted"> · ${x.d}</span>`:""}</span></label>`).join("")}</div>`;
+}
+function bindTodo(){
+  document.querySelectorAll("[data-todo]").forEach(c=>c.onchange=()=>{ const k=c.dataset.todo; if(c.checked) state.todo[k]=Date.now(); else delete state.todo[k]; save(); render(); });
+}
+
+/* Ein kurzer Satz unter der Wochenübersicht, je nach Lernverhalten. Variante wechselt täglich, nicht bei jedem Öffnen. */
+function motivLine(){
+  const key=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+  const at=i=>{ const d=new Date(); d.setDate(d.getDate()-i); return state.days[key(d)]||0; };
+  const pick=a=>a[new Date().getDate()%a.length];
+  const t=at(0); let streak=0; for(let i=t?0:1;i<60&&at(i);i++) streak++;
+  let gap=null; for(let i=0;i<60;i++) if(at(i)){ gap=i; break; }
+  let m;
+  if(gap===null) m=pick(["Noch nichts geübt. Fünf Minuten reichen für den Anfang.","Der erste Schritt ist der kleinste: eine Lektion, dann ist das Eis gebrochen."]);
+  else if(t&&streak>=3) m=pick([`${streak} Tage am Stück. Genau so bleibt es hängen.`,`Seit ${streak} Tagen dabei. Die Klausur merkt das.`,`${streak} Tage in Folge, stark. Morgen kurz weitermachen reicht.`]);
+  else if(t) m=pick(["Heute schon geübt. Jede Runde zählt.","Für heute ist was geschafft. Gut gemacht.","Heute erledigt. Kurz und regelmäßig schlägt lang und selten."]);
+  else if(gap===1) m=pick(["Gestern geübt. Eine kurze Einheit heute hält dich im Fluss.","Gestern warst du dran. Heute fünf Minuten, und die Serie läuft weiter."]);
+  else if(gap<=3) m=pick([`Seit ${gap} Tagen Pause. Eine kleine Runde heute, mehr braucht es nicht.`,`${gap} Tage ohne Üben. Starte heute mit den fälligen Karten.`]);
+  else m=pick([`Seit ${gap} Tagen nichts gemacht. Kein Drama, fang heute mit fünf Minuten an.`,`${gap} Tage Pause. Das Wiederholen holt schnell wieder auf, fang einfach an.`,`Lange nichts geübt. Eine Lektion heute, und du bist wieder drin.`]);
+  return `<p class="motiv">${m}</p>`;
+}
+
 /* ================= Selbsttest: je Aufgabe ein Satzanfang und drei Aussagen, jede wahr oder falsch =================
    Kein Prüfungsformat (die Vorlesung wird mit einem Essay geprüft), sondern ein Werkzeug, um Begriffe sicher zu unterscheiden.
    Punkte wie in der BiWi-II-App: je richtiges Kreuz 1 Punkt, alle drei richtig +1 (max. 4). */
@@ -1677,6 +1747,7 @@ function renderOutline(){
    Inhalte aus der Lektüre (Merkel 2013, Lauth 2015, Patzelt 2023) sind als Lektüre markiert (lit / litbox), alles andere über die Folien hinaus als Ergänzung (erg / ergbox).
    Lektüre der Selbstlernphase (22. und 29.10.): Patzelt 2023 Kap. 1 und 3, Lauth 2015, Merkel 2013. Neue Lektionen dazu in content_v1_lit.js. */
 const ERG='<span class="erg">Ergänzung</span>';
+UPLOADS.push({c:"vl", ch:1, what:"Folien, Lektüre Patzelt Kap. 1 und 3, Lauth 2015, Merkel 2013"});
 chOf(1).lit="Lektüre: Patzelt (2023, S. 11–36 und 111–367), Lauth (2015), Merkel (2013). Selbstlernphase am 22. und 29.10. mit Fragen und Essay-Aufgabe auf Acemate.";
 
 /* Kleine Schaubilder (Farben über CSS-Variablen, funktionieren hell und dunkel) */
@@ -2531,6 +2602,7 @@ termsReady();
    Literaturempfehlungen (als Empfehlung markiert, litbox/lit): Croissant (2010), Lauth (2010), Pickel/Pickel (2016), Schneider/Janning (2006).
    Darüber hinaus: erg/ergbox. IDs se1-… nie umbenennen. */
 const EMPF=t=>`<p class="small muted" style="margin:0 0 10px">Grundlage: ${t}. Literaturempfehlung zur Vertiefung, keine Textgrundlage.</p>`;
+UPLOADS.push({c:"se", ch:101, what:"Korte/Fröhlich, Empfehlungen Croissant, Lauth, Pickel/Pickel, Schneider/Janning"});
 chOf(101).lit="Textgrundlage: Korte/Fröhlich (2009), Kap. 1. Empfehlungen: Croissant (2010), Lauth (2010), Pickel/Pickel (2016), Schneider/Janning (2006). Alle als PDF im Moodle-Kurs.";
 
 const FIG_ZUGAENGE=`<svg viewBox="0 0 360 200" role="img" aria-label="Vier Zugänge der Regierungsforschung" style="width:100%;max-width:440px;display:block;margin:10px auto;font:12px var(--sans)">
@@ -3243,7 +3315,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="dcfd36f2fe38", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="a48c03c6b280", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }
