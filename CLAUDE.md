@@ -88,7 +88,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 5. **Mischen mit Maß:** Gemischtes Üben hilft vor allem beim Unterscheiden ähnlicher Kategorien (Autoren, Typen, Denkschulen); für reine Texte zeigt die Meta-Analyse keinen sicheren Vorteil (Brunmair & Richter 2019). Darum mischen „Was gehört wohin?“ und die Tageseinheit, Lektionen bleiben in ihrer Reihenfolge. Keine übertriebenen Versprechen im Text.
 6. **Essays aus dem Gedächtnis:** Kurze Texte ohne Hilfen bringen so viel wie lange mit offenem Buch. Darum „Alles aufschreiben“ (5 Minuten freies Abrufen, dann Abgleich mit den Kernpunkten) und Probe-Essays ohne Hilfen mit Timer.
 7. **Schlaf zwischen zwei Runden:** Wer abends lernt und morgens wiederholt, braucht etwa halb so viel Wiederholung und behält länger (Mazza et al. 2016). Die App gibt diesen Hinweis nach abendlichen Einheiten.
-8. **Prüfungsnah üben:** Format, Zeit und Gerät wie in der Prüfung. Politik und BiWi werden am PC geschrieben: Probe-Essays und offene Aufgaben mit Tastatur üben. Der Probe-Essay im Seminar zeigt das Tempo (Ziel gut 8 Wörter pro Minute).
+8. **Prüfungsnah üben:** Format, Zeit und Gerät wie in der Prüfung. Politik und BiWi werden am PC geschrieben: Probe-Essays und offene Aufgaben mit Tastatur üben. Der Probe-Essay im Seminar zeigt das Tempo (Ziel gut 8 Wörter pro Minute). Am Plantag (21, 14 und 7 Tage vorher) ist der Probe-Essay ein Schritt der Tageseinheit, dazu nur die fälligen Karten.
 9. **iPad:** Talib lernt meist am iPad, abends. Ab 768 px Breite ist die Schrift etwas größer (`--base`), Karten lassen sich mit Tastatur bedienen (Leertaste, ← →, Z). Tippflächen groß, nichts nur über Hover.
 
 ### Bausteine
@@ -116,6 +116,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Tempo im Probe-Essay | – | ✓ | – | – |
 | Design „Die Reihe“ (`design.css`, Newsreader, Glas-Tableiste mit Symbolen, Platte „Heute“, Knopf „Aa“) | ✓ | ✓ | ✓ | ✓ |
 | Lernmodus ohne Ablenkung (Leiste weg, oben Schließen und Fortschritt, Esc; `focusBar` in `status.js`, `APP.focus` in `appcfg.js`) | ✓ | ✓ | ✓ | ✓ |
+| Tageseinheit sparsam: Begriffe nur Begriff → Erklärung (Gegenrichtung unter Üben), Probe-Essay am Plantag | ○ | ✓ | ○ | – |
 | Prüfskripte (`tools/pruefen/`: Inhalt, Oberfläche, Tageseinheit, Lernplan) | ○ | ✓ | ○ | ○ |
 | Stichtag 31.01., wenn der Prüfungstermin unbekannt ist | – (Termin bekannt) | – (Termine bekannt) | ✓ | ✓ (Sozialstruktur) |
 
@@ -123,6 +124,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-04 · Politik I · Projekt Politik I · Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten · Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit
 - 2026-11-04 · alle · Projekt Politik I · `PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat · Talib: Das Limit wurde ständig erreicht
 - 2026-11-04 · alle · Projekt Politik I · `spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px · Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift
 - 2026-11-04 · Politik I · Projekt Politik I · Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/` · Prüfauftrag komplett, Bericht als Dokument

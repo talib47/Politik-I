@@ -1581,33 +1581,43 @@ function renderTerms(){
    dazu die nächste neue Lektion. Gemischtes Üben (Interleaving) und Abstände (Spacing) ohne eigene Planung. */
 let sess=null;
 const dayIndex=()=>Math.floor(dayStart()/864e5);
+/* Tageseinheit ohne die Gegenrichtung der Begriffe (Bedeutung → Begriff): Die gibt es unter Üben → Begriffe auf Wunsch.
+   Spart etwa ein Viertel der Zeit (Prüfauftrag 04.11.2026: Stoffmenge größer als 20–40 Minuten am Abend). */
+const dueToday=()=>dueCards(0).filter(x=>!x.id.startsWith("br-"));
+/* Probe-Essay laut Plan (21, 14 und 7 Tage vor dem Termin): ab dem Plantag ein eigener Schritt der Einheit */
+function probeDue(){ if(!essaysOf(0).length) return null; const now=Date.now(), P=examPlan().filter(p=>!p.done&&p.when!=null&&p.when-now<=864e5); return P.length?P[P.length-1]:null; }
 function freshChapter(){ for(const ch of courseChs()){ const L=LESSONS[ch.n]||[]; if(L.some(x=>lessonState(x.id)) && (CARDS[ch.n]||[]).some(x=>!isSeen(x.id))) return ch.n; } return 0; }
 function planToday(){
   /* geübt wird nur, was schon gelesen wurde: begonnene Sitzungen (mindestens eine Lektion bearbeitet) */
   const started=courseChs().filter(ch=>(LESSONS[ch.n]||[]).some(x=>lessonState(x.id)));
   const half=started.some(ch=>{ const L=LESSONS[ch.n]; return L.filter(x=>lessonState(x.id)).length>=L.length/2 && essaysOf(ch.n).length; });
-  const S=[], dc=dueCards(0).length, dq=qDue().length, nx=nextStep();
+  const S=[], dc=dueToday().length, dq=qDue().length, nx=nextStep(), pr=probeDue();
+  /* Am Plantag: Probe-Essay und nur die fälligen Karten, damit die Einheit nicht ausufert */
+  if(pr){ S.push({k:"exam", t:"Probe-Essay", d:`laut Plan (${pr.lab}): eine Frage, 60 Minuten wie in der Prüfung`, min:60});
+    if(dc) S.push({k:"cards", t:"Karten wiederholen", d:`${Math.min(dc,20)} fällige Karten`, min:Math.max(2,Math.round(Math.min(dc,20)*.4))});
+    return S; }
   const lesson=nx&&nx.lesson?{k:"lesson", t:"Neu lernen", d:nx.title, min:5, go:nx.go}:null;
   if(!dc&&!dq&&lesson) S.push(lesson);
   if(dc) S.push({k:"cards", t:"Karten wiederholen", d:`${Math.min(dc,20)} fällige Karten`, min:Math.max(2,Math.round(Math.min(dc,20)*.4))});
   if(dc<25){ const n=freshChapter(); if(n) S.push({k:"newcards", n, t:"Neue Karten", d:`5 neue Karten aus Sitzung ${chOf(n).no}`, min:3}); }
   if(dq) S.push({k:"recall", t:"Verständnisfragen", d:`${Math.min(dq,6)} fällige Fragen aus den Lektionen`, min:3});
-  if(half) S.push({k:"outline", t:"Gliederung in 10 Minuten", d:"eine Prüfungsfrage gliedern, wie am Anfang des Essays", min:10});
+  if(half&&!pr) S.push({k:"outline", t:"Gliederung in 10 Minuten", d:"eine Prüfungsfrage gliedern, wie am Anfang des Essays", min:10});
   if(started.length){ const rot=["who","kreuz","dump","terms"][dayIndex()%4];
     if(rot==="who"&&whoOf(0).length) S.push({k:"who", t:"Was gehört wohin?", d:"6 Aussagen zuordnen", min:3});
     else if(rot==="dump"&&pickDump()) S.push({k:"dump", t:"Alles aufschreiben", d:`5 Minuten aus dem Gedächtnis: ${chLabel(pickDump().n)}`, min:7});
-    else if(rot==="terms"&&allCards("b").length) S.push({k:"terms", t:"Begriffe", d:"8 Begriffe, gemischt in beide Richtungen", min:3});
+    else if(rot==="terms"&&allCards("b").length) S.push({k:"terms", t:"Begriffe", d:"8 Begriffe: Begriff → Erklärung", min:3});
     else if(kreuzOf(0).length) S.push({k:"kreuz", t:"Selbsttest", d:"Aussagen als wahr oder falsch erkennen", min:4}); }
   if(lesson&&!S.includes(lesson)) S.push(lesson);
   return S;
 }
-/* Begriffe für heute: erst fällige, dann neue, beide Richtungen gemischt */
-function termsForToday(){ const A=allCards("b").concat(allCards("br")); const due=A.filter(x=>isDue(x.id)), fresh=A.filter(x=>!isSeen(x.id)); return shuffle(due).concat(shuffle(fresh)).slice(0,8); }
+/* Begriffe für heute: erst fällige, dann neue, nur Begriff → Erklärung */
+function termsForToday(){ const A=allCards("b"); const due=A.filter(x=>isDue(x.id)), fresh=A.filter(x=>!isSeen(x.id)); return shuffle(due).concat(shuffle(fresh)).slice(0,8); }
 function startSession(){ sess={steps:planToday(), i:0, t0:Date.now()}; runStep(); }
 function runStep(){
   if(!sess) return; const s=sess.steps[sess.i];
   if(!s){ return finishSession(); }
-  ({cards:()=>openCards(0,false,dueCards(0).slice(0,20)),
+  ({cards:()=>openCards(0,false,dueToday().slice(0,20)),
+    exam:()=>go("exam"),
     newcards:()=>openCards(s.n,false,allCards(s.n).filter(x=>!isSeen(x.id)).slice(0,5)),
     recall:()=>openRecall(qDue().slice(0,6)),
     outline:()=>openOutline(0),
@@ -1771,7 +1781,7 @@ const APP={
       known:false = nur bekannt, dass das Hochgeladene dazugehört.
    2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
    3. Motivationssatz unter der Wochenübersicht.
-   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}, {"d": "2026-11-03", "a": "alle", "w": "Lernmodus in BiWi II, Wirtschaft II und W&G I übernommen (W&G I: Fragenrunde, Karten, Wer sagt das?, laufendes Quiz; Umschalter dort ausgeblendet)", "y": "Talib hat das Muster freigegeben"}, {"d": "2026-11-03", "a": "Politik I", "w": "Lernmodus ohne Ablenkung als Muster: in Lernansichten und der Tageseinheit keine Tableiste, oben Schließen, Fortschritt und n/m, Esc schließt; Leiste der Tageseinheit mit Schritten", "y": "Talib hat ihn aus vier Vorschlägen gewählt; mehr Platz und keine Fehltipps beim Wischen"}]).
+   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}, {"d": "2026-11-03", "a": "alle", "w": "Lernmodus in BiWi II, Wirtschaft II und W&G I übernommen (W&G I: Fragenrunde, Karten, Wer sagt das?, laufendes Quiz; Umschalter dort ausgeblendet)", "y": "Talib hat das Muster freigegeben"}]).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
    6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
    7. Lernmodus ohne Ablenkung (focusBar): Ansichten aus APP.focus.views und die ganze Tageseinheit blenden Tableiste und „Aa“ aus.
@@ -1855,7 +1865,7 @@ document.addEventListener("keydown",e=>{ if(e.key!=="Escape"||!document.body.cla
   const a=document.activeElement; if(a&&/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)) return; const x=document.getElementById("fx"); if(x){ e.preventDefault(); x.click(); } });
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
-const BRUECKE=[{"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}, {"d": "2026-11-03", "a": "alle", "w": "Lernmodus in BiWi II, Wirtschaft II und W&G I übernommen (W&G I: Fragenrunde, Karten, Wer sagt das?, laufendes Quiz; Umschalter dort ausgeblendet)", "y": "Talib hat das Muster freigegeben"}, {"d": "2026-11-03", "a": "Politik I", "w": "Lernmodus ohne Ablenkung als Muster: in Lernansichten und der Tageseinheit keine Tableiste, oben Schließen, Fortschritt und n/m, Esc schließt; Leiste der Tageseinheit mit Schritten", "y": "Talib hat ihn aus vier Vorschlägen gewählt; mehr Platz und keine Fehltipps beim Wischen"}];
+const BRUECKE=[{"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}, {"d": "2026-11-03", "a": "alle", "w": "Lernmodus in BiWi II, Wirtschaft II und W&G I übernommen (W&G I: Fragenrunde, Karten, Wer sagt das?, laufendes Quiz; Umschalter dort ausgeblendet)", "y": "Talib hat das Muster freigegeben"}];
 function bridgeBlock(){
   if(!BRUECKE.length) return "";
   const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
@@ -3796,7 +3806,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="c50c51487bfd", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="8b581819abaa", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }

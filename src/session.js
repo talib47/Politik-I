@@ -4,33 +4,43 @@
    dazu die nächste neue Lektion. Gemischtes Üben (Interleaving) und Abstände (Spacing) ohne eigene Planung. */
 let sess=null;
 const dayIndex=()=>Math.floor(dayStart()/864e5);
+/* Tageseinheit ohne die Gegenrichtung der Begriffe (Bedeutung → Begriff): Die gibt es unter Üben → Begriffe auf Wunsch.
+   Spart etwa ein Viertel der Zeit (Prüfauftrag 04.11.2026: Stoffmenge größer als 20–40 Minuten am Abend). */
+const dueToday=()=>dueCards(0).filter(x=>!x.id.startsWith("br-"));
+/* Probe-Essay laut Plan (21, 14 und 7 Tage vor dem Termin): ab dem Plantag ein eigener Schritt der Einheit */
+function probeDue(){ if(!essaysOf(0).length) return null; const now=Date.now(), P=examPlan().filter(p=>!p.done&&p.when!=null&&p.when-now<=864e5); return P.length?P[P.length-1]:null; }
 function freshChapter(){ for(const ch of courseChs()){ const L=LESSONS[ch.n]||[]; if(L.some(x=>lessonState(x.id)) && (CARDS[ch.n]||[]).some(x=>!isSeen(x.id))) return ch.n; } return 0; }
 function planToday(){
   /* geübt wird nur, was schon gelesen wurde: begonnene Sitzungen (mindestens eine Lektion bearbeitet) */
   const started=courseChs().filter(ch=>(LESSONS[ch.n]||[]).some(x=>lessonState(x.id)));
   const half=started.some(ch=>{ const L=LESSONS[ch.n]; return L.filter(x=>lessonState(x.id)).length>=L.length/2 && essaysOf(ch.n).length; });
-  const S=[], dc=dueCards(0).length, dq=qDue().length, nx=nextStep();
+  const S=[], dc=dueToday().length, dq=qDue().length, nx=nextStep(), pr=probeDue();
+  /* Am Plantag: Probe-Essay und nur die fälligen Karten, damit die Einheit nicht ausufert */
+  if(pr){ S.push({k:"exam", t:"Probe-Essay", d:`laut Plan (${pr.lab}): eine Frage, 60 Minuten wie in der Prüfung`, min:60});
+    if(dc) S.push({k:"cards", t:"Karten wiederholen", d:`${Math.min(dc,20)} fällige Karten`, min:Math.max(2,Math.round(Math.min(dc,20)*.4))});
+    return S; }
   const lesson=nx&&nx.lesson?{k:"lesson", t:"Neu lernen", d:nx.title, min:5, go:nx.go}:null;
   if(!dc&&!dq&&lesson) S.push(lesson);
   if(dc) S.push({k:"cards", t:"Karten wiederholen", d:`${Math.min(dc,20)} fällige Karten`, min:Math.max(2,Math.round(Math.min(dc,20)*.4))});
   if(dc<25){ const n=freshChapter(); if(n) S.push({k:"newcards", n, t:"Neue Karten", d:`5 neue Karten aus Sitzung ${chOf(n).no}`, min:3}); }
   if(dq) S.push({k:"recall", t:"Verständnisfragen", d:`${Math.min(dq,6)} fällige Fragen aus den Lektionen`, min:3});
-  if(half) S.push({k:"outline", t:"Gliederung in 10 Minuten", d:"eine Prüfungsfrage gliedern, wie am Anfang des Essays", min:10});
+  if(half&&!pr) S.push({k:"outline", t:"Gliederung in 10 Minuten", d:"eine Prüfungsfrage gliedern, wie am Anfang des Essays", min:10});
   if(started.length){ const rot=["who","kreuz","dump","terms"][dayIndex()%4];
     if(rot==="who"&&whoOf(0).length) S.push({k:"who", t:"Was gehört wohin?", d:"6 Aussagen zuordnen", min:3});
     else if(rot==="dump"&&pickDump()) S.push({k:"dump", t:"Alles aufschreiben", d:`5 Minuten aus dem Gedächtnis: ${chLabel(pickDump().n)}`, min:7});
-    else if(rot==="terms"&&allCards("b").length) S.push({k:"terms", t:"Begriffe", d:"8 Begriffe, gemischt in beide Richtungen", min:3});
+    else if(rot==="terms"&&allCards("b").length) S.push({k:"terms", t:"Begriffe", d:"8 Begriffe: Begriff → Erklärung", min:3});
     else if(kreuzOf(0).length) S.push({k:"kreuz", t:"Selbsttest", d:"Aussagen als wahr oder falsch erkennen", min:4}); }
   if(lesson&&!S.includes(lesson)) S.push(lesson);
   return S;
 }
-/* Begriffe für heute: erst fällige, dann neue, beide Richtungen gemischt */
-function termsForToday(){ const A=allCards("b").concat(allCards("br")); const due=A.filter(x=>isDue(x.id)), fresh=A.filter(x=>!isSeen(x.id)); return shuffle(due).concat(shuffle(fresh)).slice(0,8); }
+/* Begriffe für heute: erst fällige, dann neue, nur Begriff → Erklärung */
+function termsForToday(){ const A=allCards("b"); const due=A.filter(x=>isDue(x.id)), fresh=A.filter(x=>!isSeen(x.id)); return shuffle(due).concat(shuffle(fresh)).slice(0,8); }
 function startSession(){ sess={steps:planToday(), i:0, t0:Date.now()}; runStep(); }
 function runStep(){
   if(!sess) return; const s=sess.steps[sess.i];
   if(!s){ return finishSession(); }
-  ({cards:()=>openCards(0,false,dueCards(0).slice(0,20)),
+  ({cards:()=>openCards(0,false,dueToday().slice(0,20)),
+    exam:()=>go("exam"),
     newcards:()=>openCards(s.n,false,allCards(s.n).filter(x=>!isSeen(x.id)).slice(0,5)),
     recall:()=>openRecall(qDue().slice(0,6)),
     outline:()=>openOutline(0),
