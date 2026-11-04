@@ -108,12 +108,13 @@ function bridgeBlock(){
    Forschung (Cepeda et al. 2008): Der beste Abstand zwischen zwei Wiederholungen wächst mit der Zeit bis zur Prüfung,
    ist aber nur ein Bruchteil davon (bei 5 Wochen etwa ein Viertel, bei 10 Wochen etwa ein Sechstel). Zu kurz schadet mehr als zu lang.
    Darum: der feste Plan (1, 3, 7, 16, 35 Tage) bleibt, aber höchstens ein Drittel der Resttage bis zur Prüfung, damit jede Karte
-   vor der Prüfung noch mehrmals drankommt und nie erst danach. Dazu ±10 % Streuung ab 3 Tagen, damit nicht alle Karten
-   eines Lerntags am selben Tag wieder fällig werden. Ohne Prüfungstermin bleibt der Plan, wie er ist. */
+   vor der Prüfung noch mehrmals drankommt und nie erst danach. Nie kürzer als 3 Tage, wenn der Plan 3 Tage oder mehr
+   vorsieht (sonst wäre in der letzten Woche jede Karte täglich fällig und alles staute sich). Die ±10 % Streuung kommt
+   nach dem Deckel, damit nicht alle Karten am selben Tag fällig werden. Ohne Prüfungstermin bleibt der Plan, wie er ist. */
 function spaceDays(d,T){
   if(d<=1) return d;
-  let x=d>=3?Math.max(2,Math.round(d*(0.9+Math.random()*0.2))):d;
+  let x=d;
   if(T==null&&APP.examTs) T=APP.examTs();
-  if(T){ const left=Math.round((T-dayStart())/864e5); if(left>2) x=Math.min(x,Math.max(1,Math.floor(left/3))); }
-  return x;
+  if(T){ const left=Math.round((T-dayStart())/864e5); if(left>2) x=Math.min(x,Math.max(Math.min(d,3),Math.floor(left/3))); }
+  return x>=3?Math.max(2,Math.round(x*(0.9+Math.random()*0.2))):x;
 }

@@ -3,7 +3,7 @@
    Inhalte aus der Lektüre (Merkel 2013, Lauth 2015, Patzelt 2023) sind als Lektüre markiert (lit / litbox), alles andere über die Folien hinaus als Ergänzung (erg / ergbox).
    Lektüre der Selbstlernphase (22. und 29.10.): Patzelt 2023 Kap. 1 und 3, Lauth 2015, Merkel 2013. Neue Lektionen dazu in content_v1_lit.js. */
 const ERG='<span class="erg">Ergänzung</span>';
-UPLOADS.push({c:"vl", ch:1, known:true, src:"Folie „Selbstlernphase“ (15.10.)", items:[
+UPLOADS.push({c:"vl", ch:1, known:true, src:"Vorlesungsplan (Folien 3–6) und Folie „Pflichtliteratur“ (15.10.)", items:[
  {k:"Folien", t:"Einführung 15.10.", ok:true}, {k:"Lektüre", t:"Patzelt 2023, Kap. 1", ok:true}, {k:"Lektüre", t:"Patzelt 2023, Kap. 3", ok:true},
  {k:"Lektüre", t:"Lauth 2015", ok:true}, {k:"Lektüre", t:"Merkel 2013", ok:true}]});
 chOf(1).lit="Lektüre: Patzelt (2023, S. 11–36 und 111–367), Lauth (2015), Merkel (2013). Selbstlernphase am 22. und 29.10. mit Fragen und Essay-Aufgabe auf Acemate.";
@@ -27,7 +27,7 @@ const FIG_EASTON=`<svg viewBox="0 0 360 210" role="img" aria-label="Eastons Syst
   <path d="M237 83 H270" style="stroke:var(--ink);stroke-width:2"/><path d="M270 78 l6 5 -6 5z" style="fill:var(--ink)"/>
   <path d="M309 124 V146 H51 V128" style="fill:none;stroke:var(--accent);stroke-width:2;stroke-dasharray:5 4"/><path d="M46 130 l5 -7 5 7z" style="fill:var(--accent)"/>
   <text x="180" y="141" text-anchor="middle" style="fill:var(--accent);font-weight:600">Rückkopplung (feedback)</text>
-  <text x="51" y="186" text-anchor="middle" style="fill:var(--ink);font-weight:600">soziale</text>
+  <text x="51" y="186" text-anchor="middle" style="fill:var(--ink);font-weight:600">Soziale Legit.</text>
   <text x="51" y="201" text-anchor="middle" style="fill:var(--muted)">Zustimmung</text>
   <text x="180" y="186" text-anchor="middle" style="fill:var(--ink);font-weight:600">Input-Legitimation</text>
   <text x="180" y="201" text-anchor="middle" style="fill:var(--muted)">demokratische Verfahren</text>
@@ -60,10 +60,10 @@ LESSONS[1]=[
 <tr><td><b>Akteure</b></td><td>individuelle (z. B. Bundeskanzler) und kollektive (z. B. Kabinett, Parteien, Fraktionen)</td></tr>
 <tr><td><b>Institutionen und Organe</b></td><td>z. B. Regierung, Parlament, Verfassungsgericht</td></tr>
 <tr><td><b>Verfahren</b></td><td>z. B. demokratische Wahlen, Gesetzgebung, Normenkontrollverfahren</td></tr></table>
-<div class="litbox"><b>Lektüre: Patzelt (2023, Kap. 1)</b>Patzelt definiert ähnlich: Politik ist menschliches Handeln, das auf die <b>Herstellung und Durchsetzung allgemein verbindlicher Regelungen und Entscheidungen</b> in und zwischen Gruppen zielt. Dabei wirken immer vier Dinge zusammen, das <b>MINK-Schema</b>: <b>M</b>acht (nach Max Weber die Chance, den eigenen Willen auch gegen Widerstreben durchzusetzen), <b>I</b>deologie, <b>N</b>ormen und <b>K</b>ommunikation.</div>
+<div class="litbox"><b>Lektüre: Patzelt (2023, Kap. 1, S. 11 f.)</b>Patzelt definiert ähnlich: Politik ist menschliches Handeln, das auf die <b>Herstellung und Durchsetzung allgemein verbindlicher Regelungen und Entscheidungen</b> in und zwischen Gruppen zielt. Dabei wirken immer vier Dinge zusammen, das <b>MINK-Schema</b>: <b>M</b>acht (nach Max Weber die Chance, den eigenen Willen auch gegen Widerstreben durchzusetzen), <b>I</b>deologie, <b>N</b>ormen und <b>K</b>ommunikation.</div>
 <div class="ergbox"><b>Ergänzung: Normenkontrolle</b>Ein Normenkontrollverfahren ist ein Verfahren vor dem Bundesverfassungsgericht, in dem geprüft wird, ob ein Gesetz mit dem Grundgesetz vereinbar ist. Kommt in Sitzung 5 (Verfassungsorgane) wieder.</div>`,
 check:[
- {q:"Was macht eine Entscheidung laut Bernauer et al. zu einer politischen?", o:["Sie wird von Politikern getroffen","Sie ist allgemein verbindlich und regelt das Zusammenleben","Sie wird im Parlament verkündet","Sie betrifft die Wirtschaft"], a:1, ex:"Nicht wer entscheidet, ist entscheidend, sondern dass die Entscheidung für alle gilt und das Zusammenleben regelt."},
+ {q:"Was macht eine Entscheidung laut Bernauer et al. zu einer politischen?", o:["Sie wird von gewählten Politikern und Ministern getroffen","Sie ist allgemein verbindlich und regelt das Zusammenleben","Sie wird im Parlament beraten, beschlossen und verkündet","Sie betrifft die Wirtschaft und die öffentlichen Finanzen"], a:1, ex:"Nicht wer entscheidet, ist entscheidend, sondern dass die Entscheidung für alle gilt und das Zusammenleben regelt."},
  {q:"Ein Normenkontrollverfahren ist auf der Folie ein Beispiel für …", o:["einen Akteur","eine Ebene","ein Verfahren","eine Institution"], a:2, ex:"Die Folie nennt es zusammen mit Wahlen und Gesetzgebung unter den Verfahren."}
 ]},
 {id:"v1-2", t:"Polity, Politics, Policy", html:`
@@ -73,7 +73,8 @@ check:[
 <tr><td><b>Polity</b></td><td>Form: das Regelwerk für Politik, die Grundlagen des Gemeinwesens</td><td>Verfassung, Staat, politisches System</td></tr>
 <tr><td><b>Politics</b></td><td>Prozess: wie um Entscheidungen gerungen wird</td><td>Interesse, Akteur, Kommunikation, Legitimation, Macht</td></tr>
 <tr><td><b>Policy</b></td><td>Inhalt: Handlungsprogramme, also was entschieden wird</td><td>Problem, Programm, Erfolg</td></tr></table>
-<div class="merk"><b>Eselsbrücke</b>Polit<b>y</b> wie <b>Y</b>-Rahmen: das Gerüst. Polit<b>ics</b> wie „Kampf“: der Streit. Polic<b>y</b> wie Police (Versicherungspolice): das Programm, das am Ende auf dem Papier steht.</div>
+<div class="merk"><b>Eselsbrücke ${ERG}</b>Polit<b>y</b> wie <b>Y</b>-Rahmen: das Gerüst. Polit<b>ics</b> mit Plural-s: viele Akteure streiten miteinander. Polic<b>y</b> wie Police (Versicherungspolice): das Programm, das am Ende auf dem Papier steht.</div>
+<div class="litbox"><b>Lektüre: Patzelt (2023, Kap. 1, S. 12 f.)</b><b>Policy</b> meint die Inhalte konkreter Politikprogramme samt ihren Ergebnissen auf einem Politikfeld. <b>Politics</b> ist der politische Prozess, in dem darum gerungen wird, welche Inhalte allgemein verbindlich werden: Willensbildung, Entscheidung, Implementation. <b>Polity</b> meint die politischen Strukturen, also Organisationen und Institutionen. Patzelt nennt sie das „Flussbett“ politischer Prozesse.</div>
 <div class="ergbox"><b>Ergänzung: Beispiel G9 in NRW</b>
 <b>Polity:</b> Bildung ist nach dem Grundgesetz Ländersache, also entscheidet der Landtag NRW über das Schulgesetz.<br>
 <b>Politics:</b> Elterninitiativen, Lehrerverbände und Parteien streiten jahrelang über G8 oder G9, es gibt Anhörungen und Mehrheiten im Landtag.<br>
@@ -86,7 +87,7 @@ check:[
 ]},
 {id:"v1-3", t:"Was ist Politikwissenschaft?", html:`
 <p>Bevor es um Politikwissenschaft geht, klärt Schwanholz, was Wissenschaft überhaupt ist.</p>
-<div class="quote">Wissenschaft zielt auf Aussagen, die an <b>empirischem und logischem Wahrheitsgehalt</b> dem überlegen sind, was schon der „gesunde Menschenverstand“ formulieren kann.<cite>sinngemäß nach Patzelt 2007</cite></div>
+<div class="quote">Wissenschaft zielt auf Aussagen, die an <b>empirischem und logischem Wahrheitsgehalt</b> dem überlegen sind, was schon der „gesunde Menschenverstand“ formulieren kann.<cite>sinngemäß nach Patzelt 2007; fast wortgleich in Patzelt 2023, S. 18</cite></div>
 <h3>Arten wissenschaftlicher Aussagen</h3>
 <ul><li>Beschreibungen</li><li>Aussagen über Zusammenhänge</li><li>Erklärungen</li><li>Prognosen</li><li>Werturteile</li><li>Empfehlungen oder Handlungsanweisungen</li></ul>
 <h3>Politikwissenschaft</h3>
@@ -100,8 +101,8 @@ check:[
 <p>Die Vorlesung bewegt sich in den Feldern <b>3 und 4</b>: das politische System Deutschlands, verglichen mit anderen Ländern.</p>`,
 check:[
  {q:"Welche drei Leistungen nennt Schmidt für die Politikwissenschaft?", o:["Beschreibung, Erklärung, Prognose","Bewertung, Empfehlung, Beratung","Gesetzgebung, Verwaltung, Rechtsprechung"], a:0, ex:"Schmidt 2010: wissenschaftliche Beschreibung, Erklärung oder Prognose politischer Phänomene."},
- {q:"„Werturteilsfrei“ heißt in der Folie vor allem:", o:["Politikwissenschaft darf nie Werturteile untersuchen","Sie beschreibt und erklärt möglichst objektiv, ohne eigene Wertung als Ergebnis auszugeben","Sie gibt nur Handlungsempfehlungen"], a:1, ex:"Ziel ist eine möglichst objektive Beschreibung und Erklärung der politischen Wirklichkeit."},
- {q:"In welchen Teilgebieten liegt diese Vorlesung?", o:["Politische Theorie und Methoden","Vergleichende PoWi und politisches System der BRD","Internationale Beziehungen und EU"], a:1, ex:"Auf der Folie sind die Felder 3 und 4 eingekreist."}
+ {q:"„Werturteilsfrei“ heißt in der Folie vor allem:", o:["Sie darf Werturteile nicht zum Gegenstand ihrer Forschung machen","Sie beschreibt und erklärt, ohne eigene Wertungen als Befund auszugeben","Sie formuliert vor allem Empfehlungen für gute Politik"], a:1, ex:"Ziel ist eine möglichst objektive Beschreibung und Erklärung der politischen Wirklichkeit."},
+ {q:"In welchen Teilgebieten liegt diese Vorlesung?", o:["Politische Theorie und Methodenlehre","Vergleichende PoWi und System der BRD","Internationale Beziehungen und EU"], a:1, ex:"Auf der Folie sind die Felder 3 und 4 eingekreist."}
 ]},
 {id:"v1-4", t:"Politisches System und Eastons Modell", html:`
 <p>Nach <b>Parsons</b> ist das politische System ein <b>Subsystem der Gesellschaft</b>, das auf <b>Zielverfolgung und politische Steuerung</b> spezialisiert ist. Wie weit man den Begriff fasst, ist eine Entscheidung:</p>
@@ -120,14 +121,14 @@ ${FIG_EASTON}
 <tr><td><b>Soziale Legitimation</b></td><td>Zustimmung durch die Bürgerinnen und Bürger (bei Inputs und Unterstützung)</td></tr>
 <tr><td><b>Input-Legitimation</b></td><td>demokratische Verfahren (im System selbst)</td></tr>
 <tr><td><b>Output-Legitimation</b></td><td>erfolgreiche Problembearbeitung (bei den Outputs)</td></tr></table>
-<div class="litbox"><b>Lektüre: Merkel (2013), Patzelt (2023)</b><p><b>Parsons' AGIL-Schema:</b> Jedes System muss vier Funktionen erfüllen: <b>A</b>daptation (Anpassung an die Umwelt), <b>G</b>oal Attainment (Zielerreichung, die Aufgabe des politischen Systems), <b>I</b>ntegration (Zusammenhalt), <b>L</b>atent Pattern Maintenance (Erhalt kultureller Wertmuster).</p>
-<p><b>Easton genauer:</b> Seine Leitfrage war, wie sich politische Systeme in einer Welt aus Stabilität und Wandel behaupten. Typische Forderungen sind Frieden, Rechtssicherheit, Wohlstand und soziale Sicherheit, eine saubere Umwelt. <b>Withinputs</b> sind Forderungen, die im System selbst entstehen, etwa aus der Regierung. Easton unterscheidet <b>specific support</b> (Zufriedenheit mit den Leistungen und Amtsträgern) und <b>diffuse support</b> (Bindung an das System als Ganzes, seine Werte und Verfahren).</p>
-<p><b>Patzelt:</b> Die Fähigkeit eines Systems, Input aufzunehmen und darauf zu reagieren, heißt <b>Responsivität</b>. Gelingt der Kreislauf so, dass die Bürger das System aus freien Stücken für rechtens halten, entsteht <b>Legitimität</b>. Fehlt sie, reagiert ein System mit Reformen oder mit Repression.</p></div>
+<div class="litbox"><b>Lektüre: Merkel (2013, S. 208 f.), Patzelt (2023)</b><p><b>Parsons' AGIL-Schema:</b> Jedes System muss vier Funktionen erfüllen: <b>A</b>daptation (Anpassung an die Umwelt), <b>G</b>oal Attainment (Zielerreichung, die Aufgabe des politischen Systems), <b>I</b>ntegration (Zusammenhalt), <b>L</b>atent Pattern Maintenance (Erhalt kultureller Wertmuster).</p>
+<p><b>Easton genauer:</b> Seine Leitfrage war, wie sich politische Systeme in einer Welt aus Stabilität und Wandel behaupten. Typische Forderungen sind Frieden, Rechtssicherheit, Wohlstand und soziale Sicherheit, eine saubere Umwelt. <b>Withinputs</b> sind zusätzliche Inputs, die die Entscheidungsträger im System selbst erzeugen und bearbeiten, etwa die Regierung. Easton unterscheidet <b>specific support</b> (Zufriedenheit mit den Leistungen und Amtsträgern) und <b>diffuse support</b> (Bindung an das System als Ganzes, seine Werte und Verfahren).</p>
+<p><b>Patzelt (S. 113–116):</b> Die Fähigkeit eines Systems, Input aufzunehmen und darauf zu reagieren, heißt <b>Responsivität</b>. Gelingt der Kreislauf so, dass die Bürger das System aus freien Stücken für rechtens halten, entsteht <b>Legitimität</b>. Fehlt sie, reagiert ein System mit Reformen oder mit Repression.</p></div>
 <div class="ergbox"><b>Ergänzung</b>Die Unterscheidung von Input- und Output-Legitimation geht vor allem auf Fritz Scharpf zurück. Sie passt gut in Essays über die EU: Die EU gilt oft als stark bei der Output-, aber schwächer bei der Input-Legitimation.</div>`,
 check:[
- {q:"Welche zwei Arten von Inputs unterscheidet Easton?", o:["Forderungen und Unterstützung","Gesetze und Urteile","Wahlen und Abstimmungen"], a:0, ex:"Demands und support: Was die Gesellschaft verlangt, und wie sehr sie das System trägt."},
- {q:"Eine Regierung bekämpft eine Wirtschaftskrise erfolgreich und gewinnt dadurch Zustimmung. Welche Legitimation ist das vor allem?", o:["Input-Legitimation","Output-Legitimation","Soziale Legitimation"], a:1, ex:"Output-Legitimation entsteht durch erfolgreiche Problembearbeitung."},
- {q:"Das „weite“ Verständnis des politischen Systems umfasst …", o:["nur Regierung und Parlament","das ZPES plus Parteien, Verbände, Wirtschaftsakteure","nur die Verfassung"], a:1, ex:"Weit heißt: ZPES und angrenzende Akteure, inhaltlich-prozessbezogen."}
+ {q:"Welche zwei Arten von Inputs unterscheidet Easton?", o:["Forderungen und Unterstützung","Gesetze und Gerichtsurteile","Wahlen und Volksabstimmungen"], a:0, ex:"Demands und support: Was die Gesellschaft verlangt, und wie sehr sie das System trägt."},
+ {q:"Eine Regierung bekämpft eine Wirtschaftskrise erfolgreich. Welche Form der Legitimation stärkt sie damit vor allem?", o:["Input-Legitimation","Output-Legitimation","Soziale Legitimation"], a:1, ex:"Output-Legitimation entsteht durch erfolgreiche Problembearbeitung."},
+ {q:"Das „weite“ Verständnis des politischen Systems umfasst …", o:["nur Regierung und Parlament","das ZPES plus Parteien und Verbände","nur die Verfassung als Regelwerk"], a:1, ex:"Weit heißt: ZPES plus angrenzende Akteure wie Parteien, Wirtschaftsakteure und Verbände, inhaltlich-prozessbezogen."}
 ]},
 {id:"v1-5", t:"Kreislaufmodell nach Almond und Powell", html:`
 <p>Almond und Powell (1988) bauen Eastons Modell aus. Sie fragen, welche <b>Funktionen</b> ein politisches System erfüllen muss und welche <b>Strukturen</b> das übernehmen.</p>
@@ -224,7 +225,7 @@ check:[
 <p>Mit diesen sechs Kriterien lassen sich Demokratie und Autokratie und jeweils ihre beiden Untertypen trennen.</p></div>`,
 check:[
  {q:"Welche Demokratievorstellung hat sich laut Folie als wirkungsmächtiger erwiesen?", o:["die materielle","die prozedurale","beide gleich"], a:1, ex:"Prozedurale Theorien, die auf Verfahren der Beteiligung und Kontrolle schauen, haben sich durchgesetzt."},
- {q:"Welches Kriterium gehört zu Dahls acht Garantien?", o:["Gerechte Einkommensverteilung","Alternative, pluralistische Informationsquellen","Eine geschriebene Verfassung"], a:1, ex:"Informationsfreiheit ist Punkt 6. Einkommensverteilung wäre eine materielle Vorstellung."},
+ {q:"Welches Kriterium gehört zu Dahls acht Garantien?", o:["Eine gerechte Verteilung der Einkommen","Alternative, pluralistische Informationsquellen","Eine geschriebene, unabänderliche Verfassung"], a:1, ex:"Informationsfreiheit ist Punkt 6. Einkommensverteilung wäre eine materielle Vorstellung."},
  {q:"„Auf wie viele Herrschaftsträger ist die staatliche Macht verteilt?“ ist bei Merkel die Dimension …", o:["Herrschaftsmonopol","Herrschaftsstruktur","Herrschaftsweise"], a:1, ex:"Die Struktur fragt nach der Verteilung der Macht. Das Monopol fragt, wer entscheidet."}
 ]},
 {id:"v1-8", t:"Embedded Democracy und defekte Demokratien", html:`
@@ -251,7 +252,7 @@ ${FIG_EMBEDDED}
 <p>Zur externen Einbettung zählt Merkel im Text neben sozioökonomischem Kontext und Zivilgesellschaft auch die <b>internationale und regionale Einbindung</b>.</p></div>
 <p>Kernaussage für Essays: Eine defekte Demokratie hat noch ein funktionierendes Wahlregime, aber in anderen Teilregimen fehlt die gegenseitige Absicherung. Darum reicht es nicht, nur zu fragen, ob gewählt wird.</p>`,
 check:[
- {q:"Was bedeutet „doppelt eingebettet“?", o:["Demokratie und Marktwirtschaft","Intern durch die Teilregime und extern durch das Umfeld","National und europäisch"], a:1, ex:"Intern stützen sich die fünf Teilregime gegenseitig, extern schützen Staatlichkeit, Zivilgesellschaft und sozioökonomische Voraussetzungen."},
+ {q:"Was bedeutet „doppelt eingebettet“?", o:["Eingebettet in Demokratie und in Marktwirtschaft","Intern durch die Teilregime und extern durch das Umfeld","Eingebettet in nationales und in europäisches Recht"], a:1, ex:"Intern stützen sich die fünf Teilregime gegenseitig, extern schützen Staatlichkeit, Zivilgesellschaft und sozioökonomische Voraussetzungen."},
  {q:"Welches Teilregime steht im Zentrum des Modells?", o:["Effektive Regierungsgewalt","Wahlregime","Bürgerliche Rechte"], a:1, ex:"A, das Wahlregime, ist der Kern, um den die anderen vier Teilregime liegen."},
  {q:"Eine Regierung schränkt die Unabhängigkeit der Gerichte ein und regiert am Parlament vorbei. Welches Teilregime ist vor allem betroffen?", o:["A Wahlregime","D Horizontale Verantwortlichkeit","B Politische Freiheiten"], a:1, ex:"Horizontale Verantwortlichkeit heißt: Die Gewalten kontrollieren sich gegenseitig. Das wäre der Weg zur delegativen Demokratie."}
 ]}

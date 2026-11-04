@@ -47,8 +47,8 @@ const FIG_ZYKLUS=`<svg viewBox="0 0 360 230" role="img" aria-label="Policy-Zyklu
 LESSONS[101]=[
 {id:"se1-1", t:"Worum es in der Regierungsforschung geht", html:`
 <p>Das Seminar startet mit Korte und Fröhlich (2009). Ihr Lehrbuch fragt nicht, wie das Grundgesetz aufgebaut ist, sondern <b>wie in Deutschland regiert wird</b>.</p>
-<div class="quote">Wer regiert wie in Berlin? Wie nehmen die Wähler Einfluss auf die politische Führung? Wie steuert man Reformen?<cite>Leitfragen bei Korte/Fröhlich 2009, S. 9</cite></div>
-<p>Um das zu beantworten, braucht man Kenntnisse im <b>Politikmanagement</b>. Der Begriff verbindet zwei Seiten:</p>
+<div class="quote">Wer regiert wie in Berlin? Wie nehmen die Wähler Einfluss auf die politische Führung? Wie steuert man Reformen in Staat und Gesellschaft?<cite>Leitfragen bei Korte/Fröhlich 2009, S. 9</cite></div>
+<p>Um das zu beantworten, braucht man Kenntnisse im <b>Politikmanagement</b>. Sie setzen genaue Informationen über Inhalte, Strukturen und Prozesse der Politik voraus. Der Begriff verbindet zwei Seiten (Unterscheidung nach Mayntz 1987):</p>
 <div class="merk"><b>Politikmanagement</b><div class="mrows">
 <div><span class="ml">Steuerbarkeit des Systems</span><span>Lässt sich das politische System überhaupt lenken?</span></div>
 <div><span class="ml">Steuerungsfähigkeit der Akteure</span><span>Können die wichtigen Akteure es lenken?</span></div></div></div>
@@ -63,11 +63,11 @@ LESSONS[101]=[
 <li>Beispiele stammen vor allem aus den Regierungszeiten von Kohl, Schröder und Merkel.</li></ul>
 <p class="small muted">Für deinen GL-Unterricht: Auch eine Schulleitung „regiert“ so. Es gibt Routine (Stundenplan), Improvisation (Vertretung bei Krankheit) und Strategie (Schulprogramm). Formale Regeln allein erklären nicht, wie Entscheidungen wirklich fallen.</p>`,
 check:[
- {q:"Was verbindet der Begriff „Politikmanagement“ bei Korte/Fröhlich?", o:["Die Steuerbarkeit des Systems mit der Steuerungsfähigkeit der Akteure","Die Wirtschaftspolitik mit der Haushaltspolitik","Die Gesetzgebung mit der Rechtsprechung","Die Bundesebene mit der Landesebene"], a:0, ex:"Politikmanagement fragt, ob das System lenkbar ist und ob die Akteure es lenken können. Sach- und Machtfragen sind dabei verwoben.",
+ {q:"Was verbindet der Begriff „Politikmanagement“ bei Korte/Fröhlich?", o:["Die Steuerbarkeit des Systems mit der Steuerungsfähigkeit der Akteure","Die Wirtschaftspolitik des Bundes mit seiner Haushaltspolitik","Die Gesetzgebung des Bundestages mit der Rechtsprechung","Die Arbeit der Bundesebene mit der Arbeit der Landesebene"], a:0, ex:"Politikmanagement fragt, ob das System lenkbar ist und ob die Akteure es lenken können. Sach- und Machtfragen sind dabei verwoben.",
   w:{1:"Das wären zwei Politikfelder. Politikmanagement ist kein Politikfeld, sondern eine Perspektive auf das Regieren insgesamt.",2:"Gesetzgebung und Rechtsprechung sind Staatsgewalten. Um ihr Verhältnis geht es bei der Gewaltenteilung.",3:"Das Zusammenspiel der Ebenen ist ein Thema des Föderalismus (Sitzung 4)."}},
- {q:"Welche Kernthese vertreten Korte und Fröhlich?", o:["Das Parlament wird immer mächtiger","Der politische Prozess wird zunehmend exekutivlastig","Medien entscheiden heute die Politik","Parteien verlieren jede Bedeutung"], a:1, ex:"Deshalb rücken sie die Regierung, also die Exekutive, in den Mittelpunkt ihres Buches.",
+ {q:"Welche Kernthese vertreten Korte und Fröhlich?", o:["Das Parlament wird gegenüber der Regierung immer mächtiger","Der politische Prozess wird zunehmend exekutivlastig","Medien entscheiden heute selbst über die Politik","Parteien verlieren im Regierungsalltag jede Bedeutung"], a:1, ex:"Deshalb rücken sie die Regierung, also die Exekutive, in den Mittelpunkt ihres Buches.",
   w:{0:"Das Gegenteil: Sie sehen das Gewicht bei der Regierung. Darum steht die Exekutive im Zentrum.",2:"Medien gewinnen Einfluss, aber Korte/Fröhlich warnen gerade davor, Medienmacht mit kommunikativer Macht zu verwechseln.",3:"Parteien bleiben wichtig, etwa als Basis der Regierungsmehrheit. Eine solche These steht nicht im Text."}},
- {q:"Warum sprechen Korte/Fröhlich von „Management“?", o:["Weil Regieren eine genuin ökonomische Tätigkeit ist","Weil das Wort von manus und agere kommt: richtunggebendes Handeln in komplexen Strukturen","Weil Minister wie Unternehmensvorstände bezahlt werden"], a:1, ex:"Sie betonen ausdrücklich, dass Politik eigenen Gesetzen folgt und sich nicht in ökonomischer Rationalität erschöpft.",
+ {q:"Warum sprechen Korte/Fröhlich von „Management“?", o:["Weil Regieren im Kern eine genuin ökonomische Tätigkeit ist","Wegen „manus“ und „agere“: richtunggebendes Handeln in komplexen Strukturen","Weil Minister wie Vorstände bezahlt und nach Kennzahlen bewertet werden"], a:1, ex:"Sie betonen ausdrücklich, dass Politik eigenen Gesetzen folgt und sich nicht in ökonomischer Rationalität erschöpft.",
   w:{0:"Genau das verneinen sie: Der Begriff soll keine ökonomische Tätigkeit unterstellen.",2:"Davon steht nichts im Text. Es geht um die Wortherkunft und die Art des Handelns."}}
 ]},
 {id:"se1-2", t:"Deutschland als parlamentarische Demokratie", html:`
@@ -94,11 +94,11 @@ check:[
 <li>Kanzler und Ministerpräsidenten verdanken ihr Amt einer <b>Wahl durch das Parlament</b>, die Abgeordneten einer freien Wahl. So entsteht eine <b>lückenlose Legitimationskette</b> vom Volk bis zur Entscheidung.</li></ul>
 <div class="litbox"><b>Empfehlung: Croissant (2010)</b>Steffanis Kriterium im Detail und weitere Typologien von Regierungssystemen findest du in der Lektion „Regierungssysteme typisieren“.</div>`,
 check:[
- {q:"Was macht Deutschland nach Steffani zu einer parlamentarischen Demokratie?", o:["Die Direktwahl des Bundespräsidenten","Die Abberufbarkeit der Regierung durch das Parlament","Das Verhältniswahlrecht","Der Föderalismus"], a:1, ex:"Der Bundestag kann den Kanzler mit dem konstruktiven Misstrauensvotum abberufen. Das ist das entscheidende Merkmal.",
+ {q:"Was macht Deutschland nach Steffani zu einer parlamentarischen Demokratie?", o:["Die Direktwahl des Bundespräsidenten durch das Volk","Die Abberufbarkeit der Regierung durch das Parlament","Das Verhältniswahlrecht bei der Bundestagswahl","Der Föderalismus mit Bund und Ländern"], a:1, ex:"Der Bundestag kann den Kanzler mit dem konstruktiven Misstrauensvotum abberufen. Das ist das entscheidende Merkmal.",
   w:{0:"Der Bundespräsident wird nicht direkt gewählt, sondern von der Bundesversammlung. Für Steffani zählt ohnehin nur die Abberufbarkeit der Regierung.",2:"Das Wahlsystem ist kein Kriterium für den Typ des Regierungssystems.",3:"Föderalismus betrifft den Staatsaufbau. Auch präsidentielle Systeme wie die USA sind föderal."}},
  {q:"Welche vier Strukturprinzipien enthält Art. 20 GG?", o:["Demokratie, Bundesstaat, Rechtsstaat, Sozialstaat","Freiheit, Gleichheit, Kontrolle, Teilhabe","Legislative, Exekutive, Judikative, Medien","Polity, Politics, Policy, Governance"], a:0, ex:"Darum nennen Korte/Fröhlich Art. 20 eine „Verfassung in Kurzform“.",
   w:{1:"Freiheit, Gleichheit, Kontrolle sind Lauths drei Dimensionen der Demokratie (Vorlesung), nicht Art. 20.",2:"Die drei Gewalten stehen zwar in Art. 20 Abs. 2, Medien gehören nicht dazu. Und es sind keine Strukturprinzipien.",3:"Das sind Begriffe der Politikwissenschaft, nicht des Grundgesetzes."}},
- {q:"Was ist mit der „lückenlosen Legitimationskette“ gemeint?", o:["Jede Entscheidung muss vom Bundesverfassungsgericht geprüft werden","Hoheitliche Entscheidungen lassen sich über gewählte Organe auf den Willen des Volkes zurückführen","Jede Partei muss im Bundestag vertreten sein"], a:1, ex:"Bürger wählen das Parlament, das Parlament wählt den Kanzler, die Regierung entscheidet. So bleibt jede Entscheidung an das Volk rückgebunden.",
+ {q:"Was ist mit der „lückenlosen Legitimationskette“ gemeint?", o:["Jede Entscheidung muss vom Bundesverfassungsgericht geprüft werden","Hoheitliche Entscheidungen gehen über gewählte Organe auf den Volkswillen zurück","Jede zugelassene Partei muss mit Abgeordneten im Bundestag vertreten sein"], a:1, ex:"Bürger wählen das Parlament, das Parlament wählt den Kanzler, die Regierung entscheidet. So bleibt jede Entscheidung an das Volk rückgebunden.",
   w:{0:"Das Gericht prüft nur auf Antrag. Die Kette läuft über Wahlen, nicht über Gerichte.",2:"Die Fünf-Prozent-Hürde zeigt, dass das nicht gilt. Es geht um die Rückbindung von Entscheidungen an Wahlen."}}
 ]},
 {id:"se1-3", t:"Grundbegriffe I: Darstellung, Entscheidung, Governance, Politik", html:`
@@ -152,11 +152,11 @@ check:[
 <tr><td><b>Strategie</b></td><td>Strategiefähigkeit beruht auf Orientierungswissen für offene Problemsituationen</td></tr></table>
 <p class="small muted">Vergleich Vorlesung: Dort hieß das enge Verständnis ZPES (Patzelt). Gleiche Idee, anderer Name.</p>`,
 check:[
- {q:"Warum sprechen Korte/Fröhlich vom „Machtjongleur“?", o:["Weil Macht automatisch mit dem Amt kommt","Weil Amtsinhaber sich Macht täglich durch Führung und Einflusssicherung erarbeiten müssen","Weil Politiker mehrere Ämter gleichzeitig haben"], a:1, ex:"Macht ist nicht statisch und folgt nicht einfach aus Positionen. Sie muss immer wieder hergestellt werden, vor allem durch Kommunikation.",
+ {q:"Warum sprechen Korte/Fröhlich vom „Machtjongleur“?", o:["Weil Macht automatisch mit dem Amt kommt und dort sicher bleibt","Weil Amtsinhaber sich Macht täglich durch Führung erarbeiten müssen","Weil Politiker meist mehrere Ämter gleichzeitig ausfüllen müssen"], a:1, ex:"Macht ist nicht statisch und folgt nicht einfach aus Positionen. Sie muss immer wieder hergestellt werden, vor allem durch Kommunikation.",
   w:{0:"Genau das bestreiten sie: Positionen schaffen nur eine formale Ordnung, keine sichere Macht.",2:"Ämterhäufung ist nicht gemeint. Das Bild beschreibt die ständige Arbeit am Einfluss."}},
  {q:"Welche Bezugsgröße von Macht beruht auf dem Vergleich relativer Positionen?", o:["Besitzgröße","Beziehungsgröße","Relationale Größe"], a:2, ex:"Relational: Macht ergibt sich daraus, wie man im Vergleich zu anderen dasteht.",
   w:{0:"Die Besitzgröße beruht auf Potenzialen, etwa Ressourcen oder Ämtern.",1:"Die Beziehungsgröße beruht auf sozialpsychologischen Beziehungen, etwa Vertrauen oder Loyalität."}},
- {q:"Was gehört zum weiten, aber nicht zum engen Verständnis des politischen Systems?", o:["Die Bundesregierung","Der Bundestag","Verbände und gesellschaftliche Konstellationen"], a:2, ex:"Das enge Verständnis umfasst nur die Verfassungsorgane. Das weite nimmt Verbände, Parteien und gesellschaftliche Bedingungen hinzu.",
+ {q:"Was gehört zum weiten, aber nicht zum engen Verständnis des politischen Systems?", o:["Die Bundesregierung mit ihren Ministerien","Der Bundestag mit seinen Ausschüssen","Verbände und gesellschaftliche Konstellationen"], a:2, ex:"Das enge Verständnis umfasst nur die Verfassungsorgane. Das weite nimmt Verbände, Parteien und gesellschaftliche Bedingungen hinzu.",
   w:{0:"Die Regierung ist ein Verfassungsorgan und gehört schon zum engen Verständnis.",1:"Das Parlament ist der Kern des engen Verständnisses."}}
 ]},
 {id:"se1-5", t:"Vier Zugänge: Struktur und Prozess", html:`
@@ -176,11 +176,11 @@ ${FIG_ZUGAENGE}
 <div><span class="ml">Äußere</span><span>durch europäische Integration und Globalisierung. Steuerung ist auf Kooperation in Netzwerken und Verhandlungssystemen angewiesen.</span></div></div></div>
 <p>Aktuell im Zentrum der Regierungsforschung: <b>politische Führung</b> (Stile, Techniken, Instrumente), <b>politische Strategie</b> (Raschke/Tils) und die <b>Europäisierung</b> des Regierens (Sturm/Pehle).</p>`,
 check:[
- {q:"Welche Frage stellte Wilhelm Hennis in den 1960er Jahren?", o:["Wie reagiert das politische System auf Inputs?","Welche Aufgaben hat der Leistungsstaat zwingend zu erfüllen?","Wie beeinflussen Medien die Agenda?"], a:1, ex:"Hennis wollte die Regierungslehre auf das Regierungshandeln und die Aufgaben des Staates lenken, ohne selbst von Policy zu sprechen.",
+ {q:"Welche Frage stellte Wilhelm Hennis in den 1960er Jahren?", o:["Wie reagiert das politische System auf Inputs aus der Gesellschaft?","Welche Aufgaben hat der Leistungsstaat zwingend zu erfüllen?","Wie beeinflussen Medien die Agenda der Regierung?"], a:1, ex:"Hennis wollte die Regierungslehre auf das Regierungshandeln und die Aufgaben des Staates lenken, ohne selbst von Policy zu sprechen.",
   w:{0:"Das ist eine Leitfrage der Systemtheorie, die ab den 1970ern den strukturellen Zugang ablöste.",2:"Das gehört zum Zugang über politische Kommunikation, der erst seit den 1990ern das Feld erweitert."}},
- {q:"Was meint Lehmbruch mit dem „Mischcharakter“ des deutschen Systems?", o:["Mischung aus parlamentarischem und präsidentiellem System","Mischung aus Konkurrenz (Parteienwettbewerb) und Konkordanz (Aushandeln im Bundesstaat)","Mischung aus Bundes- und EU-Recht"], a:1, ex:"Im Bundestag konkurrieren Regierung und Opposition, im Bundesrat und zwischen Bund und Ländern muss verhandelt werden.",
+ {q:"Was meint Lehmbruch mit dem „Mischcharakter“ des deutschen Systems?", o:["Mischung aus parlamentarischem und präsidentiellem Regierungssystem","Mischung aus Konkurrenz (Parteienwettbewerb) und Konkordanz (Aushandeln)","Mischung aus Bundesrecht und europäischem Recht (EU-Recht)"], a:1, ex:"Im Bundestag konkurrieren Regierung und Opposition, im Bundesrat und zwischen Bund und Ländern muss verhandelt werden.",
   w:{0:"Deutschland ist klar parlamentarisch. Das wäre eher Semi-Präsidentialismus, etwa Frankreich.",2:"EU-Recht gehört zum äußeren Souveränitätsverlust. Lehmbruchs Mischcharakter betrifft die innere Entscheidungslogik."}},
- {q:"Was verursacht nach Korte/Fröhlich den äußeren Souveränitätsverlust?", o:["Mehr Parteien im Bundestag","Europäische Integration und Globalisierung","Der Föderalismus"], a:1, ex:"Entscheidungen wandern nach außen. Steuerung braucht dann Kooperation in Netzwerken und Verhandlungssystemen.",
+ {q:"Was verursacht nach Korte/Fröhlich den äußeren Souveränitätsverlust?", o:["Mehr Parteien und mehr Fraktionen im Bundestag","Europäische Integration und Globalisierung","Der Föderalismus und die Macht der Länder"], a:1, ex:"Entscheidungen wandern nach außen. Steuerung braucht dann Kooperation in Netzwerken und Verhandlungssystemen.",
   w:{0:"Mehr Mitspieler im Inneren sind der innere Souveränitätsverlust.",2:"Föderalismus ist Teil der inneren Konstellation: Aushandeln im Bundesstaat."}}
 ]},
 {id:"se1-6", t:"Vier Zugänge: Inhalte und Kommunikation", html:`
@@ -198,29 +198,35 @@ check:[
 <p>Die Folge der indirekten Wirkung: Politik wird zur Unterhaltung, das Ergebnis ist <b>„politics without policy“</b>, nur noch Macht-, keine Sachfragen. <b>Darstellungspolitik ersetzt zunehmend Entscheidungspolitik.</b> Verstärkt wird das, weil die <b>Traditionsbindungen der Wähler</b> an Parteien schwächer werden. Situative Information über Medien gewinnt an Gewicht.</p>
 <p class="small muted">Gut für deine Presseschau: Achte darauf, ob ein Artikel über eine Entscheidung (Entscheidungspolitik) oder über eine Inszenierung (Darstellungspolitik) berichtet.</p>`,
 check:[
- {q:"Was meinen Korte/Fröhlich mit „als-ob-Macht“ der Medien?", o:["Medien haben gar keinen Einfluss","Alle Akteure verhalten sich so, als ob Medien Macht hätten, und genau das verleiht ihnen Einfluss","Medien geben vor, neutral zu sein"], a:1, ex:"Entscheidend ist die Annahme: Wird Medienmacht unterstellt, richten sich alle danach.",
+ {q:"Was meinen Korte/Fröhlich mit „als-ob-Macht“ der Medien?", o:["Medien haben gar keinen Einfluss, sie tun nur so, als hätten sie welchen","Alle verhalten sich, als ob Medien Macht hätten, und das verleiht ihnen Einfluss","Medien geben nach außen vor, neutral zu sein, obwohl sie Partei ergreifen"], a:1, ex:"Entscheidend ist die Annahme: Wird Medienmacht unterstellt, richten sich alle danach.",
   w:{0:"Doch: Sie beschreiben direkte und indirekte Einflüsse. Nur ist die Macht oft eine unterstellte.",2:"Um Neutralität geht es nicht, sondern um die Wirkung einer unterstellten Macht."}},
- {q:"„Politics without policy“ bezeichnet …", o:["Politik ohne Parteien","Machtfragen ohne Sachfragen, weil Politik sich der Medienlogik anpasst","Verwaltung ohne Gesetze"], a:1, ex:"Folge der indirekten Medienwirkung: Der Wettstreit wird entpolitisiert, es geht nur noch um Taktik.",
+ {q:"„Politics without policy“ bezeichnet …", o:["Politik ohne Parteien, weil Bürger sich direkt organisieren","Machtfragen ohne Sachfragen, weil Politik sich der Medienlogik anpasst","Verwaltung ohne Gesetze, weil Behörden selbst Regeln setzen"], a:1, ex:"Folge der indirekten Medienwirkung: Der Wettstreit wird entpolitisiert, es geht nur noch um Taktik.",
   w:{0:"Parteien bleiben, aber sie streiten nur noch taktisch um Macht.",2:"Verwaltung kommt in dieser Passage nicht vor. Es geht um das Verhältnis von Politik und Medien."}},
  {q:"Ein Minister lässt sich bei einer Werksbesichtigung filmen, statt einen schwierigen Gesetzentwurf voranzutreiben. Welcher Trend zeigt sich?", o:["Entscheidungspolitik verdrängt Darstellungspolitik","Darstellungspolitik verdrängt Entscheidungspolitik","Governance ersetzt Hierarchie"], a:1, ex:"Genau diesen Trend beschreiben Korte/Fröhlich für die Mediendemokratie.",
   w:{0:"Umgekehrt: Die Inszenierung gewinnt an Gewicht gegenüber dem Verfahren.",2:"Das ist ein anderer Wandel, der die Art der Koordination betrifft, nicht die Medien."}}
 ]},
-{id:"se1-7", t:"Regierungssysteme typisieren", html:`${EMPF("Croissant (2010), Abschnitt 2")}
+{id:"se1-7", t:"Regierungssysteme typisieren", html:`${EMPF("Croissant (2010), Abschnitt 2, S. 118–126")}
 <p>Ein Regierungssystem im <b>engen Sinn</b> umfasst die obersten Staatsorgane: Staatsoberhaupt, Regierung, Parlament. Im <b>weiten Sinn</b> auch Gerichte, Verwaltung, Wahlsystem, Parteien, Verbände, Medien (Steffani).</p>
 <h3>Steffani: parlamentarisch oder präsidentiell</h3>
 <table class="kvq"><tr><th></th><th>parlamentarisch</th><th>präsidentiell</th></tr>
 <tr><td><b>Primär</b></td><td><b>politische Abberufbarkeit</b> der Regierung</td><td>nur verfassungsrechtliche Abberufbarkeit</td></tr>
 <tr><td>Amt und Mandat</td><td>vereinbar</td><td>inkompatibel</td></tr>
-<tr><td>Rücktritt</td><td>der gesamten Regierung</td><td>keine Pflicht</td></tr>
+<tr><td>Rücktritt</td><td>Pflicht der gesamten Regierung</td><td>keine Pflicht</td></tr>
 <tr><td>Auflösungsrecht</td><td>Regierung kann Parlament auflösen</td><td>keins</td></tr>
 <tr><td>Fraktionsdisziplin</td><td>stark</td><td>gering</td></tr></table>
+<p>Nur das Primärmerkmal definiert den Typ. Die übrigen Zeilen sind <b>supplementäre</b> (sekundäre) Merkmale: Sie prägen einen Typ, definieren ihn aber nicht.</p>
 <ul><li>Mischtypen gibt es bei Steffani nicht.</li>
+<li>Typisch, aber nicht definierend: Parlamentarische Systeme haben meist eine <b>doppelköpfige Exekutive</b> (Staatsoberhaupt und Premier), präsidentielle eine <b>geschlossene</b>: Der Präsident ist Staatsoberhaupt und Regierungschef zugleich (Kaltefleiter).</li>
 <li>Gewaltenteilung: Im Präsidentialismus stehen Parlament und Regierung <b>unverbunden nebeneinander</b>. Im Parlamentarismus wird sie überlagert von <b>Regierungsmehrheit gegen Opposition</b>.</li>
 <li>Parlamente haben im Parlamentarismus vor allem <b>Wahlfunktion</b>, im Präsidentialismus vor allem Gesetzgebungs- und Kontrollfunktion.</li>
-<li><b>Kritik:</b> Wie der Regierungschef ins Amt kommt, bleibt offen (Decker). Die Schweiz müsste als präsidentiell gelten.</li></ul>
+<li><b>Kritik:</b> Das Kriterium der Abberufbarkeit ist nicht genau genug, und wie der Regierungschef ins Amt kommt, bleibt offen (Decker). Die Eindeutigkeit wird zur Rigidität: Die Schweiz müsste als präsidentiell gelten.</li></ul>
 <h3>Semi-Präsidentialismus (Duverger 1980)</h3>
 <p>Drei Merkmale: (1) direkt gewählter Präsident, (2) mit beträchtlichen Befugnissen, (3) daneben Premier und Regierung, die vom <b>Vertrauen des Parlaments</b> abhängen. Die Regierung ist also <b>doppelt abhängig</b>: von Parlament und Präsident.</p>
+<ul><li>Kein bloßer Mischtyp, sondern ein Typ <b>eigener Art</b> (sui generis) mit eigener Systemlogik.</li>
+<li>In der Praxis drei Spielarten: sehr mächtiger Präsident (Frankreich seit 1958), ausbalanciert (Finnland, Weimar), vor allem repräsentativer Präsident (Österreich, Irland, Island).</li>
+<li>Kritik: Was „beträchtliche Befugnisse“ sind, bleibt unscharf.</li></ul>
 <h3>Shugart/Carey (1992): fünf Typen</h3>
+<p>Zwei Kriterien: die <b>Autorität des Präsidenten über das Kabinett</b> und die <b>Trennung von Parlament und Kabinett</b>. Die Typen 2 und 3 differenzieren Duvergers Semi-Präsidentialismus aus.</p>
 <table class="kvq">
 <tr><td><b>Präsidentiell</b></td><td>geschlossene Exekutive, feste Amtszeit (USA)</td></tr>
 <tr><td><b>Präsident-parlamentarisch</b></td><td>Präsident ernennt Premier, der von Präsident und Parlament abhängt (Russland)</td></tr>
@@ -228,18 +234,19 @@ check:[
 <tr><td><b>Parlamentarisch</b></td><td>Staatsoberhaupt ohne Macht über die Regierung (Großbritannien)</td></tr>
 <tr><td><b>Versammlungsunabhängig</b></td><td>vom Parlament bestellt, aber nicht abberufbar (Schweiz)</td></tr></table>
 <h3>Sind präsidentielle Systeme gefährlicher?</h3>
-<p><b>Linz</b> sah die „perils of presidentialism“: Rigidität bei <i>divided government</i>, zwei konkurrierende Legitimationen, Winner-takes-all-Logik. Neuere Forschung relativiert das: Es kommt auf Parteiensystem, Wahlsystem, Befugnisse des Präsidenten und Lernprozesse der Eliten an (etwa Cheibub 2007).</p>`,
+<p><b>Linz</b> sah die „perils of presidentialism“: Rigidität bei <i>divided government</i>, zwei konkurrierende Legitimationen, Winner-takes-all-Logik. Neuere Forschung relativiert das: Es kommt auf Parteiensystem, Wahlsystem, Befugnisse des Präsidenten und Lernprozesse der Eliten an. Cheibub (2007) zeigt, dass präsidentielle Demokratien vor allem dort zusammenbrachen, wo auch eine parlamentarische kaum überlebt hätte.</p>
+<p>Croissants Fazit: Für die Einordnung alter und neuer Systeme hat die feiner gegliederte Typologie von Shugart/Carey Vorteile.</p>`,
 check:[
- {q:"Was ist bei Steffani das primäre, allein entscheidende Merkmal?", o:["Ob der Präsident direkt gewählt wird","Ob das Parlament die Regierung aus politischen Gründen abberufen kann","Ob es eine doppelköpfige Exekutive gibt","Ob Minister zugleich Abgeordnete sein dürfen"], a:1, ex:"Alles andere sind nur supplementäre Merkmale, die einen Typ prägen, aber nicht definieren.",
+ {q:"Was ist bei Steffani das primäre, allein entscheidende Merkmal?", o:["Ob der Präsident direkt vom Volk gewählt wird","Ob das Parlament die Regierung politisch abberufen kann","Ob die Exekutive doppelköpfig ist, mit Präsident und Premier","Ob Minister zugleich ein Abgeordnetenmandat haben dürfen"], a:1, ex:"Entscheidend ist die Abberufbarkeit aus politischen Gründen. Alles andere sind nur supplementäre Merkmale, die einen Typ prägen, aber nicht definieren.",
   w:{0:"Die Direktwahl ist Duvergers Kriterium für den Semi-Präsidentialismus, nicht Steffanis.",2:"Die doppelköpfige Exekutive ist typisch für Parlamentarismus, aber laut Croissant ausdrücklich nicht definierend.",3:"Die Vereinbarkeit von Amt und Mandat ist ein supplementäres Merkmal."}},
  {q:"Frankreich gehört bei Shugart/Carey zum Typ …", o:["präsidentiell","präsident-parlamentarisch","premier-präsidentiell"], a:2, ex:"Der Präsident ist direkt gewählt und einflussreich, die Regierung ist aber nur dem Parlament verantwortlich.",
   w:{0:"Präsidentiell wären die USA mit geschlossener Exekutive.",1:"Präsident-parlamentarisch ist Russland: Dort hängt der Premier auch vom Präsidenten ab."}},
  {q:"Welche Funktion des Parlaments ist im parlamentarischen System besonders ausgeprägt?", o:["Wahlfunktion (Regierungsbestellung)","Kontrollfunktion gegenüber einer unabhängigen Exekutive","Rechtsprechung"], a:0, ex:"Weil das Parlament die Regierung abberufen kann, bestellt es sie politisch: Der Bundestag wählt den Kanzler.",
   w:{1:"Kontrolle spielt im Präsidentialismus eine größere Rolle, weil dort die Regierung nicht vom Parlament abhängt.",2:"Rechtsprechung ist keine Parlamentsfunktion."}}
 ]},
-{id:"se1-8", t:"Demokratietypen und Vetospieler", html:`${EMPF("Croissant (2010), Abschnitte 3 und 4")}
+{id:"se1-8", t:"Demokratietypen und Vetospieler", html:`${EMPF("Croissant (2010), Abschnitte 3 und 4, S. 126–136")}
 <h3>Lijphart: Mehrheits- und Konsensdemokratie</h3>
-<p><b>Mehrheitsdemokratie</b> (Westminster) konzentriert Macht und lässt Mehrheiten freie Bahn. <b>Konsensdemokratie</b> zielt auf Inklusion und Machtteilung, mit hohen Entscheidungshürden. Lijphart misst das an zehn Merkmalen in zwei Dimensionen:</p>
+<p><b>Mehrheitsdemokratie</b> (Westminster) konzentriert Macht und lässt Mehrheiten freie Bahn. <b>Konsensdemokratie</b> zielt auf Inklusion und Machtteilung, mit hohen Entscheidungshürden. Beides sind Idealtypen. Lijphart (1984, 1999) misst das in 36 Ländern an zehn Merkmalen. Entgegen seiner Annahme, alle hingen zusammen, ergab die Faktorenanalyse zwei Dimensionen:</p>
 <table class="kvq"><tr><th colspan="2">Exekutive-Parteien-Dimension</th></tr>
 <tr><td>Parteiensystem</td><td>Vielparteien- oder Zweiparteiensystem</td></tr>
 <tr><td>Kabinette</td><td>Koalitionen oder Alleinregierung</td></tr>
@@ -252,34 +259,38 @@ check:[
 <tr><td>Verfassung</td><td>nur mit Supermehrheit oder einfach änderbar</td></tr>
 <tr><td>Verfassungsgericht</td><td>starke oder keine judicial review</td></tr>
 <tr><td>Zentralbank</td><td>autonom oder abhängig</td></tr></table>
+<p>Daraus ergeben sich vier Typen: <b>unitarische</b> und <b>föderale Mehrheitsdemokratie</b>, <b>unitarische</b> und <b>föderale Konsensdemokratie</b>.</p>
 <ul><li><b>Deutschland</b> ist in beiden Dimensionen konsensual: eine <b>föderale Konsensdemokratie</b>, in Lijpharts Tabelle neben Schweiz, Belgien, Niederlanden.</li>
 <li>Nächst an den Idealtypen: Großbritannien und Neuseeland (Mehrheit), Schweiz (Konsens).</li>
 <li>Der Demokratietyp liegt <b>quer zum Regierungssystem</b>: Großbritannien und Deutschland sind beide parlamentarisch, aber gegensätzliche Demokratietypen.</li>
 <li>Lijphart hält Konsensdemokratien für „kinder and gentler“ und empfiehlt sie gespaltenen Gesellschaften und jungen Demokratien.</li>
-<li><b>Kritik:</b> Konsistenzannahme nicht begründet, institutionelle und Verhaltensvariablen vermischt, Indikatoren teils nicht valide, Befunde stark von der Fallauswahl abhängig, Loblied auf die Konsensdemokratie fraglich, weil diese Gruppe fast nur reiche Länder enthält.</li></ul>
+<li><b>Kritik</b> (fünf Punkte): (1) Konsistenzannahme nicht begründet, institutionelle und Verhaltensvariablen vermischt. (2) Der Zusammenhang in der zweiten Dimension ist weniger eindeutig (Taagepera). (3) Indikatoren teils nicht valide, etwa Kabinettsdauer als Maß für Exekutivdominanz. (4) Befunde stark von der Fallauswahl abhängig. (5) Das Loblied auf die Konsensdemokratie ist fraglich, weil diese Gruppe fast nur reiche Länder enthält.</li></ul>
 <h3>Tsebelis: Vetospieler</h3>
 <p><b>Vetospieler</b> sind Akteure, deren Zustimmung für einen Politikwechsel nötig ist.</p>
 <table class="kvq"><tr><td><b>Institutionelle</b></td><td>Einspruchsrecht steht in der Verfassung, etwa zweite Kammer oder Präsident</td></tr>
 <tr><td><b>Parteipolitische</b></td><td>entstehen im politischen Prozess, etwa Koalitionsparteien</td></tr></table>
-<p>Politikwechsel wird wahrscheinlicher, je <b>weniger</b> Vetospieler es gibt und je <b>näher</b> sie sich programmatisch sind. <b>Absorptionsregel:</b> Spieler mit gleicher Position zählen einfach, Spieler zwischen zwei anderen werden nicht gezählt. Entscheidend ist der Abstand der beiden am weitesten entfernten Spieler.</p>
-<p>Damit lässt sich erklären, warum Reformen in Großbritannien oder Neuseeland größer ausfallen als in <b>Deutschland und der Schweiz</b>. Kritik: Verbände, Gewerkschaften oder Notenbanken mit faktischer Blockademacht fallen durch das Raster, und Parteien wollen nicht nur Policies, sondern auch Ämter und Stimmen.</p>`,
+<p>Das Potenzial für Politikwechsel hängt von <b>Zahl</b>, programmatischer Nähe (<b>Kongruenz</b>) und Geschlossenheit (<b>Kohäsion</b>) der Vetospieler ab. Politikwechsel wird wahrscheinlicher, je <b>weniger</b> Vetospieler es gibt und je <b>näher</b> sie sich programmatisch sind. <b>Absorptionsregel:</b> Spieler mit gleicher Position zählen nur als einer, Spieler, deren Position zwischen zwei anderen liegt, werden nicht gezählt. Entscheidend ist darum vor allem der Abstand der beiden am weitesten entfernten Spieler.</p>
+<p class="small muted">Wie die Kohäsion wirkt, beschreibt Croissant nicht einheitlich: S. 133 nennt hohe Kohäsion günstig für Wechsel, S. 134 sieht in starker Fraktionsdisziplin eher den Erhalt des Status quo.</p>
+<p>Damit lässt sich erklären, warum Reformen in Großbritannien oder Neuseeland größer ausfallen als in <b>Deutschland und der Schweiz</b> (Kaiser 2002). Kaiser (1997) verbindet beide Ansätze: Mehrheits- und Konsensdemokratie bilden ein <b>Netz von Vetopunkten</b>. Je dichter es ist, desto schwerer ist Wandel.</p>
+<p><b>Kritik:</b> Akteure mit faktischer Blockademacht (Unternehmer, Gewerkschaften, Verbände) fallen ebenso durch das Raster wie Verfassungsgerichte, Notenbanken oder direkte Demokratie. Tsebelis unterstellt feste Präferenzen und reine Policy-Ziele. Parteien wollen aber auch Ämter und Stimmen (office- und vote-seeking).</p>`,
 check:[
- {q:"Wie ordnet Lijphart Deutschland ein?", o:["Unitarische Mehrheitsdemokratie","Föderale Mehrheitsdemokratie","Föderale Konsensdemokratie","Unitarische Konsensdemokratie"], a:2, ex:"Koalitionen, Verhältniswahl, Föderalismus, starker Bundesrat, starkes Verfassungsgericht: konsensual in beiden Dimensionen.",
-  w:{0:"Das wäre Großbritannien vor allem: Alleinregierung, Mehrheitswahl, zentralistisch.",1:"Das sind etwa die USA oder Kanada: föderal, aber in der Exekutive-Parteien-Dimension majoritär.",3:"Das sind Länder wie Schweden oder Dänemark: konsensual bei Parteien und Kabinetten, aber unitarisch."}},
- {q:"Nach Tsebelis wird ein Politikwechsel wahrscheinlicher, wenn …", o:["es viele Vetospieler mit großem Abstand gibt","es wenige Vetospieler gibt, die sich programmatisch nahe sind","das Parlament zwei Kammern hat"], a:1, ex:"Je weniger Zustimmungen nötig sind und je ähnlicher die Positionen, desto leichter lässt sich der Status quo ändern.",
+ {q:"Wie ordnet Lijphart Deutschland ein?", o:["Unitarische Mehrheitsdemokratie","Föderale Mehrheitsdemokratie","Föderale Konsensdemokratie","Unitarische Konsensdemokratie"], a:2, ex:"In Lijpharts Tabelle steht die BRD in beiden Dimensionen auf der konsensualen Seite, neben Belgien, den Niederlanden und der Schweiz. Gründe sind etwa Koalitionen, Verhältniswahl, Föderalismus, ein starker Bundesrat und ein starkes Verfassungsgericht.",
+  w:{0:"Das wäre vor allem Großbritannien: Alleinregierung, Mehrheitswahl, zentralistisch.",1:"Das sind etwa die USA oder Kanada: föderal, aber in der Exekutive-Parteien-Dimension majoritär.",3:"Das sind Länder wie Schweden oder Dänemark: konsensual bei Parteien und Kabinetten, aber unitarisch."}},
+ {q:"Nach Tsebelis wird ein Politikwechsel wahrscheinlicher, wenn …", o:["es viele, programmatisch weit entfernte Vetospieler gibt","es wenige, programmatisch nahe Vetospieler gibt","das Parlament eine starke zweite Kammer hat"], a:1, ex:"Je weniger Zustimmungen nötig sind und je ähnlicher die Positionen, desto leichter lässt sich der Status quo ändern.",
   w:{0:"Das ist genau der Fall, in dem der Status quo am stabilsten ist.",2:"Eine starke zweite Kammer ist meist ein zusätzlicher institutioneller Vetospieler und erschwert Wechsel eher."}},
  {q:"Eine Koalition aus zwei Parteien ist bei Tsebelis ein Beispiel für …", o:["institutionelle Vetospieler","parteipolitische Vetospieler","Vetopunkte im Föderalismus"], a:1, ex:"Ihr Einspruchsrecht steht nicht in der Verfassung, es entsteht in der Verfassungswirklichkeit.",
   w:{0:"Institutionelle Vetospieler sind in der Verfassung verankert, etwa der Bundesrat.",2:"Der Föderalismus erzeugt institutionelle Vetopunkte, Koalitionen sind etwas anderes."}}
 ]},
-{id:"se1-9", t:"Regimetypen: Demokratie, Autoritarismus, Totalitarismus", html:`${EMPF("Lauth (2010)")}
+{id:"se1-9", t:"Regimetypen: Demokratie, Autoritarismus, Totalitarismus", html:`${EMPF("Lauth (2010), S. 95–116")}
 <p class="small muted">Vieles kennst du aus der Vorlesung (Sitzung 1, Lauth 2015). Hier nur, was für das Seminar dazukommt.</p>
 <h3>Herrschaft, Regime, Regierungssystem</h3>
 <ul><li><b>Herrschaft</b> nach Max Weber: die Chance, für einen Befehl bestimmten Inhalts bei angebbaren Personen Gehorsam zu finden.</li>
 <li><b>Herrschaftsform</b> und <b>Regime</b> werden synonym verwendet: Zugang zur Herrschaft, Machtbeziehungen der Eliten, Verhältnis zu den Beherrschten (Merkel).</li>
 <li>Davon zu trennen ist das <b>Regierungssystem</b>: institutionelle Muster innerhalb eines Regimetyps. Parlamentarisch und präsidentiell sind beides Demokratien.</li>
-<li>Voraussetzung jedes Regimes ist ein <b>Staat mit Gewaltmonopol</b>. Ist die Staatlichkeit schwach, spricht Lauth von defizitären Regimen.</li></ul>
+<li>Voraussetzung jedes Regimes ist ein <b>Staat mit Gewaltmonopol</b>. Ist die Staatlichkeit schwach, spricht Lauth von defizitären Regimen.</li>
+<li>Untertypen: Neben regulären Subtypen (etwa Regierungssystemen) gibt es <b>verminderte Subtypen</b> (diminished subtypes). Ein Merkmal ist nur eingeschränkt vorhanden, etwa in der defekten Demokratie (Schweiz ohne Frauenwahlrecht bis 1971). <b>Hybride Regime</b> mischen Merkmale verschiedener Typen. Sie als eigenen Regimetyp zu fassen, hält Lauth für wenig plausibel.</li></ul>
 <h3>Realtypus oder Idealtypus</h3>
-<p>Ein <b>Realtypus</b> nimmt einen historischen Fall als Muster (etwa NS-Deutschland für Totalitarismus). Problem: Welches Jahr gilt? Und Widersprüche im Fall werden Teil des Typs. Lauth bevorzugt den <b>Idealtypus</b> (Max Weber): eine Leitidee wird zugespitzt entfaltet, der reale Fall muss nicht deckungsgleich sein.</p>
+<p>Ein <b>Realtypus</b> nimmt einen historischen Fall als Muster (etwa NS-Deutschland für Totalitarismus). Problem: Welches Jahr gilt? Und Widersprüche im Fall werden Teil des Typs. Lauth bevorzugt den <b>Idealtypus</b> (Max Weber): Eine Leitidee wird anhand der Empirie zugespitzt entfaltet und durch logische Deduktion ergänzt. Der reale Fall muss nicht deckungsgleich sein. Ganz unabhängig vom historischen Kontext ist aber auch der Idealtypus nie.</p>
 <h3>Demokratie kategorial bestimmen</h3>
 <table class="kvq"><tr><td><b>Fraenkel</b></td><td>vier Ebenen: Legitimation, Gesellschaftsstruktur, Regierungssystem, Rechtssystem. Lauths Einwand: Eine pluralistische Gesellschaft ist Voraussetzung, nicht Merkmal der Demokratie.</td></tr>
 <tr><td><b>Merkel</b></td><td>sechs Ebenen, hervorgehoben Herrschaftszugang und Herrschaftsweise</td></tr>
@@ -287,30 +298,35 @@ check:[
 <h3>Totalitär und autoritär</h3>
 <ul><li>Gemeinsam ist allen Totalitarismustheorien die <b>Ideologie</b> mit Wahrheitsanspruch, Freund-Feind-Denken und dem Anspruch, die <b>gesamte Gesellschaft</b> umzuformen. <b>Arendt</b> betont den Terror, <b>Friedrich/Brzezinski</b> den technischen Charakter (sechs Merkmale, etwa Massenpartei, Geheimpolizei, Nachrichtenmonopol).</li>
 <li>Autoritäre Regime nach <b>Linz</b>: begrenzter Pluralismus, Mentalitäten statt Ideologie, kaum Mobilisierung. Lauth zweifelt, ob Mobilisierung trennscharf ist.</li>
-<li><b>Merkel</b> unterscheidet neun autoritäre Subtypen nach der Legitimation, etwa Militärregime, theokratische, sultanistische Regime.</li></ul>
+<li><b>Merkel</b> unterscheidet neun autoritäre Subtypen, vor allem nach der Legitimation, dazu nach den Herrschaftsinhabern (Führer, Partei, Militär, Klerus, Monarch). Beispiele: Militärregime, theokratische, sultanistische Regime. Auch Linz nennt neun Subtypen, die Lauth aber skeptisch sieht.</li></ul>
+<div class="merk"><b>Drei Dimensionen für alle drei Regime</b><div class="mrows">
+<div><span class="ml">Totalitär</span><span>politische Freiheit, politische Gleichheit, politische und rechtliche Kontrolle: nicht gegeben</span></div>
+<div><span class="ml">Autoritär</span><span>alle drei nur partiell gegeben</span></div>
+<div><span class="ml">Demokratisch</span><span>alle drei gegeben</span></div></div></div>
+<p>Typologisch sind die drei Regime klar getrennt. Reale Systeme liegen aber auf einem Kontinuum und können im Grenzbereich liegen.</p>
 <h3>Regime messen</h3>
-<table class="kvq"><tr><td><b>Vanhanen</b></td><td>quantitativ: Wahlbeteiligung mal Wettbewerb (100 minus Stimmenanteil der stärksten Partei). Benachteiligt Zweiparteiensysteme und junge Bevölkerungen.</td></tr>
-<tr><td><b>Polity</b></td><td>Wettbewerb und Regulierung der Partizipation, Offenheit der Rekrutierung, Begrenzung der Exekutive</td></tr>
-<tr><td><b>Freedom House</b></td><td>politische Rechte und bürgerliche Freiheiten: free, partly free, not free. Wenig transparent.</td></tr>
+<table class="kvq"><tr><td><b>Vanhanen</b></td><td>quantitativ: Anteil der Wähler an der Gesamtbevölkerung mal Wettbewerbsgrad (100 minus Stimmenanteil der stärksten Partei), geteilt durch 100. Benachteiligt Zweiparteiensysteme und junge Bevölkerungen.</td></tr>
+<tr><td><b>Polity</b></td><td>qualitativ (Einschätzung durch Forschende): Wettbewerb und Regulierung der Partizipation, Wettbewerb und Offenheit der Rekrutierung, Begrenzung der Exekutive</td></tr>
+<tr><td><b>Freedom House</b></td><td>qualitativ: politische Rechte und bürgerliche Freiheiten, nicht ausdrücklich Demokratiequalität. Einstufung free, partly free, not free. Wenig transparent.</td></tr>
 <tr><td><b>Sartori</b></td><td>17 Kriterien, misst die Intensität totalitärer Herrschaft</td></tr></table>`,
 check:[
- {q:"Wie unterscheidet Lauth Regime und Regierungssystem?", o:["Beide Begriffe sind gleichbedeutend","Das Regierungssystem ist ein institutionelles Muster innerhalb eines Regimetyps","Das Regime ist ein Teil des Regierungssystems"], a:1, ex:"Parlamentarisch und präsidentiell sind zwei Varianten desselben Regimetyps Demokratie.",
+ {q:"Wie unterscheidet Lauth Regime und Regierungssystem?", o:["Regime und Regierungssystem sind bei ihm gleichbedeutend","Das Regierungssystem ist ein institutionelles Muster im Regimetyp","Das Regime ist nur ein Teilbereich des Regierungssystems"], a:1, ex:"Parlamentarisch und präsidentiell sind zwei Varianten desselben Regimetyps Demokratie.",
   w:{0:"Synonym sind bei Lauth Regime und Herrschaftsform, nicht Regime und Regierungssystem.",2:"Umgekehrt: Das Regime ist der Oberbegriff, das Regierungssystem eine Konkretisierung."}},
- {q:"Warum bevorzugt Lauth den Idealtypus?", o:["Weil er immer genau einem realen Land entspricht","Weil er eine Leitidee zuspitzt und nicht an die Widersprüche eines Einzelfalls gebunden ist","Weil er ohne Theorie auskommt"], a:1, ex:"Beim Realtypus müsste man festlegen, welches Jahr gilt, und Nischen oder Widersprüche würden Teil des Typs.",
-  w:{0:"Genau das leistet er nicht und muss er nicht: Der reale Fall ist in der Regel nicht deckungsgleich.",2:"Im Gegenteil: Der Idealtypus wird aus einer Leitidee durch logische Deduktion entfaltet."}},
- {q:"Warum ist Vanhanens Demokratieindex umstritten?", o:["Er nutzt zu viele Indikatoren","Er benachteiligt Zweiparteiensysteme und Länder mit vielen jungen, nicht wahlberechtigten Menschen","Er misst nur totalitäre Regime"], a:1, ex:"Ein Wahlsieger mit hohem Stimmenanteil senkt den Wettbewerbswert, und die Partizipation wird an der Gesamtbevölkerung gemessen.",
+ {q:"Warum bevorzugt Lauth den Idealtypus?", o:["Weil er immer genau einem realen Land in einem Jahr entspricht","Weil er eine Leitidee zuspitzt, ohne die Brüche eines Einzelfalls","Weil er ohne Theorie direkt aus den Daten gewonnen wird"], a:1, ex:"Beim Realtypus müsste man festlegen, welches Jahr gilt, und Nischen oder Widersprüche würden Teil des Typs.",
+  w:{0:"Genau das leistet er nicht und muss er nicht: Der reale Fall ist in der Regel nicht deckungsgleich.",2:"Im Gegenteil: Er entfaltet eine Leitidee anhand der Empirie und ergänzt sie durch logische Deduktion."}},
+ {q:"Warum ist Vanhanens Demokratieindex umstritten?", o:["Er braucht zu viele Indikatoren und wird dadurch unübersichtlich","Er benachteiligt Zweiparteiensysteme und sehr junge Bevölkerungen","Er misst nur die Intensität totalitärer Herrschaft"], a:1, ex:"Ein Wahlsieger mit hohem Stimmenanteil senkt den Wettbewerbswert. Und die Partizipation wird an der Gesamtbevölkerung gemessen, also samt der jungen Menschen ohne Wahlrecht.",
   w:{0:"Das Gegenteil: Er braucht nur zwei Indikatoren. Das ist elegant, aber schmal.",2:"Das wäre Sartoris Prüfliste."}}
 ]},
-{id:"se1-10", t:"Politische Kultur", html:`${EMPF("Pickel/Pickel (2016)")}
+{id:"se1-10", t:"Politische Kultur", html:`${EMPF("Pickel/Pickel (2016), S. 541–556")}
 <p><b>Politische Kultur</b> ist die subjektive Seite der Politik: die auf politische Objekte gerichteten <b>Einstellungen und Wertorientierungen</b> der Bürger, als Kollektiv betrachtet. Der Begriff ist <b>analytisch, nicht wertend</b>. Jedes Land hat eine politische Kultur, die Frage ist nur, welche.</p>
-<p class="small muted">Max Kaase spottete 1983, den Begriff zu fassen sei, als wolle man einen Pudding an die Wand nageln. Das gilt heute als überwunden.</p>
+<p class="small muted">Max Kaase spottete 1983, den Begriff zu fassen sei, als wolle man einen Pudding an die Wand nageln. Diese Skepsis gilt heute als weitgehend überwunden.</p>
 <div class="merk"><b>Kernannahme</b>Ein System ist stabil, wenn politische <b>Kultur und Struktur zueinander passen</b> (Kongruenz). Demokratische Institutionen brauchen eine demokratische Kultur. Faustregel nach Diamond: mindestens 75 Prozent Demokraten, keine größere Gruppe von etwa 15 Prozent dagegen.</div>
 <h3>Almond und Verba: The Civic Culture (1963)</h3>
-<p>Umfrage in fünf Ländern, darunter die Bundesrepublik. Drei Grundtypen:</p>
+<p>Umfrage 1959 in fünf Ländern: USA, Großbritannien, Italien, Bundesrepublik, Mexiko. Gefragt wird nach vier Objekten (System als Ganzes, Input, Output, eigene Rolle) und drei Arten der Orientierung (kognitiv, affektiv, bewertend). Daraus entstehen drei Grundtypen, alle als Idealtypen gedacht:</p>
 <table class="kvq"><tr><td><b>Parochial</b></td><td>kein Interesse, kein Wissen, keine Erwartungen (Stammes- und Feudalkulturen)</td></tr>
 <tr><td><b>Subject</b> (Untertan)</td><td>bewertet System und Outputs, sieht sich selbst nicht als Akteur (Kaiserreich)</td></tr>
 <tr><td><b>Participant</b></td><td>Wissen, Beteiligung, Bürger bringt sich ein</td></tr></table>
-<p>Vorbild ist die <b>Civic Culture</b>, ein Mischtyp: stark partizipativ, aber mit Elementen der Untertanenkultur, die das System regierbar halten. Kritik: Ähnelt stark der amerikanischen Demokratie.</p>
+<p>Vorbild ist die <b>Civic Culture</b>, ein Mischtyp: stark partizipativ, aber mit Elementen der Untertanenkultur, die das System regierbar halten. Kritik: Sie ähnelt stark der amerikanischen Demokratie (Vorwurf des Kulturdeterminismus).</p>
 <p>Passung schafft <b>allegiance</b> (Verbundenheit). Instabil machen <b>apathy</b> (Gleichgültigkeit) und <b>alienation</b> (Entfremdung).</p>
 <h3>Lipset: Legitimität und Effektivität</h3>
 <table class="kvq"><tr><th></th><th>effektiv</th><th>nicht effektiv</th></tr>
@@ -323,21 +339,21 @@ check:[
 <li><b>Diffuse</b> Unterstützung: Zustimmung um ihrer selbst willen (wie Lipsets Legitimität), unterteilt in Legitimität und Vertrauen.</li></ul>
 <p><b>Fuchs</b> ordnet hierarchisch: Werte der Demokratie, dann Struktur, dann Performanz. Befund: kaum Legitimitätskrise im Westen. Hohe Zustimmung zur Demokratie (70 bis 90 Prozent), aber wenig Vertrauen in Politiker und Parteien (10 bis 20 Prozent).</p>`,
 check:[
- {q:"Was ist nach Almond/Verba das Vorbild für Demokratien?", o:["Die Participant Culture","Die Civic Culture als Mischtyp","Die Subject Culture"], a:1, ex:"Starke Beteiligung allein reicht nicht. Untertanenelemente sorgen für Folgebereitschaft und damit für Regierbarkeit.",
-  w:{0:"Überraschend nicht: Die reine Participant Culture wird nicht zum Vorbild.",2:"Die Untertanenkultur allein fehlt die Beteiligung, sie ist nur ein Element der Civic Culture."}},
+ {q:"Was ist nach Almond/Verba das Vorbild für Demokratien?", o:["Die reine Participant Culture","Die Civic Culture als Mischtyp","Die reine Subject Culture"], a:1, ex:"Starke Beteiligung allein reicht nicht. Untertanenelemente sorgen für Folgebereitschaft und damit für Regierbarkeit.",
+  w:{0:"Überraschend nicht: Die reine Participant Culture wird nicht zum Vorbild.",2:"Der Untertanenkultur allein fehlt die Beteiligung. Sie ist nur ein Element der Civic Culture."}},
  {q:"Die junge Bundesrepublik gewann Legitimität durch wirtschaftlichen Erfolg. Welcher Weg in Lipsets Schema ist das?", o:["A → B","C → A","B → D"], a:1, ex:"Zuerst effektiv, aber noch nicht legitim (C). Dauerhafter Erfolg brachte Legitimität (A).",
   w:{0:"A → B wäre ein stabiles System, das in eine Effektivitätskrise gerät.",2:"B → D ist der Weg in den Zusammenbruch, wenn eine Krise zu lange dauert."}},
  {q:"Jemand ist mit der aktuellen Regierung unzufrieden, hält die Demokratie aber für die beste Staatsform. Was ist schwach, was stark?", o:["Diffuse Unterstützung schwach, spezifische stark","Spezifische Unterstützung schwach, diffuse stark","Beide schwach"], a:1, ex:"Spezifisch bezieht sich auf Leistungen und Personen, diffus auf das System an sich.",
   w:{0:"Genau umgekehrt: Die Kritik gilt den Autoritäten (spezifisch), die Bindung an die Demokratie ist diffus.",2:"Die Zustimmung zur Demokratie ist eine starke diffuse Unterstützung."}}
 ]},
-{id:"se1-11", t:"Der Policy-Zyklus", html:`${EMPF("Schneider/Janning (2006), Abschnitt 2.1")}
+{id:"se1-11", t:"Der Policy-Zyklus", html:`${EMPF("Schneider/Janning (2006), Abschnitt 2.1, S. 48–64")}
 <p>Gegenstand der Politikfeldanalyse ist die <b>inhaltliche Dimension</b>: Gesetze, Verordnungen, Programme, Einzelentscheidungen. Ausgangspunkt ist Eastons Input-Output-Schema. Daraus entsteht der <b>Policy-Zyklus</b>.</p>
 ${FIG_ZYKLUS}
 <h3>1. Problemdefinition und Agenda-Setting</h3>
 <ul><li>Ein Problem ist eine <b>Diskrepanz zwischen Ist und Soll</b> (Sjöblom). Es hat zwei Komponenten: <b>Norm und Faktizität</b>.</li>
 <li>Es muss von Akteuren <b>wahrgenommen</b> werden. Umweltschäden gab es lange, bevor sie ein politisches Problem wurden.</li>
 <li>Akteure handeln nur, wenn sie eine Änderung für denkbar halten, Mittel haben und Risiko eingehen. Probleme können auch verdrängt oder bewusst konserviert werden.</li>
-<li>Aufmerksamkeit ist <b>knapp</b>: Themen konkurrieren um die Agenda.</li>
+<li>Aufmerksamkeit ist <b>knapp</b>: Themen konkurrieren um die Agenda. Ob sich ein Thema durchsetzt, hängt auch von ihm selbst ab: Klarheit, gesellschaftliche Relevanz, Dringlichkeit, Komplexität, Neuheit, Wertgeladenheit.</li>
 <li>Themenkarrieren: innerhalb der Regierung, von außen über Gruppen und Öffentlichkeit, beides verknüpft, oder durch <b>internationale Politikdiffusion</b>.</li>
 <li>Ereignisse öffnen ein <b>policy window</b> (Kingdon): ein kurzes Gelegenheitsfenster. Wer es verpasst, muss warten. Was nie auf die Agenda kommt, ist eine <b>Nichtentscheidung</b> (Bachrach/Baratz).</li></ul>
 <h3>2. Programmformulierung</h3>
@@ -346,23 +362,24 @@ ${FIG_ZYKLUS}
 <li>In der Praxis fehlen klare Ziele und Wissen. Darum entstehen eher <b>inkrementalistische</b> Schritte (Lindblom), „zufriedenstellende“ Lösungen (Simon) oder <b>Imitation</b> fremder Lösungen.</li>
 <li>In Deutschland entstehen rund <b>80 Prozent</b> der Gesetzentwürfe in einem <b>Referat eines Bundesministeriums</b>. Das ist das strategische Stadium.</li></ul>
 <h3>3. Implementation</h3>
+<p>Ein Gesetz setzt sich nicht von selbst durch. Der Erfolg hängt von der <b>Akteurskonstellation</b> (Entscheider, Vollzugsträger, Adressaten) und den <b>Merkmalen des Programms</b> ab.</p>
 <table class="kvq"><tr><th colspan="2">Programmtypen nach Mayntz</th></tr>
 <tr><td><b>Regulativ</b></td><td>direkte Verhaltenssteuerung, hoher Kontrollaufwand, ruft Widerstand hervor</td></tr>
 <tr><td><b>Anreiz</b></td><td>motiviert positiv, wirkt indirekt, Mitnahmeeffekte</td></tr>
 <tr><td><b>Leistung</b></td><td>sichert ein Angebot, nicht dessen Nutzung, teuer</td></tr></table>
 <p>Je mehr Stellen beteiligt sind, desto geringer die Chance auf Umsetzung (Pressman/Wildavsky). Sind die Adressaten private Akteure, braucht es Kooperation. Droht der Staat nur zu regulieren, regeln Verbände manchmal selbst: <b>private Interessenregierung</b> (Streeck/Schmitter).</p>
 <h3>Evaluation und Terminierung</h3>
-<p>Wirkt das Programm? Ist es effizient? Danach wird es fortgesetzt, verändert oder beendet. Die Autoren sehen darin eine <b>Rückkopplung</b>, keine eigene Phase.</p>
-<div class="merk"><b>Kritik und Wert</b>Die Phasen überlappen, laufen parallel und auf mehreren Ebenen. Der Zyklus ist <b>kein Kausalmodell</b>, erklärt nicht, was den Prozess antreibt, und vernachlässigt Akteure und Lernen. Als <b>Heuristik</b> ist er aber unbestritten nützlich.</div>`,
+<p>Wirkt das Programm (Impact-Analyse)? Ist es effizient? Danach wird es fortgesetzt, verändert oder beendet (<b>Terminierung</b>). Die Autoren sehen darin eine <b>Rückkopplung</b>, keine eigene Phase.</p>
+<div class="merk"><b>Kritik und Wert</b>Die Phasen überlappen, laufen parallel und auf mehreren Ebenen. Die legalistische Sicht auf den Gesetzgeber vernachlässigt Akteure vor Ort. Der Zyklus ist <b>kein Kausalmodell</b>, erklärt nicht, was den Prozess antreibt, und vernachlässigt Akteure und Lernen. Als <b>Heuristik</b> ist er aber unbestritten nützlich.</div>`,
 check:[
- {q:"Was ist ein „policy window“ nach Kingdon?", o:["Ein dauerhaft offener Zugang von Verbänden zur Regierung","Ein kurzes Gelegenheitsfenster, in dem ein Problem Aufmerksamkeit bekommt","Die Phase der Evaluation"], a:1, ex:"Oft öffnet ein Ereignis wie ein Unfall oder eine Katastrophe das Fenster. Es bleibt nur kurz offen.",
+ {q:"Was ist ein „policy window“ nach Kingdon?", o:["Ein dauerhaft offener Zugang von Verbänden zur Regierung","Eine kurze Gelegenheit, ein Problem auf die Agenda zu bringen","Die Schlussphase, in der ein Programm bewertet wird"], a:1, ex:"Oft öffnet ein Ereignis wie ein Unfall oder eine Katastrophe das Fenster. Es bleibt nur kurz offen.",
   w:{0:"Dauerhafte Zugänge beschreiben eher Netzwerke. Das Policy-Fenster ist gerade kurz und selten.",2:"Evaluation kommt am Ende. Das Policy-Fenster gehört zum Agenda-Setting."}},
  {q:"Ein Staat zahlt eine Prämie für den Kauf von Elektroautos. Welcher Programmtyp ist das?", o:["Regulatives Programm","Anreizprogramm","Leistungsprogramm"], a:1, ex:"Positive Motivation, indirekte Wirkung. Typisches Vollzugsproblem: Mitnahmeeffekte, wer ohnehin gekauft hätte, nimmt die Prämie mit.",
   w:{0:"Regulativ wäre ein Verbot von Verbrennern: direkte Verhaltenssteuerung mit Sanktionen.",2:"Leistungsprogramm wäre etwa ein staatliches Angebot wie kostenloser Nahverkehr."}},
- {q:"Welche Kritik am Policy-Zyklus nennen Schneider/Janning?", o:["Er ist ein zu strenges Kausalmodell","Er ist kein Kausalmodell und erklärt nicht, was den Prozess von Phase zu Phase treibt","Er berücksichtigt nur das Parlament"], a:1, ex:"Deshalb taugt er als Heuristik, nicht als Theorie zum Testen von Hypothesen.",
-  w:{0:"Gerade nicht: Man kann aus ihm keine prüfbaren Hypothesen ableiten.",2:"Kritisiert wird eine legalistische Sicht auf den Gesetzgeber, aber nicht eine Beschränkung auf das Parlament."}}
+ {q:"Welche Kritik am Policy-Zyklus nennen Schneider/Janning?", o:["Er ist ein zu starres Kausalmodell mit festen Ursachen","Er ist kein Kausalmodell und erklärt nicht, was die Phasen antreibt","Er berücksichtigt nur das Parlament, nicht die Regierung"], a:1, ex:"Deshalb taugt er als Heuristik, nicht als Theorie zum Testen von Hypothesen.",
+  w:{0:"Gerade nicht: Er ist gar kein Kausalmodell, darum lassen sich aus ihm keine prüfbaren Hypothesen ableiten.",2:"Kritisiert wird eine legalistische Sicht auf den Gesetzgeber, aber nicht eine Beschränkung auf das Parlament."}}
 ]},
-{id:"se1-12", t:"Politikfelder, Akteure, Netzwerke", html:`${EMPF("Schneider/Janning (2006), Abschnitt 2.2")}
+{id:"se1-12", t:"Politikfelder, Akteure, Netzwerke", html:`${EMPF("Schneider/Janning (2006), Abschnitt 2.2, S. 64–75 (der Verlaufsplan nennt nur S. 48–64)")}
 <p>Strukturell betrachtet ist ein Politikfeld ein <b>Problemverarbeitungszusammenhang</b> und zugleich eine <b>Konfliktstruktur</b>.</p>
 <h3>Arten von Akteuren (Scharpf)</h3>
 <table class="kvq">
@@ -370,9 +387,10 @@ check:[
 <tr><td><b>Handlungsaggregate</b></td><td>Gruppe handelt gleichgerichtet, weil sie ähnliche Präferenzen hat</td></tr>
 <tr><td><b>Kollektive Akteure</b></td><td>Beteiligte handeln selbst, aber koordiniert: Allianzen, Clubs, Bewegungen, Verbände</td></tr>
 <tr><td><b>Korporative Akteure</b></td><td>Ressourcen werden in eine eigene Organisation gelegt, die stellvertretend handelt: Parteien, Gewerkschaften, Parlament, Regierung</td></tr></table>
+<p>Handlungsaggregate, kollektive und korporative Akteure fasst Scharpf als <b>komplexe Akteure</b> zusammen.</p>
 <p>Moderne Politik wird von <b>korporativen Akteuren</b> geprägt: Sie handeln dauerhaft, spezialisiert und arbeitsteilig. Sie entwickeln aber auch <b>Eigeninteressen</b>, etwa den Erhalt der Organisation. Individuen handeln meist als <b>Agenten</b> für Prinzipale.</p>
 <h3>Wer wirkt wo mit?</h3>
-<p><b>Almond</b> ordnete jeder Phase eine Hauptstruktur zu: Verbände artikulieren, Parteien bündeln, das Parlament formuliert, die Verwaltung setzt um. Das passt zu den USA, aber nicht zu Deutschland. Nach <b>Mayntz</b> wirken hier <b>Verbände</b> auch bei Zielen und Programmen mit, und <b>Regierung und Verwaltung</b> sind mehr als Vollzugsorgane.</p>
+<p><b>Almond</b> ordnete jeder Phase eine Hauptstruktur zu: Verbände artikulieren, Parteien bündeln, das Parlament formuliert, Regierung und Verwaltung setzen um, Gerichte überprüfen. Das Schema geht von den USA aus und passt nicht zu Deutschland. Nach <b>Mayntz</b> wirken hier <b>Verbände</b> auch bei Zielen und Programmen mit, und <b>Regierung und Verwaltung</b> sind mehr als Vollzugsorgane.</p>
 <h3>Konflikt, Netzwerk, Diskurs</h3>
 <ul><li><b>Lowi:</b> Regulative, distributive und redistributive Politik erzeugen unterschiedliche Konfliktarenen.</li>
 <li><b>Akteurkonstellation:</b> Positionen, Konflikte und Koalitionen der Akteure zueinander.</li>
@@ -383,9 +401,9 @@ check:[
 check:[
  {q:"Eine Gewerkschaft ist nach Scharpf ein …", o:["Handlungsaggregat","korporativer Akteur","Individuum"], a:1, ex:"Mitglieder legen Ressourcen in eine Organisation, die mit eigenem Personal stellvertretend handelt.",
   w:{0:"Ein Aggregat wäre etwa eine Menge von Autofahrern, die alle gleich reagieren, ohne Organisation.",2:"Die Gewerkschaft ist eine Organisation, keine Einzelperson."}},
- {q:"Warum passt Almonds Stufenmodell schlecht zu Deutschland?", o:["Weil es in Deutschland keine Verbände gibt","Weil Verbände auch an Zielen und Programmen mitwirken und Regierung und Verwaltung mehr als Vollzug leisten","Weil Deutschland ein präsidentielles System ist"], a:1, ex:"So Mayntz: In Deutschland überlappen die Funktionen stark.",
+ {q:"Warum passt Almonds Stufenmodell schlecht zu Deutschland?", o:["Weil es in Deutschland kaum einflussreiche Interessenverbände gibt","Weil Verbände auch Programme prägen und die Exekutive nicht nur vollzieht","Weil Deutschland ein präsidentielles Regierungssystem hat"], a:1, ex:"So Mayntz: Verbände wirken auch an Zielen und Programmen mit, Regierung und Verwaltung sind mehr als Vollzugsorgane. Die Funktionen überlappen stark.",
   w:{0:"Deutschland hat starke Verbände. Gerade deshalb passt das Modell nicht.",2:"Deutschland ist parlamentarisch. Das Problem ist die Arbeitsteilung der Akteure, nicht der Systemtyp."}},
- {q:"Was betont das Konzept der „issue networks“ nach Heclo?", o:["Netzwerke schließen schwache Interessen aus","Netzwerke öffnen Zugang für viele Akteure und liefern Sachverstand","Netzwerke ersetzen das Parlament"], a:1, ex:"Die Zusammenarbeit von Politik und Gruppen führt nicht zur Abschottung, sondern zu mehr Beteiligten.",
+ {q:"Was betont das Konzept der „issue networks“ nach Heclo?", o:["Netzwerke schließen schwache Interessen vom Entscheiden aus","Netzwerke öffnen Zugang für viele Akteure und liefern Sachverstand","Netzwerke ersetzen das Parlament als Ort der Entscheidung"], a:1, ex:"Die Zusammenarbeit von Politik und Gruppen führt nicht zur Abschottung, sondern zu mehr Beteiligten.",
   w:{0:"Heclo argumentiert das Gegenteil: Auch schwach organisierte Interessen gewinnen Einfluss.",2:"Davon ist keine Rede. Netzwerke ergänzen die formalen Entscheidungsorgane."}}
 ]}
 ];
@@ -414,14 +432,14 @@ CARDS[101]=[
  {id:"se1-c21", f:"Leitfragen der Politikfeldanalyse", b:"1. Was tun und lassen Regierungen?\n2. Wie organisieren sie ihre Tätigkeiten?\n3. Welche Folgen hat das für Form, Prozess und Inhalt der Politik?"},
  {id:"se1-c22", f:"Kommunikative Macht vs. Medienmacht", b:"Kommunikative Macht: braucht der Akteur, um Mehrheiten zu sichern und Sach- und Machtfragen zu verbinden.\nMedienmacht: oft eine „als-ob-Macht“, wirkt, weil alle sie unterstellen."},
  {id:"se1-c23", f:"Direkte vs. indirekte Medieneinflüsse", b:"Direkt: Agenda-Setting, Stimmungen verstärken, politisches Marketing\nIndirekt: Politik passt sich Selektions- und Präsentationslogik an, Folge „politics without policy“"},
- {id:"se1-c24", f:"Steffani: Primär- und Sekundärmerkmale", b:"Primär: politische Abberufbarkeit der Regierung durch das Parlament\nSekundär: Amt und Mandat vereinbar, Rücktritt der ganzen Regierung, Auflösungsrecht, starke Fraktionsdisziplin"},
+ {id:"se1-c24", f:"Steffani: Primär- und Sekundärmerkmale", b:"Primär (definiert den Typ): politische Abberufbarkeit der Regierung durch das Parlament\nSupplementär (prägt nur), parlamentarisch: Amt und Mandat vereinbar, Rücktrittspflicht der ganzen Regierung, Auflösungsrecht, starke Fraktionsdisziplin"},
  {id:"se1-c25", f:"Semi-Präsidentialismus nach Duverger", b:"1. direkt gewählter Präsident\n2. mit beträchtlichen Befugnissen\n3. Premier und Regierung abhängig vom Vertrauen des Parlaments"},
  {id:"se1-c26", f:"Shugart/Carey: fünf Typen mit Beispiel", b:"Präsidentiell: USA\nPräsident-parlamentarisch: Russland\nPremier-präsidentiell: Frankreich\nParlamentarisch: Großbritannien\nVersammlungsunabhängig: Schweiz"},
  {id:"se1-c27", f:"Linz: Gefahren des Präsidentialismus", b:"1. Rigidität bei divided government\n2. zwei konkurrierende demokratische Legitimationen\n3. Winner-takes-all fördert Kooperationsfeindlichkeit\nNeuere Forschung relativiert das."},
  {id:"se1-c28", f:"Lijphart: zwei Dimensionen", b:"Exekutive-Parteien: Parteiensystem, Kabinette, Exekutivdominanz, Wahlsystem, Verbände\nFöderalismus-Unitarismus: Staatsaufbau, zweite Kammer, Verfassungsrigidität, judicial review, Zentralbank"},
  {id:"se1-c29", f:"Deutschland bei Lijphart", b:"**Föderale Konsensdemokratie**: konsensual in beiden Dimensionen.\nDer Demokratietyp liegt quer zum Regierungssystem: UK und Deutschland sind beide parlamentarisch, aber gegensätzlich."},
  {id:"se1-c30", f:"Vetospieler nach Tsebelis", b:"Akteure, deren Zustimmung für einen Politikwechsel nötig ist.\nInstitutionell: in der Verfassung (z. B. zweite Kammer)\nParteipolitisch: im Prozess (z. B. Koalitionspartner)"},
- {id:"se1-c31", f:"Wann ist Politikwechsel wahrscheinlich? (Tsebelis)", b:"- wenige Vetospieler\n- geringe programmatische Distanz\nAbsorptionsregel: entscheidend ist der Abstand der am weitesten entfernten Spieler."},
+ {id:"se1-c31", f:"Wann ist Politikwechsel wahrscheinlich? (Tsebelis)", b:"- wenige Vetospieler\n- geringe programmatische Distanz (Kongruenz)\nAuch ihre Geschlossenheit (Kohäsion) zählt.\nAbsorptionsregel: entscheidend ist der Abstand der am weitesten entfernten Spieler."},
  {id:"se1-c32", f:"Realtypus vs. Idealtypus", b:"Bildung: historischer Fall als Muster / Leitidee zugespitzt entfaltet (Weber)\nProblem: Zeitpunkt, Widersprüche des Falls / Fall muss nicht deckungsgleich sein"},
  {id:"se1-c33", f:"Politische Kultur (Pickel/Pickel)", b:"Die auf politische Objekte gerichteten Einstellungen und Wertorientierungen der Bürger, als Kollektiv.\nAnalytisch, nicht wertend. Stabilität durch Kongruenz von Kultur und Struktur."},
  {id:"se1-c34", f:"Almond/Verba: Typen politischer Kultur", b:"Parochial: kein Bezug zum System\nSubject: bewertet Outputs, sieht sich nicht als Akteur\nParticipant: Wissen und Beteiligung\nCivic Culture: Mischtyp, Vorbild für Demokratien"},

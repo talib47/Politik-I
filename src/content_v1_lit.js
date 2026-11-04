@@ -25,7 +25,7 @@ LESSONS[1].push(
 check:[
  {q:"Welche Aussage ist normativ?", o:["„Wenn eine Regierung das Vertrauen verliert, wird ihr Sturz wahrscheinlich.“","„Es ist gut, wenn es in einem Staat Opposition gibt.“","„Die Sowjetunion zerfiel, weil …“"], a:1, ex:"Ein Werturteil ist normativ. Die anderen beiden sind eine Zusammenhangsaussage und eine Erklärung, also empirisch."},
  {q:"Normative Aussagen sind laut Patzelt …", o:["wahr oder falsch","normativ brauchbar oder unbrauchbar","grundsätzlich unwissenschaftlich"], a:1, ex:"Werturteile kann man nicht empirisch beweisen, aber gut oder schlecht begründen."},
- {q:"Das Alltagsdenken ist „unreflektiert perspektivisch“ heißt:", o:["Man vergisst das meiste","Man sieht von seinem Standort aus, ohne das zu bedenken","Man widerspricht sich logisch"], a:1, ex:"Perspektivität: Jeder Blick hat einen Standort. Vergessen gehört zur Selektivität."}
+ {q:"Das Alltagsdenken ist „unreflektiert perspektivisch“ heißt:", o:["Man vergisst das meiste, was man im Alltag erlebt","Man sieht von seinem Standort aus, ohne das zu bedenken","Man widerspricht sich in seinen Aussagen logisch"], a:1, ex:"Perspektivität: Jeder Blick hat einen Standort. Vergessen gehört zur Selektivität."}
 ]},
 {id:"v1-10", t:"Regierung, Regime, Staat, Regierungssystem", html:`
 <p>${LIT("Merkel 2013, Lauth 2015")} Vier Begriffe, die oft verwechselt werden. Merkel ordnet sie nach ihrer Reichweite und Dauer.</p>
@@ -40,7 +40,7 @@ check:[
 <p>Lauth betont außerdem: Jedes Regime setzt einen <b>Staat</b> mit Gewaltmonopol voraus. Bei fragiler Staatlichkeit lassen sich die Typologien nur eingeschränkt anwenden.</p>`,
 check:[
  {q:"Was ändert sich bei einem Regimewechsel laut Merkel typischerweise nicht?", o:["Die Regeln des Zugangs zur Macht","Staatsgebiet, Staatsvolk und Staatsgewalt","Die Art, wie Herrschaft legitimiert wird"], a:1, ex:"Der Staat bleibt, das Regime, also die Regeln der Herrschaft, wird neu definiert."},
- {q:"Parlamentarische und präsidentielle Demokratie sind bei Lauth …", o:["zwei verschiedene Regime","zwei Regierungssysteme innerhalb des Regimes Demokratie","Formen defekter Demokratie"], a:1, ex:"Beide erfüllen die Merkmale der Demokratie voll, sie unterscheiden sich im Institutionendesign."}
+ {q:"Parlamentarische und präsidentielle Demokratie sind bei Lauth …", o:["zwei verschiedene Regime mit eigener Herrschaftslogik","zwei Regierungssysteme innerhalb des Regimes Demokratie","zwei Formen defekter Demokratie nach Merkel"], a:1, ex:"Beide erfüllen die Merkmale der Demokratie voll, sie unterscheiden sich im Institutionendesign."}
 ]},
 {id:"v1-11", t:"Zwei, drei oder stufenlos? Typologien und Grauzonen", html:`
 <p>${LIT("Merkel 2013, Lauth 2015")} Die Folie zeigt Lauths Kontinuum. Merkel diskutiert, warum es überhaupt verschiedene Einteilungen gibt.</p>
@@ -62,8 +62,8 @@ check:[
 <h3>Demokratie messen</h3>
 <p>Einfache Messungen nutzen wenige Indikatoren (Vanhanen: Wettbewerb und Beteiligung nach Dahl). Komplexe Messungen wie <b>Freedom House</b> (rund 100 Indikatoren), der <b>Bertelsmann Transformationsindex</b> oder <b>V-Dem</b> (über 3000 Länderexperten) erfassen auch die Qualität. Gemessen wird graduell, darum braucht es begründete Schwellenwerte, um Typen zu bilden.</p>`,
 check:[
- {q:"Was meint Merkel mit dem „Schwellenproblem“?", o:["Dass manche Staaten keine Wahlen abhalten","Dass sich die Grenze zwischen Demokratie und Autokratie nicht exakt bestimmen lässt","Dass Demokratien zu langsam entscheiden"], a:1, ex:"Wo genau Demokratie aufhört und Diktatur beginnt, ist theoretisch nicht präzise gelöst."},
- {q:"Eine defekte Demokratie ist bei Lauth …", o:["ein hybrides Regime","ein verminderter Subtyp der Demokratie","eine Form des Autoritarismus"], a:1, ex:"Alle Merkmale der Demokratie sind da, einige nur eingeschränkt. Hybride Regime mischen dagegen Merkmale verschiedener Regimetypen."},
+ {q:"Was meint Merkel mit dem „Schwellenproblem“?", o:["Dass manche Staaten zwar eine Verfassung haben, aber keine Wahlen abhalten","Dass sich die Grenze zwischen Demokratie und Autokratie nicht exakt bestimmen lässt","Dass Demokratien in schweren Krisen zu langsam und zu zögerlich entscheiden"], a:1, ex:"Wo genau Demokratie aufhört und Diktatur beginnt, ist theoretisch nicht präzise gelöst."},
+ {q:"Eine defekte Demokratie ist bei Lauth …", o:["ein eigener hybrider Regimetyp","ein verminderter Subtyp der Demokratie","eine milde Form des Autoritarismus"], a:1, ex:"Alle Merkmale der Demokratie sind da, einige nur eingeschränkt. Hybride Regime mischen dagegen Merkmale verschiedener Regimetypen."},
  {q:"Freedom House teilt Länder ein in …", o:["democracy, anocracy, autocracy","free, partly free, not free","embedded, defective, authoritarian"], a:1, ex:"Die Dreiteilung democracy, anocracy, autocracy stammt von Polity IV."}
 ]},
 {id:"v1-12", t:"Patzelts Merkmalsraum: Systeme einordnen", html:`
@@ -111,7 +111,7 @@ check:[
 <div class="litbox"><b>Lauth ergänzt</b>Weitere Leitbilder: Rätedemokratie (imperatives Mandat, Ämterrotation), Konstitutionalismus (Machtbegrenzung, Loewenstein), soziale Demokratie (Demokratie auch in Betrieben und Schulen oder als Erzeugung sozialer Gerechtigkeit), partizipatorische und deliberative Demokratie (Barber). Auch Volkssouveränität heißt nicht unbegrenzte Herrschaft: Menschenrechte stehen nicht zur Disposition der Mehrheit.</div>`,
 check:[
  {q:"Für welches Modell sind Wahlen die Demokratie selbst?", o:["minimalistisch","prozedural","maximalistisch"], a:0, ex:"Schumpeters Modell beschränkt Demokratie bewusst auf den Wettbewerb um Stimmen."},
- {q:"Warum nimmt Merkel den Output nicht in die Demokratiedefinition auf?", o:["Weil Ergebnisse unwichtig sind","Weil auch Diktaturen solche Leistungen erbringen können","Weil Output nicht messbar ist"], a:1, ex:"Wachstum oder Gleichheit sind nicht demokratiespezifisch. Für die Stabilität bleibt der Output trotzdem wichtig."},
+ {q:"Warum nimmt Merkel den Output nicht in die Demokratiedefinition auf?", o:["Weil Ergebnisse für die Bürger unwichtig sind","Weil auch Diktaturen solche Leistungen erbringen können","Weil sich Output grundsätzlich nicht messen lässt"], a:1, ex:"Wachstum oder Gleichheit sind nicht demokratiespezifisch. Für die Stabilität bleibt der Output trotzdem wichtig."},
  {q:"Zu welchem Modell gehört die Embedded Democracy?", o:["minimalistisch","mittel, prozedural","maximalistisch"], a:1, ex:"Sie geht über Wahlen hinaus (Rechtsstaat, Gewaltenkontrolle), nimmt aber keine Politikergebnisse in die Definition auf."}
 ]},
 {id:"v1-14", t:"Autokratien: Typen und warum sie überleben", html:`
@@ -135,7 +135,7 @@ check:[
 check:[
  {q:"Welcher Autokratietyp ist laut Geddes am langlebigsten?", o:["Militärregime","Personalistische Regime","Einparteienregime"], a:2, ex:"Rund 23 Jahre im Schnitt, weil institutionalisierte Verfahren interne Konflikte auffangen."},
  {q:"Welche drei Säulen tragen autokratische Herrschaft im WZB-Modell?", o:["Legitimation, Repression, Kooptation","Wahlen, Medien, Militär","Ideologie, Partei, Führer"], a:0, ex:"Legitimation, Repression und Kooptation. Risse in einer Säule können die anderen überlasten."},
- {q:"Was ist elektoraler Autoritarismus?", o:["Eine defekte Demokratie mit freien Wahlen","Eine Autokratie mit manipulierten semipluralistischen Wahlen","Ein totalitäres Regime mit 99-Prozent-Wahlen"], a:1, ex:"Wahlen als demokratischer Anstrich, aber manipuliert. Heute der häufigste Autokratietyp."}
+ {q:"Was ist elektoraler Autoritarismus?", o:["Eine defekte Demokratie mit freien, aber unfairen Wahlen","Eine Autokratie mit manipulierten semipluralistischen Wahlen","Ein totalitäres Regime mit Einheitslisten und 99-Prozent-Wahlen"], a:1, ex:"Wahlen als demokratischer Anstrich, aber manipuliert. Heute der häufigste Autokratietyp."}
 ]}
 );
 /* Reihenfolge der Lektionen von Sitzung 1 */
