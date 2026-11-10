@@ -279,3 +279,5 @@ body.fbon .etop{top:calc(52px + env(safe-area-inset-top,0px))}
 .klist{grid-template-columns:fit-content(40%) minmax(0,1fr)}
 .hint,.card .tap{opacity:1}
 .upl>summary{min-height:44px;display:flex;align-items:center}
+.upl .upl-sub{font-size:.8125rem;font-weight:600;color:var(--muted);margin:16px 0 6px}
+.upl .upl-how{margin:14px 0 0}

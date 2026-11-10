@@ -34,6 +34,7 @@ Live jeweils unter `https://talib47.github.io/<Repo>/`.
 8. **Prüfungstermine:** nur aus den Unterlagen (Folie, Verlaufsplan, Moodle). Steht ein Termin nicht sicher fest, gilt der **Stichtag 31.01.** des Semesters: Bis dahin soll alles sitzen. Die App zeigt das als Annahme („Stichtag“) und rechnet Abstände und Probeklausuren danach. Trägt Talib einen Termin ein, gilt seiner. Sobald ein Termin in Unterlagen auftaucht, als Standard eintragen und die Tabelle oben anpassen.
 9. **Ton:** Deutsch, kurz, fürs Handy. Nachname immer „Gündoğdu“.
 10. **Prüfauftrag:** Schreibt Talib „Prüfauftrag“ (mit App und Umfang), gilt `PRUEFAUFTRAG.md` im Repo, wortgleich in allen vier Repos.
+11. **„Update“:** Schreibt Talib im Projekt eines Fachs nur „Update“, vergleicht Claude die Dateien im claude.ai-Projekt mit `UPLOADS` der App, baut alles Neue ein (Lektionen, Karten, Fragen, `UPLOADS`), prüft, pflegt die Brücke und pusht, ohne Rückfrage. Antwort fürs Handy: je neuer Sitzung eine Zeile, dazu, was laut Block „Unterlagen“ noch fehlt. Pro Update-Runde ein neuer Chat im Projekt des Fachs, denn lange Chats kosten mehr Kontingent.
 
 ### Aufbau jeder App (fester Platz für alles)
 
@@ -46,7 +47,7 @@ Damit nichts wandert: Jede Funktion hat in allen Apps denselben Platz. Wer etwas
 **Lernpfad bzw. Übersicht, von oben nach unten:**
 1. Umschalter (falls zwei Hälften)
 2. Titel der Veranstaltung
-3. Hochgeladen-Übersicht (eine Zeile, aufklappbar)
+3. Unterlagen (eine Zeile: was fehlt bzw. „alles da“; aufklappbar mit „Noch hochladen“, „So geht’s“ und „Schon drin“)
 4. Heute: Lerneinheit
 5. Nochmal anschauen (als unklar markiert)
 6. Als Nächstes
@@ -102,6 +103,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Karten wischen, eine zurück | ✓ | ✓ | ✓ | ✓ |
 | Geräte-Abgleich unter Statistik | ✓ | ✓ | ✓ | ✓ |
 | Hochgeladen-Übersicht je Hälfte, nach Sitzung/Block | ✓ | ✓ | ✓ | ✓ |
+| Unterlagen: was fehlt, So geht’s mit „Update“ (`uploadsTodo` in `status.js`, `APP.expect` in `appcfg.js`) | ○ | ✓ | ○ | ○ |
 | Erledigt-Liste unter Statistik | ✓ | ✓ | ✓ | ✓ |
 | Motivationssatz unter der Wochenübersicht | ✓ | ✓ | ✓ | ✓ |
 | Claude-Brücke (diese Datei + Block unter Statistik) | ✓ | ✓ | ✓ | ✓ |
@@ -124,6 +126,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-10 · Politik I · Projekt Politik I · Block „Unterlagen“ als Muster: oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Seminartexte 7 Tage vorher, mit Dateinamen laut Verlaufsplan), „So geht’s“ in einem Satz (ins Projekt laden, neuer Chat, „Update“), darunter „Schon drin“; Regel 11 „Update“ · Talib verliert den Überblick, was er wo hochladen und in welchem Chat er Bescheid geben muss
 - 2026-11-10 · Politik I · Projekt Politik I · Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin · Moodle-Zuteilung nach der Abstimmung bis 04.11.
 - 2026-11-04 · Politik I · Projekt Politik I · Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten · Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit
 - 2026-11-04 · alle · Projekt Politik I · `PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat · Talib: Das Limit wurde ständig erreicht

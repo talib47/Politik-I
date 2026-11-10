@@ -24,6 +24,7 @@ function upDate(u){ if(u.date!=null) return u.date; const c=u.ch!=null?APP.chap(
 function upState(u){ if(!u.known) return {cls:"unk", txt:"Umfang unbekannt"}; const m=u.items.filter(x=>!x.ok).length; return m?{cls:"part", txt:`${u.items.length-m} von ${u.items.length}`}:{cls:"full", txt:"vollständig"}; }
 function uploadsBlock(){
   const L=UPLOADS.filter(u=>!APP.halves||u.c===state.course).sort((a,b)=>upOrder(a)-upOrder(b));
+  if(APP.expect) return uploadsTodo(L);
   const U=L.filter(u=>!u.base); if(!L.length) return "";
   const last=U[U.length-1], ls=last?upState(last):null;
   return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">${last?`bis ${upName(last)} · <span class="upst ${ls.cls}">${ls.txt}</span>`:"nur Grundlagen"}</span></summary>
@@ -32,6 +33,24 @@ function uploadsBlock(){
         <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span><span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</span></li>`).join("")}</ul>
         <p class="upl-src small muted">${u.known?`Umfang laut ${u.src}.`:`Den Überblick, was alles zu ${u.base?"den Grundlagen":upName(u)} gehört, habe ich noch nicht gesehen. Schick mir dazu den Moodle-Screenshot.`}</p></div>`; }).join("")}
     ${last?`<p class="small muted" style="margin:8px 0 0">Alles nach ${upName(last)} fehlt noch im Projekt.</p>`:""}</details>`;
+}
+
+
+/* Unterlagen (Muster Politik I, 10.11.2026): oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Texte schon
+   7 Tage vorher), dann in zwei Schritten, wie hochladen, darunter, was schon drin ist. Braucht APP.expect(hälfte) mit
+   [{ch, label, date, ts, items:[…], pre}] (pre: Unterlagen gibt es schon vor dem Termin, etwa Texte in Moodle). */
+function uploadsTodo(L){
+  const now=Date.now(), have=new Set(L.filter(u=>!u.base).map(u=>u.ch)), U=L.filter(u=>!u.base);
+  const E=APP.expect(APP.halves?state.course:null)||[];
+  const miss=E.filter(e=>!have.has(e.ch)&&(e.ts<=now||(e.pre&&e.ts-7*864e5<=now))), late=miss.filter(e=>e.ts<=now);
+  const head=miss.length?`<span class="upst ${late.length?"part":"unk"}">${late.length?(late.length===1?"1 fehlt":late.length+" fehlen"):"bald"}</span> ${miss.map(e=>e.label).join(", ")}`
+    :`<span class="upst full">alles da</span>${U.length?" bis "+upName(U[U.length-1]):""}`;
+  return `<details class="block upl"${late.length?" open":""}><summary><span class="eyebrow" style="margin:0">Unterlagen</span><span class="upl-last">${head}</span></summary>
+    ${miss.length?`<p class="upl-sub">Noch hochladen</p><ul class="upl-i">${miss.map(e=>`<li class="miss"><span aria-hidden="true">○</span><span><b>${e.label}</b> <span class="muted">${e.date}${e.ts>now?", bald":""}</span><br>${e.items.join(" · ")}</span></li>`).join("")}</ul>`:""}
+    <p class="small upl-how"><b>So geht’s:</b> Dateien ins claude.ai-Projekt „${APP.project||APP.name}“ laden, dort einen neuen Chat öffnen und <b>Update</b> schreiben. Den Rest mache ich.</p>
+    ${U.length?`<p class="upl-sub">Schon drin</p>`+L.map(u=>{ const st=upState(u);
+      return `<div class="upl-u"><p class="upl-h"><b>${upName(u)}</b><span class="muted">${upDate(u)}</span><span class="upst ${st.cls}">${st.txt}</span></p>
+        <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span><span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</span></li>`).join("")}</ul></div>`; }).join(""):""}</details>`;
 }
 
 function todoBlock(){

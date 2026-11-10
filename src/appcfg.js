@@ -7,6 +7,13 @@ const APP={
  unit:u=>u.c==="se"?"Block":"Sitzung",
  unitNo:c=>c.c==="se"?(ROM[c.no]||c.no):c.no,
  examTs:()=>examDateTs(),                       /* Prüfungstermin der gewählten Hälfte */
+ project:"Politik I",                           /* Name des claude.ai-Projekts für „Update“ */
+ /* Erwartete Unterlagen je Sitzung bzw. Block (Vorlesungsplan, Verlaufsplan online_03): Folien nach der Vorlesung,
+    Seminartexte liegen schon vorher in Moodle */
+ expect:c=>{ const SE={2:"Mielke 2013",3:"Schuett-Wetschky 2005",4:"von Beyme/Busch 2023",5:"Schimmelfennig 2024",6:"Weidenfeld 2021",7:"Lippert 2020",8:"Niemann/Junne 2011",9:"Abels 2020"};
+   const ts=d=>{ const [t,m]=d.split(".").map(Number); return new Date(m>=8?2026:2027,m-1,t,c==="vl"?16:8).getTime(); };
+   return CHAPTERS.filter(x=>x.c===c&&x.date).map(x=>({ch:x.n, label:(c==="se"?"Block "+(ROM[x.no]||x.no):"Sitzung "+x.no), date:x.date, ts:ts(x.date), pre:c==="se",
+     items:c==="se"?["Textgrundlage "+(SE[x.no]||""),"Literaturempfehlungen","Moodle-Screenshot des Blocks"]:["Folien","Lektüre laut Folie"]})); },
  focus:{                                        /* Lernmodus ohne Ablenkung (status.js) */
   views:["cards","recall","who","kreuz","essay","exam","outline","dump"],
   prog:()=>{ const P={cards:()=>cur.deck&&{i:cur.ci,n:cur.deck.length}, recall:()=>cur.rq&&{i:cur.rq.i,n:cur.rq.list.length},

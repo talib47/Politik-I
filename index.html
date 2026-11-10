@@ -684,6 +684,8 @@ body.fbon .etop{top:calc(52px + env(safe-area-inset-top,0px))}
 .klist{grid-template-columns:fit-content(40%) minmax(0,1fr)}
 .hint,.card .tap{opacity:1}
 .upl>summary{min-height:44px;display:flex;align-items:center}
+.upl .upl-sub{font-size:.8125rem;font-weight:600;color:var(--muted);margin:16px 0 6px}
+.upl .upl-how{margin:14px 0 0}
 </style>
 <style>:root{padding-top:env(safe-area-inset-top,0px)}</style>
 </head>
@@ -1757,6 +1759,13 @@ const APP={
  unit:u=>u.c==="se"?"Block":"Sitzung",
  unitNo:c=>c.c==="se"?(ROM[c.no]||c.no):c.no,
  examTs:()=>examDateTs(),                       /* Prüfungstermin der gewählten Hälfte */
+ project:"Politik I",                           /* Name des claude.ai-Projekts für „Update“ */
+ /* Erwartete Unterlagen je Sitzung bzw. Block (Vorlesungsplan, Verlaufsplan online_03): Folien nach der Vorlesung,
+    Seminartexte liegen schon vorher in Moodle */
+ expect:c=>{ const SE={2:"Mielke 2013",3:"Schuett-Wetschky 2005",4:"von Beyme/Busch 2023",5:"Schimmelfennig 2024",6:"Weidenfeld 2021",7:"Lippert 2020",8:"Niemann/Junne 2011",9:"Abels 2020"};
+   const ts=d=>{ const [t,m]=d.split(".").map(Number); return new Date(m>=8?2026:2027,m-1,t,c==="vl"?16:8).getTime(); };
+   return CHAPTERS.filter(x=>x.c===c&&x.date).map(x=>({ch:x.n, label:(c==="se"?"Block "+(ROM[x.no]||x.no):"Sitzung "+x.no), date:x.date, ts:ts(x.date), pre:c==="se",
+     items:c==="se"?["Textgrundlage "+(SE[x.no]||""),"Literaturempfehlungen","Moodle-Screenshot des Blocks"]:["Folien","Lektüre laut Folie"]})); },
  focus:{                                        /* Lernmodus ohne Ablenkung (status.js) */
   views:["cards","recall","who","kreuz","essay","exam","outline","dump"],
   prog:()=>{ const P={cards:()=>cur.deck&&{i:cur.ci,n:cur.deck.length}, recall:()=>cur.rq&&{i:cur.rq.i,n:cur.rq.list.length},
@@ -1797,7 +1806,7 @@ const APP={
       known:false = nur bekannt, dass das Hochgeladene dazugehört.
    2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
    3. Motivationssatz unter der Wochenübersicht.
-   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-10", "a": "Politik I", "w": "Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin", "y": "Moodle-Zuteilung nach der Abstimmung bis 04.11."}, {"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}]).
+   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-10", "a": "Politik I", "w": "Block „Unterlagen“ als Muster: oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Seminartexte 7 Tage vorher, mit Dateinamen laut Verlaufsplan), „So geht’s“ in einem Satz (ins Projekt laden, neuer Chat, „Update“), darunter „Schon drin“; Regel 11 „Update“", "y": "Talib verliert den Überblick, was er wo hochladen und in welchem Chat er Bescheid geben muss"}, {"d": "2026-11-10", "a": "Politik I", "w": "Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin", "y": "Moodle-Zuteilung nach der Abstimmung bis 04.11."}, {"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}]).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
    6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
    7. Lernmodus ohne Ablenkung (focusBar): Ansichten aus APP.focus.views und die ganze Tageseinheit blenden Tableiste und „Aa“ aus.
@@ -1810,6 +1819,7 @@ function upDate(u){ if(u.date!=null) return u.date; const c=u.ch!=null?APP.chap(
 function upState(u){ if(!u.known) return {cls:"unk", txt:"Umfang unbekannt"}; const m=u.items.filter(x=>!x.ok).length; return m?{cls:"part", txt:`${u.items.length-m} von ${u.items.length}`}:{cls:"full", txt:"vollständig"}; }
 function uploadsBlock(){
   const L=UPLOADS.filter(u=>!APP.halves||u.c===state.course).sort((a,b)=>upOrder(a)-upOrder(b));
+  if(APP.expect) return uploadsTodo(L);
   const U=L.filter(u=>!u.base); if(!L.length) return "";
   const last=U[U.length-1], ls=last?upState(last):null;
   return `<details class="block upl"><summary><span class="eyebrow" style="margin:0">Hochgeladen</span><span class="upl-last">${last?`bis ${upName(last)} · <span class="upst ${ls.cls}">${ls.txt}</span>`:"nur Grundlagen"}</span></summary>
@@ -1818,6 +1828,24 @@ function uploadsBlock(){
         <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span><span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</span></li>`).join("")}</ul>
         <p class="upl-src small muted">${u.known?`Umfang laut ${u.src}.`:`Den Überblick, was alles zu ${u.base?"den Grundlagen":upName(u)} gehört, habe ich noch nicht gesehen. Schick mir dazu den Moodle-Screenshot.`}</p></div>`; }).join("")}
     ${last?`<p class="small muted" style="margin:8px 0 0">Alles nach ${upName(last)} fehlt noch im Projekt.</p>`:""}</details>`;
+}
+
+
+/* Unterlagen (Muster Politik I, 10.11.2026): oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Texte schon
+   7 Tage vorher), dann in zwei Schritten, wie hochladen, darunter, was schon drin ist. Braucht APP.expect(hälfte) mit
+   [{ch, label, date, ts, items:[…], pre}] (pre: Unterlagen gibt es schon vor dem Termin, etwa Texte in Moodle). */
+function uploadsTodo(L){
+  const now=Date.now(), have=new Set(L.filter(u=>!u.base).map(u=>u.ch)), U=L.filter(u=>!u.base);
+  const E=APP.expect(APP.halves?state.course:null)||[];
+  const miss=E.filter(e=>!have.has(e.ch)&&(e.ts<=now||(e.pre&&e.ts-7*864e5<=now))), late=miss.filter(e=>e.ts<=now);
+  const head=miss.length?`<span class="upst ${late.length?"part":"unk"}">${late.length?(late.length===1?"1 fehlt":late.length+" fehlen"):"bald"}</span> ${miss.map(e=>e.label).join(", ")}`
+    :`<span class="upst full">alles da</span>${U.length?" bis "+upName(U[U.length-1]):""}`;
+  return `<details class="block upl"${late.length?" open":""}><summary><span class="eyebrow" style="margin:0">Unterlagen</span><span class="upl-last">${head}</span></summary>
+    ${miss.length?`<p class="upl-sub">Noch hochladen</p><ul class="upl-i">${miss.map(e=>`<li class="miss"><span aria-hidden="true">○</span><span><b>${e.label}</b> <span class="muted">${e.date}${e.ts>now?", bald":""}</span><br>${e.items.join(" · ")}</span></li>`).join("")}</ul>`:""}
+    <p class="small upl-how"><b>So geht’s:</b> Dateien ins claude.ai-Projekt „${APP.project||APP.name}“ laden, dort einen neuen Chat öffnen und <b>Update</b> schreiben. Den Rest mache ich.</p>
+    ${U.length?`<p class="upl-sub">Schon drin</p>`+L.map(u=>{ const st=upState(u);
+      return `<div class="upl-u"><p class="upl-h"><b>${upName(u)}</b><span class="muted">${upDate(u)}</span><span class="upst ${st.cls}">${st.txt}</span></p>
+        <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span><span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</span></li>`).join("")}</ul></div>`; }).join(""):""}</details>`;
 }
 
 function todoBlock(){
@@ -1881,7 +1909,7 @@ document.addEventListener("keydown",e=>{ if(e.key!=="Escape"||!document.body.cla
   const a=document.activeElement; if(a&&/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)) return; const x=document.getElementById("fx"); if(x){ e.preventDefault(); x.click(); } });
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
-const BRUECKE=[{"d": "2026-11-10", "a": "Politik I", "w": "Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin", "y": "Moodle-Zuteilung nach der Abstimmung bis 04.11."}, {"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}];
+const BRUECKE=[{"d": "2026-11-10", "a": "Politik I", "w": "Block „Unterlagen“ als Muster: oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Seminartexte 7 Tage vorher, mit Dateinamen laut Verlaufsplan), „So geht’s“ in einem Satz (ins Projekt laden, neuer Chat, „Update“), darunter „Schon drin“; Regel 11 „Update“", "y": "Talib verliert den Überblick, was er wo hochladen und in welchem Chat er Bescheid geben muss"}, {"d": "2026-11-10", "a": "Politik I", "w": "Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin", "y": "Moodle-Zuteilung nach der Abstimmung bis 04.11."}, {"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}];
 function bridgeBlock(){
   if(!BRUECKE.length) return "";
   const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
@@ -3822,7 +3850,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="cb1e8a03e9c1", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="f027db07b7c7", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }
