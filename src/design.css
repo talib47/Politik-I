@@ -281,3 +281,4 @@ body.fbon .etop{top:calc(52px + env(safe-area-inset-top,0px))}
 .upl>summary{min-height:44px;display:flex;align-items:center}
 .upl .upl-sub{font-size:.8125rem;font-weight:600;color:var(--muted);margin:16px 0 6px}
 .upl .upl-how{margin:14px 0 0}
+.upl .upl-go{margin:12px 0 0;width:100%}

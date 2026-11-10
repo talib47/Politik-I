@@ -8,6 +8,7 @@ const APP={
  unitNo:c=>c.c==="se"?(ROM[c.no]||c.no):c.no,
  examTs:()=>examDateTs(),                       /* Prüfungstermin der gewählten Hälfte */
  project:"Politik I",                           /* Name des claude.ai-Projekts für „Update“ */
+ projectUrl:"https://claude.ai/project/01a140f2-0f81-7602-94ae-b8e2f64fd69c",
  /* Erwartete Unterlagen je Sitzung bzw. Block (Vorlesungsplan, Verlaufsplan online_03): Folien nach der Vorlesung,
     Seminartexte liegen schon vorher in Moodle */
  expect:c=>{ const SE={2:"Mielke 2013",3:"Schuett-Wetschky 2005",4:"von Beyme/Busch 2023",5:"Schimmelfennig 2024",6:"Weidenfeld 2021",7:"Lippert 2020",8:"Niemann/Junne 2011",9:"Abels 2020"};
