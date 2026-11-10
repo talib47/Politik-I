@@ -41,9 +41,9 @@ const W1={
  "v1-13#2":{0:"Minimalistisch wäre nur das Wahlregime. Embedded Democracy hat fünf Teilregime.",2:"Merkel nimmt Politikergebnisse wie soziale Gerechtigkeit ausdrücklich nicht in die Definition auf."},
  "v1-8#0":{0:"Die Marktwirtschaft ist nicht Teil des Modells. Ökonomische Voraussetzungen gehören nur zum äußeren Ring.",2:"Mehrebenen geht es hier nicht. Gemeint sind Teilregime innen und Umfeld außen."},
  "v1-8#1":{0:"Die effektive Regierungsgewalt ist Teilregime E, eines der vier um das Zentrum.",2:"Bürgerliche Rechte sind Teilregime C, auch ein äußeres Teilregime."},
- "v1-8#2":{0:"Das Wahlregime betrifft das Wahlrecht und faire Wahlen. Hier wird aber nicht gewählt, sondern kontrolliert.",2:"Politische Freiheiten sind Meinungs-, Versammlungs- und Pressefreiheit."},
+ "v1-8#2":{0:"Das Wahlregime betrifft das Wahlrecht und faire Wahlen. Hier wird aber nicht gewählt, sondern kontrolliert.",2:"Effektive Regierungsgewalt fehlt, wenn nicht gewählte Akteure wie das Militär Politikbereiche an sich ziehen. Hier handelt die gewählte Regierung selbst."},
  "v1-14#0":{0:"Militärregime halten am kürzesten, im Schnitt 8,8 Jahre.",1:"Personalistische Regime liegen in der Mitte, 15,1 Jahre. Ihr Problem ist die Nachfolge."},
- "v1-14#1":{1:"Wahlen, Medien und Militär sind Mittel, aber nicht die drei Säulen des Modells.",2:"Ideologie, Partei, Führer erinnert an totalitäre Herrschaft, ist aber nicht das WZB-Modell."},
+ "v1-14#1":{1:"Wahlen, Staatsmedien und Sicherheitsapparat sind Mittel, aber nicht die drei Säulen des Modells.",2:"Ideologie, Einheitspartei und Führerkult erinnern an totalitäre Herrschaft, sind aber nicht das WZB-Modell."},
  "v1-14#2":{0:"Bei freien Wahlen wäre es keine Autokratie. Elektoral autoritäre Wahlen sind manipuliert.",2:"Beim 99-Prozent-Ergebnis steht der Sieger vorher fest. Im elektoralen Autoritarismus bleibt ein Rest Unsicherheit."}
 };
 (function(){

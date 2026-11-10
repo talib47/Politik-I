@@ -7,7 +7,7 @@ const dayIndex=()=>Math.floor(dayStart()/864e5);
 /* Tageseinheit ohne die Gegenrichtung der Begriffe (Bedeutung → Begriff): Die gibt es unter Üben → Begriffe auf Wunsch.
    Spart etwa ein Viertel der Zeit (Prüfauftrag 04.11.2026: Stoffmenge größer als 20–40 Minuten am Abend). */
 const dueToday=()=>dueCards(0).filter(x=>!x.id.startsWith("br-"));
-/* Probe-Essay laut Plan (21, 14 und 7 Tage vor dem Termin): ab dem Plantag ein eigener Schritt der Einheit */
+/* Probe-Essay laut Plan (21, 14 und 7 Tage vor dem Termin, Seminar je einen Tag später): ab dem Plantag ein eigener Schritt der Einheit */
 function probeDue(){ if(!essaysOf(0).length) return null; const now=Date.now(), P=examPlan().filter(p=>!p.done&&p.when!=null&&p.when-now<=864e5); return P.length?P[P.length-1]:null; }
 function freshChapter(){ for(const ch of courseChs()){ const L=LESSONS[ch.n]||[]; if(L.some(x=>lessonState(x.id)) && (CARDS[ch.n]||[]).some(x=>!isSeen(x.id))) return ch.n; } return 0; }
 function planToday(){

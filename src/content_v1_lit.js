@@ -112,7 +112,7 @@ check:[
 check:[
  {q:"Für welches Modell sind Wahlen die Demokratie selbst?", o:["minimalistisch","prozedural","maximalistisch"], a:0, ex:"Schumpeters Modell beschränkt Demokratie bewusst auf den Wettbewerb um Stimmen."},
  {q:"Warum nimmt Merkel den Output nicht in die Demokratiedefinition auf?", o:["Weil Ergebnisse für die Bürger unwichtig sind","Weil auch Diktaturen solche Leistungen erbringen können","Weil sich Output grundsätzlich nicht messen lässt"], a:1, ex:"Wachstum oder Gleichheit sind nicht demokratiespezifisch. Für die Stabilität bleibt der Output trotzdem wichtig."},
- {q:"Zu welchem Modell gehört die Embedded Democracy?", o:["minimalistisch","mittel, prozedural","maximalistisch"], a:1, ex:"Sie geht über Wahlen hinaus (Rechtsstaat, Gewaltenkontrolle), nimmt aber keine Politikergebnisse in die Definition auf."}
+ {q:"Zu welchem Modell gehört die Embedded Democracy?", o:["minimalistisch, elektoral","mittel, prozedural","maximalistisch, ergebnisorientiert"], a:1, ex:"Sie geht über Wahlen hinaus (Rechtsstaat, Gewaltenkontrolle), nimmt aber keine Politikergebnisse in die Definition auf."}
 ]},
 {id:"v1-14", t:"Autokratien: Typen und warum sie überleben", html:`
 <p>${LIT("Merkel 2013, Lauth 2015")} Die meisten politischen Systeme waren lange Autokratien, die meisten davon autoritär. Wie lassen sie sich unterscheiden, und was hält sie zusammen?</p>
@@ -134,7 +134,7 @@ check:[
 <div class="litbox"><b>Lauth ergänzt</b>Linz' Definition autoritärer Regime: begrenzter, nicht verantwortlicher Pluralismus, keine ausgearbeitete Ideologie, aber Mentalitäten, keine intensive Mobilisierung, ein Führer oder kleine Gruppe übt Macht in kaum definierten, aber vorhersagbaren Grenzen aus. Friedrich und Brzezinski nennen sechs Merkmale totalitärer Herrschaft: umfassende Ideologie, Massenpartei mit Führer, Geheimpolizei, Nachrichtenmonopol, Waffenmonopol, gelenkte Wirtschaft.</div>`,
 check:[
  {q:"Welcher Autokratietyp ist laut Geddes am langlebigsten?", o:["Militärregime","Personalistische Regime","Einparteienregime"], a:2, ex:"Rund 23 Jahre im Schnitt, weil institutionalisierte Verfahren interne Konflikte auffangen."},
- {q:"Welche drei Säulen tragen autokratische Herrschaft im WZB-Modell?", o:["Legitimation, Repression, Kooptation","Wahlen, Medien, Militär","Ideologie, Partei, Führer"], a:0, ex:"Legitimation, Repression und Kooptation. Risse in einer Säule können die anderen überlasten."},
+ {q:"Welche drei Säulen tragen autokratische Herrschaft im WZB-Modell?", o:["Legitimation, Repression, Kooptation","Wahlen, Staatsmedien, Sicherheitsapparat","Ideologie, Einheitspartei, Führerkult"], a:0, ex:"Legitimation, Repression und Kooptation. Risse in einer Säule können die anderen überlasten."},
  {q:"Was ist elektoraler Autoritarismus?", o:["Eine defekte Demokratie mit freien, aber unfairen Wahlen","Eine Autokratie mit manipulierten semipluralistischen Wahlen","Ein totalitäres Regime mit Einheitslisten und 99-Prozent-Wahlen"], a:1, ex:"Wahlen als demokratischer Anstrich, aber manipuliert. Heute der häufigste Autokratietyp."}
 ]}
 );
@@ -167,9 +167,12 @@ CARDS[1].push(
  {id:"v1-c47", f:"Vier Typen defekter Demokratie (Merkel)", b:"Exklusiv: Gruppen ohne Wahlrecht (A)\nIlliberal: Rechtsstaat und Freiheitsrechte beschädigt (C)\nDelegativ: Exekutive umgeht Parlament und Justiz (D)\nEnklaven: Vetomächte entziehen Politikbereiche (E)"},
  {id:"v1-c48", f:"Geddes: drei Autokratietypen und ihre Lebensdauer", b:"Einparteienregime: knapp 23 Jahre\nPersonalistische Regime: 15,1 Jahre\nMilitärregime: 8,8 Jahre"},
  {id:"v1-c49", f:"Drei-Säulen-Modell autokratischer Herrschaft", b:"1. Legitimation (ideologisch und leistungsbezogen)\n2. Repression (weich und hart)\n3. Kooptation (Eliten einbinden)"},
- {id:"v1-c50", f:"Elektoraler Autoritarismus", b:"Autokratie mit semipluralistischen, manipulierten Wahlen. Meist gewinnt der Amtsinhaber, ein Rest Unsicherheit bleibt. Heute häufigster Autokratietyp (Schedler)."}
+ {id:"v1-c50", f:"Elektoraler Autoritarismus", b:"Autokratie mit semipluralistischen, manipulierten Wahlen. Meist gewinnt der Amtsinhaber, ein Rest Unsicherheit bleibt. Heute häufigster Autokratietyp (Schedler)."},
+ {id:"v1-c51", f:"Reguläre vs. verminderte Subtypen", b:"Regulär: fügen Merkmale hinzu, etwa parlamentarisch oder präsidentiell\nVermindert: alle Merkmale, einige nur eingeschränkt, also defekte Demokratie (Schweiz bis zum Frauenwahlrecht 1971)"},
+ {id:"v1-c52", f:"Steuerungsskepsis", b:"Merkel zu Luhmann: Wirtschaft, Recht und Wissenschaft folgen eigenen Codes. Die Politik steht nicht über ihnen, politische Steuerung erzeugt oft unbeabsichtigte Effekte."}
 );
 Object.assign(CARD_CTX,{
+ "v1-c51":"Grauzone in Subtypen ordnen (Lektüre)","v1-c52":"Grenzen politischer Steuerung (Lektüre)",
  "v1-c27":"Was in jeder Politik zusammenwirkt","v1-c28":"Klassische Definition","v1-c29":"Warum es Wissenschaft braucht","v1-c30":"Zwei Gruppen wissenschaftlicher Aussagen",
  "v1-c31":"Vier Funktionen jedes Systems","v1-c32":"Zwei Arten der Unterstützung","v1-c33":"Eastons Systemmodell","v1-c34":"Systemkreislauf bei Patzelt",
  "v1-c35":"Drei Begriffe, oft verwechselt","v1-c36":"Klassische Staatslehre","v1-c37":"Kelsens Unterscheidung","v1-c38":"Drei Merkmale nach Linz",

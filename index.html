@@ -646,8 +646,8 @@ nav button:active{background:var(--fill)}
 @supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ nav,.zoom,#sessbar,.etop{background:var(--surface)} }
 
 /* ---------- Lernmodus ohne Ablenkung: Leiste weg, oben Schließen und Fortschritt ---------- */
-nav,.zoom{transition:transform .38s cubic-bezier(.3,.7,.3,1),opacity .25s}
-body.focus nav,body.focus .zoom{transform:translateY(calc(100% + 48px));opacity:0;pointer-events:none}
+nav,.zoom{transition:transform .38s cubic-bezier(.3,.7,.3,1),opacity .25s,visibility 0s}
+body.focus nav,body.focus .zoom{transform:translateY(calc(100% + 48px));opacity:0;pointer-events:none;visibility:hidden;transition:transform .38s cubic-bezier(.3,.7,.3,1),opacity .25s,visibility 0s .38s}
 body.focus main{padding-bottom:calc(48px + env(safe-area-inset-bottom,0px))}
 #focusbar{position:sticky;top:0;z-index:8;padding-top:env(safe-area-inset-top,0px);background:var(--glass);
   -webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);border-bottom:.5px solid var(--glass-line)}
@@ -1602,7 +1602,7 @@ const dayIndex=()=>Math.floor(dayStart()/864e5);
 /* Tageseinheit ohne die Gegenrichtung der Begriffe (Bedeutung → Begriff): Die gibt es unter Üben → Begriffe auf Wunsch.
    Spart etwa ein Viertel der Zeit (Prüfauftrag 04.11.2026: Stoffmenge größer als 20–40 Minuten am Abend). */
 const dueToday=()=>dueCards(0).filter(x=>!x.id.startsWith("br-"));
-/* Probe-Essay laut Plan (21, 14 und 7 Tage vor dem Termin): ab dem Plantag ein eigener Schritt der Einheit */
+/* Probe-Essay laut Plan (21, 14 und 7 Tage vor dem Termin, Seminar je einen Tag später): ab dem Plantag ein eigener Schritt der Einheit */
 function probeDue(){ if(!essaysOf(0).length) return null; const now=Date.now(), P=examPlan().filter(p=>!p.done&&p.when!=null&&p.when-now<=864e5); return P.length?P[P.length-1]:null; }
 function freshChapter(){ for(const ch of courseChs()){ const L=LESSONS[ch.n]||[]; if(L.some(x=>lessonState(x.id)) && (CARDS[ch.n]||[]).some(x=>!isSeen(x.id))) return ch.n; } return 0; }
 function planToday(){
@@ -1688,11 +1688,14 @@ const fmtDate=t=>{ const d=new Date(t); return ["So","Mo","Di","Mi","Do","Fr","S
 const examDateStr=()=>(state.examDates||{})[state.course]||EXAM_DEFAULT[state.course]||null;
 const examDateTs=()=>{ const s=examDateStr(); if(!s) return null; const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d).getTime(); };
 const probeName=()=>"Probe-Essay";
-/* Plan: eine Probeprüfung früh als Standortbestimmung, dann 21, 14 und 7 Tage vor dem Termin */
+/* Plan: eine Probeprüfung früh als Standortbestimmung, dann 21, 14 und 7 Tage vor dem Termin.
+   Beide Prüfungen sind am 04.02.: Das Seminar liegt einen Tag später (20, 13, 6 = Fr 15.01., 22.01., 29.01.), damit nie zwei Probe-Essays
+   auf einen Abend fallen, keiner auf die Presseschau-Abgabe (Mi 20.01.) und der letzte nach der Themenbekanntgabe (Do 28.01.) liegt (Prüfauftrag 10.11.2026). */
+const PLAN_DAYS={vl:[21,14,7], se:[20,13,6]};
 function examPlan(){
   const T=examDateTs(), ex=(state.exams||[]).filter(e=>(e.c||"vl")===state.course).map(e=>e.t).sort((a,b)=>a-b);
   const P=[{lab:"Standortbestimmung", when:null}];
-  if(T) [21,14,7].forEach(d=>P.push({lab:`${d} Tage vorher`, when:T-d*864e5}));
+  if(T) (PLAN_DAYS[state.course]||[21,14,7]).forEach(d=>P.push({lab:`${d} Tage vorher`, when:T-d*864e5}));
   const used=new Set();
   P.forEach(p=>{ const i=ex.findIndex((t,k)=>!used.has(k)&&(p.when==null||t>=p.when-3*864e5)); if(i>=0){ used.add(i); p.done=ex[i]; } });
   return P;
@@ -1808,7 +1811,7 @@ const APP={
       known:false = nur bekannt, dass das Hochgeladene dazugehört.
    2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
    3. Motivationssatz unter der Wochenübersicht.
-   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-10", "a": "alle", "w": "Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App", "y": "Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist"}, {"d": "2026-11-10", "a": "alle", "w": "Hochladen und Bescheid geben in einem Schritt: Dateien in einem neuen Chat im Projekt anhängen und senden, ohne Text; der Chat baut sie nach `UPDATE.md` ein und sichert die Textfassung als Projekt-Dokument; Knopf heißt „Projekt öffnen“", "y": "Talib: Upload, Knopf, Chat, Einfügen waren zu viele Schritte"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Unterlagen aktualisieren“ im Block „Unterlagen“ (öffnet das claude.ai-Projekt, kopiert „Update“), `UPDATE.md` als gründlicher Einbau-Auftrag (wortgleich in allen Repos), Regel 11 neu; fehlende `APP.projectUrl` trägt der nächste Update-Chat selbst ein", "y": "Talib: Hochladen allein ändert die App nicht, er will ein klares Signal und sorgfältigen Einbau"}, {"d": "2026-11-10", "a": "alle", "w": "Block „Unterlagen“ in allen Apps, Muster je App aus den bisherigen Uploads hergeleitet: BiWi II ein wachsender Foliensatz (immer die neueste ganze Datei), W&G I je Hälfte etwa wöchentlich wie bisher, Wirtschaft II komplett, Politik I nach Vorlesungs- und Verlaufsplan; unsicher heißt „vermutlich“ mit Bitte um Moodle-Screenshot; Regel 7 neu", "y": "Talib: Die Fächer laden sehr unterschiedlich hoch, Claude soll das selbst herleiten und in jedem Chat wissen"}, {"d": "2026-11-10", "a": "Politik I", "w": "Block „Unterlagen“ als Muster: oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Seminartexte 7 Tage vorher, mit Dateinamen laut Verlaufsplan), „So geht’s“ in einem Satz (ins Projekt laden, neuer Chat, „Update“), darunter „Schon drin“; Regel 11 „Update“", "y": "Talib verliert den Überblick, was er wo hochladen und in welchem Chat er Bescheid geben muss"}, {"d": "2026-11-10", "a": "Politik I", "w": "Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin", "y": "Moodle-Zuteilung nach der Abstimmung bis 04.11."}]).
+   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-10", "a": "alle", "w": "`design.css`: Im Lernmodus sind Tableiste und „Aa“ jetzt auch für VoiceOver und Tastatur verborgen (`visibility:hidden` nach der Animation), sichtbar ändert sich nichts", "y": "Prüfauftrag Politik I: unsichtbare Leiste war noch fokussierbar und wurde als Kontrastfehler gemessen"}, {"d": "2026-11-10", "a": "Politik I", "w": "Prüfauftrag komplett: 4 Fragen verraten die Antwort nicht mehr durch Länge (v1-13#2, v1-8#2, v1-14#1, se1-3#1), 3 neue Karten für ungeübte Kernbegriffe (v1-c51 Subtypen, v1-c52 Steuerungsskepsis, se1-c40 Lowi), Probe-Essays des Seminars an eigenen Tagen (Fr 15.01., 22.01., 29.01.: nicht auf der Presseschau-Abgabe, letzter nach der Themenbekanntgabe 28.01.)", "y": "Beide Prüfungen am 04.02., sonst zwei Probe-Essays an einem Abend"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App", "y": "Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist"}, {"d": "2026-11-10", "a": "alle", "w": "Hochladen und Bescheid geben in einem Schritt: Dateien in einem neuen Chat im Projekt anhängen und senden, ohne Text; der Chat baut sie nach `UPDATE.md` ein und sichert die Textfassung als Projekt-Dokument; Knopf heißt „Projekt öffnen“", "y": "Talib: Upload, Knopf, Chat, Einfügen waren zu viele Schritte"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Unterlagen aktualisieren“ im Block „Unterlagen“ (öffnet das claude.ai-Projekt, kopiert „Update“), `UPDATE.md` als gründlicher Einbau-Auftrag (wortgleich in allen Repos), Regel 11 neu; fehlende `APP.projectUrl` trägt der nächste Update-Chat selbst ein", "y": "Talib: Hochladen allein ändert die App nicht, er will ein klares Signal und sorgfältigen Einbau"}, {"d": "2026-11-10", "a": "alle", "w": "Block „Unterlagen“ in allen Apps, Muster je App aus den bisherigen Uploads hergeleitet: BiWi II ein wachsender Foliensatz (immer die neueste ganze Datei), W&G I je Hälfte etwa wöchentlich wie bisher, Wirtschaft II komplett, Politik I nach Vorlesungs- und Verlaufsplan; unsicher heißt „vermutlich“ mit Bitte um Moodle-Screenshot; Regel 7 neu", "y": "Talib: Die Fächer laden sehr unterschiedlich hoch, Claude soll das selbst herleiten und in jedem Chat wissen"}]).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
    6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
    7. Lernmodus ohne Ablenkung (focusBar): Ansichten aus APP.focus.views und die ganze Tageseinheit blenden Tableiste und „Aa“ aus.
@@ -1937,7 +1940,7 @@ document.addEventListener("keydown",e=>{ if(e.key!=="Escape"||!document.body.cla
   const a=document.activeElement; if(a&&/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)) return; const x=document.getElementById("fx"); if(x){ e.preventDefault(); x.click(); } });
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
-const BRUECKE=[{"d": "2026-11-10", "a": "alle", "w": "Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App", "y": "Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist"}, {"d": "2026-11-10", "a": "alle", "w": "Hochladen und Bescheid geben in einem Schritt: Dateien in einem neuen Chat im Projekt anhängen und senden, ohne Text; der Chat baut sie nach `UPDATE.md` ein und sichert die Textfassung als Projekt-Dokument; Knopf heißt „Projekt öffnen“", "y": "Talib: Upload, Knopf, Chat, Einfügen waren zu viele Schritte"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Unterlagen aktualisieren“ im Block „Unterlagen“ (öffnet das claude.ai-Projekt, kopiert „Update“), `UPDATE.md` als gründlicher Einbau-Auftrag (wortgleich in allen Repos), Regel 11 neu; fehlende `APP.projectUrl` trägt der nächste Update-Chat selbst ein", "y": "Talib: Hochladen allein ändert die App nicht, er will ein klares Signal und sorgfältigen Einbau"}, {"d": "2026-11-10", "a": "alle", "w": "Block „Unterlagen“ in allen Apps, Muster je App aus den bisherigen Uploads hergeleitet: BiWi II ein wachsender Foliensatz (immer die neueste ganze Datei), W&G I je Hälfte etwa wöchentlich wie bisher, Wirtschaft II komplett, Politik I nach Vorlesungs- und Verlaufsplan; unsicher heißt „vermutlich“ mit Bitte um Moodle-Screenshot; Regel 7 neu", "y": "Talib: Die Fächer laden sehr unterschiedlich hoch, Claude soll das selbst herleiten und in jedem Chat wissen"}, {"d": "2026-11-10", "a": "Politik I", "w": "Block „Unterlagen“ als Muster: oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Seminartexte 7 Tage vorher, mit Dateinamen laut Verlaufsplan), „So geht’s“ in einem Satz (ins Projekt laden, neuer Chat, „Update“), darunter „Schon drin“; Regel 11 „Update“", "y": "Talib verliert den Überblick, was er wo hochladen und in welchem Chat er Bescheid geben muss"}, {"d": "2026-11-10", "a": "Politik I", "w": "Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin", "y": "Moodle-Zuteilung nach der Abstimmung bis 04.11."}];
+const BRUECKE=[{"d": "2026-11-10", "a": "alle", "w": "`design.css`: Im Lernmodus sind Tableiste und „Aa“ jetzt auch für VoiceOver und Tastatur verborgen (`visibility:hidden` nach der Animation), sichtbar ändert sich nichts", "y": "Prüfauftrag Politik I: unsichtbare Leiste war noch fokussierbar und wurde als Kontrastfehler gemessen"}, {"d": "2026-11-10", "a": "Politik I", "w": "Prüfauftrag komplett: 4 Fragen verraten die Antwort nicht mehr durch Länge (v1-13#2, v1-8#2, v1-14#1, se1-3#1), 3 neue Karten für ungeübte Kernbegriffe (v1-c51 Subtypen, v1-c52 Steuerungsskepsis, se1-c40 Lowi), Probe-Essays des Seminars an eigenen Tagen (Fr 15.01., 22.01., 29.01.: nicht auf der Presseschau-Abgabe, letzter nach der Themenbekanntgabe 28.01.)", "y": "Beide Prüfungen am 04.02., sonst zwei Probe-Essays an einem Abend"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App", "y": "Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist"}, {"d": "2026-11-10", "a": "alle", "w": "Hochladen und Bescheid geben in einem Schritt: Dateien in einem neuen Chat im Projekt anhängen und senden, ohne Text; der Chat baut sie nach `UPDATE.md` ein und sichert die Textfassung als Projekt-Dokument; Knopf heißt „Projekt öffnen“", "y": "Talib: Upload, Knopf, Chat, Einfügen waren zu viele Schritte"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Unterlagen aktualisieren“ im Block „Unterlagen“ (öffnet das claude.ai-Projekt, kopiert „Update“), `UPDATE.md` als gründlicher Einbau-Auftrag (wortgleich in allen Repos), Regel 11 neu; fehlende `APP.projectUrl` trägt der nächste Update-Chat selbst ein", "y": "Talib: Hochladen allein ändert die App nicht, er will ein klares Signal und sorgfältigen Einbau"}, {"d": "2026-11-10", "a": "alle", "w": "Block „Unterlagen“ in allen Apps, Muster je App aus den bisherigen Uploads hergeleitet: BiWi II ein wachsender Foliensatz (immer die neueste ganze Datei), W&G I je Hälfte etwa wöchentlich wie bisher, Wirtschaft II komplett, Politik I nach Vorlesungs- und Verlaufsplan; unsicher heißt „vermutlich“ mit Bitte um Moodle-Screenshot; Regel 7 neu", "y": "Talib: Die Fächer laden sehr unterschiedlich hoch, Claude soll das selbst herleiten und in jedem Chat wissen"}];
 function bridgeBlock(){
   if(!BRUECKE.length) return "";
   const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
@@ -2535,7 +2538,7 @@ ${FIG_EMBEDDED}
 check:[
  {q:"Was bedeutet „doppelt eingebettet“?", o:["Eingebettet in Demokratie und in Marktwirtschaft","Intern durch die Teilregime und extern durch das Umfeld","Eingebettet in nationales und in europäisches Recht"], a:1, ex:"Intern stützen sich die fünf Teilregime gegenseitig, extern schützen Staatlichkeit, Zivilgesellschaft und sozioökonomische Voraussetzungen."},
  {q:"Welches Teilregime steht im Zentrum des Modells?", o:["Effektive Regierungsgewalt","Wahlregime","Bürgerliche Rechte"], a:1, ex:"A, das Wahlregime, ist der Kern, um den die anderen vier Teilregime liegen."},
- {q:"Eine Regierung schränkt die Unabhängigkeit der Gerichte ein und regiert am Parlament vorbei. Welches Teilregime ist vor allem betroffen?", o:["A Wahlregime","D Horizontale Verantwortlichkeit","B Politische Freiheiten"], a:1, ex:"Horizontale Verantwortlichkeit heißt: Die Gewalten kontrollieren sich gegenseitig. Das wäre der Weg zur delegativen Demokratie."}
+ {q:"Eine Regierung schränkt die Unabhängigkeit der Gerichte ein und regiert am Parlament vorbei. Welches Teilregime ist vor allem betroffen?", o:["A Wahlregime","D Horizontale Verantwortlichkeit","E Effektive Regierungsgewalt"], a:1, ex:"Horizontale Verantwortlichkeit heißt: Die Gewalten kontrollieren sich gegenseitig. Das wäre der Weg zur delegativen Demokratie."}
 ]}
 ];
 
@@ -2800,7 +2803,7 @@ check:[
 check:[
  {q:"Für welches Modell sind Wahlen die Demokratie selbst?", o:["minimalistisch","prozedural","maximalistisch"], a:0, ex:"Schumpeters Modell beschränkt Demokratie bewusst auf den Wettbewerb um Stimmen."},
  {q:"Warum nimmt Merkel den Output nicht in die Demokratiedefinition auf?", o:["Weil Ergebnisse für die Bürger unwichtig sind","Weil auch Diktaturen solche Leistungen erbringen können","Weil sich Output grundsätzlich nicht messen lässt"], a:1, ex:"Wachstum oder Gleichheit sind nicht demokratiespezifisch. Für die Stabilität bleibt der Output trotzdem wichtig."},
- {q:"Zu welchem Modell gehört die Embedded Democracy?", o:["minimalistisch","mittel, prozedural","maximalistisch"], a:1, ex:"Sie geht über Wahlen hinaus (Rechtsstaat, Gewaltenkontrolle), nimmt aber keine Politikergebnisse in die Definition auf."}
+ {q:"Zu welchem Modell gehört die Embedded Democracy?", o:["minimalistisch, elektoral","mittel, prozedural","maximalistisch, ergebnisorientiert"], a:1, ex:"Sie geht über Wahlen hinaus (Rechtsstaat, Gewaltenkontrolle), nimmt aber keine Politikergebnisse in die Definition auf."}
 ]},
 {id:"v1-14", t:"Autokratien: Typen und warum sie überleben", html:`
 <p>${LIT("Merkel 2013, Lauth 2015")} Die meisten politischen Systeme waren lange Autokratien, die meisten davon autoritär. Wie lassen sie sich unterscheiden, und was hält sie zusammen?</p>
@@ -2822,7 +2825,7 @@ check:[
 <div class="litbox"><b>Lauth ergänzt</b>Linz' Definition autoritärer Regime: begrenzter, nicht verantwortlicher Pluralismus, keine ausgearbeitete Ideologie, aber Mentalitäten, keine intensive Mobilisierung, ein Führer oder kleine Gruppe übt Macht in kaum definierten, aber vorhersagbaren Grenzen aus. Friedrich und Brzezinski nennen sechs Merkmale totalitärer Herrschaft: umfassende Ideologie, Massenpartei mit Führer, Geheimpolizei, Nachrichtenmonopol, Waffenmonopol, gelenkte Wirtschaft.</div>`,
 check:[
  {q:"Welcher Autokratietyp ist laut Geddes am langlebigsten?", o:["Militärregime","Personalistische Regime","Einparteienregime"], a:2, ex:"Rund 23 Jahre im Schnitt, weil institutionalisierte Verfahren interne Konflikte auffangen."},
- {q:"Welche drei Säulen tragen autokratische Herrschaft im WZB-Modell?", o:["Legitimation, Repression, Kooptation","Wahlen, Medien, Militär","Ideologie, Partei, Führer"], a:0, ex:"Legitimation, Repression und Kooptation. Risse in einer Säule können die anderen überlasten."},
+ {q:"Welche drei Säulen tragen autokratische Herrschaft im WZB-Modell?", o:["Legitimation, Repression, Kooptation","Wahlen, Staatsmedien, Sicherheitsapparat","Ideologie, Einheitspartei, Führerkult"], a:0, ex:"Legitimation, Repression und Kooptation. Risse in einer Säule können die anderen überlasten."},
  {q:"Was ist elektoraler Autoritarismus?", o:["Eine defekte Demokratie mit freien, aber unfairen Wahlen","Eine Autokratie mit manipulierten semipluralistischen Wahlen","Ein totalitäres Regime mit Einheitslisten und 99-Prozent-Wahlen"], a:1, ex:"Wahlen als demokratischer Anstrich, aber manipuliert. Heute der häufigste Autokratietyp."}
 ]}
 );
@@ -2855,9 +2858,12 @@ CARDS[1].push(
  {id:"v1-c47", f:"Vier Typen defekter Demokratie (Merkel)", b:"Exklusiv: Gruppen ohne Wahlrecht (A)\nIlliberal: Rechtsstaat und Freiheitsrechte beschädigt (C)\nDelegativ: Exekutive umgeht Parlament und Justiz (D)\nEnklaven: Vetomächte entziehen Politikbereiche (E)"},
  {id:"v1-c48", f:"Geddes: drei Autokratietypen und ihre Lebensdauer", b:"Einparteienregime: knapp 23 Jahre\nPersonalistische Regime: 15,1 Jahre\nMilitärregime: 8,8 Jahre"},
  {id:"v1-c49", f:"Drei-Säulen-Modell autokratischer Herrschaft", b:"1. Legitimation (ideologisch und leistungsbezogen)\n2. Repression (weich und hart)\n3. Kooptation (Eliten einbinden)"},
- {id:"v1-c50", f:"Elektoraler Autoritarismus", b:"Autokratie mit semipluralistischen, manipulierten Wahlen. Meist gewinnt der Amtsinhaber, ein Rest Unsicherheit bleibt. Heute häufigster Autokratietyp (Schedler)."}
+ {id:"v1-c50", f:"Elektoraler Autoritarismus", b:"Autokratie mit semipluralistischen, manipulierten Wahlen. Meist gewinnt der Amtsinhaber, ein Rest Unsicherheit bleibt. Heute häufigster Autokratietyp (Schedler)."},
+ {id:"v1-c51", f:"Reguläre vs. verminderte Subtypen", b:"Regulär: fügen Merkmale hinzu, etwa parlamentarisch oder präsidentiell\nVermindert: alle Merkmale, einige nur eingeschränkt, also defekte Demokratie (Schweiz bis zum Frauenwahlrecht 1971)"},
+ {id:"v1-c52", f:"Steuerungsskepsis", b:"Merkel zu Luhmann: Wirtschaft, Recht und Wissenschaft folgen eigenen Codes. Die Politik steht nicht über ihnen, politische Steuerung erzeugt oft unbeabsichtigte Effekte."}
 );
 Object.assign(CARD_CTX,{
+ "v1-c51":"Grauzone in Subtypen ordnen (Lektüre)","v1-c52":"Grenzen politischer Steuerung (Lektüre)",
  "v1-c27":"Was in jeder Politik zusammenwirkt","v1-c28":"Klassische Definition","v1-c29":"Warum es Wissenschaft braucht","v1-c30":"Zwei Gruppen wissenschaftlicher Aussagen",
  "v1-c31":"Vier Funktionen jedes Systems","v1-c32":"Zwei Arten der Unterstützung","v1-c33":"Eastons Systemmodell","v1-c34":"Systemkreislauf bei Patzelt",
  "v1-c35":"Drei Begriffe, oft verwechselt","v1-c36":"Klassische Staatslehre","v1-c37":"Kelsens Unterscheidung","v1-c38":"Drei Merkmale nach Linz",
@@ -3041,9 +3047,9 @@ const W1={
  "v1-13#2":{0:"Minimalistisch wäre nur das Wahlregime. Embedded Democracy hat fünf Teilregime.",2:"Merkel nimmt Politikergebnisse wie soziale Gerechtigkeit ausdrücklich nicht in die Definition auf."},
  "v1-8#0":{0:"Die Marktwirtschaft ist nicht Teil des Modells. Ökonomische Voraussetzungen gehören nur zum äußeren Ring.",2:"Mehrebenen geht es hier nicht. Gemeint sind Teilregime innen und Umfeld außen."},
  "v1-8#1":{0:"Die effektive Regierungsgewalt ist Teilregime E, eines der vier um das Zentrum.",2:"Bürgerliche Rechte sind Teilregime C, auch ein äußeres Teilregime."},
- "v1-8#2":{0:"Das Wahlregime betrifft das Wahlrecht und faire Wahlen. Hier wird aber nicht gewählt, sondern kontrolliert.",2:"Politische Freiheiten sind Meinungs-, Versammlungs- und Pressefreiheit."},
+ "v1-8#2":{0:"Das Wahlregime betrifft das Wahlrecht und faire Wahlen. Hier wird aber nicht gewählt, sondern kontrolliert.",2:"Effektive Regierungsgewalt fehlt, wenn nicht gewählte Akteure wie das Militär Politikbereiche an sich ziehen. Hier handelt die gewählte Regierung selbst."},
  "v1-14#0":{0:"Militärregime halten am kürzesten, im Schnitt 8,8 Jahre.",1:"Personalistische Regime liegen in der Mitte, 15,1 Jahre. Ihr Problem ist die Nachfolge."},
- "v1-14#1":{1:"Wahlen, Medien und Militär sind Mittel, aber nicht die drei Säulen des Modells.",2:"Ideologie, Partei, Führer erinnert an totalitäre Herrschaft, ist aber nicht das WZB-Modell."},
+ "v1-14#1":{1:"Wahlen, Staatsmedien und Sicherheitsapparat sind Mittel, aber nicht die drei Säulen des Modells.",2:"Ideologie, Einheitspartei und Führerkult erinnern an totalitäre Herrschaft, sind aber nicht das WZB-Modell."},
  "v1-14#2":{0:"Bei freien Wahlen wäre es keine Autokratie. Elektoral autoritäre Wahlen sind manipuliert.",2:"Beim 99-Prozent-Ergebnis steht der Sieger vorher fest. Im elektoralen Autoritarismus bleibt ein Rest Unsicherheit."}
 };
 (function(){
@@ -3261,8 +3267,8 @@ check:[
 check:[
  {q:"Eine Kanzlerin gibt nach einer Flutkatastrophe in Gummistiefeln Interviews vor Ort. Das ist vor allem …", o:["Entscheidungspolitik","Darstellungspolitik","Governance"], a:1, ex:"Symbolische, medienvermittelte Inszenierung. Ein Hilfsgesetz im Bundestag wäre dagegen Entscheidungspolitik.",
   w:{0:"Entscheidungspolitik wäre das Verfahren, etwa die Verabschiedung eines Wiederaufbaugesetzes.",2:"Governance beschreibt die Art der Koordination zwischen Akteuren, nicht einen Medienauftritt."}},
- {q:"Welche Formen von Governance unterscheiden Korte/Fröhlich?", o:["Hierarchie, Netzwerk, Verhandlung, Wettbewerb","Legislative, Exekutive, Judikative","Polity, Politics, Policy","Regulierung, Anreiz, Leistung"], a:0, ex:"Vier Arten, wie staatliche und private Akteure koordiniert werden können.",
-  w:{1:"Das sind die Staatsgewalten.",2:"Das ist die Dreiteilung des Politikbegriffs.",3:"Das sind Programmtypen in der Politikfeldanalyse (Mayntz, Schneider/Janning)."}},
+ {q:"Welche Formen von Governance unterscheiden Korte/Fröhlich?", o:["Hierarchie, Netzwerk, Verhandlung, Wettbewerb","Legislative, Exekutive, Judikative, Medien","Polity, Politics, Policy, Politikfeld","Regulative, Anreiz- und Leistungsprogramme"], a:0, ex:"Vier Arten, wie staatliche und private Akteure koordiniert werden können.",
+  w:{1:"Das sind die Staatsgewalten, dazu die Medien als „vierte Gewalt“.",2:"Das ist die Dreiteilung des Politikbegriffs, dazu das Politikfeld.",3:"Das sind Programmtypen in der Politikfeldanalyse (Mayntz, Schneider/Janning)."}},
  {q:"In der Tabelle nach Lauth/Wagner ist Politics …", o:["institutionenorientiert","inputorientiert","outputorientiert"], a:1, ex:"Politics fragt nach Einstellungen, Interessen, Konflikten: nach dem, was ins System hineingetragen wird.",
   w:{0:"Institutionenorientiert ist Polity.",2:"Outputorientiert ist Policy: Was kommt am Ende heraus?"}}
 ]},
@@ -3586,9 +3592,11 @@ CARDS[101]=[
  {id:"se1-c36", f:"Diffuse Unterstützung vs. spezifische Unterstützung", b:"Bezug: System um seiner selbst willen / Outputs und Amtsträger\nEntspricht bei Lipset: Legitimität / Effektivität\nStabilität: langfristig / schwankt kurzfristig"},
  {id:"se1-c37", f:"Phasen des Policy-Zyklus", b:"1. Problemdefinition und Agenda-Setting\n2. Programmformulierung\n3. Implementation\nDazu Evaluation und Terminierung als Rückkopplung."},
  {id:"se1-c38", f:"Programmtypen nach Mayntz", b:"Regulativ: direkte Steuerung, Widerstand, hoher Kontrollaufwand\nAnreiz: positiv, indirekt, Mitnahmeeffekte\nLeistung: Angebot gesichert, Nutzung nicht, teuer"},
- {id:"se1-c39", f:"Akteurstypen nach Scharpf", b:"Individuen\nHandlungsaggregate: gleichgerichtet ohne Organisation\nKollektive Akteure: koordiniert, Beteiligte handeln selbst\nKorporative Akteure: eigene Organisation handelt stellvertretend"}
+ {id:"se1-c39", f:"Akteurstypen nach Scharpf", b:"Individuen\nHandlungsaggregate: gleichgerichtet ohne Organisation\nKollektive Akteure: koordiniert, Beteiligte handeln selbst\nKorporative Akteure: eigene Organisation handelt stellvertretend"},
+ {id:"se1-c40", f:"Lowi: Policy bestimmt Politics", b:"Regulative, distributive und redistributive Politik erzeugen unterschiedliche Konfliktarenen, je nachdem, wie sie die Interessen von Gruppen berühren."}
 ];
 Object.assign(CARD_CTX,{
+ "se1-c40":"Wie Politikinhalte den Konflikt prägen (Empfehlung)",
  "se1-c01":"Schlüsselbegriff des Seminartexts","se1-c02":"Warum die Exekutive im Zentrum steht","se1-c03":"Regierungsforschung statt Verfassungskunde",
  "se1-c04":"Wie man das deutsche System einordnet","se1-c05":"Verfassung in Kurzform","se1-c06":"Was das BVerfG zur Kernordnung zählt","se1-c07":"Rückbindung an das Volk",
  "se1-c08":"Zwei Seiten der Politik","se1-c09":"Mehr als „Regieren“","se1-c10":"Die Dreiteilung mit Easton verknüpft",
@@ -3878,7 +3886,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="9bfff21f618e", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="c1be16e2c6f6", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }

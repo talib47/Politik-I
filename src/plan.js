@@ -7,11 +7,14 @@ const fmtDate=t=>{ const d=new Date(t); return ["So","Mo","Di","Mi","Do","Fr","S
 const examDateStr=()=>(state.examDates||{})[state.course]||EXAM_DEFAULT[state.course]||null;
 const examDateTs=()=>{ const s=examDateStr(); if(!s) return null; const [y,m,d]=s.split("-").map(Number); return new Date(y,m-1,d).getTime(); };
 const probeName=()=>"Probe-Essay";
-/* Plan: eine Probeprüfung früh als Standortbestimmung, dann 21, 14 und 7 Tage vor dem Termin */
+/* Plan: eine Probeprüfung früh als Standortbestimmung, dann 21, 14 und 7 Tage vor dem Termin.
+   Beide Prüfungen sind am 04.02.: Das Seminar liegt einen Tag später (20, 13, 6 = Fr 15.01., 22.01., 29.01.), damit nie zwei Probe-Essays
+   auf einen Abend fallen, keiner auf die Presseschau-Abgabe (Mi 20.01.) und der letzte nach der Themenbekanntgabe (Do 28.01.) liegt (Prüfauftrag 10.11.2026). */
+const PLAN_DAYS={vl:[21,14,7], se:[20,13,6]};
 function examPlan(){
   const T=examDateTs(), ex=(state.exams||[]).filter(e=>(e.c||"vl")===state.course).map(e=>e.t).sort((a,b)=>a-b);
   const P=[{lab:"Standortbestimmung", when:null}];
-  if(T) [21,14,7].forEach(d=>P.push({lab:`${d} Tage vorher`, when:T-d*864e5}));
+  if(T) (PLAN_DAYS[state.course]||[21,14,7]).forEach(d=>P.push({lab:`${d} Tage vorher`, when:T-d*864e5}));
   const used=new Set();
   P.forEach(p=>{ const i=ex.findIndex((t,k)=>!used.has(k)&&(p.when==null||t>=p.when-3*864e5)); if(i>=0){ used.add(i); p.done=ex[i]; } });
   return P;

@@ -254,7 +254,7 @@ ${FIG_EMBEDDED}
 check:[
  {q:"Was bedeutet „doppelt eingebettet“?", o:["Eingebettet in Demokratie und in Marktwirtschaft","Intern durch die Teilregime und extern durch das Umfeld","Eingebettet in nationales und in europäisches Recht"], a:1, ex:"Intern stützen sich die fünf Teilregime gegenseitig, extern schützen Staatlichkeit, Zivilgesellschaft und sozioökonomische Voraussetzungen."},
  {q:"Welches Teilregime steht im Zentrum des Modells?", o:["Effektive Regierungsgewalt","Wahlregime","Bürgerliche Rechte"], a:1, ex:"A, das Wahlregime, ist der Kern, um den die anderen vier Teilregime liegen."},
- {q:"Eine Regierung schränkt die Unabhängigkeit der Gerichte ein und regiert am Parlament vorbei. Welches Teilregime ist vor allem betroffen?", o:["A Wahlregime","D Horizontale Verantwortlichkeit","B Politische Freiheiten"], a:1, ex:"Horizontale Verantwortlichkeit heißt: Die Gewalten kontrollieren sich gegenseitig. Das wäre der Weg zur delegativen Demokratie."}
+ {q:"Eine Regierung schränkt die Unabhängigkeit der Gerichte ein und regiert am Parlament vorbei. Welches Teilregime ist vor allem betroffen?", o:["A Wahlregime","D Horizontale Verantwortlichkeit","E Effektive Regierungsgewalt"], a:1, ex:"Horizontale Verantwortlichkeit heißt: Die Gewalten kontrollieren sich gegenseitig. Das wäre der Weg zur delegativen Demokratie."}
 ]}
 ];
 

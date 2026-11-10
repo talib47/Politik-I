@@ -57,8 +57,8 @@ Lernstand: IDs von Lektionen, Karten, Fragen (`Lektions-ID#Nr`), Selbsttests, Es
 
 ## Stand der Inhalte
 
-Vorlesung: Sitzung 1 (15.10.) mit Lektüre fertig: 14 Lektionen mit 39 Verständnisfragen, 50 Karten, 21 Begriffe, 37 Zuordnungen, 14 Selbsttests, 8 Essay-Fragen. Lektüretexte liegen aufbereitet im claude.ai-Projekt.
-Seminar: Sitzung 1 (29.10.) mit Textgrundlage und allen vier Empfehlungen fertig: 12 Lektionen mit 36 Verständnisfragen, 39 Karten, 18 Begriffe, 42 Zuordnungen, 9 Selbsttests, 5 Essay-Fragen. Sitzungen 2–9 stehen mit Textgrundlage im Lernpfad.
+Vorlesung: Sitzung 1 (15.10.) mit Lektüre fertig: 14 Lektionen mit 39 Verständnisfragen, 52 Karten, 21 Begriffe, 37 Zuordnungen, 14 Selbsttests, 8 Essay-Fragen. Lektüretexte liegen aufbereitet im claude.ai-Projekt.
+Seminar: Sitzung 1 (29.10.) mit Textgrundlage und allen vier Empfehlungen fertig: 12 Lektionen mit 36 Verständnisfragen, 40 Karten, 18 Begriffe, 42 Zuordnungen, 9 Selbsttests, 5 Essay-Fragen. Sitzungen 2–9 stehen mit Textgrundlage im Lernpfad.
 
 ## Updates
 

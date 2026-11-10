@@ -122,8 +122,8 @@ check:[
 check:[
  {q:"Eine Kanzlerin gibt nach einer Flutkatastrophe in Gummistiefeln Interviews vor Ort. Das ist vor allem …", o:["Entscheidungspolitik","Darstellungspolitik","Governance"], a:1, ex:"Symbolische, medienvermittelte Inszenierung. Ein Hilfsgesetz im Bundestag wäre dagegen Entscheidungspolitik.",
   w:{0:"Entscheidungspolitik wäre das Verfahren, etwa die Verabschiedung eines Wiederaufbaugesetzes.",2:"Governance beschreibt die Art der Koordination zwischen Akteuren, nicht einen Medienauftritt."}},
- {q:"Welche Formen von Governance unterscheiden Korte/Fröhlich?", o:["Hierarchie, Netzwerk, Verhandlung, Wettbewerb","Legislative, Exekutive, Judikative","Polity, Politics, Policy","Regulierung, Anreiz, Leistung"], a:0, ex:"Vier Arten, wie staatliche und private Akteure koordiniert werden können.",
-  w:{1:"Das sind die Staatsgewalten.",2:"Das ist die Dreiteilung des Politikbegriffs.",3:"Das sind Programmtypen in der Politikfeldanalyse (Mayntz, Schneider/Janning)."}},
+ {q:"Welche Formen von Governance unterscheiden Korte/Fröhlich?", o:["Hierarchie, Netzwerk, Verhandlung, Wettbewerb","Legislative, Exekutive, Judikative, Medien","Polity, Politics, Policy, Politikfeld","Regulative, Anreiz- und Leistungsprogramme"], a:0, ex:"Vier Arten, wie staatliche und private Akteure koordiniert werden können.",
+  w:{1:"Das sind die Staatsgewalten, dazu die Medien als „vierte Gewalt“.",2:"Das ist die Dreiteilung des Politikbegriffs, dazu das Politikfeld.",3:"Das sind Programmtypen in der Politikfeldanalyse (Mayntz, Schneider/Janning)."}},
  {q:"In der Tabelle nach Lauth/Wagner ist Politics …", o:["institutionenorientiert","inputorientiert","outputorientiert"], a:1, ex:"Politics fragt nach Einstellungen, Interessen, Konflikten: nach dem, was ins System hineingetragen wird.",
   w:{0:"Institutionenorientiert ist Polity.",2:"Outputorientiert ist Policy: Was kommt am Ende heraus?"}}
 ]},
@@ -447,9 +447,11 @@ CARDS[101]=[
  {id:"se1-c36", f:"Diffuse Unterstützung vs. spezifische Unterstützung", b:"Bezug: System um seiner selbst willen / Outputs und Amtsträger\nEntspricht bei Lipset: Legitimität / Effektivität\nStabilität: langfristig / schwankt kurzfristig"},
  {id:"se1-c37", f:"Phasen des Policy-Zyklus", b:"1. Problemdefinition und Agenda-Setting\n2. Programmformulierung\n3. Implementation\nDazu Evaluation und Terminierung als Rückkopplung."},
  {id:"se1-c38", f:"Programmtypen nach Mayntz", b:"Regulativ: direkte Steuerung, Widerstand, hoher Kontrollaufwand\nAnreiz: positiv, indirekt, Mitnahmeeffekte\nLeistung: Angebot gesichert, Nutzung nicht, teuer"},
- {id:"se1-c39", f:"Akteurstypen nach Scharpf", b:"Individuen\nHandlungsaggregate: gleichgerichtet ohne Organisation\nKollektive Akteure: koordiniert, Beteiligte handeln selbst\nKorporative Akteure: eigene Organisation handelt stellvertretend"}
+ {id:"se1-c39", f:"Akteurstypen nach Scharpf", b:"Individuen\nHandlungsaggregate: gleichgerichtet ohne Organisation\nKollektive Akteure: koordiniert, Beteiligte handeln selbst\nKorporative Akteure: eigene Organisation handelt stellvertretend"},
+ {id:"se1-c40", f:"Lowi: Policy bestimmt Politics", b:"Regulative, distributive und redistributive Politik erzeugen unterschiedliche Konfliktarenen, je nachdem, wie sie die Interessen von Gruppen berühren."}
 ];
 Object.assign(CARD_CTX,{
+ "se1-c40":"Wie Politikinhalte den Konflikt prägen (Empfehlung)",
  "se1-c01":"Schlüsselbegriff des Seminartexts","se1-c02":"Warum die Exekutive im Zentrum steht","se1-c03":"Regierungsforschung statt Verfassungskunde",
  "se1-c04":"Wie man das deutsche System einordnet","se1-c05":"Verfassung in Kurzform","se1-c06":"Was das BVerfG zur Kernordnung zählt","se1-c07":"Rückbindung an das Volk",
  "se1-c08":"Zwei Seiten der Politik","se1-c09":"Mehr als „Regieren“","se1-c10":"Die Dreiteilung mit Easton verknüpft",

@@ -241,8 +241,8 @@ nav button:active{background:var(--fill)}
 @supports not ((-webkit-backdrop-filter:blur(1px)) or (backdrop-filter:blur(1px))){ nav,.zoom,#sessbar,.etop{background:var(--surface)} }
 
 /* ---------- Lernmodus ohne Ablenkung: Leiste weg, oben Schließen und Fortschritt ---------- */
-nav,.zoom{transition:transform .38s cubic-bezier(.3,.7,.3,1),opacity .25s}
-body.focus nav,body.focus .zoom{transform:translateY(calc(100% + 48px));opacity:0;pointer-events:none}
+nav,.zoom{transition:transform .38s cubic-bezier(.3,.7,.3,1),opacity .25s,visibility 0s}
+body.focus nav,body.focus .zoom{transform:translateY(calc(100% + 48px));opacity:0;pointer-events:none;visibility:hidden;transition:transform .38s cubic-bezier(.3,.7,.3,1),opacity .25s,visibility 0s .38s}
 body.focus main{padding-bottom:calc(48px + env(safe-area-inset-bottom,0px))}
 #focusbar{position:sticky;top:0;z-index:8;padding-top:env(safe-area-inset-top,0px);background:var(--glass);
   -webkit-backdrop-filter:saturate(180%) blur(24px);backdrop-filter:saturate(180%) blur(24px);border-bottom:.5px solid var(--glass-line)}
