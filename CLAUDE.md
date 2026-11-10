@@ -34,7 +34,7 @@ Live jeweils unter `https://talib47.github.io/<Repo>/`.
 8. **Prüfungstermine:** nur aus den Unterlagen (Folie, Verlaufsplan, Moodle). Steht ein Termin nicht sicher fest, gilt der **Stichtag 31.01.** des Semesters: Bis dahin soll alles sitzen. Die App zeigt das als Annahme („Stichtag“) und rechnet Abstände und Probeklausuren danach. Trägt Talib einen Termin ein, gilt seiner. Sobald ein Termin in Unterlagen auftaucht, als Standard eintragen und die Tabelle oben anpassen.
 9. **Ton:** Deutsch, kurz, fürs Handy. Nachname immer „Gündoğdu“.
 10. **Prüfauftrag:** Schreibt Talib „Prüfauftrag“ (mit App und Umfang), gilt `PRUEFAUFTRAG.md` im Repo, wortgleich in allen vier Repos.
-11. **„Update“:** Schreibt Talib im Projekt eines Fachs „Update“ (auch über den Knopf „Unterlagen aktualisieren“ in der App), gilt `UPDATE.md` im Repo, wortgleich in allen vier Repos: Neues im Projekt finden, ganz lesen, so gründlich einbauen wie die bisherigen Sitzungen, prüfen, Brücke pflegen, pushen, ohne Rückfrage. Pro Update-Runde ein neuer Chat im Projekt des Fachs, denn lange Chats kosten mehr Kontingent. Die App sieht das Projekt nicht selbst; erst das Update bringt neue Dateien hinein.
+11. **„Update“:** Schickt Talib im Projekt eines Fachs Dateien (mit oder ohne Text) oder schreibt er „Update“, gilt `UPDATE.md` im Repo, wortgleich in allen vier Repos: Neues im Projekt finden, ganz lesen, so gründlich einbauen wie die bisherigen Sitzungen, prüfen, Brücke pflegen, pushen, ohne Rückfrage. Pro Update-Runde ein neuer Chat im Projekt des Fachs, denn lange Chats kosten mehr Kontingent. Die App sieht das Projekt nicht selbst; erst das Update bringt neue Dateien hinein.
 
 ### Aufbau jeder App (fester Platz für alles)
 
@@ -103,7 +103,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Karten wischen, eine zurück | ✓ | ✓ | ✓ | ✓ |
 | Geräte-Abgleich unter Statistik | ✓ | ✓ | ✓ | ✓ |
 | Hochgeladen-Übersicht je Hälfte, nach Sitzung/Block | ✓ | ✓ | ✓ | ✓ |
-| Unterlagen: was fehlt, Knopf „Unterlagen aktualisieren“ (öffnet das Projekt, kopiert „Update“; `uploadsTodo`, `weeklyAfter`, `uplGo` in `status.js`, `APP.expect` und `APP.projectUrl` in `appcfg.js`) | ✓ | ✓ | ✓ | ✓ |
+| Unterlagen: was fehlt, Knopf „Projekt öffnen“ (kopiert auch „Update“; `uploadsTodo`, `weeklyAfter`, `uplGo` in `status.js`, `APP.expect` und `APP.projectUrl` in `appcfg.js`) | ✓ | ✓ | ✓ | ✓ |
 | Erledigt-Liste unter Statistik | ✓ | ✓ | ✓ | ✓ |
 | Motivationssatz unter der Wochenübersicht | ✓ | ✓ | ✓ | ✓ |
 | Claude-Brücke (diese Datei + Block unter Statistik) | ✓ | ✓ | ✓ | ✓ |
@@ -126,6 +126,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-10 · alle · Projekt Politik I · Hochladen und Bescheid geben in einem Schritt: Dateien in einem neuen Chat im Projekt anhängen und senden, ohne Text; der Chat baut sie nach `UPDATE.md` ein und sichert die Textfassung als Projekt-Dokument; Knopf heißt „Projekt öffnen“ · Talib: Upload, Knopf, Chat, Einfügen waren zu viele Schritte
 - 2026-11-10 · alle · Projekt Politik I · Knopf „Unterlagen aktualisieren“ im Block „Unterlagen“ (öffnet das claude.ai-Projekt, kopiert „Update“), `UPDATE.md` als gründlicher Einbau-Auftrag (wortgleich in allen Repos), Regel 11 neu; fehlende `APP.projectUrl` trägt der nächste Update-Chat selbst ein · Talib: Hochladen allein ändert die App nicht, er will ein klares Signal und sorgfältigen Einbau
 - 2026-11-10 · alle · Projekt Politik I · Block „Unterlagen“ in allen Apps, Muster je App aus den bisherigen Uploads hergeleitet: BiWi II ein wachsender Foliensatz (immer die neueste ganze Datei), W&G I je Hälfte etwa wöchentlich wie bisher, Wirtschaft II komplett, Politik I nach Vorlesungs- und Verlaufsplan; unsicher heißt „vermutlich“ mit Bitte um Moodle-Screenshot; Regel 7 neu · Talib: Die Fächer laden sehr unterschiedlich hoch, Claude soll das selbst herleiten und in jedem Chat wissen
 - 2026-11-10 · Politik I · Projekt Politik I · Block „Unterlagen“ als Muster: oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Seminartexte 7 Tage vorher, mit Dateinamen laut Verlaufsplan), „So geht’s“ in einem Satz (ins Projekt laden, neuer Chat, „Update“), darunter „Schon drin“; Regel 11 „Update“ · Talib verliert den Überblick, was er wo hochladen und in welchem Chat er Bescheid geben muss

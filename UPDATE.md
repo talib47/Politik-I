@@ -1,9 +1,10 @@
 # Update: neue Unterlagen einbauen
 
-Wortgleich in allen vier Repos. Gilt, wenn Talib im Projekt eines Fachs „Update“ schreibt, auch über den Knopf „Unterlagen aktualisieren“ in der App. Keine Rückfrage, außer eine Entscheidung ist nicht rückgängig zu machen. Gründlich statt schnell: Lieber eine Sitzung sauber als drei halb.
+Wortgleich in allen vier Repos. Gilt, wenn Talib im Projekt eines Fachs Dateien schickt (mit oder ohne Text) oder „Update“ schreibt. Keine Rückfrage, außer eine Entscheidung ist nicht rückgängig zu machen. Gründlich statt schnell: Lieber eine Sitzung sauber als drei halb.
 
 ## 1. Was ist neu?
-- Dateien im claude.ai-Projekt (`project_info`) mit `UPLOADS` der App vergleichen.
+- Angehängte Dateien sind das Neue. Ihre Textfassung wird als Projekt-Dokument gesichert (`project_write` mit `local_path`, Pfad `quellen/<Dateiname>.md`), damit spätere Chats die Quelle haben. Talib muss nichts zusätzlich ins Projekt laden.
+- Ohne Anhang: Dateien im claude.ai-Projekt (`project_info`) mit `UPLOADS` der App vergleichen.
 - Bei einer wachsenden Datei (etwa dem Foliensatz in BiWi II) die neue Fassung mit dem eingebauten Stand vergleichen und nur die neuen Sitzungen nehmen.
 - Moodle-Screenshots auswerten: Umfang (`known:true`), Termine, ausgefallene Sitzungen, Art der Unterlagen.
 - Fehlt `APP.projectUrl`, die Adresse dieses Projekts eintragen. Die ID steht im Pfad des Projekt-Speichers `/projects/<id>/`, die Adresse ist dann `https://claude.ai/project/<id>`.

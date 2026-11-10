@@ -48,8 +48,8 @@ function uploadsTodo(L){
   return `<details class="block upl"${late.length?" open":""}><summary><span class="eyebrow" style="margin:0">Unterlagen</span><span class="upl-last">${head}</span></summary>
     ${miss.length?`<p class="upl-sub">Noch hochladen</p><ul class="upl-i">${miss.map(e=>`<li class="miss"><span aria-hidden="true">○</span><span><b>${e.label}</b> <span class="muted">${e.date}${e.ts>now?", bald":""}</span><br>${e.items.join(" · ")}</span></li>`).join("")}</ul>`:""}
     ${unsure&&miss.length?`<p class="small muted upl-how">Hergeleitet aus deinen bisherigen Uploads. Stimmt das nicht, leg einen Screenshot der Moodle-Kursseite dazu, dann passe ich es an.</p>`:""}
-    <p class="small upl-how"><b>So geht’s:</b> Dateien ins claude.ai-Projekt zu ${APP.project||APP.name} laden, dann hier tippen. Das öffnet das Projekt und kopiert „Update“: neuen Chat öffnen, einfügen, senden. Den Rest mache ich gründlich.</p>
-    <button class="btn upl-go" type="button" onclick="uplGo()">Unterlagen aktualisieren</button>
+    <p class="small upl-how"><b>So geht’s:</b> Im claude.ai-Projekt zu ${APP.project||APP.name} einen neuen Chat öffnen, die Dateien anhängen und senden, ohne Text. Den Rest mache ich gründlich.</p>
+    <button class="btn upl-go" type="button" onclick="uplGo()">Projekt öffnen</button>
     ${U.length?`<p class="upl-sub">Schon drin</p>`+L.map(u=>{ const st=upState(u);
       return `<div class="upl-u"><p class="upl-h"><b>${upName(u)}</b><span class="muted">${upDate(u)}</span><span class="upst ${st.cls}">${st.txt}</span></p>
         <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span><span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</span></li>`).join("")}</ul></div>`; }).join(""):""}</details>`;
@@ -59,7 +59,7 @@ function uploadsTodo(L){
    und kopiert „Update“. Eine App kann nicht selbst sehen, was im Projekt liegt; das Signal gibt dieser Knopf. */
 function uplGo(){
   try{ if(navigator.clipboard) navigator.clipboard.writeText("Update"); }catch(e){}
-  toast("„Update“ ist kopiert. Im Projekt einen neuen Chat öffnen, einfügen und senden.");
+  toast("Neuen Chat öffnen, Dateien anhängen, senden. Liegen sie schon im Projekt: „Update“ ist kopiert.");
   window.open(APP.projectUrl||"https://claude.ai/projects","_blank","noopener");
 }
 /* Erwartung aus dem bisherigen Rhythmus herleiten, für Fächer ohne bekannten Sitzungsplan: Nach dem letzten Upload
