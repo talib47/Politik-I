@@ -124,6 +124,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-10 · Politik I · Projekt Politik I · Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin · Moodle-Zuteilung nach der Abstimmung bis 04.11.
 - 2026-11-04 · Politik I · Projekt Politik I · Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten · Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit
 - 2026-11-04 · alle · Projekt Politik I · `PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat · Talib: Das Limit wurde ständig erreicht
 - 2026-11-04 · alle · Projekt Politik I · `spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px · Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift

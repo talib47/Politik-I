@@ -1117,7 +1117,7 @@ function essayHowTo(){
 function seHowTo(){
   const open=Date.now()<new Date(2026,10,5).getTime();
   return `<div class="block"><h2>Presseschau (Studienleistung)</h2>
-    ${open?`<p class="small" style="margin:0 0 8px"><b>Thema wählen bis Mi 04.11., 23:59</b> in Moodle unter „Vergabe Presseschauen und Referate“.</p>`:""}
+    ${open?`<p class="small" style="margin:0 0 8px"><b>Thema wählen bis Mi 04.11., 23:59</b> in Moodle unter „Vergabe Presseschauen und Referate“.</p>`:`<p class="small"><b>Dein Termin: 09.1 Presseschau</b> zu Block IX „Die EU: effizient, effektiv und demokratisch?“ (Do 21.01., Textgrundlage Abels 2020). Abgabe <b>Mi 20.01., 12 Uhr</b>.</p>`}
     <div class="klist">
       <b>Länge</b><span>etwa 10 Minuten (ein Referat wären 20–25 Minuten)</span>
       <b>Inhalt</b><span>Presseberichte der <b>vergangenen Woche</b> zu seminarrelevanten Themen</span>
@@ -1125,6 +1125,21 @@ function seHowTo(){
       <b>Folien</b><span>PPT mit Schlagzeilen und ggf. Bildern, Grafiken, Tabellen oder Textstellen. Vorbild: Presseschau des Deutschlandfunks</span>
       <b>Abgabe</b><span>Folien selbst vertonen, <b>nur als MP4</b> auf Sciebo hochladen, Link und PDF der Folien per Mail an Dr. Schwarz, <b>am Vortag der Sitzung bis 12 Uhr</b></span>
     </div>
+    ${open?"":`<h3>Fahrplan</h3>
+    <div class="klist">
+      <b>13.–19.01.</b><span>Artikel der Woche vor der Sitzung sammeln, die Presseschau des Deutschlandfunks täglich als Wegweiser <span class="erg">Annahme zum Zeitraum</span></span>
+      <b>So 17.–Mo 18.01.</b><span>drei Themen wählen, Folien bauen</span>
+      <b>Di 19.01.</b><span>Sprechtext, vertonen (etwa 10 Min.), als MP4 speichern</span>
+      <b>Mi 20.01.</b><span>bis 12 Uhr: MP4 auf Sciebo, Link und PDF per Mail an Dr. Schwarz</span>
+    </div>
+    <h3>Folienplan für 10 Minuten <span class="erg">Ergänzung</span></h3>
+    <ol class="gl">
+      <li><b>Titel</b>: Presseschau, Zeitraum, Name (20 s)</li>
+      <li><b>Überblick</b>: die drei Themen der Woche (40 s)</li>
+      <li><b>Je Thema zwei Folien</b>: Schlagzeilen aus zwei bis drei Zeitungen nebeneinander, ein Zitat oder eine Grafik, dann die Einordnung mit einem Seminarbegriff, etwa Demokratiedefizit, Input- und Output-Legitimität (je etwa 2,5 Min.)</li>
+      <li><b>Fazit</b>: Was zeigt die Woche über Effizienz, Effektivität und Demokratie der EU? (1 Min.)</li>
+      <li><b>Quellen</b>: Zeitung, Datum, Titel (20 s)</li>
+    </ol>`}
     <p class="small muted" style="margin:0">Anleitungen zum Vertonen (Windows und Mac) sind im Verlaufsplan verlinkt. Für Gliederung, Folien und Sprechtext kannst du mich im Projekt-Chat fragen.</p></div>
   <div class="block">
     <h2>Wie schreibe ich das Essay bei Schwarz? <span class="erg">Ergänzung</span></h2>
@@ -1758,8 +1773,9 @@ const APP={
   ],
   se:[
    {id:"se-wahl", t:"Presseschau-Wahl in Moodle abgegeben", d:"bis Mi 04.11., 23:59"},
-   {id:"se-termin", t:"Presseschau-Termin zugeteilt und notiert", d:"ab Do 05.11., 10 Uhr"},
-   {id:"se-presse", t:"Presseschau aufgenommen, MP4 auf Sciebo, Link und PDF per Mail", d:"Vortag der Sitzung, 12 Uhr"},
+   {id:"se-termin", t:"Presseschau-Termin zugeteilt und notiert: 09.1, Block IX (Do 21.01.)", d:"zugeteilt"},
+   {id:"se-psam", t:"Presseschau: Artikel gesammelt und Folien gebaut", d:"13.–18.01."},
+   {id:"se-presse", t:"Presseschau aufgenommen, MP4 auf Sciebo, Link und PDF per Mail", d:"Mi 20.01., 12 Uhr"},
    {id:"se-bib1", t:"Bibliotheksschein Teil 1"},
    {id:"se-bib2", t:"Bibliotheksschein Teil 2"},
    {id:"se-bib3", t:"Bibliotheksschein Teil 3: Fachrecherche Politikwissenschaft"},
@@ -1781,7 +1797,7 @@ const APP={
       known:false = nur bekannt, dass das Hochgeladene dazugehört.
    2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
    3. Motivationssatz unter der Wochenübersicht.
-   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}, {"d": "2026-11-03", "a": "alle", "w": "Lernmodus in BiWi II, Wirtschaft II und W&G I übernommen (W&G I: Fragenrunde, Karten, Wer sagt das?, laufendes Quiz; Umschalter dort ausgeblendet)", "y": "Talib hat das Muster freigegeben"}]).
+   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-10", "a": "Politik I", "w": "Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin", "y": "Moodle-Zuteilung nach der Abstimmung bis 04.11."}, {"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}]).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
    6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
    7. Lernmodus ohne Ablenkung (focusBar): Ansichten aus APP.focus.views und die ganze Tageseinheit blenden Tableiste und „Aa“ aus.
@@ -1865,7 +1881,7 @@ document.addEventListener("keydown",e=>{ if(e.key!=="Escape"||!document.body.cla
   const a=document.activeElement; if(a&&/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)) return; const x=document.getElementById("fx"); if(x){ e.preventDefault(); x.click(); } });
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
-const BRUECKE=[{"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}, {"d": "2026-11-03", "a": "alle", "w": "Lernmodus in BiWi II, Wirtschaft II und W&G I übernommen (W&G I: Fragenrunde, Karten, Wer sagt das?, laufendes Quiz; Umschalter dort ausgeblendet)", "y": "Talib hat das Muster freigegeben"}];
+const BRUECKE=[{"d": "2026-11-10", "a": "Politik I", "w": "Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin", "y": "Moodle-Zuteilung nach der Abstimmung bis 04.11."}, {"d": "2026-11-04", "a": "Politik I", "w": "Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten", "y": "Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit"}, {"d": "2026-11-04", "a": "alle", "w": "`PRUEFAUFTRAG.md` verschlankt: erst Skripte, dann gezielt lesen, keine parallelen Agenten, Bericht im Chat", "y": "Talib: Das Limit wurde ständig erreicht"}, {"d": "2026-11-04", "a": "alle", "w": "`spaceDays` nie unter 3 Tage, Streuung nach dem Deckel; `design.css`: Grauton und Gold dunkler (WCAG AA), Hinweise voll deckend, Silbentrennung gegen Überlauf bei 180 % Schrift, Zurück, Schließen und Aufklappzeilen 44 px, Häkchen 24 px", "y": "Prüfauftrag Politik I: Stau in der letzten Woche vor der Prüfung, 16 Kontrastfehler, Überlauf bei großer Schrift"}, {"d": "2026-11-04", "a": "Politik I", "w": "Inhalte gegen Unterlagen korrigiert (v1-1 bis v1-4, se1-1, se1-7 bis se1-12, se1-c24, se1-c31), 25 Fragen verraten die Antwort nicht mehr durch Länge, Prüfskripte in `tools/pruefen/`", "y": "Prüfauftrag komplett, Bericht als Dokument"}, {"d": "2026-11-03", "a": "alle", "w": "Prüfauftrag `PRUEFAUFTRAG.md` in allen Repos: Gesamtprüfung in acht Schritten (Inhalt gegen Unterlagen, Prüfungspassung, Lernwirksamkeit, Oberfläche, Technik, unabhängige Zweitprüfung, Umsetzen, Bericht)", "y": "Talib will die Apps regelmäßig von Grund auf prüfen lassen"}];
 function bridgeBlock(){
   if(!BRUECKE.length) return "";
   const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
@@ -3806,7 +3822,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="8b581819abaa", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="cb1e8a03e9c1", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }

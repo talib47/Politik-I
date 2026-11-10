@@ -134,7 +134,7 @@ function essayHowTo(){
 function seHowTo(){
   const open=Date.now()<new Date(2026,10,5).getTime();
   return `<div class="block"><h2>Presseschau (Studienleistung)</h2>
-    ${open?`<p class="small" style="margin:0 0 8px"><b>Thema wählen bis Mi 04.11., 23:59</b> in Moodle unter „Vergabe Presseschauen und Referate“.</p>`:""}
+    ${open?`<p class="small" style="margin:0 0 8px"><b>Thema wählen bis Mi 04.11., 23:59</b> in Moodle unter „Vergabe Presseschauen und Referate“.</p>`:`<p class="small"><b>Dein Termin: 09.1 Presseschau</b> zu Block IX „Die EU: effizient, effektiv und demokratisch?“ (Do 21.01., Textgrundlage Abels 2020). Abgabe <b>Mi 20.01., 12 Uhr</b>.</p>`}
     <div class="klist">
       <b>Länge</b><span>etwa 10 Minuten (ein Referat wären 20–25 Minuten)</span>
       <b>Inhalt</b><span>Presseberichte der <b>vergangenen Woche</b> zu seminarrelevanten Themen</span>
@@ -142,6 +142,21 @@ function seHowTo(){
       <b>Folien</b><span>PPT mit Schlagzeilen und ggf. Bildern, Grafiken, Tabellen oder Textstellen. Vorbild: Presseschau des Deutschlandfunks</span>
       <b>Abgabe</b><span>Folien selbst vertonen, <b>nur als MP4</b> auf Sciebo hochladen, Link und PDF der Folien per Mail an Dr. Schwarz, <b>am Vortag der Sitzung bis 12 Uhr</b></span>
     </div>
+    ${open?"":`<h3>Fahrplan</h3>
+    <div class="klist">
+      <b>13.–19.01.</b><span>Artikel der Woche vor der Sitzung sammeln, die Presseschau des Deutschlandfunks täglich als Wegweiser <span class="erg">Annahme zum Zeitraum</span></span>
+      <b>So 17.–Mo 18.01.</b><span>drei Themen wählen, Folien bauen</span>
+      <b>Di 19.01.</b><span>Sprechtext, vertonen (etwa 10 Min.), als MP4 speichern</span>
+      <b>Mi 20.01.</b><span>bis 12 Uhr: MP4 auf Sciebo, Link und PDF per Mail an Dr. Schwarz</span>
+    </div>
+    <h3>Folienplan für 10 Minuten <span class="erg">Ergänzung</span></h3>
+    <ol class="gl">
+      <li><b>Titel</b>: Presseschau, Zeitraum, Name (20 s)</li>
+      <li><b>Überblick</b>: die drei Themen der Woche (40 s)</li>
+      <li><b>Je Thema zwei Folien</b>: Schlagzeilen aus zwei bis drei Zeitungen nebeneinander, ein Zitat oder eine Grafik, dann die Einordnung mit einem Seminarbegriff, etwa Demokratiedefizit, Input- und Output-Legitimität (je etwa 2,5 Min.)</li>
+      <li><b>Fazit</b>: Was zeigt die Woche über Effizienz, Effektivität und Demokratie der EU? (1 Min.)</li>
+      <li><b>Quellen</b>: Zeitung, Datum, Titel (20 s)</li>
+    </ol>`}
     <p class="small muted" style="margin:0">Anleitungen zum Vertonen (Windows und Mac) sind im Verlaufsplan verlinkt. Für Gliederung, Folien und Sprechtext kannst du mich im Projekt-Chat fragen.</p></div>
   <div class="block">
     <h2>Wie schreibe ich das Essay bei Schwarz? <span class="erg">Ergänzung</span></h2>

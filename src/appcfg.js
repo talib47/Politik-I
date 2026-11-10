@@ -23,8 +23,9 @@ const APP={
   ],
   se:[
    {id:"se-wahl", t:"Presseschau-Wahl in Moodle abgegeben", d:"bis Mi 04.11., 23:59"},
-   {id:"se-termin", t:"Presseschau-Termin zugeteilt und notiert", d:"ab Do 05.11., 10 Uhr"},
-   {id:"se-presse", t:"Presseschau aufgenommen, MP4 auf Sciebo, Link und PDF per Mail", d:"Vortag der Sitzung, 12 Uhr"},
+   {id:"se-termin", t:"Presseschau-Termin zugeteilt und notiert: 09.1, Block IX (Do 21.01.)", d:"zugeteilt"},
+   {id:"se-psam", t:"Presseschau: Artikel gesammelt und Folien gebaut", d:"13.–18.01."},
+   {id:"se-presse", t:"Presseschau aufgenommen, MP4 auf Sciebo, Link und PDF per Mail", d:"Mi 20.01., 12 Uhr"},
    {id:"se-bib1", t:"Bibliotheksschein Teil 1"},
    {id:"se-bib2", t:"Bibliotheksschein Teil 2"},
    {id:"se-bib3", t:"Bibliotheksschein Teil 3: Fachrecherche Politikwissenschaft"},
