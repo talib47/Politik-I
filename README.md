@@ -39,6 +39,7 @@ Grundgerüst und Lernformen aus Wirtschaft II übernommen und auf zwei Veranstal
 | `content_v1.js`, `content_v1_lit.js` | Vorlesung Sitzung 1: Folien und Lektüre (Patzelt, Lauth, Merkel) |
 | `content_v1_train.js` | Sitzung 1: Begründungen falscher Antworten, Zuordnungen, Begriffe |
 | `content_s1.js` | Seminar Sitzung 1 (Kapitel 101): Lektionen mit Begründung je falscher Wahl (`w` direkt in der Frage), Karten, Selbsttests |
+| `content_s2.js`, `content_s2_train.js` | Seminar Block II (Kapitel 102): Parteien und Wahlen, Muster für die weiteren Blöcke |
 | `content_s1_train.js` | Seminar Sitzung 1: Essays (Musteressay etwa 500 Wörter), Zuordnungen (`se_…`-Sets), Begriffe |
 | `start.js` | Start, Schriftgröße („Aa“), Token aus dem Link |
 
@@ -58,7 +59,7 @@ Lernstand: IDs von Lektionen, Karten, Fragen (`Lektions-ID#Nr`), Selbsttests, Es
 ## Stand der Inhalte
 
 Vorlesung: Sitzung 1 (15.10.) mit Lektüre fertig: 14 Lektionen mit 39 Verständnisfragen, 52 Karten, 21 Begriffe, 37 Zuordnungen, 14 Selbsttests, 8 Essay-Fragen. Lektüretexte liegen aufbereitet im claude.ai-Projekt.
-Seminar: Sitzung 1 (29.10.) mit Textgrundlage und allen vier Empfehlungen fertig: 12 Lektionen mit 36 Verständnisfragen, 40 Karten, 18 Begriffe, 42 Zuordnungen, 9 Selbsttests, 5 Essay-Fragen. Sitzungen 2–9 stehen mit Textgrundlage im Lernpfad.
+Seminar: Sitzung 1 (29.10.) mit Textgrundlage und allen vier Empfehlungen fertig: 12 Lektionen mit 36 Verständnisfragen, 40 Karten, 18 Begriffe, 42 Zuordnungen, 9 Selbsttests, 5 Essay-Fragen. Block II (12.11., Mielke 2013 mit drei Empfehlungen) fertig: 7 Lektionen mit 18 Verständnisfragen, 20 Karten, 9 Begriffe, 12 Zuordnungen, 4 Selbsttests, 3 Essay-Fragen. Blöcke 3–9 stehen mit Textgrundlage im Lernpfad.
 
 ## Updates
 
