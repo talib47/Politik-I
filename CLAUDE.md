@@ -103,7 +103,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Karten wischen, eine zurück | ✓ | ✓ | ✓ | ✓ |
 | Geräte-Abgleich unter Statistik | ✓ | ✓ | ✓ | ✓ |
 | Hochgeladen-Übersicht je Hälfte, nach Sitzung/Block | ✓ | ✓ | ✓ | ✓ |
-| Unterlagen: was fehlt, Knopf „Projekt öffnen“ (kopiert auch „Update“; `uploadsTodo`, `weeklyAfter`, `uplGo` in `status.js`, `APP.expect` und `APP.projectUrl` in `appcfg.js`) | ✓ | ✓ | ✓ | ✓ |
+| Unterlagen: was fehlt und wie hochladen (`uploadsTodo`, `weeklyAfter` in `status.js`, `APP.expect` in `appcfg.js`); kein Knopf ins Projekt, weil die Web-App dafür einen Browser ohne Anmeldung öffnet | ✓ | ✓ | ✓ | ✓ |
 | Erledigt-Liste unter Statistik | ✓ | ✓ | ✓ | ✓ |
 | Motivationssatz unter der Wochenübersicht | ✓ | ✓ | ✓ | ✓ |
 | Claude-Brücke (diese Datei + Block unter Statistik) | ✓ | ✓ | ✓ | ✓ |
@@ -126,6 +126,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-10 · alle · Projekt Politik I · Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App · Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist
 - 2026-11-10 · alle · Projekt Politik I · Hochladen und Bescheid geben in einem Schritt: Dateien in einem neuen Chat im Projekt anhängen und senden, ohne Text; der Chat baut sie nach `UPDATE.md` ein und sichert die Textfassung als Projekt-Dokument; Knopf heißt „Projekt öffnen“ · Talib: Upload, Knopf, Chat, Einfügen waren zu viele Schritte
 - 2026-11-10 · alle · Projekt Politik I · Knopf „Unterlagen aktualisieren“ im Block „Unterlagen“ (öffnet das claude.ai-Projekt, kopiert „Update“), `UPDATE.md` als gründlicher Einbau-Auftrag (wortgleich in allen Repos), Regel 11 neu; fehlende `APP.projectUrl` trägt der nächste Update-Chat selbst ein · Talib: Hochladen allein ändert die App nicht, er will ein klares Signal und sorgfältigen Einbau
 - 2026-11-10 · alle · Projekt Politik I · Block „Unterlagen“ in allen Apps, Muster je App aus den bisherigen Uploads hergeleitet: BiWi II ein wachsender Foliensatz (immer die neueste ganze Datei), W&G I je Hälfte etwa wöchentlich wie bisher, Wirtschaft II komplett, Politik I nach Vorlesungs- und Verlaufsplan; unsicher heißt „vermutlich“ mit Bitte um Moodle-Screenshot; Regel 7 neu · Talib: Die Fächer laden sehr unterschiedlich hoch, Claude soll das selbst herleiten und in jedem Chat wissen

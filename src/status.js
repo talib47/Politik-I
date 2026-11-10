@@ -48,8 +48,7 @@ function uploadsTodo(L){
   return `<details class="block upl"${late.length?" open":""}><summary><span class="eyebrow" style="margin:0">Unterlagen</span><span class="upl-last">${head}</span></summary>
     ${miss.length?`<p class="upl-sub">Noch hochladen</p><ul class="upl-i">${miss.map(e=>`<li class="miss"><span aria-hidden="true">○</span><span><b>${e.label}</b> <span class="muted">${e.date}${e.ts>now?", bald":""}</span><br>${e.items.join(" · ")}</span></li>`).join("")}</ul>`:""}
     ${unsure&&miss.length?`<p class="small muted upl-how">Hergeleitet aus deinen bisherigen Uploads. Stimmt das nicht, leg einen Screenshot der Moodle-Kursseite dazu, dann passe ich es an.</p>`:""}
-    <p class="small upl-how"><b>So geht’s:</b> Im claude.ai-Projekt zu ${APP.project||APP.name} einen neuen Chat öffnen, die Dateien anhängen und senden, ohne Text. Den Rest mache ich gründlich.</p>
-    <button class="btn upl-go" type="button" onclick="uplGo()">Projekt öffnen</button>
+    <p class="small upl-how"><b>So geht’s:</b> In der Claude-App das Projekt zu ${APP.project||APP.name} öffnen, neuer Chat, Dateien anhängen, senden. Text ist nicht nötig, den Rest mache ich gründlich.</p>
     ${U.length?`<p class="upl-sub">Schon drin</p>`+L.map(u=>{ const st=upState(u);
       return `<div class="upl-u"><p class="upl-h"><b>${upName(u)}</b><span class="muted">${upDate(u)}</span><span class="upst ${st.cls}">${st.txt}</span></p>
         <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span><span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</span></li>`).join("")}</ul></div>`; }).join(""):""}</details>`;
