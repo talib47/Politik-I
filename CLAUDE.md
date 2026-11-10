@@ -30,7 +30,7 @@ Live jeweils unter `https://talib47.github.io/<Repo>/`.
 4. **Lernstand schützen:** IDs von Lektionen, Karten, Fragen und Begriffen nie ändern oder wiederverwenden. Zweig `fortschritt` nie anfassen. Beim Start nichts speichern. Neue Felder in `state` nur in `norm()` anlegen.
 5. **Bauen und prüfen:** `python3 build.py` (W&G I: `python3 stamp.py`), `version.txt` immer mitcommitten. Vor dem Push `node --check`, doppelte IDs prüfen, Headless-Browser bei 360 px hell und dunkel ohne Fehler und ohne Überlauf. Commit als `Claude <noreply@anthropic.com>` auf `main`.
 6. **Inhalte:** Grundlage sind nur Talibs Unterlagen (Folien, Texte, Moodle-Screenshots). Alles darüber hinaus wird markiert (`erg`/`ergbox`, Lektüre `lit`/`litbox`). Widerspricht etwas den Unterlagen, gilt die Unterlage.
-7. **Hochgeladen-Übersicht pflegen:** Jede neu eingebaute Sitzung bzw. jeder Block bekommt einen `UPLOADS`-Eintrag mit Einzeldateien. `known:true` nur, wenn der Umfang aus Moodle-Screenshot, Verlaufsplan oder Folie bekannt ist.
+7. **Unterlagen pflegen, Muster selbst herleiten:** Jede eingebaute Sitzung bzw. jeder Block bekommt einen `UPLOADS`-Eintrag mit Einzeldateien und dem Einbaudatum `added`. Was als Nächstes kommt, steht in `APP.expect` (Block „Unterlagen“ zeigt daraus, was fehlt). Claude leitet das Muster selbst aus den bisherigen Uploads und Unterlagen her, nie durch Nachfragen bei Talib: Art der Dateien, Rhythmus, ob jede Woche eine neue Datei kommt oder eine Datei wächst (`weeklyAfter` in `status.js`), oder ein bekannter Plan (Verlaufsplan, Vorlesungsplan). Ist das unsicher, zeigt die App „vermutlich“ und bittet um einen Moodle-Screenshot. Was ein Screenshot oder eine Antwort klärt (Muster, ausgefallene Sitzung, Wochentag), trägt Claude in `APP.expect` und in „Nur diese App“ ein, damit kein Chat noch einmal fragt. `known:true` nur, wenn der Umfang aus Moodle-Screenshot, Verlaufsplan oder Folie bekannt ist.
 8. **Prüfungstermine:** nur aus den Unterlagen (Folie, Verlaufsplan, Moodle). Steht ein Termin nicht sicher fest, gilt der **Stichtag 31.01.** des Semesters: Bis dahin soll alles sitzen. Die App zeigt das als Annahme („Stichtag“) und rechnet Abstände und Probeklausuren danach. Trägt Talib einen Termin ein, gilt seiner. Sobald ein Termin in Unterlagen auftaucht, als Standard eintragen und die Tabelle oben anpassen.
 9. **Ton:** Deutsch, kurz, fürs Handy. Nachname immer „Gündoğdu“.
 10. **Prüfauftrag:** Schreibt Talib „Prüfauftrag“ (mit App und Umfang), gilt `PRUEFAUFTRAG.md` im Repo, wortgleich in allen vier Repos.
@@ -103,7 +103,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 | Karten wischen, eine zurück | ✓ | ✓ | ✓ | ✓ |
 | Geräte-Abgleich unter Statistik | ✓ | ✓ | ✓ | ✓ |
 | Hochgeladen-Übersicht je Hälfte, nach Sitzung/Block | ✓ | ✓ | ✓ | ✓ |
-| Unterlagen: was fehlt, So geht’s mit „Update“ (`uploadsTodo` in `status.js`, `APP.expect` in `appcfg.js`) | ○ | ✓ | ○ | ○ |
+| Unterlagen: was fehlt, So geht’s mit „Update“ (`uploadsTodo`, `weeklyAfter` in `status.js`, `APP.expect` in `appcfg.js`) | ✓ | ✓ | ✓ | ✓ |
 | Erledigt-Liste unter Statistik | ✓ | ✓ | ✓ | ✓ |
 | Motivationssatz unter der Wochenübersicht | ✓ | ✓ | ✓ | ✓ |
 | Claude-Brücke (diese Datei + Block unter Statistik) | ✓ | ✓ | ✓ | ✓ |
@@ -126,6 +126,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-10 · alle · Projekt Politik I · Block „Unterlagen“ in allen Apps, Muster je App aus den bisherigen Uploads hergeleitet: BiWi II ein wachsender Foliensatz (immer die neueste ganze Datei), W&G I je Hälfte etwa wöchentlich wie bisher, Wirtschaft II komplett, Politik I nach Vorlesungs- und Verlaufsplan; unsicher heißt „vermutlich“ mit Bitte um Moodle-Screenshot; Regel 7 neu · Talib: Die Fächer laden sehr unterschiedlich hoch, Claude soll das selbst herleiten und in jedem Chat wissen
 - 2026-11-10 · Politik I · Projekt Politik I · Block „Unterlagen“ als Muster: oben, was noch fehlt (vergangene Sitzungen ohne Dateien, Seminartexte 7 Tage vorher, mit Dateinamen laut Verlaufsplan), „So geht’s“ in einem Satz (ins Projekt laden, neuer Chat, „Update“), darunter „Schon drin“; Regel 11 „Update“ · Talib verliert den Überblick, was er wo hochladen und in welchem Chat er Bescheid geben muss
 - 2026-11-10 · Politik I · Projekt Politik I · Presseschau zugeteilt: 09.1 zu Block IX (Do 21.01.), Abgabe Mi 20.01., 12 Uhr; Fahrplan und Folienplan unter „So wird geprüft“ (Seminar), Erledigt-Liste mit Termin · Moodle-Zuteilung nach der Abstimmung bis 04.11.
 - 2026-11-04 · Politik I · Projekt Politik I · Tageseinheit als Muster: Begriffe nur in eine Richtung (Gegenrichtung auf Wunsch unter Üben), am Plantag Probe-Essay plus fällige Karten · Prüfauftrag: Stoffmenge größer als 20–40 Minuten am Abend, Probe-Essays fehlten in der Einheit
@@ -162,3 +163,4 @@ Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Bloc
 - Projekt-PDFs dürfen nach dem Einbau gelöscht werden, die App enthält den Lernstoff.
 - Gemeinsame Bausteine: `src/status.js` (wortgleich mit BiWi II und Wirtschaft II), Einstellungen in `src/appcfg.js`. „Alles aufschreiben“ in `src/dump.js` (Muster für die anderen Apps).
 - Design-Muster: `src/design.css` und `fonts/` gehören zu allen Apps (beim Übertragen wortgleich kopieren, `sw.js` CORE um die Schrift ergänzen). Bandfarbe Politik I in `src/head.html`: Weinrot, Ziffer „I“.
+- Unterlagen-Muster: Vorlesung nach Vorlesungsplan (Folien nach der Sitzung, Lektüre laut Folie), Seminar nach Verlaufsplan (Textgrundlage und Empfehlungen liegen schon vorher in Moodle), `APP.expect` in `src/appcfg.js`.

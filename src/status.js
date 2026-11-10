@@ -40,17 +40,36 @@ function uploadsBlock(){
    7 Tage vorher), dann in zwei Schritten, wie hochladen, darunter, was schon drin ist. Braucht APP.expect(hälfte) mit
    [{ch, label, date, ts, items:[…], pre}] (pre: Unterlagen gibt es schon vor dem Termin, etwa Texte in Moodle). */
 function uploadsTodo(L){
-  const now=Date.now(), have=new Set(L.filter(u=>!u.base).map(u=>u.ch)), U=L.filter(u=>!u.base);
-  const E=APP.expect(APP.halves?state.course:null)||[];
+  const now=Date.now(), key=u=>u.ch!=null?u.ch:u.no, have=new Set(L.filter(u=>!u.base).map(key)), U=L.filter(u=>!u.base);
+  const X=APP.expect(APP.halves?state.course:null,L)||[], E=Array.isArray(X)?X:(X.list||[]), unsure=!Array.isArray(X)&&X.unsure;
   const miss=E.filter(e=>!have.has(e.ch)&&(e.ts<=now||(e.pre&&e.ts-7*864e5<=now))), late=miss.filter(e=>e.ts<=now);
-  const head=miss.length?`<span class="upst ${late.length?"part":"unk"}">${late.length?(late.length===1?"1 fehlt":late.length+" fehlen"):"bald"}</span> ${miss.map(e=>e.label).join(", ")}`
+  const head=miss.length?`<span class="upst ${late.length?"part":"unk"}">${unsure?"vermutlich ":""}${late.length?(late.length===1?"1 fehlt":late.length+" fehlen"):"bald"}</span> ${miss.map(e=>e.label).join(", ")}`
     :`<span class="upst full">alles da</span>${U.length?" bis "+upName(U[U.length-1]):""}`;
   return `<details class="block upl"${late.length?" open":""}><summary><span class="eyebrow" style="margin:0">Unterlagen</span><span class="upl-last">${head}</span></summary>
     ${miss.length?`<p class="upl-sub">Noch hochladen</p><ul class="upl-i">${miss.map(e=>`<li class="miss"><span aria-hidden="true">○</span><span><b>${e.label}</b> <span class="muted">${e.date}${e.ts>now?", bald":""}</span><br>${e.items.join(" · ")}</span></li>`).join("")}</ul>`:""}
-    <p class="small upl-how"><b>So geht’s:</b> Dateien ins claude.ai-Projekt „${APP.project||APP.name}“ laden, dort einen neuen Chat öffnen und <b>Update</b> schreiben. Den Rest mache ich.</p>
+    ${unsure&&miss.length?`<p class="small muted upl-how">Hergeleitet aus deinen bisherigen Uploads. Stimmt das nicht, leg einen Screenshot der Moodle-Kursseite dazu, dann passe ich es an.</p>`:""}
+    <p class="small upl-how"><b>So geht’s:</b> Dateien ins claude.ai-Projekt zu ${APP.project||APP.name} laden, dort einen neuen Chat öffnen und <b>Update</b> schreiben. Den Rest mache ich.</p>
     ${U.length?`<p class="upl-sub">Schon drin</p>`+L.map(u=>{ const st=upState(u);
       return `<div class="upl-u"><p class="upl-h"><b>${upName(u)}</b><span class="muted">${upDate(u)}</span><span class="upst ${st.cls}">${st.txt}</span></p>
         <ul class="upl-i">${u.items.map(x=>`<li class="${x.ok?"":"miss"}"><span aria-hidden="true">${x.ok?"✓":"○"}</span><span>${x.k?`<span class="muted">${x.k}:</span> `:""}${x.t}${x.ok?"":` <span class="muted">fehlt</span>`}</span></li>`).join("")}</ul></div>`; }).join(""):""}</details>`;
+}
+
+/* Erwartung aus dem bisherigen Rhythmus herleiten, für Fächer ohne bekannten Sitzungsplan: Nach dem letzten Upload
+   (Feld `added` in UPLOADS) kommt etwa alle 7 Tage etwas Neues, nicht in der Weihnachtspause und nicht nach cfg.end.
+   items: was kommt (Standard: dieselbe Art wie beim letzten Upload). grow: eine Datei wächst jede Woche, dann eine
+   Zeile für den neuesten Stand. Das Ergebnis gilt als „vermutlich“. */
+function weeklyAfter(L,cfg){
+  cfg=cfg||{}; const U=L.filter(u=>!u.base&&u.added), last=U[U.length-1]; if(!last) return {list:[],unsure:true};
+  const key=u=>u.ch!=null?u.ch:u.no, unit=cfg.unit||"Sitzung", day=864e5, end=cfg.end?new Date(cfg.end).getTime():Infinity;
+  const pause=(cfg.pause||[["2026-12-21","2027-01-06"]]).map(p=>[new Date(p[0]).getTime(),new Date(p[1]).getTime()+day]);
+  const dm=t=>{ const d=new Date(t); return String(d.getDate()).padStart(2,"0")+"."+String(d.getMonth()+1).padStart(2,"0")+"."; };
+  const items=cfg.items||[...new Set(last.items.map(x=>x.k).filter(Boolean))].map(k=>k+" (wie bisher)");
+  const out=[]; let t=new Date(last.added).getTime(), n=key(last);
+  for(let i=0;i<30;i++){ t+=(cfg.every||7)*day; if(t>end) break; if(pause.some(([a,b])=>t>=a&&t<b)) continue; n++;
+    out.push({ch:n, label:unit+" "+n, date:"etwa "+dm(t), ts:t, items}); }
+  if(cfg.grow){ const due=out.filter(e=>e.ts<=Date.now()); if(due.length>1){ const z=due[due.length-1];
+    return {list:[{...z, label:`${unit} ${due[0].ch}–${z.ch}`}].concat(out.filter(e=>e.ts>Date.now())), unsure:true}; } }
+  return {list:out, unsure:true};
 }
 
 function todoBlock(){
