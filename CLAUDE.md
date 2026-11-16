@@ -14,7 +14,7 @@ Der Abschnitt **Gemeinsam** ist in allen vier Repos wortgleich. Der Abschnitt **
 | BiWi II | talib47/BiWi-II | Psychologie im Lehramt (Heine), vier Schwerpunkte | Klausur am PC, 17.02.2027 |
 | Politik I | talib47/Politik-I | Vorlesung Schwanholz · Seminar Schwarz | Essay 60 Min. 04.02. 14 Uhr · Essayklausur 04.02. 8 Uhr |
 | Wirtschaft II | talib47/Wirtschaft-II | Makroökonomik (Bank), alle 8 Kapitel fertig | Klausur, Termin offen: Stichtag 31.01.2027 angenommen |
-| W&G I | talib47/Wirtschaft-und-Gesellschaft-I | Ökonomisches Denken (Becker) · Sozialstruktur (Erlinghagen) | 4 Moodle-Quizze (ab 16.11., 07.12., 25.01., 07.02., Abgabe bis 21.02.) · Klausur am PC (Single Choice), Termin offen: Stichtag 31.01.2027 angenommen |
+| W&G I | talib47/Wirtschaft-und-Gesellschaft-I | Ökonomisches Denken (Becker) · Sozialstruktur (Erlinghagen) | 4 Moodle-Quizze mit Claude, keine Lern-Einheit (ab 16.11., 07.12., 25.01., 07.02., Abgabe bis 21.02.; Quiz 1: 12/12) · Klausur am PC (Single Choice), Termin offen: Stichtag 31.01.2027 angenommen |
 
 Live jeweils unter `https://talib47.github.io/<Repo>/`.
 
@@ -126,6 +126,7 @@ Stand der Recherche vom 04.11.2026. Jede App folgt diesen Regeln. Wer davon abwe
 
 Neueste oben. Format: `- JJJJ-MM-TT · App(s) · Chat · Was · Warum`. Der Block „Claude-Brücke“ in der App zeigt die letzten Einträge, die die App betreffen.
 
+- 2026-11-16 · W&G I · Projekt Politik I · Ökonomisches Denken ohne Lernen (`OD_KI` in der `index.html`): keine Tageseinheit, Übersicht zeigt nur Quiz-Stand mit Punkten und den Ablauf mit Claude, App startet auf Sozialstruktur; Karten und Fragen bleiben unter Üben · KI ist bei den Quizzen laut Talib erlaubt, der Stoff kommt in keiner Klausur vor (Erlinghagen prüft nur seine Vorlesung); Quiz 1 mit Claude 12/12
 - 2026-11-10 · Politik I · Projekt Politik I · Seminar Block II „Parteien und Wahlen“ als Muster für die übrigen Blöcke: Mielke 2013 als Kern, Lucardie, Merten, Niedermayer als Empfehlung (7 Lektionen, 20 Karten, 18 Fragen, 4 Selbsttests, 3 Probe-Essays mit Musteressay, 12 Zuordnungen, 9 Begriffe), schlanker als Block I · Talib will das Seminar komplett abgedeckt haben, Texte für Block II–IX liegen im Projekt
 - 2026-11-10 · alle · Projekt Politik I · `design.css`: Im Lernmodus sind Tableiste und „Aa“ jetzt auch für VoiceOver und Tastatur verborgen (`visibility:hidden` nach der Animation), sichtbar ändert sich nichts · Prüfauftrag Politik I: unsichtbare Leiste war noch fokussierbar und wurde als Kontrastfehler gemessen
 - 2026-11-10 · Politik I · Projekt Politik I · Prüfauftrag komplett: 4 Fragen verraten die Antwort nicht mehr durch Länge (v1-13#2, v1-8#2, v1-14#1, se1-3#1), 3 neue Karten für ungeübte Kernbegriffe (v1-c51 Subtypen, v1-c52 Steuerungsskepsis, se1-c40 Lowi), Probe-Essays des Seminars an eigenen Tagen (Fr 15.01., 22.01., 29.01.: nicht auf der Presseschau-Abgabe, letzter nach der Themenbekanntgabe 28.01.) · Beide Prüfungen am 04.02., sonst zwei Probe-Essays an einem Abend
