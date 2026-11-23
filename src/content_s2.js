@@ -193,25 +193,27 @@ check:[
 
 CARDS[102]=[
  {id:"se2-c01", f:"Repräsentation und Integration (Mielke)", b:"Repräsentation: gesellschaftliche Konflikte in die politische Entscheidung übertragen\nIntegration: die Gruppen dahinter anerkennen und einbinden\nBeides entscheidend für die Legitimität"},
- {id:"se2-c02", f:"Parteienstaat", b:"Seit 1949 nennt das GG die Parteien in Art. 21, als Lehre aus Weimar. Deutschland versteht sich als Parteienstaat (Leibholz)."},
+ {id:"se2-c02", f:"Parteienstaat", b:"Grundlage: Art. 21 GG nennt die Parteien seit 1949, als Lehre aus Weimar.\nSelbstverständnis: Deutschland als Parteienstaat (Leibholz)"},
  {id:"se2-c03", f:"Party system change vs. party change", b:"System: Konzentration auf wenige Parteien (1953–1990)\nTyp: Wandel zur Volks- und Mitgliederpartei\nBeides verstärkte sich gegenseitig"},
- {id:"se2-c04", f:"Volksparteien vs. catch-all parties", b:"Union und SPD wurden Volksparteien, blieben aber bis in die 1990er unterscheidbar. Also keine profillosen catch-all parties (Kirchheimer), wohl aber ideologische Entfrachtung."},
+ {id:"se2-c04", f:"Volksparteien vs. catch-all parties", b:"Befund: Union und SPD wurden Volksparteien, blieben aber bis in die 1990er unterscheidbar.\nAlso: keine profillosen catch-all parties (Kirchheimer), wohl aber ideologische Entfrachtung"},
  {id:"se2-c05", f:"Union + SPD und Wahlbeteiligung in Zahlen", b:"Union + SPD: 1976 91,2 %, 2005 69,4 %, 2009 56,8 %\nWahlbeteiligung: 1976 90,7 %, 1990 77,8 %, 2009 70,8 %"},
  {id:"se2-c06", f:"Drei Aspekte des Wandels nach 1990", b:"1. Mehr Parteien (PDS/Linke), Ost-West-Zweiteilung\n2. Schwindende Bindung, starke Schwankungen\n3. Sinkende Wahlbeteiligung"},
- {id:"se2-c07", f:"Fluides Fünfparteiensystem", b:"Niedermayer (2008), ab etwa 2002: offene Kräfteverhältnisse, starke Schwankungen. Nicht fest auf fünf Parteien festgelegt."},
- {id:"se2-c08", f:"Cleavage (Lipset/Rokkan)", b:"Langfristiger Großkonflikt (Hauptspannungslinie), der große Gruppen betrifft und zu Parteigründungen führt. Beispiele: SPD, Zentrum."},
+ {id:"se2-c07", f:"Fluides Fünfparteiensystem", b:"Wer, wann: Niedermayer (2008), ab etwa 2002\nWas: offene Kräfteverhältnisse, starke Schwankungen\nAchtung: nicht fest auf fünf Parteien festgelegt"},
+ {id:"se2-c08", f:"Cleavage (Lipset/Rokkan)", b:"Was: langfristiger Großkonflikt (Hauptspannungslinie)\nFolge: betrifft große Gruppen und führt zu Parteigründungen\nBeispiel im Text: SPD, Zentrum"},
  {id:"se2-c09", f:"Zwei Cleavages der alten Bundesrepublik", b:"Sozio-ökonomisch: Arbeitnehmer/Gewerkschaft gegen bürgerlich-mittelständisch\nKulturell: katholisch/kirchengebunden gegen protestantisch/säkular"},
- {id:"se2-c10", f:"Asymmetrische Konfliktstruktur", b:"Union und SPD sind nicht Gegenpole einer Linie, sondern besetzen je einen Pol verschiedener Cleavages. FDP: kulturell bei SPD, ökonomisch bei Union."},
+ {id:"se2-c10", f:"Asymmetrische Konfliktstruktur", b:"Was: Union und SPD sind nicht Gegenpole einer Linie, sondern besetzen je einen Pol verschiedener Cleavages.\nBeispiel im Text: FDP kulturell bei der SPD, ökonomisch bei der Union"},
  {id:"se2-c11", f:"Die beiden Cleavages seit den 1980ern", b:"Ökonomisch: soziale Gerechtigkeit gegen Marktfreiheit\nKulturell: libertär gegen autoritär\nFolge: komplexe Wählermärkte, heterogene Gruppen"},
- {id:"se2-c12", f:"Repräsentationslücke", b:"Nach dem Kurswechsel der SPD unter Schröder stieß die Linke ab 2005 zu sozialdemokratischen Traditionswählern vor und wurde ein teilweiser Ersatz für die alte SPD."},
- {id:"se2-c13", f:"Mielkes Kernthese", b:"Nicht komplexe Wählermärkte, sondern der kollektive Schwenk der Parteieliten zur Marktfreiheit schwächt die Repräsentation. Die Wähler blieben wohlfahrtsstaatlich."},
- {id:"se2-c14", f:"Fünf Perspektiven auf Parteien (Lucardie)", b:"Programmatik, Ziele, Ursprung, Organisation, Wählerschaft"},
+ {id:"se2-c12", f:"Repräsentationslücke", b:"Ursache: Kurswechsel der SPD unter Schröder\nFolge: Die Linke stieß ab 2005 zu sozialdemokratischen Traditionswählern vor und wurde ein teilweiser Ersatz für die alte SPD."},
+ {id:"se2-c13", f:"Mielkes Kernthese", b:"These: Nicht komplexe Wählermärkte, sondern der kollektive Schwenk der Parteieliten zur Marktfreiheit schwächt die Repräsentation.\nBeleg: Die Wähler blieben wohlfahrtsstaatlich."},
+ {id:"se2-c14", f:"Fünf Perspektiven auf Parteien (Lucardie)", b:"Programmatik\nZiele\nUrsprung\nOrganisation\nWählerschaft"},
  {id:"se2-c15", f:"Organisationstypen von Parteien", b:"Honoratioren-/Kaderpartei: wenige Notable, nur Wahlkampf\nMassenpartei: ständig aktiv, viele Mitglieder\nWählerpartei: Profis, Mitglieder unwichtig (Kartellpartei als Subtyp)\nBewegungspartei: Aktivisten, Basisdemokratie"},
- {id:"se2-c16", f:"Vier Grundsätze aus Art. 21 GG (Merten)", b:"Freiheit · Gleichheit · Öffentlichkeit · innerparteiliche Demokratie"},
- {id:"se2-c17", f:"Parteiverbot", b:"Nur durch das BVerfG (Parteienprivileg, Art. 21 Abs. 2 GG), Antrag von Bundestag, Bundesrat oder Bundesregierung. NPD 2017 nicht verboten: verfassungsfeindlich, aber ohne Potenzialität."},
- {id:"se2-c19", f:"Ziele und Ursprung von Parteien (Lucardie)", b:"Ziele: prophetisch · Ideologiehüter · pragmatisch (verwandt: Strøm, policy/votes/office)\nUrsprung (Duverger): création parlementaire, eher pragmatisch · création extérieure, eher diszipliniert und ideologisch"},
+ {id:"se2-c16", f:"Vier Grundsätze aus Art. 21 GG (Merten)", b:"Freiheit\nGleichheit\nÖffentlichkeit\nInnerparteiliche Demokratie"},
+ {id:"se2-c17", f:"Parteiverbot: wer entscheidet, wer stellt den Antrag?", b:"Entscheidung: nur das BVerfG (Parteienprivileg, Art. 21 Abs. 2 GG)\nAntrag: Bundestag, Bundesrat oder Bundesregierung"},
+ {id:"se2-c21", f:"NPD-Verbotsverfahren 2017: Ergebnis und Grund", b:"Ergebnis: nicht verboten\nGrund: verfassungsfeindlich, aber ohne Potenzialität, ihre Ziele durchzusetzen"},
+ {id:"se2-c19", f:"Drei Ziele von Parteien (Lucardie)", b:"Prophetisch\nIdeologiehüter\nPragmatisch\nVerwandt: Strøm (policy, votes, office)"},
+ {id:"se2-c22", f:"Ursprung von Parteien nach Duverger", b:"Création parlementaire: eher pragmatisch\nCréation extérieure: eher diszipliniert und ideologisch\nBeispiel: Die Grünen gingen aus Bewegungen außerhalb des Parlaments hervor (création extérieure)."},
  {id:"se2-c20", f:"Staatliche Parteienfinanzierung (Merten)", b:"Anspruch ab 0,5 % (Bundestags- oder Europawahl) bzw. 1 % (Landtagswahl)\nRelative Obergrenze: höchstens die eigenen Einnahmen der Partei\nAbsolute Obergrenze: Summe für alle Parteien"},
- {id:"se2-c18", f:"Zweiparteiendominanz (Niedermayer)", b:"Zwei Große je über ein Viertel, zusammen mindestens zwei Drittel der Sitze, die nächste Partei unter der Hälfte der kleineren Großpartei. 2009 Typwechsel zum pluralistischen System, 2013 Rückkehr."}
+ {id:"se2-c18", f:"Zweiparteiendominanz (Niedermayer)", b:"Größe: zwei Große je über ein Viertel der Sitze, zusammen mindestens zwei Drittel\nAbstand: die nächste Partei unter der Hälfte der kleineren Großpartei\nVerlauf: 2009 Typwechsel zum pluralistischen System, 2013 Rückkehr"}
 ];
 Object.assign(CARD_CTX,{
  "se2-c01":"Was Parteiensysteme leisten","se2-c02":"Warum Art. 21 GG","se2-c03":"Zwei Arten von Wandel bis 1990","se2-c04":"Volkspartei richtig einordnen",
@@ -243,3 +245,5 @@ KREUZ.push(
   ["Bei Niedermayer zählen CDU und CSU auf der Systemebene als eine Einheit.", true, "Sie konkurrieren nicht miteinander."],
   ["Lucardie hält eine einzige Typologie aller Parteien für wenig zweckmäßig.", true, "Er schlägt fünf Perspektiven vor."]]}
 );
+/* Kontext neuer Karten (Lernprinzip 10, 23.11.) */
+Object.assign(CARD_CTX,{"se2-c21": "Wehrhafte Demokratie (Empfehlung)", "se2-c22": "Typologie (Empfehlung)"});

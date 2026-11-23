@@ -18,6 +18,7 @@ const CARD_CTX={
  "v1-c15":"Entweder-oder-Einteilung",
  "v1-c16":"Untertypen auf beiden Seiten",
  "v1-c17":"Lauth 2006",
+ "v1-c53":"Lauth 2006",
  "v1-c18":"Von links nach rechts",
  "v1-c19":"Noch Demokratie, aber mit Mängeln",
  "v1-c20":"Die Definition für die Einleitung eines Essays",

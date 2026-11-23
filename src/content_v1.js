@@ -259,31 +259,33 @@ check:[
 ];
 
 CARDS[1]=[
- {id:"v1-c01", f:"Politik nach Bernauer et al. (2009)", b:"Soziales Handeln, das auf Entscheidungen und Steuerungsmechanismen ausgerichtet ist, die allgemein verbindlich sind und das Zusammenleben von Menschen regeln."},
+ {id:"v1-c01", f:"Politik nach Bernauer et al. (2009)", b:"Was: soziales Handeln\nAusgerichtet auf: Entscheidungen und Steuerungsmechanismen, die allgemein verbindlich sind\nWirkung: regeln das Zusammenleben von Menschen\nBeispiel: Die Schulkonferenz beschließt eine Handyregel, die für alle gilt, auch für die, die dagegen waren."},
  {id:"v1-c02", f:"Vier Merkmale politischer Realität", b:"1. Ebenen (lokal bis international)\n2. Akteure (individuell und kollektiv)\n3. Institutionen und Organe\n4. Verfahren"},
- {id:"v1-c03", f:"Polity, Politics, Policy", b:"Polity: Form, Regelwerk (Verfassung, Staat, politisches System)\nPolitics: Prozess (Interesse, Akteur, Kommunikation, Legitimation, Macht)\nPolicy: Inhalt, Handlungsprogramme (Problem, Programm, Erfolg)"},
+ {id:"v1-c03", f:"Polity, Politics, Policy", b:"Polity: Form, Regelwerk (Verfassung, Staat, politisches System)\nPolitics: Prozess (Interesse, Akteur, Kommunikation, Legitimation, Macht)\nPolicy: Inhalt, Handlungsprogramme (Problem, Programm, Erfolg)\nBeispiel: Schulgesetz NRW (Polity), Streit im Landtag über G8 oder G9 (Politics), die Rückkehr zu G9 (Policy)"},
  {id:"v1-c04", f:"Sechs Arten wissenschaftlicher Aussagen", b:"1. Beschreibungen\n2. Aussagen über Zusammenhänge\n3. Erklärungen\n4. Prognosen\n5. Werturteile\n6. Empfehlungen oder Handlungsanweisungen"},
- {id:"v1-c05", f:"Politikwissenschaft nach Schmidt (2010)", b:"Wissenschaftliche Beschreibung, Erklärung oder Prognose politischer Phänomene auf Basis wissenschaftlich fundierter Analysen."},
+ {id:"v1-c05", f:"Politikwissenschaft nach Schmidt (2010)", b:"Was: wissenschaftliche Beschreibung, Erklärung oder Prognose\nGegenstand: politische Phänomene\nGrundlage: wissenschaftlich fundierte Analysen"},
  {id:"v1-c06", f:"Gütekriterien politikwissenschaftlicher Forschung", b:"Systematik\nGeneralisierbarkeit\nIdentifikation von Kausalmechanismen\nReliabilität (Verlässlichkeit)\nValidität (Gültigkeit)"},
- {id:"v1-c07", f:"Fünf Teilgebiete der Politikwissenschaft", b:"1. Politische Theorie / Ideengeschichte\n2. Internationale Beziehungen / EU\n3. Vergleichende PoWi / Regierungslehre\n4. Politisches System der BRD\n5. Sozialwissenschaftliche Methoden\nDiese Vorlesung: 3 und 4."},
- {id:"v1-c08", f:"Politisches System nach Parsons", b:"Ein Subsystem der Gesellschaft, das auf Zielverfolgung und politische Steuerung spezialisiert ist."},
+ {id:"v1-c07", f:"Fünf Teilgebiete der Politikwissenschaft", b:"1. Politische Theorie / Ideengeschichte\n2. Internationale Beziehungen / EU\n3. Vergleichende PoWi / Regierungslehre\n4. Politisches System der BRD\n5. Sozialwissenschaftliche Methoden"},
+ {id:"v1-c54", f:"Welche zwei Teilgebiete behandelt die Vorlesung von Schwanholz?", b:"Vergleichende PoWi / Regierungslehre\nPolitisches System der BRD"},
+ {id:"v1-c08", f:"Politisches System nach Parsons", b:"Was: ein Subsystem der Gesellschaft\nSpezialisiert auf: Zielverfolgung und politische Steuerung"},
  {id:"v1-c09", f:"Enger vs. weiter Begriff des politischen Systems", b:"Umfang: nur ZPES / ZPES plus Parteien, Verbände, Wirtschaftsakteure\nSichtweise: formal-institutionenbezogen / inhaltlich-prozessbezogen"},
- {id:"v1-c10", f:"Eastons Systemmodell: die Bausteine", b:"Inputs: Forderungen (demands) und Unterstützung (support)\nSystem: verarbeitet zu Entscheidungen\nOutputs: wirken auf die Umwelt\nFeedback: Rückkopplung auf neue Inputs\nUmwelt: umgibt das Ganze"},
- {id:"v1-c11", f:"Drei Formen der Legitimation (Easton-Folie)", b:"Soziale Legitimation: Zustimmung durch die Bürger\nInput-Legitimation: demokratische Verfahren\nOutput-Legitimation: erfolgreiche Problembearbeitung"},
+ {id:"v1-c10", f:"Eastons Systemmodell: die fünf Bausteine", b:"Inputs: Forderungen (demands) und Unterstützung (support)\nSystem: verarbeitet zu Entscheidungen\nOutputs: wirken auf die Umwelt\nFeedback: Rückkopplung auf neue Inputs\nUmwelt: umgibt das Ganze\nBeispiel: Eltern fordern mehr Lehrkräfte (Input), der Landtag beschließt Stellen (Output), an der Schule wird es spürbar, neue Forderungen folgen (Feedback)"},
+ {id:"v1-c11", f:"Drei Formen der Legitimation (Easton-Folie)", b:"Soziale Legitimation: Zustimmung durch die Bürger\nInput-Legitimation: demokratische Verfahren\nOutput-Legitimation: erfolgreiche Problembearbeitung\nBeispiel: Eine Landesregierung, die den Unterrichtsausfall spürbar senkt, gewinnt Output-Legitimation."},
  {id:"v1-c12", f:"Almond/Powell: drei Funktionsebenen", b:"Systemfunktionen: Sozialisierung, Rekrutierung, Kommunikation\nProzessfunktionen: Interessenartikulation, Interessenaggregation, Policy-making, Implementierung\nPolicy-Funktionen: Steuern, Regulierung, Verteilung"},
  {id:"v1-c13", f:"Almond/Powell: Strukturen und ihre Aufgabe", b:"Parteien: Interessenaggregation\nVerbände: Interessenartikulation\nParlament, Regierung: Policy-making\nVerwaltung, Justiz: Implementierung und Überprüfung"},
- {id:"v1-c14", f:"Kernunterschied Demokratie und Autokratie", b:"In Demokratien ist der Gesetzgeber selbst den Gesetzen unterworfen, in Autokratien nicht."},
+ {id:"v1-c14", f:"Kernunterschied Demokratie und Autokratie", b:"In Demokratien ist der Gesetzgeber selbst den Gesetzen unterworfen, in Autokratien nicht.\nBeispiel: Auch der Bundestag ist an das Grundgesetz gebunden; das Bundesverfassungsgericht kann seine Gesetze kippen."},
  {id:"v1-c15", f:"Dichotome Typenlehre", b:"Alle Nicht-Demokratien sind Autokratien.\n„Democracy is the opposite of autocracy“ (Jaggers/Gurr 1995)."},
  {id:"v1-c16", f:"Wer unterteilt was?", b:"Linz (1975): Autokratien in totalitäre und autoritäre Regime\nMerkel (2010): Demokratien in eingebettete und defekte Demokratien"},
- {id:"v1-c17", f:"Lauth: drei Dimensionen der Demokratie", b:"1. Politische Freiheit\n2. Politische Gleichheit\n3. Politische und rechtliche Kontrolle\nDemokratie: alle gegeben. Autoritär: partiell. Totalitär: nicht gegeben."},
+ {id:"v1-c17", f:"Lauth: drei Dimensionen der Demokratie", b:"1. Politische Freiheit\n2. Politische Gleichheit\n3. Politische und rechtliche Kontrolle"},
+  {id:"v1-c53", f:"Lauth: Wie ausgeprägt sind die drei Dimensionen in Demokratie, autoritärem und totalitärem Regime?", b:"Demokratie: alle drei gegeben\nAutoritäres Regime: nur teilweise\nTotalitäres Regime: nicht gegeben\nBeispiel: Wahlen mit zugelassener, aber gegängelter Opposition sprechen für „teilweise“, also autoritär"},
  {id:"v1-c18", f:"Kontinuum politischer Regime (Lauth et al. 2014)", b:"1. Demokratie\n2. Defekte Demokratie\n3. Schwach autoritäres Regime\n4. Stark autoritäres Regime\n5. Totalitäres Regime"},
  {id:"v1-c19", f:"Formen defekter Demokratie in Lauths Tabelle", b:"Illiberale Demokratie\nDelegative Demokratie\nExklusive Demokratie"},
- {id:"v1-c20", f:"Demokratiedefinition nach Lauth (2006): Kernelemente", b:"Rechtsstaatliche Herrschaftsform\nSelbstbestimmung im Sinne der Volkssouveränität\nBeteiligung an der Besetzung der Entscheidungspositionen in freien, kompetitiven, fairen Verfahren\nChance auf kontinuierliche Einflussnahme\nKontrolle der politischen Herrschaft"},
+ {id:"v1-c20", f:"Demokratiedefinition nach Lauth (2006): fünf Kernelemente", b:"Rechtsstaatliche Herrschaftsform\nSelbstbestimmung im Sinne der Volkssouveränität\nBeteiligung an der Besetzung der Entscheidungspositionen in freien, kompetitiven, fairen Verfahren\nChance auf kontinuierliche Einflussnahme\nKontrolle der politischen Herrschaft"},
  {id:"v1-c21", f:"Prozedurale vs. materielle Demokratievorstellung", b:"Blick auf: Verfahren der Beteiligung / Inhalte und Ergebnisse\nBeispiele: Rekrutierung, Kontrolle der Exekutive, Partizipation / gerechte Verteilung\nWirkung: weitaus wirkungsmächtiger / weniger verbreitet"},
  {id:"v1-c22", f:"Dahls acht Garantien (1971)", b:"1. Assoziations- und Koalitionsfreiheit\n2. Meinungsfreiheit\n3. Aktives Wahlrecht\n4. Passives Wahlrecht\n5. Konkurrenz der Eliten um Stimmen\n6. Pluralistische Informationsquellen\n7. Freie und faire Wahlen\n8. Regierungspolitik hängt von Wählerpräferenzen ab"},
  {id:"v1-c23", f:"Merkels sechs Herrschaftsdimensionen (2010)", b:"1. Legitimation\n2. Zugang\n3. Monopol\n4. Struktur\n5. Anspruch\n6. Weise"},
  {id:"v1-c24", f:"Embedded Democracy: fünf Teilregime", b:"A: Wahlregime\nB: Politische Freiheiten\nC: Bürgerliche Rechte\nD: Horizontale Verantwortlichkeit\nE: Effektive Regierungsgewalt"},
- {id:"v1-c25", f:"Embedded Democracy: externe Einbettung", b:"Staatlichkeit\nZivilgesellschaft\nÖkonomische Voraussetzungen und soziale Gerechtigkeit"},
+ {id:"v1-c25", f:"Embedded Democracy: drei externe Einbettungen", b:"Staatlichkeit\nZivilgesellschaft\nÖkonomische Voraussetzungen und soziale Gerechtigkeit"},
  {id:"v1-c26", f:"Wozu dient das Konzept Embedded Democracy?", b:"Qualität von Demokratie genauer bestimmen\nLänder vergleichen, Defekte identifizieren\nInfizierung einzelner Teilsysteme beobachten\nAushöhlung und schleichende Autokratisierung erkennen"}
 ];
 
@@ -404,3 +406,5 @@ ESSAYS.push(
    "Im politischen System werden diese Inputs zu verbindlichen Entscheidungen verarbeitet, etwa zu einem Gesetz. Diese Outputs wirken auf die Umwelt zurück. Über die Rückkopplung beeinflussen sie wiederum die künftigen Inputs: Ein erfolgreiches Gesetz kann die Unterstützung erhöhen, ein gescheitertes neue Forderungen auslösen. So entsteht ein Kreislauf.",
    "In dieses Modell lassen sich drei Formen der Legitimation einordnen. Die soziale Legitimation liegt auf der Seite der Inputs: Sie beruht auf der Zustimmung der Bürgerinnen und Bürger. Die Input-Legitimation liegt im System selbst und entsteht durch demokratische Verfahren wie Wahlen und parlamentarische Beratung. Die Output-Legitimation schließlich ergibt sich aus den Ergebnissen, also aus einer erfolgreichen Bearbeitung gesellschaftlicher Probleme."]}
 );
+/* Kontext neuer Karten (Lernprinzip 10, 23.11.) */
+Object.assign(CARD_CTX,{"v1-c54": "Gliederung des Fachs"});

@@ -56,6 +56,7 @@ function renderEssay(){
       <div class="essay"><label class="small muted" for="et">Dein Essay (wird automatisch gespeichert)</label>
         <textarea id="et" style="margin-top:6px">${esc(text)}</textarea><p class="wc" id="ewc">${wcLabel(text,x)}</p></div>
       <div class="row" style="margin-top:6px"><button class="btn" id="ed">Fertig, bewerten</button><button class="btn ghost" id="en">Andere Frage</button></div>`;
+    attachDictation($("#et"));
     let t=null; $("#et").oninput=e=>{ state.drafts[x.id]=e.target.value; $("#ewc").textContent=wcLabel(e.target.value,x); clearTimeout(t); t=setTimeout(save,1200); };
     $("#eh").onclick=()=>{ E.help=!E.help; const y=window.scrollY; renderEssay(); window.scrollTo(0,y); };
     $("#ed").onclick=()=>{ save(); E.phase="bewerten"; E.r=Object.assign({},(essayScore(x.id)||{}).r||{}); renderEssay(); window.scrollTo(0,0); };
@@ -162,7 +163,7 @@ function renderExam(){
   $("#gs").onclick=()=>{ state.exams=state.exams||[]; const extra=isSE(x)?{r:Object.assign({},e.r),pass:sePass(e.r)}:{};
     state.exams.push(Object.assign({t:Date.now(),c:e.c,id:x.id,title:x.short||"",p:pts(),max:x.k.length,w:wordCount(e.text),min:e.min},extra));
     const s=essayScore(x.id); if(!s||pts()>=s.p) state.essays[x.id]=Object.assign({p:pts(),max:x.k.length,t:Date.now(),w:wordCount(e.text)},extra);
-    state.examRun=null; logDay(); save(); toast("Gespeichert"); renderExam(); window.scrollTo(0,0); };
+    state.examRun=null; logDay(); save(); toast("Gespeichert"); if(sess&&sess.steps[sess.i]&&sess.steps[sess.i].k==="exam"){ sessNext(true); return; } renderExam(); window.scrollTo(0,0); };
 }
 
 /* ---------- Gliederung in 10 Minuten: der erste Schritt jedes Essays als tägliche Übung ----------
@@ -189,7 +190,7 @@ function renderOutline(){
       <div class="etop"><span class="small muted">Richtwert 10 Minuten</span><span class="clock otime" id="otime">10:00</span></div>
       <div class="essay"><textarea id="ot" style="min-height:14rem" placeholder="1. Einleitung: …&#10;2. …&#10;3. …&#10;4. Fazit: …">${esc(O.text)}</textarea></div>
       <div class="row" style="margin-top:8px"><button class="btn" id="oDone">Mit dem Vorschlag vergleichen</button><button class="btn ghost" id="oOther">Andere Frage</button></div>`;
-    $("#ot").oninput=e=>{ O.text=e.target.value; };
+    attachDictation($("#ot")); $("#ot").oninput=e=>{ O.text=e.target.value; };
     $("#oDone").onclick=()=>{ O.used=Date.now()-O.t0; O.phase="compare"; renderOutline(); window.scrollTo(0,0); };
     $("#oOther").onclick=()=>{ const L=essaysOf(n).filter(y=>y.id!==x.id&&y.kind===x.kind); openOutline(n,L.length?pick(L).id:x.id); };
     outlineTimer=setInterval(()=>{ const c=$("#otime"); if(!c||view!=="outline"){ clearInterval(outlineTimer); return; } const l=O.t0+600000-Date.now(); c.textContent=l>0?mmss(l):"Zeit um"; if(l<=0) c.style.color="var(--bad)"; },1000);
@@ -206,7 +207,7 @@ function renderOutline(){
       ${sess?`<div class="row" style="margin-bottom:14px">${sessBtn()}</div>`:""}`;
     document.querySelectorAll(".check input").forEach(c=>c.onchange=()=>{ O.checks[+c.id.slice(1)]=c.checked; $("#op").textContent=`${pts()} von ${x.gl.length}`; });
     const store=()=>{ if(O.saved) return; const h=state.outl[x.id]||{n:0}; state.outl[x.id]={p:pts(),max:x.gl.length,n:h.n+1,t:Date.now()}; O.saved=true; logDay(); save(); };
-    $("#oSave").onclick=()=>{ store(); toast(`${pts()} von ${x.gl.length} gespeichert`); if(sess) sessNext(); else renderOutline(); };
+    $("#oSave").onclick=()=>{ store(); toast(`${pts()} von ${x.gl.length} gespeichert`); if(sess) sessNext(true); else renderOutline(); };
     $("#oEssay").onclick=()=>{ store(); state.drafts=state.drafts||{}; if(!(state.drafts[x.id]||"").trim()&&O.text.trim()){ state.drafts[x.id]=O.text.trim()+"\n\n"; save(); } openEssay(n,x.id); };
   }
   bindCrumb(backFn);

@@ -30,6 +30,7 @@ function richText(b){
     if(l.startsWith("|")){ flush(); const rows=[];
       while(i<L.length&&L[i].trim().startsWith("|")){ rows.push(L[i].trim().replace(/^\||\|$/g,"").split("|").map(x=>x.trim())); i++; }
       i--; out+=cmp(rows); continue; }
+    if(typeof EXRE!=="undefined"&&EXRE.test(l)){ flush(); out+=exHTML(l); continue; }
     if((m=l.match(/^[-•] (.*)$/))){ open("ul"); items.push(termInline(m[1])); continue; }
     if((m=l.match(/^\d+[.)] (.*)$/))){ open("ol"); items.push(termInline(m[1])); continue; }
     if((m=l.match(TERM))){ open("dl"); items.push(`<b>${inl(m[1])}</b><span>${inl(m[2])}</span>`); continue; }

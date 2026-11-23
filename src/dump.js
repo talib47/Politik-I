@@ -26,7 +26,7 @@ function renderDump(){
       <div class="etop"><span class="small muted">Richtwert ${DUMP_MIN} Minuten</span><span class="clock" id="dtime">${mmss(DUMP_MIN*60000)}</span></div>
       <div class="essay"><textarea id="dt" style="min-height:14rem" placeholder="Alles, was dir einfällt …">${esc(D.text)}</textarea><p class="wc" id="dwc">${wordCount(D.text)} Wörter</p></div>
       <div class="row" style="margin-top:8px"><button class="btn" id="dDone">Abgleichen</button>${others.length?`<button class="btn ghost" id="dOther">Andere Sitzung</button>`:""}</div>`;
-    const ta=$("#dt"); ta.oninput=e=>{ D.text=e.target.value; $("#dwc").textContent=wordCount(D.text)+" Wörter"; };
+    const ta=$("#dt"); attachDictation(ta); ta.oninput=e=>{ D.text=e.target.value; $("#dwc").textContent=wordCount(D.text)+" Wörter"; };
     $("#dDone").onclick=()=>{ D.used=Date.now()-D.t0; D.phase="check"; renderDump(); window.scrollTo(0,0); };
     if($("#dOther")) $("#dOther").onclick=()=>{ const o=others.sort((a,b)=>(((state.dump||{})[a.n]||{}).t||0)-(((state.dump||{})[b.n]||{}).t||0))[0]; openDump(o.n); };
     dumpTimer=setInterval(()=>{ const c=$("#dtime"); if(!c||view!=="dump"){ clearInterval(dumpTimer); return; } const l=D.t0+DUMP_MIN*60000-Date.now(); c.textContent=l>0?mmss(l):"Zeit um"; if(l<=0) c.style.color="var(--bad)"; },1000);
@@ -48,7 +48,7 @@ function renderDump(){
     miss();
     document.querySelectorAll(".check input").forEach(c=>c.onchange=()=>{ D.checks[+c.id.slice(1)]=c.checked; $("#dp").textContent=`${pts()} von ${P.length}`; miss(); });
     $("#dSave").onclick=()=>{ if(!D.saved){ state.dump=state.dump||{}; const h=state.dump[n]||{k:0}; state.dump[n]={p:pts(),max:P.length,t:Date.now(),w:wordCount(D.text),k:h.k+1}; D.saved=true; logDay(); save(); }
-      toast(`${pts()} von ${P.length} gespeichert`); if(sess) sessNext(); else renderDump(); };
+      toast(`${pts()} von ${P.length} gespeichert`); if(sess) sessNext(true); else renderDump(); };
   }
   bindCrumb(backFn);
 }

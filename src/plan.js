@@ -68,7 +68,7 @@ function bindWeak(){
   const D=weakData();
   if($("#wkC")) $("#wkC").onclick=()=>openCards(0,true,D.weakCards.slice(0,15));
   if($("#wkQ")) $("#wkQ").onclick=()=>openRecall(D.weakQ.slice(0,8));
-  if($("#wkW")) $("#wkW").onclick=()=>{ const items=[].concat(...D.confL.map(([k])=>D.confItems[k])); cur.wh={list:items.slice(0,8).map(x=>({x,o:whoOptions(x)})), i:0, a:null, right:0, ch:0}; go("who"); };
+  if($("#wkW")) $("#wkW").onclick=()=>{ cur.mx=null; const items=[].concat(...D.confL.map(([k])=>D.confItems[k])); cur.wh={list:items.slice(0,8).map(x=>({x,o:whoOptions(x)})), i:0, a:null, right:0, ch:0}; go("who"); };
   if($("#wkO")) $("#wkO").onclick=()=>openOutline(0,D.weakO[0].id);
   if($("#wkE")) $("#wkE").onclick=()=>openEssay(0,D.weakE[0].id);
 }

@@ -32,9 +32,10 @@ function qBlock(c,key,a,shown,first){
     ${a!==undefined?feedback(c,a):""}</div>`;
 }
 /* Übungsmodus: fällige Verständnisfragen */
-function openRecall(list,n){ const L=list||qDue().slice(0,8); cur.rq={list:L, i:0, ans:undefined, shown:false, right:0, n:n||0}; go("recall"); }
+function openRecall(list,n){ cur.mx=null; const L=list||qDue().slice(0,8); cur.rq={list:L, i:0, ans:undefined, shown:false, right:0, n:n||0}; go("recall"); }
 function renderRecall(){
   const R=cur.rq, L=R.list, back=R.n?chLabel(R.n):"Üben", backFn=()=>{ if(R.n){ cur.ch=R.n; go("chapter"); } else go("practice"); };
+  if(R.i>=L.length&&cur.mx) return mixNext(R.right>0);
   if(R.i>=L.length){
     const left=qDue().length;
     $("#app").innerHTML=`${backTo(back)}<h1>${L.length?"Runde geschafft":"Nichts fällig"}</h1><div class="block">
@@ -43,14 +44,25 @@ function renderRecall(){
       <div class="row">${sess?sessBtn():`${left?`<button class="btn" id="rAgain">Weiter</button>`:""}<button class="btn ghost" id="rOut">Fertig</button>`}</div></div>`;
     bindCrumb(backFn); if($("#rAgain")) $("#rAgain").onclick=()=>openRecall(null,R.n); if($("#rOut")) $("#rOut").onclick=backFn; return;
   }
-  const q=L[R.i], ch=chOf(q.n);
-  $("#app").innerHTML=`${backTo(back)}
-    <p class="eyebrow">Verständnisfrage ${R.i+1} von ${L.length}</p>
-    <div class="block"><p class="small muted" style="margin:0 0 2px">Sitzung ${ch.no} · ${q.lt}</p>${qBlock(q.c,"r",R.ans,R.shown,true)}</div>
-    ${R.ans!==undefined?`<div class="row"><button class="btn" id="rNext">Weiter</button><button class="btn ghost" id="rLes">Zur Lektion</button></div>`:""}`;
-  bindCrumb(backFn);
-  document.querySelectorAll("[data-show]").forEach(b=>b.onclick=()=>{ R.shown=true; renderRecall(); });
-  document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{ if(R.ans!==undefined) return; const k=+b.dataset.k; R.ans=k; const ok=k===q.c.a; if(ok) R.right++; qGrade(q.id,ok,k===-1); logDay(); save(); renderRecall(); });
-  if($("#rNext")) $("#rNext").onclick=()=>{ R.i++; R.ans=undefined; R.shown=false; renderRecall(); window.scrollTo(0,0); };
-  if($("#rLes")) $("#rLes").onclick=()=>openLesson(q.n,q.li);
+  /* Wie eine Lernkarte: Vorderseite = Frage, erst selbst überlegen; Tippen zeigt die Auswahl (nochmal Tippen verdeckt sie),
+     links wischen heißt „Weiß ich nicht“. Nach der Antwort: Tippen oder Wischen für die nächste Frage. */
+  const q=L[R.i], c=q.c, ch=chOf(q.n), a=R.ans, done=a!==undefined; if(!done) R.st0=qInfo(q.id); const st=R.st0;
+  const ok=done&&a===c.a, why=done&&a>=0&&c.w&&c.w[a];
+  qcRender({
+    eye:`${cur.mx?"Verständnisfrage":`Frage ${R.i+1} von ${L.length}`}${st?lvlDots(st.b):` <span class="lvnew">neu</span>`}`,
+    ctx:`Sitzung ${ch.no} · ${q.lt}`, front:inl(c.q),
+    phase:done?"done":R.shown?"open":"front", idk:true,
+    opts:optOrder(c).map(k=>({k:String(k),l:c.o[k]})),
+    ok:!done?undefined:a===-1?null:ok,
+    verdict:!done?null:ok?{t:"Richtig.",s:[inl(c.o[c.a])]}
+      :a===-1?{t:"Nicht gewusst.",s:[`Richtig ist: ${inl(c.o[c.a])}`,"Die Frage kommt morgen noch einmal."]}
+      :{t:"Falsch.",s:[`Du: ${inl(c.o[a])}`,`Richtig: ${inl(c.o[c.a])}`]},
+    why:done?`${why?`<p><b>Warum nicht:</b> ${inl(why)}</p>`:""}<p>${inl(c.ex)}</p>`:"",
+    more:done?`<button class="qlink" id="rLes">Zur Lektion</button>`:"",
+    next:cur.mx||R.i<L.length-1?"Weiter":"Auswertung",
+    reveal:()=>{ R.shown=true; renderRecall(); }, hide:()=>{ R.shown=false; renderRecall(); },
+    pick:k=>{ if(R.ans!==undefined) return; const n=k==="__idk"?-1:+k; R.ans=n; const good=n===c.a; if(good) R.right++; qGrade(q.id,good,n===-1); logDay(); save(); renderRecall(); if(n>=0&&!good) buzz(); },
+    go:()=>{ R.i++; R.ans=undefined; R.shown=false; renderRecall(); window.scrollTo(0,0); },
+    after:()=>{ if($("#rLes")) $("#rLes").onclick=()=>openLesson(q.n,q.li); }
+  });
 }

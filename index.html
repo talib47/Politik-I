@@ -237,8 +237,37 @@ svg .sarrow{fill:var(--accent)}
 .swipewrap{position:relative;overflow-x:clip;overflow-y:visible;margin:0 -16px;padding:0 16px}
 .swipewrap .card{touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;will-change:transform;position:relative;overflow:hidden;backface-visibility:hidden}
 .card .tint{position:absolute;inset:0;opacity:0;pointer-events:none;border-radius:inherit;border:2px solid transparent;will-change:opacity}
-.card .tint.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 7%,transparent)}
-.card .tint.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 7%,transparent)}
+.card .tint.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 22%,transparent)}
+.card .tint.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 20%,transparent)}
+.card .tint{border-width:3px!important}
+/* Aus BiWi II übernommen (23.11.): ruhige Kartenansicht, Bedienung per Tippen und Wischen, Beispielzeilen */
+/* Kartenansicht (Muster 17.11.): ruhiger, Karte mittig, Antwortzeilen nicht zu lang, Zurück als Wort mit großer Tippfläche */
+.crt .cundo{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:0 10px;margin:-10px -10px -10px 0;font:600 .8125rem var(--sans);opacity:1}
+.card .back,.card .front,.card .cctx,.card .cinfo{max-width:62ch}
+@media (prefers-color-scheme:dark){ .card{box-shadow:var(--lift),inset 0 0 0 .5px rgba(255,255,255,.07)} }
+#sessbar #sbNext{background:transparent;color:var(--accent);padding-inline:10px}
+@media (min-width:768px){
+  main:has(#theCard){min-height:calc(100dvh - 72px);display:flex;flex-direction:column;justify-content:center;padding-bottom:20vh}
+}
+/* Touch (iPad, Handy): bewertet wird durch Wischen (auch neben der Karte), umgedreht durch Tippen.
+   Die Knöpfe bleiben für VoiceOver erhalten, sind aber unsichtbar; darunter ein leiser Hinweis zur Richtung. */
+.swipehint{display:none}
+@media (pointer:coarse){
+  main .grade,main .fliprow{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0}
+  .swipehint{display:flex;justify-content:space-between;margin:10px 4px 0;font-size:.8125rem;color:var(--muted)}
+  body:has(#theCard),.swipewrap .card{touch-action:pan-y}
+}
+/* Kopfschütteln, wenn auf der zugedeckten Karte gewischt wird */
+.card.buzz{animation:buzz .4s cubic-bezier(.36,.07,.19,.97);box-shadow:var(--lift),inset 0 0 0 2.5px color-mix(in srgb,var(--bad) 75%,transparent)}
+@keyframes buzz{10%,90%{transform:translate3d(-2px,0,0)}20%,80%{transform:translate3d(5px,0,0)}30%,50%,70%{transform:translate3d(-9px,0,0)}40%,60%{transform:translate3d(9px,0,0)}}
+@media (prefers-reduced-motion:reduce){.card.buzz{animation:none}}
+/* Beispiel auf der Kartenrückseite: abgesetzt, mit Etikett und eigener Linie */
+.cb-ex{display:flex;flex-direction:column;gap:2px;margin:14px 0 0;padding:8px 0 8px 12px;border-left:3px solid var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);border-radius:0 8px 8px 0}
+.cb-ex .exl{font-size:.75rem;font-weight:650;color:var(--gold)}
+.cb .cb-ex + .cb-ex{margin-top:8px}
+.block.today{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s ease-out}
+.block.today:active{transform:scale(.985)}
+@media (prefers-reduced-motion:reduce){.block.today:active{transform:none}}
 .card.enter{animation:cardIn .22s ease-out}
 @keyframes cardIn{from{opacity:0;transform:translate3d(0,8px,0) scale(.985)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.card.enter{animation:none}}
@@ -401,6 +430,71 @@ svg .fillB{fill:var(--accent-soft);opacity:.55;stroke:none}
 .wset{font-size:.78rem;color:var(--muted);margin:0 0 4px}
 .otime{font-variant-numeric:tabular-nums;font-weight:600}
 .lexwarn::before{content:"Verwechslung: ";font-weight:600}
+
+/* Auswahlkarten (Kreuzaufgaben, Verständnisfragen, Zuordnen) wie Lernkarten (aus BiWi II übernommen) */
+.card.qc .front{font-size:1.18rem}
+.qcopts{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.qcopts.g2{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr}
+@media (min-width:768px){ .qcopts.g2w{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr} }
+.qcopts.g2 button,.qcopts.g2w button{min-height:64px}
+.qcopts button{display:flex;align-items:center;gap:12px;text-align:left;min-height:56px;padding:10px 14px;border-radius:14px;border:1.5px solid transparent;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.06);color:var(--ink);font:inherit;font-size:1rem;line-height:1.35;cursor:pointer;transition:transform .1s,border-color .15s;-webkit-tap-highlight-color:transparent}
+.qcopts button:active{transform:scale(.98);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+@media (hover:hover){ .qcopts button:hover{border-color:color-mix(in srgb,var(--accent) 35%,transparent)} }
+.qcopts .ql{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.78rem;font-weight:650;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.qcopts .qt{min-width:0;overflow-wrap:break-word;hyphens:manual;-webkit-hyphens:manual}
+.qcopts.g2,.qcopts.g2w{grid-template-columns:repeat(2,minmax(0,1fr))}
+.qcopts button{min-width:0}
+.card.qc.cmp{min-height:0;padding-top:18px;padding-bottom:18px;justify-content:flex-start}
+.card.qc.cmp .front{font-size:1.1rem}
+.card.qc{position:relative}
+.card.qc .cctx{padding-right:40px}
+.qidk{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:0;display:grid;place-items:center;background:color-mix(in srgb,var(--muted) 12%,transparent);color:var(--muted);cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+.qidk:active,.qhint:active{transform:scale(.94)}
+.qhint{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:0;display:grid;place-items:center;background:color-mix(in srgb,var(--gold) 12%,transparent);color:var(--gold);cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+.card.qc:has(.qhint,.qidk):not(:has(.cctx)) .front{padding-right:44px}
+.qhint.two{right:56px}.qhint.on{background:color-mix(in srgb,var(--gold) 24%,transparent)}
+.card.qc:has(.qhint.two) .cctx{padding-right:92px}
+.qhtxt{margin:0;padding:8px 0 0 12px;border-left:3px solid var(--gold);color:var(--muted);font-size:.95rem}
+.qchint{margin:10px 0 0}
+.kzwhy p{margin:0 0 6px}.kzwhy p:last-child{margin:0}
+.qlink{align-self:flex-start;background:none;border:0;padding:0 2px;min-height:44px;color:var(--accent);font:inherit;font-size:.92rem;font-weight:600;cursor:pointer}
+@media (pointer:coarse){ main .qnext{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0} }
+.qnext .btn{display:block;width:100%;margin-top:16px;min-height:56px;font-size:1.06rem}
+.kzdots{display:flex;gap:6px;flex:none}
+.kzdots i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.75rem;font-weight:650;color:var(--muted);background:color-mix(in srgb,var(--muted) 14%,transparent)}
+.kzdots i.now{color:var(--accent);background:color-mix(in srgb,var(--accent) 18%,transparent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.kzdots i.ok{color:var(--surface);background:var(--good)}.kzdots i.idk{color:var(--surface);background:var(--gold)}.kzdots i.no{color:var(--surface);background:var(--bad)}
+.kzstem{font-family:var(--serif);font-size:1.05rem;color:var(--muted);margin:14px 0 8px;text-wrap:balance}
+.kzc{min-height:11rem}
+.kzc.ok{box-shadow:var(--lift),inset 0 0 0 2.5px color-mix(in srgb,var(--good) 75%,transparent)}
+.kzc.no{box-shadow:var(--lift),inset 0 0 0 2.5px color-mix(in srgb,var(--bad) 75%,transparent)}
+.kzc.idk{box-shadow:var(--lift),inset 0 0 0 2.5px color-mix(in srgb,var(--gold) 60%,transparent)}
+.kzv{display:flex;gap:12px;align-items:flex-start;border-top:1px solid var(--line);padding-top:12px;max-width:62ch}
+.kzv .ic{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:var(--surface)}
+.kzv.ok .ic{background:var(--good)}.kzv.no .ic{background:var(--bad)}.kzv.idk .ic{background:var(--gold)}
+.kzv b{display:block;font-size:1.1rem;line-height:1.3}.kzv.ok b{color:var(--good)}.kzv.no b{color:var(--bad)}.kzv.idk b{color:var(--gold)}
+.kzv span{display:block;margin-top:2px}
+.kzwhy{margin:0;max-width:62ch;color:var(--muted)}
+.kzans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.kzans .btn{padding:16px 6px;font-size:1.06rem;min-height:56px}
+.kzidk{display:block;margin:8px auto 0;background:none;border:0;color:var(--muted);font:inherit;font-size:.92rem;min-height:44px;padding:0 14px;cursor:pointer}
+.kzsum{text-align:center;margin:10px 0 0;font-size:.92rem;color:var(--muted)}
+
+/* Diktieren (aus BiWi II übernommen) */
+.dictwrap{position:relative;margin-top:6px}
+.dictwrap textarea{display:block;width:100%;margin:0!important;padding-right:56px;padding-bottom:56px}
+.dictbtn{position:absolute;right:8px;bottom:8px;width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);-webkit-tap-highlight-color:transparent;transition:transform .1s}
+.dictbtn:active{transform:scale(.94)}
+.dictbtn.on{color:var(--surface);background:var(--bad);animation:dictpulse 1.4s ease-in-out infinite}
+@keyframes dictpulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--bad) 45%,transparent)}50%{box-shadow:0 0 0 8px transparent}}
+@media (prefers-reduced-motion:reduce){.dictbtn.on{animation:none}}
+.dictlive{margin:8px 0 0;font-size:.92rem;color:var(--muted);font-style:italic}
+.dictlive.hint{font-style:normal}
+/* Lernstand als Punkte (aus BiWi II) */
+.lvl{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle;position:relative;top:-1px}
+.lvl i{width:6px;height:6px;border-radius:50%;background:color-mix(in srgb,var(--muted) 28%,transparent)}
+.lvl i.on{background:var(--accent)}
+.lvnew{margin-left:6px;padding:1px 7px;border-radius:999px;font-size:.72rem;font-weight:600;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
 </style>
 <style>
 /* ===================== Gemeinsames Design aller Lern-Apps („Die Reihe“) =====================
@@ -906,6 +1000,7 @@ const CARD_CTX={
  "v1-c15":"Entweder-oder-Einteilung",
  "v1-c16":"Untertypen auf beiden Seiten",
  "v1-c17":"Lauth 2006",
+ "v1-c53":"Lauth 2006",
  "v1-c18":"Von links nach rechts",
  "v1-c19":"Noch Demokratie, aber mit Mängeln",
  "v1-c20":"Die Definition für die Einleitung eines Essays",
@@ -968,6 +1063,7 @@ function richText(b){
     if(l.startsWith("|")){ flush(); const rows=[];
       while(i<L.length&&L[i].trim().startsWith("|")){ rows.push(L[i].trim().replace(/^\||\|$/g,"").split("|").map(x=>x.trim())); i++; }
       i--; out+=cmp(rows); continue; }
+    if(typeof EXRE!=="undefined"&&EXRE.test(l)){ flush(); out+=exHTML(l); continue; }
     if((m=l.match(/^[-•] (.*)$/))){ open("ul"); items.push(termInline(m[1])); continue; }
     if((m=l.match(/^\d+[.)] (.*)$/))){ open("ol"); items.push(termInline(m[1])); continue; }
     if((m=l.match(TERM))){ open("dl"); items.push(`<b>${inl(m[1])}</b><span>${inl(m[2])}</span>`); continue; }
@@ -1029,13 +1125,13 @@ function nextStep(){
 /* ================= Navigation ================= */
 let view="home", cur={};
 const TABS=[["home","Lernpfad"],["practice","Üben"],["stats","Statistik"]];
-const TAB_OF={home:"home",chapter:"home",lesson:"home",sessdone:"home",kreuz:"practice",cards:"practice",practice:"practice",stats:"stats",exam:"practice",essay:"practice",recall:"practice",who:"practice",terms:"practice",outline:"practice"};
+const TAB_OF={home:"home",chapter:"home",lesson:"home",sessdone:"home",mixdone:"home",kreuz:"practice",cards:"practice",practice:"practice",stats:"stats",exam:"practice",essay:"practice",recall:"practice",who:"practice",terms:"practice",outline:"practice"};
 function renderNav(){
   $("#nav").innerHTML=TABS.map(([k,l])=>`<button data-v="${k}"${TAB_OF[view]===k?' aria-current="page"':""}>${NAV_ICONS[k]||""}<span>${l}</span></button>`).join("");
   $("#nav").querySelectorAll("button").forEach(b=>b.onclick=()=>go(b.dataset.v));
 }
 function go(v){ view=v; const a=$("#app"); a.classList.remove("vin"); void a.offsetWidth; a.classList.add("vin"); render(); window.scrollTo(0,0); }
-function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,dump:renderDump,sessdone:renderHome})[view](); addSwitch(); updateSessBar(); }
+function render(){ renderNav(); ({home:renderHome,chapter:renderChapter,lesson:renderLesson,cards:renderCards,practice:renderPractice,stats:renderStats,exam:renderExam,essay:renderEssay,kreuz:renderKreuz,recall:renderRecall,who:renderWho,terms:renderTerms,outline:renderOutline,dump:renderDump,sessdone:renderHome,mixdone:renderHome})[view](); addSwitch(); updateSessBar(); }
 const backTo=label=>`<button class="crumb" id="crumb">← ${label}</button>`;
 function bindCrumb(fn){ const b=$("#crumb"); if(b) b.onclick=fn; }
 const chLabel=n=>{ const c=chOf(n); return c?"Sitzung "+c.no:""; };
@@ -1071,6 +1167,8 @@ function renderHome(){
     ${state.course==="vl"?essayHowTo():seHowTo()}`;
   if($("#goNext")) $("#goNext").onclick=nx.go;
   if($("#goSess")) $("#goSess").onclick=()=>{ if(sess) runStep(); else startSession(); };
+  /* Die ganze Platte „Heute“ startet die Einheit, nicht nur der Knopf (aus BiWi II) */
+  const td=$(".block.today"); if(td&&$("#goSess")) td.onclick=e=>{ if(e.target.closest("a,button")) return; $("#goSess").click(); };
   bindReview();
   document.querySelectorAll(".chap").forEach(b=>b.onclick=()=>{ if(b.disabled) return; cur.ch=+b.dataset.n; go("chapter"); });
 }
@@ -1286,13 +1384,19 @@ Bitte erkläre mir das einfacher: kurze Sätze, Fachbegriffe kurz erklärt, mit 
 /* Alte Schreibweise der Rückseiten in das gemeinsame Textformat (format.js) übersetzen:
    „A vs. B“ mit Zeilen „Merkmal: a / b“ wird Gegenüberstellung, einfache Zeilen werden Aufzählung */
 function toRich(c){
-  const lines=String(c.b).split("\n").map(s=>s.trim()).filter(Boolean);
+  const all=String(c.b).split("\n").map(s=>s.trim()).filter(Boolean), exs=all.filter(l=>EXRE.test(l)), lines=all.filter(l=>!EXRE.test(l));
+  if(exs.length) return [toRich({f:c.f,b:lines.join("\n")})].concat(exs).join("\n");
   if(lines.length===1) return lines[0];
   const vs=c.f.split(/\s+vs\.\s+/), kv=/^([^:]{1,38}):\s+(.+)$/;
   if(vs.length===2 && lines.every(l=>kv.test(l)&&l.match(kv)[2].includes(" / ")))
-    return ["| | "+vs.map(x=>x.replace(/[?:]$/,"")).join(" | ")].concat(lines.map(l=>{ const m=l.match(kv), p=m[2].split(" / "); return `| ${m[1]} | ${p[0]} | ${p.slice(1).join(" / ")}`; })).join("\n");
-  return lines.map(l=>/^\d+[.)] /.test(l)||/^[-•] /.test(l)||/^([^:=⇒]{1,42}): (.+)$/.test(l)&&!/[.!?]$/.test(l.split(":")[0])&&!/,\s/.test(l.split(":")[0])?l:"- "+l).join("\n");
+    return ["| | "+vs.map(x=>x.replace(/[?:]$/,"").replace(/\s*\([^()]*\)$/,"")).join(" | ")].concat(lines.map(l=>{ const m=l.match(kv), p=m[2].split(" / "); return `| ${m[1]} | ${p[0]} | ${p.slice(1).join(" / ")}`; })).join("\n");
+  return lines.map(l=>EXRE.test(l)||/^\d+[.)] /.test(l)||/^[-•] /.test(l)||/^([^:=⇒]{1,42}): (.+)$/.test(l)&&!/[.!?]$/.test(l.split(":")[0])&&!/,\s/.test(l.split(":")[0])?l:"- "+l).join("\n");
 }
+/* Beispiele heben sich von Aufzählungen ab: eigener Absatz mit Etikett, damit „drei Merkmale + Beispiel“ nicht wie vier Merkmale wirkt */
+const EXRE=/^(Beispiele?|Bsp\.|z\. ?B\.)(\s+[^:]{1,24})?:?\s+/i;
+function exHTML(l){ const m=l.match(EXRE), lab=(m[1]+(m[2]||"")).replace(/^Bsp\.$/i,"Beispiel").replace(/^z\. ?B\.$/i,"Beispiel"); return `<div class="cb-ex"><span class="exl">${inl(lab)}</span><span>${inl(l.slice(m[0].length))}</span></div>`; }
+/* Lernstand als fünf kleine Punkte statt „Stufe x von 5“ (aus BiWi II) */
+const lvlDots=b=>`<span class="lvl" role="img" aria-label="Sitzt ${b} von 5" title="Sitzt ${b} von 5">${[1,2,3,4,5].map(k=>`<i class="${k<=b?"on":""}"></i>`).join("")}</span>`;
 const DECK_NAME={b:"Begriffe", br:"Begriffe umgekehrt"};
 const deckLabel=n=>DECK_NAME[n]?"Begriffe":n?chLabel(n):"Üben";
 const deckBack=n=>DECK_NAME[n]?go("terms"):n?go("chapter"):go("practice");
@@ -1334,37 +1438,56 @@ function renderCards(){
   }
   const c=D[cur.ci], b=cardBox(c.id);
   const esc=t=>t.replace(/&/g,"&amp;").replace(/</g,"&lt;");
-  $("#app").innerHTML=`${backTo(deckLabel(n))}
-    <div class="row between"><p class="eyebrow" style="margin:0">Karte ${cur.ci+1} von ${D.length}${cur.free?" · freiwillig":isSeen(c.id)?" · fällig":" · neu"}</p><span class="crt">${cur.hist.length?`<button class="cundo" id="cprev" aria-label="Eine Karte zurück" title="Eine Karte zurück"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg></button>`:""}<span class="dots" aria-label="Fach ${b} von 5">${[1,2,3,4,5].map(i=>`<i class="${i<=b?"on":""}"></i>`).join("")}</span></span></div>
+  $("#app").innerHTML=`
+    <div class="row between ctop"><p class="eyebrow" style="margin:0">Karte ${cur.ci+1} von ${D.length}${cur.free?" · freiwillig":isSeen(c.id)?lvlDots(b):` <span class="lvnew">neu</span>`}</p><span class="crt">${cur.hist.length?`<button class="cundo" id="cprev" aria-label="Eine Karte zurück" title="Eine Karte zurück"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 14 4 9l5-5"/><path d="M4 9h10a6 6 0 0 1 0 12h-3"/></svg><span>Zurück</span></button>`:""}</span></div>
     <div class="swipewrap">
-    <div class="block card${cur.enter?" enter":""}" id="theCard" style="margin-top:8px" role="button" tabindex="0" aria-label="Karte umdrehen"><i class="tint" aria-hidden="true"></i><p class="cctx">${inl(CARD_CTX[c.id]||chapterOfCard(c.id))}</p><div class="front">${inl(c.f)}</div>${cur.flip?`${cur.typed.trim()?`<div class="typed"><span class="small muted">Deine Antwort</span><p>${esc(cur.typed)}</p></div>`:""}<div class="back">${richText(c.rich||toRich(c))}</div>${cardInfoHTML(c.id)}`:`<p class="tap">Tippen zum Umdrehen</p>`}</div></div>
-    ${cur.flip?`<div class="grade"><button class="btn ghost" id="mid">← Nicht sicher</button><button class="btn" id="yes">Sicher →</button></div>`
+    <div class="block card${cur.enter?" enter":""}" id="theCard" style="margin-top:8px" role="button" tabindex="0" aria-label="Karte umdrehen"><i class="tint" aria-hidden="true"></i><p class="cctx">${inl(CARD_CTX[c.id]||chapterOfCard(c.id))}</p><div class="front">${inl(c.f)}</div>${cur.flip?`${cur.typed.trim()?`<div class="typed"><span class="small muted">Deine Antwort</span><p>${esc(cur.typed)}</p></div>`:""}<div class="back cb">${richText(c.rich||toRich(c))}</div>${cardInfoHTML(c.id)}`:""}</div></div>
+    ${cur.flip?`<div class="grade"><button class="btn ghost" id="mid"><span class="arr">← </span>Nicht sicher</button><button class="btn" id="yes">Sicher<span class="arr"> →</span></button></div>`
       :`${cur.tyOpen||cur.typed?`<textarea id="cty" class="cty" rows="1" placeholder="Deine Antwort …" aria-label="Antwort tippen">${esc(cur.typed)}</textarea>`:""}
-      <div class="row"><button class="btn" id="flip" style="flex:1">Antwort zeigen</button></div><p class="hint">Erst antworten, dann aufdecken.</p>`}`;
+      <div class="row fliprow"><button class="btn" id="flip" style="flex:1">Antwort zeigen</button></div>`}`;
   bindCrumb(()=>deckBack(n));
   if($("#tyO")) $("#tyO").onclick=()=>{ cur.tyOpen=true; renderCards(); $("#cty").focus(); };
   const ta=$("#cty"); if(ta){ const fit=()=>{ ta.style.height="auto"; ta.style.height=ta.scrollHeight+"px"; }; fit(); ta.oninput=()=>{ cur.typed=ta.value; fit(); }; }
   if($("#flip")) $("#flip").onclick=()=>{ cur.flip=true; renderCards(); };
-  const cd=$("#theCard"); let moved=false;
+  const cd=$("#theCard"); let moved=false; cur.drag=null;
   cd.onclick=e=>{ if(e.target.closest("a")||moved) return; cur.flip=!cur.flip; renderCards(); };
   cd.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); cd.click(); } else if(cur.flip&&e.key==="ArrowRight") grade(2); else if(cur.flip&&e.key==="ArrowLeft") grade(1); };
   /* Wischen wie bei Dating-Apps, erst nach dem Aufdecken: rechts sicher, links nicht sicher.
      Die Karte folgt dem Finger, eine leichte Tönung zeigt die Richtung an. */
-  if(cur.flip){ const tint=cd.querySelector(".tint"); let x0=null, y0=0, dx=0, raf=0, w=360, dir=0;
-    /* Pro Bild nur transform und opacity ändern: beides läuft auf dem Grafikchip, nichts wird neu gezeichnet */
-    const paint=()=>{ raf=0; const k=Math.min(1,Math.abs(dx)/(w*.35)), d=dx>0?1:-1;
+  /* Zugedeckt: Wischen bewertet noch nicht. Die Karte schüttelt kurz den Kopf (rot), auf Android vibriert es dazu. */
+  if(!cur.flip){ let fx=null,fy=0,shook=false;
+    cd.onpointerdown=e=>{ fx=e.clientX; fy=e.clientY; shook=false; };
+    cd.onpointermove=e=>{ if(fx===null||shook) return; const d=e.clientX-fx; if(Math.abs(d)>28&&Math.abs(d)>1.4*Math.abs(e.clientY-fy)){ shook=true; buzz(); } };
+    cd.onpointerup=cd.onpointercancel=()=>{ if(shook) window.__noClick=Date.now(); fx=null; };
+  }
+  if(cur.flip){ const tint=cd.querySelector(".tint");
+    let x0=null, y0=0, dx=0, raf=0, w=360, dir=0, hist=[], done=false;
+    /* Pro Bild nur transform und opacity ändern (läuft auf dem Grafikchip). Die Tönung erreicht schon bei einem Fünftel
+       der Kartenbreite volle Stärke. */
+    const paint=()=>{ raf=0; const k=Math.min(1,Math.abs(dx)/(w*.2)), d=dx>0?1:-1;
       if(d!==dir){ dir=d; tint.className="tint "+(d>0?"ok":"no"); }
-      cd.style.transform=`translate3d(${dx}px,0,0) rotate(${dx/45}deg)`; tint.style.opacity=k; };
-    cd.onpointerdown=e=>{ if(e.target.closest("a")) return; x0=e.clientX; y0=e.clientY; dx=0; moved=false; w=cd.offsetWidth||360; };
+      cd.style.transform=`translate3d(${dx}px,0,0) rotate(${dx/40}deg)`; tint.style.opacity=k; };
+    const track=x=>{ const t=performance.now(); hist.push([t,x]); while(hist.length>2&&t-hist[0][0]>90) hist.shift(); };
+    const speed=()=>{ if(hist.length<2) return 0; const [t1,x1]=hist[0],[t2,x2]=hist[hist.length-1]; return t2>t1?(x2-x1)/(t2-t1):0; };  /* px pro ms */
+    const begin=()=>{ dx=0; hist=[]; w=cd.offsetWidth||360; cd.style.transition="none"; tint.style.transition="none"; cd.classList.add("drag"); };
+    const release=()=>{ if(raf){ cancelAnimationFrame(raf); raf=0; paint(); }
+      const v=speed(), lim=Math.min(90,w*.22);
+      /* Ausgelöst wird durch Weite oder durch einen schnellen Schwung in dieselbe Richtung */
+      const go=Math.abs(dx)>lim || (Math.abs(v)>.45 && Math.abs(dx)>24 && Math.sign(v)===Math.sign(dx));
+      if(go&&!done){ done=true; const sgn=Math.sign(dx)||Math.sign(v), out=sgn*(window.innerWidth*.6+w);
+        const ms=Math.round(Math.max(160,Math.min(320,Math.abs(out-dx)/Math.max(1.4,Math.abs(v)))));
+        tint.style.opacity=1; cd.style.transition=`transform ${ms}ms cubic-bezier(.25,.8,.35,1), opacity ${ms}ms linear`;
+        cd.style.transform=`translate3d(${out}px,0,0) rotate(${sgn*16}deg)`; cd.style.opacity="0";
+        let fired=false; const fin=()=>{ if(fired) return; fired=true; cur.enter=true; grade(sgn>0?2:1); };
+        cd.addEventListener("transitionend",fin,{once:true}); setTimeout(fin,ms+40); }
+      else { cd.classList.remove("drag"); cd.style.transition="transform .42s cubic-bezier(.2,1.5,.4,1)"; tint.style.transition="opacity .2s"; cd.style.transform=""; tint.style.opacity="0"; setTimeout(()=>{ moved=false; },0); } };
+    /* Wischen auch außerhalb der Karte (iPad: Daumen rechts neben der Karte): cur.drag nimmt die Bewegung an */
+    cur.drag={start:begin, move:d=>{ dx=d; track(d); if(!raf) raf=requestAnimationFrame(paint); }, end:()=>{ moved=true; release(); }};
+    cd.onpointerdown=e=>{ if(e.target.closest("a")||done) return; x0=e.clientX; y0=e.clientY; dx=0; moved=false; };
     cd.onpointermove=e=>{ if(x0===null) return; const d=e.clientX-x0;
-      if(!moved){ if(Math.abs(d)>6&&Math.abs(d)>Math.abs(e.clientY-y0)){ moved=true; x0+=d>0?6:-6; try{cd.setPointerCapture(e.pointerId);}catch(x){} cd.style.transition="none"; tint.style.transition="none"; } else return; }
-      e.preventDefault(); dx=e.clientX-x0; if(!raf) raf=requestAnimationFrame(paint); };
-    cd.onpointerup=cd.onpointercancel=()=>{ if(x0===null) return; x0=null; if(!moved) return; if(raf){ cancelAnimationFrame(raf); raf=0; }
-      const lim=Math.min(100,w*.25);
-      if(Math.abs(dx)>lim){ const out=(dx>0?1:-1)*(window.innerWidth+100);
-        cd.style.transition="transform .3s cubic-bezier(.2,.7,.3,1), opacity .3s ease-out"; cd.style.transform=`translate3d(${out}px,0,0) rotate(${dx>0?12:-12}deg)`; cd.style.opacity="0";
-        setTimeout(()=>{ cur.enter=true; grade(dx>0?2:1); },220); }
-      else { cd.style.transition="transform .35s cubic-bezier(.3,1.4,.5,1)"; tint.style.transition="opacity .25s"; cd.style.transform=""; tint.style.opacity="0"; setTimeout(()=>{ moved=false; },0); } };
+      if(!moved){ if(Math.abs(d)>6&&Math.abs(d)>Math.abs(e.clientY-y0)){ moved=true; x0+=d>0?6:-6; try{cd.setPointerCapture(e.pointerId);}catch(x){} begin(); } else return; }
+      e.preventDefault(); dx=e.clientX-x0; track(dx); if(!raf) raf=requestAnimationFrame(paint); };
+    cd.onpointerup=cd.onpointercancel=()=>{ if(x0===null) return; x0=null; if(!moved) return; release(); };
   }
   /* Bewertung: 2 sicher (nächstes Fach), 1 nicht sicher (ein Fach zurück, morgen wieder, in dieser Runde noch einmal) */
   function grade(lv){ state.box=state.box||{}; state.due=state.due||{}; state.lapses=state.lapses||{};
@@ -1457,6 +1580,78 @@ document.addEventListener("keydown",e=>{
   else if(k==="ArrowRight") hit("#yes"); else if(k==="ArrowLeft") hit("#mid"); else if(k==="z"||k==="Z") hit("#cprev");
 });
 
+/* Tippen und Wischen getrennt (aus BiWi II übernommen): Auf dem Touch-Bildschirm dreht ein Tippen irgendwo außerhalb der Karte
+   die Karte um, hin und zurück, genau wie ein Tipp auf die Karte. Waagerechtes Wischen bewertet nur
+   die aufgedeckte Karte, auf oder neben ihr: rechts sicher, links nicht sicher. Zugedeckt bewirkt Wischen nichts. */
+/* Kurzes Kopfschütteln der Karte: Hinweis, dass sie noch zugedeckt ist */
+function buzz(){ const cd=$("#theCard"); if(!cd||cd.classList.contains("buzz")) return;
+  cd.classList.add("buzz"); try{ navigator.vibrate&&navigator.vibrate([18,40,18]); }catch(x){}
+  setTimeout(()=>cd.classList.remove("buzz"),420); }
+(function(){ let x0=null,y0=0,t0=0,on=false,id=null,shook=false;
+  const ok=e=>view==="cards"&&e.pointerType!=="mouse"&&$("#theCard")&&!e.target.closest("#theCard,textarea,input,a,button,#sessbar,#focusbar,nav");
+  document.addEventListener("pointerdown",e=>{ if(!ok(e)) return; x0=e.clientX; y0=e.clientY; t0=performance.now(); on=false; shook=false; id=e.pointerId; },{passive:true});
+  document.addEventListener("pointermove",e=>{ if(x0===null||e.pointerId!==id) return;
+    if(!cur.flip){ const d=e.clientX-x0; if(!shook&&Math.abs(d)>28&&Math.abs(d)>1.4*Math.abs(e.clientY-y0)){ shook=true; buzz(); } return; }
+    const d=e.clientX-x0;
+    if(!on){ if(Math.abs(d)>12&&Math.abs(d)>1.4*Math.abs(e.clientY-y0)){ on=true; x0+=d>0?12:-12; if(cur.drag) cur.drag.start(); } else return; }
+    if(cur.drag) cur.drag.move(e.clientX-x0); },{passive:true});
+  const up=e=>{ if(x0===null) return; if(shook){ x0=null; shook=false; window.__noClick=Date.now(); return; } const was=on, far=Math.hypot(e.clientX-x0,e.clientY-y0), quick=performance.now()-t0<500; x0=null; on=false;
+    if(was){ window.__noClick=Date.now(); if(cur.drag) cur.drag.end(); return; }
+    if(e.type==="pointerup"&&far<10&&quick){ window.__noClick=Date.now(); cur.flip=!cur.flip; renderCards(); } };
+  document.addEventListener("pointerup",up); document.addEventListener("pointercancel",up);
+  /* Nach einem Wisch oder Tipp kein zusätzlicher Klick auf etwas darunter */
+  document.addEventListener("click",e=>{ if(window.__noClick&&Date.now()-window.__noClick<400){ e.stopPropagation(); e.preventDefault(); } },true);
+})();
+
+/* ================= Diktieren in Textfeldern (aus BiWi II übernommen, 23.11.) =================
+   Mikrofon-Knopf unten rechts im Textfeld. Spracherkennung des Geräts (Web Speech API, de-DE):
+   schreibt in Echtzeit direkt ins Feld (der gerade gesprochene Satz wird laufend ersetzt, fertige Sätze bleiben geglättet stehen).
+   Glätten ohne KI, nur nach festen Regeln: Füllwörter (äh, ähm …) und doppelte Wörter raus,
+   gesprochene Satzzeichen („Punkt“, „Komma“, „neue Zeile“, „Spiegelstrich“) umsetzen, Satzanfänge groß.
+   Gibt es keine Spracherkennung im Browser, zeigt der Knopf den Weg über das Mikrofon der Tastatur. */
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+function cleanSpeech(t){
+  let s=" "+t+" ";
+  s=s.replace(/\s+(äh+m?|ähm|öh+m?|hm+|mhm|ehm)(?=[\s,.!?])/gi," ");
+  s=s.replace(/\s+(neuer absatz|neue zeile)\s+/gi,"\n");
+  s=s.replace(/\s+(spiegelstrich|aufzählungspunkt|nächster punkt)\s+/gi,"\n- ");
+  s=s.replace(/\s+fragezeichen(?=\s)/gi,"?").replace(/\s+ausrufezeichen(?=\s)/gi,"!").replace(/\s+doppelpunkt(?=\s)/gi,":")
+     .replace(/\s+komma(?=\s)/gi,",").replace(/\s+punkt(?=\s|$)/gi,".");
+  s=s.replace(/\b(\p{L}+)(\s+\1\b)+/giu,"$1");
+  s=s.replace(/[ \t]+([,.!?:])/g,"$1").replace(/([,.!?:])(?=\p{L})/gu,"$1 ").replace(/[ \t]{2,}/g," ").replace(/ *\n */g,"\n").trim();
+  s=s.replace(/(^|[.!?]\s+|\n-?\s*)(\p{Ll})/gu,(m,a,b)=>a+b.toUpperCase());
+  return s;
+}
+function attachDictation(ta){
+  if(!ta||ta.dataset.dict) return; ta.dataset.dict="1";
+  const wrap=document.createElement("div"); wrap.className="dictwrap"; ta.parentNode.insertBefore(wrap,ta); wrap.appendChild(ta);
+  const b=document.createElement("button"); b.type="button"; b.className="dictbtn"; b.setAttribute("aria-label","Diktieren"); b.title="Diktieren";
+  b.innerHTML=`<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>`;
+  wrap.appendChild(b);
+  const live=document.createElement("p"); live.className="dictlive"; live.hidden=true; live.setAttribute("aria-live","polite"); wrap.after(live);
+  let rec=null, on=false;
+  /* Echtzeit: Das Feld zeigt immer festen Text plus den gerade gesprochenen Satz; fertige Sätze werden fest. */
+  let base="";
+  const join=(v,c)=>{ if(!c) return v; const sep=!v||/\s$/.test(v)||/^\n/.test(c)?"":" "; const cap=!v.trim()||/[.!?:]\s*$/.test(v)||/\n\s*$/.test(v); return v+sep+(cap?c.charAt(0).toUpperCase()+c.slice(1):c); };
+  const show=(interim)=>{ ta.value=join(base,cleanSpeech(interim)); ta.dispatchEvent(new Event("input",{bubbles:true})); ta.scrollTop=ta.scrollHeight; };
+  const stop=()=>{ on=false; b.classList.remove("on"); b.setAttribute("aria-label","Diktieren"); live.hidden=true; live.textContent=""; try{ rec&&rec.stop(); }catch(x){} };
+  b.onclick=()=>{
+    if(!SR){ live.hidden=!live.hidden; live.className="dictlive hint"; live.textContent="Diktieren hier über die Tastatur: ins Feld tippen, dann auf das Mikrofon der Bildschirmtastatur."; return; }
+    if(on) return stop();
+    rec=new SR(); rec.lang="de-DE"; rec.continuous=true; rec.interimResults=true;
+    base=ta.value;
+    rec.onresult=e=>{ let interim=""; for(let i=e.resultIndex;i<e.results.length;i++){ const r=e.results[i]; if(r.isFinal) base=join(base,cleanSpeech(r[0].transcript)); else interim+=r[0].transcript; } show(interim); };
+    rec.onerror=e=>{ if(e.error==="not-allowed"||e.error==="service-not-allowed"){ stop(); live.hidden=false; live.className="dictlive hint"; live.textContent="Mikrofon nicht erlaubt. In den Einstellungen für Safari das Mikrofon freigeben oder das Mikrofon der Tastatur nutzen."; } };
+    rec.onend=()=>{ if(on){ try{ rec.start(); }catch(x){ stop(); } } };
+    try{ rec.start(); on=true; b.classList.add("on"); b.setAttribute("aria-label","Diktieren beenden"); live.hidden=true; }
+    catch(x){ stop(); }
+  };
+  /* Tippt Talib selbst, endet das Diktat, damit nichts überschrieben wird */
+  ta.addEventListener("beforeinput",()=>{ if(on) stop(); });
+  /* Beim Verlassen der Ansicht aufhören */
+  const obs=new MutationObserver(()=>{ if(!document.body.contains(ta)){ stop(); obs.disconnect(); } }); obs.observe(document.getElementById("app"),{childList:true});
+}
+
 /* ================= Verständnisfragen: erst selbst abrufen, dann Auswahl; Wiederholung mit Abstand (aus Wirtschaft II) =================
    Jede Frage aus den Lektionen bekommt ein eigenes Fach wie eine Karteikarte (state.qbox), ID = Lektions-ID#Nummer.
    Ältere Antworten (vor dieser Funktion) werden aus state.lessons abgeleitet, ohne etwas zu speichern.
@@ -1491,9 +1686,10 @@ function qBlock(c,key,a,shown,first){
     ${a!==undefined?feedback(c,a):""}</div>`;
 }
 /* Übungsmodus: fällige Verständnisfragen */
-function openRecall(list,n){ const L=list||qDue().slice(0,8); cur.rq={list:L, i:0, ans:undefined, shown:false, right:0, n:n||0}; go("recall"); }
+function openRecall(list,n){ cur.mx=null; const L=list||qDue().slice(0,8); cur.rq={list:L, i:0, ans:undefined, shown:false, right:0, n:n||0}; go("recall"); }
 function renderRecall(){
   const R=cur.rq, L=R.list, back=R.n?chLabel(R.n):"Üben", backFn=()=>{ if(R.n){ cur.ch=R.n; go("chapter"); } else go("practice"); };
+  if(R.i>=L.length&&cur.mx) return mixNext(R.right>0);
   if(R.i>=L.length){
     const left=qDue().length;
     $("#app").innerHTML=`${backTo(back)}<h1>${L.length?"Runde geschafft":"Nichts fällig"}</h1><div class="block">
@@ -1502,16 +1698,27 @@ function renderRecall(){
       <div class="row">${sess?sessBtn():`${left?`<button class="btn" id="rAgain">Weiter</button>`:""}<button class="btn ghost" id="rOut">Fertig</button>`}</div></div>`;
     bindCrumb(backFn); if($("#rAgain")) $("#rAgain").onclick=()=>openRecall(null,R.n); if($("#rOut")) $("#rOut").onclick=backFn; return;
   }
-  const q=L[R.i], ch=chOf(q.n);
-  $("#app").innerHTML=`${backTo(back)}
-    <p class="eyebrow">Verständnisfrage ${R.i+1} von ${L.length}</p>
-    <div class="block"><p class="small muted" style="margin:0 0 2px">Sitzung ${ch.no} · ${q.lt}</p>${qBlock(q.c,"r",R.ans,R.shown,true)}</div>
-    ${R.ans!==undefined?`<div class="row"><button class="btn" id="rNext">Weiter</button><button class="btn ghost" id="rLes">Zur Lektion</button></div>`:""}`;
-  bindCrumb(backFn);
-  document.querySelectorAll("[data-show]").forEach(b=>b.onclick=()=>{ R.shown=true; renderRecall(); });
-  document.querySelectorAll("[data-q]").forEach(b=>b.onclick=()=>{ if(R.ans!==undefined) return; const k=+b.dataset.k; R.ans=k; const ok=k===q.c.a; if(ok) R.right++; qGrade(q.id,ok,k===-1); logDay(); save(); renderRecall(); });
-  if($("#rNext")) $("#rNext").onclick=()=>{ R.i++; R.ans=undefined; R.shown=false; renderRecall(); window.scrollTo(0,0); };
-  if($("#rLes")) $("#rLes").onclick=()=>openLesson(q.n,q.li);
+  /* Wie eine Lernkarte: Vorderseite = Frage, erst selbst überlegen; Tippen zeigt die Auswahl (nochmal Tippen verdeckt sie),
+     links wischen heißt „Weiß ich nicht“. Nach der Antwort: Tippen oder Wischen für die nächste Frage. */
+  const q=L[R.i], c=q.c, ch=chOf(q.n), a=R.ans, done=a!==undefined; if(!done) R.st0=qInfo(q.id); const st=R.st0;
+  const ok=done&&a===c.a, why=done&&a>=0&&c.w&&c.w[a];
+  qcRender({
+    eye:`${cur.mx?"Verständnisfrage":`Frage ${R.i+1} von ${L.length}`}${st?lvlDots(st.b):` <span class="lvnew">neu</span>`}`,
+    ctx:`Sitzung ${ch.no} · ${q.lt}`, front:inl(c.q),
+    phase:done?"done":R.shown?"open":"front", idk:true,
+    opts:optOrder(c).map(k=>({k:String(k),l:c.o[k]})),
+    ok:!done?undefined:a===-1?null:ok,
+    verdict:!done?null:ok?{t:"Richtig.",s:[inl(c.o[c.a])]}
+      :a===-1?{t:"Nicht gewusst.",s:[`Richtig ist: ${inl(c.o[c.a])}`,"Die Frage kommt morgen noch einmal."]}
+      :{t:"Falsch.",s:[`Du: ${inl(c.o[a])}`,`Richtig: ${inl(c.o[c.a])}`]},
+    why:done?`${why?`<p><b>Warum nicht:</b> ${inl(why)}</p>`:""}<p>${inl(c.ex)}</p>`:"",
+    more:done?`<button class="qlink" id="rLes">Zur Lektion</button>`:"",
+    next:cur.mx||R.i<L.length-1?"Weiter":"Auswertung",
+    reveal:()=>{ R.shown=true; renderRecall(); }, hide:()=>{ R.shown=false; renderRecall(); },
+    pick:k=>{ if(R.ans!==undefined) return; const n=k==="__idk"?-1:+k; R.ans=n; const good=n===c.a; if(good) R.right++; qGrade(q.id,good,n===-1); logDay(); save(); renderRecall(); if(n>=0&&!good) buzz(); },
+    go:()=>{ R.i++; R.ans=undefined; R.shown=false; renderRecall(); window.scrollTo(0,0); },
+    after:()=>{ if($("#rLes")) $("#rLes").onclick=()=>openLesson(q.n,q.li); }
+  });
 }
 
 /* ================= „Was gehört wohin?“: Zuordnungstraining (Idee aus Wirtschaft II, „Wer sagt das?“) =================
@@ -1534,27 +1741,31 @@ function whoPick(n,ch){
   while(out.length<Math.min(n,pool.length)){ let r=Math.random()*w.reduce((a,b)=>a+b,0), i=0; for(;i<pool.length;i++){ r-=w[i]; if(r<=0) break; } i=Math.min(i,pool.length-1); out.push(pool.splice(i,1)[0]); w.splice(i,1); }
   return out;
 }
-function openWho(n,ch){ cur.wh={list:whoPick(n||8,ch).map(x=>({x,o:whoOptions(x)})), i:0, a:null, right:0, ch:ch||0}; go("who"); }
+function openWho(n,ch){ cur.mx=null; cur.wh={list:whoPick(n||8,ch).map(x=>({x,o:whoOptions(x)})), i:0, a:null, right:0, ch:ch||0}; go("who"); }
 function renderWho(){
   const W=cur.wh, L=W.list, back=W.ch?chLabel(W.ch):"Üben", backFn=()=>{ if(W.ch){ cur.ch=W.ch; go("chapter"); } else go("practice"); };
+  if(W.i>=L.length&&cur.mx) return mixNext(W.right>0);
   if(W.i>=L.length){
     $("#app").innerHTML=`${backTo(back)}<h1>${L.length?"Runde geschafft":"Noch nichts zum Zuordnen"}</h1><div class="block">${L.length?`<p>${W.right} von ${L.length} richtig zugeordnet.</p>`:""}
       <p class="small muted">Falsch zugeordnete Aussagen kommen in den nächsten Runden häufiger. Welche Kategorien du oft verwechselst, steht unter Statistik.</p>
       <div class="row">${sess?sessBtn():`${L.length?`<button class="btn" id="wAgain">Neue Runde</button>`:""}<button class="btn ghost" id="wOut">Fertig</button>`}</div></div>`;
     bindCrumb(backFn); if($("#wAgain")) $("#wAgain").onclick=()=>openWho(8,W.ch); if($("#wOut")) $("#wOut").onclick=backFn; return;
   }
-  const {x,o}=L[W.i], S=WHO_SETS[x.set];
-  $("#app").innerHTML=`${backTo(back)}
-    <p class="eyebrow">Was gehört wohin? · ${W.i+1} von ${L.length}</p>
-    <div class="block"><p class="wset">${S.q}</p><p class="who${x.t.length>110?" sm":""}">${S.quote?"„"+inl(x.t)+"“":inl(x.t)}</p>
-      <div class="mc">${o.map(k=>{ const cls=W.a===null?"":(k===x.s?"r":(k===W.a?"w":"")); return `<button data-s="${k}" class="${cls}" ${W.a!==null?"disabled":""}>${S.opts[k]}</button>`; }).join("")}</div>
-      ${W.a===null?"":W.a===x.s?`<div class="fb good"><p class="fh">Richtig.</p><p style="margin:0">${inl(x.ex)}</p></div>`
-        :`<div class="fb bad"><p class="fh">Nicht ganz.</p><div class="dlist"><b>Richtig</b><span>${S.opts[x.s]}</span><b>Warum</b><span>${inl(x.ex)}</span>${S.why&&S.why[W.a]?`<b>${S.opts[W.a]}</b><span>${inl(S.why[W.a])}</span>`:""}</div></div>`}</div>
-    ${W.a!==null?`<button class="btn" id="wNext">Weiter</button>`:S.tip?`<p class="small muted">Tipp: ${S.tip}</p>`:""}`;
-  bindCrumb(backFn);
-  document.querySelectorAll("[data-s]").forEach(b=>b.onclick=()=>{ if(W.a!==null) return; W.a=b.dataset.s; const ok=W.a===x.s; if(ok) W.right++;
-    const h=state.who[x.id]||{n:0,r:0}; h.n++; if(ok) h.r++; h.last=ok; if(!ok) h.conf=W.a; state.who[x.id]=h; logDay(); save(); renderWho(); });
-  if($("#wNext")) $("#wNext").onclick=()=>{ W.i++; W.a=null; renderWho(); window.scrollTo(0,0); };
+  /* Zuordnen als Auswahlkarte (aus BiWi II): Aussage auf der Karte, Kategorien als Kacheln darunter, Urteil auf der Karte,
+     weiter mit Tippen oder Wischen; Tipp hinter dem Glühbirnen-Symbol */
+  const {x,o}=L[W.i], S=WHO_SETS[x.set], C=S.opts, done=W.a!==null, ok=done&&W.a===x.s;
+  qcRender({
+    eye:`Was gehört wohin?${cur.mx?"":` · ${W.i+1} von ${L.length}`}`, stem:S.q,
+    front:S.quote?"„"+inl(x.t)+"“":inl(x.t), phase:done?"done":"open",
+    opts:o.map(k=>({k,l:C[k]})), hint:S.tip,
+    ok:!done?undefined:ok,
+    verdict:!done?null:ok?{t:"Richtig.",s:[C[x.s]]}:{t:"Falsch.",s:[`Du: ${C[W.a]}`,`Richtig: ${C[x.s]}`]},
+    why:done?`<p>${inl(x.ex)}</p>${!ok&&S.why&&S.why[W.a]?`<p><b>${C[W.a]}:</b> ${inl(S.why[W.a])}</p>`:""}`:"",
+    next:cur.mx||W.i<L.length-1?"Weiter":"Auswertung",
+    pick:k=>{ if(W.a!==null) return; W.a=k; const good=k===x.s; if(good) W.right++;
+      const h=state.who[x.id]||{n:0,r:0}; h.n++; if(good) h.r++; h.last=good; if(!good) h.conf=k; state.who[x.id]=h; logDay(); save(); renderWho(); if(!good) buzz(); },
+    go:()=>{ W.i++; W.a=null; renderWho(); window.scrollTo(0,0); }
+  });
 }
 
 /* ================= Begriffe und Abkürzungen (nach dem Symbol-Training aus Wirtschaft II) =================
@@ -1593,9 +1804,8 @@ function renderTerms(){
   $("#tb1").onclick=()=>openCards("b"); $("#tb2").onclick=()=>openCards("br");
 }
 
-/* ================= Tägliche Einheit „Heute“ (aus Wirtschaft II) =================
-   Mischt, was in der gewählten Veranstaltung heute dran ist: fällige Karten (oder neue), fällige Verständnisfragen,
-   eine Übung im Prüfungsformat (Vorlesung: Gliederung in 10 Minuten), abwechselnd Zuordnen, Selbsttest oder Begriffe,
+/* ================= Tägliche Einheit „Heute“ =================
+   Mischt, was in der gewählten Veranstaltung heute dran ist: Karten, gemischte Fragen, eine Übung im Essay-Format,
    dazu die nächste neue Lektion. Gemischtes Üben (Interleaving) und Abstände (Spacing) ohne eigene Planung. */
 let sess=null;
 const dayIndex=()=>Math.floor(dayStart()/864e5);
@@ -1605,39 +1815,60 @@ const dueToday=()=>dueCards(0).filter(x=>!x.id.startsWith("br-"));
 /* Probe-Essay laut Plan (21, 14 und 7 Tage vor dem Termin, Seminar je einen Tag später): ab dem Plantag ein eigener Schritt der Einheit */
 function probeDue(){ if(!essaysOf(0).length) return null; const now=Date.now(), P=examPlan().filter(p=>!p.done&&p.when!=null&&p.when-now<=864e5); return P.length?P[P.length-1]:null; }
 function freshChapter(){ for(const ch of courseChs()){ const L=LESSONS[ch.n]||[]; if(L.some(x=>lessonState(x.id)) && (CARDS[ch.n]||[]).some(x=>!isSeen(x.id))) return ch.n; } return 0; }
+/* Höchstens vier Schritte (aus BiWi II, 23.11.): 1 Karten (fällige, neue und ein paar neue Begriffe in einem Stapel),
+   2 Fragen (Verständnisfragen, Selbsttest und Zuordnen gemischt, alle als Auswahlkarten),
+   3 abwechselnd Gliederung in 10 Minuten oder Alles aufschreiben (das offene Format der Essay-Prüfung), 4 Neu lernen.
+   Am Plantag: Probe-Essay und nur die fälligen Karten. */
 function planToday(){
   /* geübt wird nur, was schon gelesen wurde: begonnene Sitzungen (mindestens eine Lektion bearbeitet) */
   const started=courseChs().filter(ch=>(LESSONS[ch.n]||[]).some(x=>lessonState(x.id)));
   const half=started.some(ch=>{ const L=LESSONS[ch.n]; return L.filter(x=>lessonState(x.id)).length>=L.length/2 && essaysOf(ch.n).length; });
-  const S=[], dc=dueToday().length, dq=qDue().length, nx=nextStep(), pr=probeDue();
-  /* Am Plantag: Probe-Essay und nur die fälligen Karten, damit die Einheit nicht ausufert */
+  const S=[], due=dueToday().slice(0,20), nx=nextStep(), pr=probeDue();
   if(pr){ S.push({k:"exam", t:"Probe-Essay", d:`laut Plan (${pr.lab}): eine Frage, 60 Minuten wie in der Prüfung`, min:60});
-    if(dc) S.push({k:"cards", t:"Karten wiederholen", d:`${Math.min(dc,20)} fällige Karten`, min:Math.max(2,Math.round(Math.min(dc,20)*.4))});
+    if(due.length) S.push({k:"cards", deck:due, t:"Karten", d:`${due.length} fällig`, min:Math.max(2,Math.round(due.length*.4))});
     return S; }
-  const lesson=nx&&nx.lesson?{k:"lesson", t:"Neu lernen", d:nx.title, min:5, go:nx.go}:null;
-  if(!dc&&!dq&&lesson) S.push(lesson);
-  if(dc) S.push({k:"cards", t:"Karten wiederholen", d:`${Math.min(dc,20)} fällige Karten`, min:Math.max(2,Math.round(Math.min(dc,20)*.4))});
-  if(dc<25){ const n=freshChapter(); if(n) S.push({k:"newcards", n, t:"Neue Karten", d:`5 neue Karten aus Sitzung ${chOf(n).no}`, min:3}); }
-  if(dq) S.push({k:"recall", t:"Verständnisfragen", d:`${Math.min(dq,6)} fällige Fragen aus den Lektionen`, min:3});
-  if(half&&!pr) S.push({k:"outline", t:"Gliederung in 10 Minuten", d:"eine Prüfungsfrage gliedern, wie am Anfang des Essays", min:10});
-  if(started.length){ const rot=["who","kreuz","dump","terms"][dayIndex()%4];
-    if(rot==="who"&&whoOf(0).length) S.push({k:"who", t:"Was gehört wohin?", d:"6 Aussagen zuordnen", min:3});
-    else if(rot==="dump"&&pickDump()) S.push({k:"dump", t:"Alles aufschreiben", d:`5 Minuten aus dem Gedächtnis: ${chLabel(pickDump().n)}`, min:7});
-    else if(rot==="terms"&&allCards("b").length) S.push({k:"terms", t:"Begriffe", d:"8 Begriffe: Begriff → Erklärung", min:3});
-    else if(kreuzOf(0).length) S.push({k:"kreuz", t:"Selbsttest", d:"Aussagen als wahr oder falsch erkennen", min:4}); }
-  if(lesson&&!S.includes(lesson)) S.push(lesson);
+  const n=due.length<25?freshChapter():0, fresh=n?allCards(n).filter(x=>!isSeen(x.id)).slice(0,5):[];
+  const terms=due.length<25&&started.length?allCards("b").filter(x=>!isSeen(x.id)).slice(0,3):[];
+  const deck=due.concat(fresh,terms);
+  if(deck.length) S.push({k:"cards", deck, t:"Karten", d:[due.length?`${due.length} fällig`:"",fresh.length+terms.length?`${fresh.length+terms.length} neu`:""].filter(Boolean).join(", "), min:Math.max(2,Math.round(deck.length*.4))});
+  const mx=started.length?mixPlan():[]; if(mx.length) S.push({k:"mix", list:mx, t:"Fragen", d:`${mx.length} Fragen gemischt`, min:Math.max(3,Math.round(mx.length*.6))});
+  if(started.length){ const rot=dayIndex()%2, dp=pickDump();
+    if((rot===0||!dp)&&half) S.push({k:"outline", t:"Gliederung in 10 Minuten", d:"eine Prüfungsfrage gliedern, wie am Anfang des Essays", min:10});
+    else if(dp) S.push({k:"dump", t:"Alles aufschreiben", d:`5 Minuten aus dem Gedächtnis: ${chLabel(dp.n)}`, min:7}); }
+  if(nx&&nx.lesson) S.push({k:"lesson", t:"Neu lernen", d:nx.title, min:5, go:nx.go});
   return S;
+}
+/* Fragenmix: fällige Verständnisfragen, Selbsttest-Aufgaben und Zuordnen, verzahnt (Interleaving) */
+function mixPlan(){
+  const q=qDue().slice(0,5).map(x=>({t:"q",q:x})), k=kreuzOf(0).length?pickKreuz(0,2).map(x=>({t:"k",id:x.id})):[], w=whoPick(3).map(x=>({t:"w",x,o:whoOptions(x)}));
+  const out=[], parts=[q,k,w]; while(parts.some(p=>p.length)) for(const p of parts) if(p.length) out.push(p.shift());
+  return out;
+}
+function openMix(list){ cur.mx={list, i:0, right:0, n:0}; mixShow(); }
+function mixShow(){ const M=cur.mx, e=M.list[M.i];
+  if(!e) return mixDone();
+  if(e.t==="q"){ cur.rq={list:[e.q], i:0, ans:undefined, shown:false, right:0, n:0}; go("recall"); }
+  else if(e.t==="k"){ cur.kr={n:0, items:[e.id], i:0, j:0, ans:{}, prev:null, pts:[], sure:[]}; go("kreuz"); }
+  else { cur.wh={list:[{x:e.x,o:e.o}], i:0, a:null, right:0, ch:0}; go("who"); }
+  window.scrollTo(0,0);
+}
+/* Wird von den Fragenansichten aufgerufen, wenn ihr einziges Element fertig ist: ok = richtig (Selbsttest: Punkte) */
+function mixNext(ok,pts){ const M=cur.mx; if(pts!==undefined){ M.kp=(M.kp||0)+pts; M.km=(M.km||0)+4; } else { M.n++; if(ok) M.right++; } M.i++; mixShow(); }
+function mixDone(){ const M=cur.mx; cur.mx=null; view="mixdone"; renderNav();
+  $("#app").innerHTML=`<h1>Fragen geschafft</h1><div class="block">
+    ${M.n?`<p>${M.right} von ${M.n} Fragen richtig.</p>`:""}${M.km?`<p>Selbsttest: ${M.kp} von ${M.km} Punkten.</p>`:""}
+    <p class="small muted">Was nicht saß, kommt morgen wieder.</p><div class="row">${sess?sessBtn():`<button class="btn" id="mxOut">Fertig</button>`}</div></div>`;
+  if($("#mxOut")) $("#mxOut").onclick=()=>go("practice"); updateSessBar(); window.scrollTo(0,0);
 }
 /* Begriffe für heute: erst fällige, dann neue, nur Begriff → Erklärung */
 function termsForToday(){ const A=allCards("b"); const due=A.filter(x=>isDue(x.id)), fresh=A.filter(x=>!isSeen(x.id)); return shuffle(due).concat(shuffle(fresh)).slice(0,8); }
-function startSession(){ sess={steps:planToday(), i:0, t0:Date.now()}; runStep(); }
+function startSession(){ sess={steps:planToday(), i:0, t0:Date.now(), done:[]}; runStep(); }
 function runStep(){
-  if(!sess) return; const s=sess.steps[sess.i];
+  if(!sess) return; const s=sess.steps[sess.i]; updateSessBar();
   if(!s){ return finishSession(); }
-  ({cards:()=>openCards(0,false,dueToday().slice(0,20)),
+  ({cards:()=>openCards(0,false,s.deck),
+    mix:()=>openMix(s.list),
     exam:()=>go("exam"),
-    newcards:()=>openCards(s.n,false,allCards(s.n).filter(x=>!isSeen(x.id)).slice(0,5)),
-    recall:()=>openRecall(qDue().slice(0,6)),
     outline:()=>openOutline(0),
     dump:()=>openDump(0),
     who:()=>openWho(6),
@@ -1646,13 +1877,18 @@ function runStep(){
     lesson:()=>s.go()})[s.k]();
   window.scrollTo(0,0);
 }
-function sessNext(){ if(!sess) return; sess.i++; runStep(); }
-function endSession(){ sess=null; updateSessBar(); go("home"); }
+/* done = Schritt wirklich bis zum Ende bearbeitet (Abschlussseite oder Speichern); „Nächster Schritt“ oben zählt als übersprungen (aus BiWi II) */
+function sessNext(done){ if(!sess) return; (sess.done=sess.done||[])[sess.i]=done===true; sess.i++; runStep(); }
+function endSession(){ cur.mx=null; sess=null; updateSessBar(); go("home"); }
 function finishSession(){
-  const min=Math.max(1,Math.round((Date.now()-sess.t0)/60000)); state.sessions[today()]=min; save();
+  const min=Math.max(1,Math.round((Date.now()-sess.t0)/60000)), n=sess.steps.length, d=(sess.done||[]).filter(Boolean).length, all=d===n;
+  if(all){ state.sessions[today()]=min; save(); }
   sess=null; updateSessBar(); view="sessdone"; renderNav();
-  $("#app").innerHTML=`<p class="eyebrow">Heute</p><h1>Geschafft</h1><div class="block"><p>Deine Einheit ist fertig, etwa ${min} Minuten.</p>
+  $("#app").innerHTML=all?`<p class="eyebrow">Heute</p><h1>Geschafft</h1><div class="block"><p>Deine Einheit ist fertig, etwa ${min} Minuten.</p>
     <p class="small muted">Morgen stellt die App eine neue Einheit zusammen. Was du heute nicht sicher wusstest, ist dann wieder dabei.${new Date().getHours()>=18?" Abends gelernt? Dann mach morgen früh kurz die fälligen Karten: Mit Schlaf zwischen zwei Runden sitzt der Stoff schneller und länger.":""}</p>
+    <div class="row"><button class="btn" id="sdHome">Zum Lernpfad</button></div></div>`
+   :`<p class="eyebrow">Heute</p><h1>${d?"Noch nicht ganz":"Nichts bearbeitet"}</h1><div class="block"><p>${d} von ${n} Schritten bearbeitet.</p>
+    <p class="small muted">Übersprungenes zählt nicht als gelernt und steht weiter unter „Heute“.</p>
     <div class="row"><button class="btn" id="sdHome">Zum Lernpfad</button></div></div>`;
   $("#sdHome").onclick=()=>go("home"); window.scrollTo(0,0);
 }
@@ -1661,11 +1897,11 @@ function updateSessBar(){
   if(!sess||!sess.steps[sess.i]){ b.hidden=true; b.innerHTML=""; return; }
   const s=sess.steps[sess.i];
   b.hidden=false;
-  b.innerHTML=`<div class="sbin"><span class="sbt"><b>Heute ${sess.i+1}/${sess.steps.length}</b> · ${s.t}</span><button class="btn small" id="sbNext">${sess.i<sess.steps.length-1?"Nächster Schritt":"Abschließen"}</button><button class="btn ghost small" id="sbEnd" aria-label="Einheit beenden">✕</button></div><div class="sbs" aria-hidden="true">${sess.steps.map((_,j)=>`<i class="${j<sess.i?"on":j===sess.i?"now":""}"></i>`).join("")}</div>`;
-  $("#sbNext").onclick=sessNext; $("#sbEnd").onclick=endSession;
+  b.innerHTML=`<div class="sbin"><span class="sbt"><b>Heute ${sess.i+1}/${sess.steps.length}</b> · ${s.t}</span><button class="btn ghost small" id="sbNext">${sess.i<sess.steps.length-1?"Nächster Schritt":"Abschließen"}</button><button class="btn ghost small" id="sbEnd" aria-label="Einheit beenden">✕</button></div><div class="sbs" aria-hidden="true">${sess.steps.map((_,j)=>`<i class="${j<sess.i?"on":j===sess.i?"now":""}"></i>`).join("")}</div>`;
+  $("#sbNext").onclick=()=>sessNext(false); $("#sbEnd").onclick=endSession;
 }
 const sessBtn=()=>`<button class="btn" id="sessGo">${sess&&sess.i<sess.steps.length-1?"Weiter zum nächsten Schritt":"Einheit abschließen"}</button>`;
-document.addEventListener("click",e=>{ if(e.target.closest("#sessGo")) sessNext(); });
+document.addEventListener("click",e=>{ if(e.target.closest("#sessGo")) sessNext(true); });
 /* Block auf der Startseite */
 function todayBlock(){
   const done=(state.sessions||{})[today()], S=planToday(), min=S.reduce((a,s)=>a+s.min,0);
@@ -1749,7 +1985,7 @@ function bindWeak(){
   const D=weakData();
   if($("#wkC")) $("#wkC").onclick=()=>openCards(0,true,D.weakCards.slice(0,15));
   if($("#wkQ")) $("#wkQ").onclick=()=>openRecall(D.weakQ.slice(0,8));
-  if($("#wkW")) $("#wkW").onclick=()=>{ const items=[].concat(...D.confL.map(([k])=>D.confItems[k])); cur.wh={list:items.slice(0,8).map(x=>({x,o:whoOptions(x)})), i:0, a:null, right:0, ch:0}; go("who"); };
+  if($("#wkW")) $("#wkW").onclick=()=>{ cur.mx=null; const items=[].concat(...D.confL.map(([k])=>D.confItems[k])); cur.wh={list:items.slice(0,8).map(x=>({x,o:whoOptions(x)})), i:0, a:null, right:0, ch:0}; go("who"); };
   if($("#wkO")) $("#wkO").onclick=()=>openOutline(0,D.weakO[0].id);
   if($("#wkE")) $("#wkE").onclick=()=>openEssay(0,D.weakE[0].id);
 }
@@ -1775,8 +2011,8 @@ const APP={
   views:["cards","recall","who","kreuz","essay","exam","outline","dump"],
   prog:()=>{ const P={cards:()=>cur.deck&&{i:cur.ci,n:cur.deck.length}, recall:()=>cur.rq&&{i:cur.rq.i,n:cur.rq.list.length},
     who:()=>cur.wh&&{i:cur.wh.i,n:cur.wh.list.length}, kreuz:()=>cur.kr&&{i:cur.kr.i,n:cur.kr.items.length}}[view];
-    const r=P&&P(); return r&&r.n?r:null; },
-  title:()=>({cards:"Karten",recall:"Verständnisfragen",who:"Was gehört wohin?",kreuz:"Selbsttest",essay:"Essay",exam:"Probe-Essay",outline:"Gliederung",dump:"Alles aufschreiben"})[view]||"",
+    const r=cur.mx&&["recall","who","kreuz"].includes(view)?{i:cur.mx.i,n:cur.mx.list.length}:P&&P(); return r&&r.n?r:null; },
+  title:()=>cur.mx&&["recall","who","kreuz"].includes(view)?"Fragen":({cards:"Karten",recall:"Verständnisfragen",who:"Was gehört wohin?",kreuz:"Selbsttest",essay:"Essay",exam:"Probe-Essay",outline:"Gliederung",dump:"Alles aufschreiben"})[view]||"",
   exit:()=>go(TAB_OF[view]||"home")
  },
  todos:{
@@ -1811,7 +2047,7 @@ const APP={
       known:false = nur bekannt, dass das Hochgeladene dazugehört.
    2. Erledigt-Liste (APP.todos je Hälfte), abgehakt in state.todo[id] = Zeitstempel.
    3. Motivationssatz unter der Wochenübersicht.
-   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-17", "a": "BiWi II, Politik I", "w": "Link „Tippen“ auf der Kartenvorderseite entfernt (Antwort eintippen bei Karten); offene Aufgaben und Essays werden weiter getippt", "y": "Talib nutzt ihn nie; Wirtschaft II und W&G I folgen, sobald ein Chat dort schreiben darf"}, {"d": "2026-11-10", "a": "Politik I", "w": "Seminar Block II „Parteien und Wahlen“ als Muster für die übrigen Blöcke: Mielke 2013 als Kern, Lucardie, Merten, Niedermayer als Empfehlung (7 Lektionen, 20 Karten, 18 Fragen, 4 Selbsttests, 3 Probe-Essays mit Musteressay, 12 Zuordnungen, 9 Begriffe), schlanker als Block I", "y": "Talib will das Seminar komplett abgedeckt haben, Texte für Block II–IX liegen im Projekt"}, {"d": "2026-11-10", "a": "alle", "w": "`design.css`: Im Lernmodus sind Tableiste und „Aa“ jetzt auch für VoiceOver und Tastatur verborgen (`visibility:hidden` nach der Animation), sichtbar ändert sich nichts", "y": "Prüfauftrag Politik I: unsichtbare Leiste war noch fokussierbar und wurde als Kontrastfehler gemessen"}, {"d": "2026-11-10", "a": "Politik I", "w": "Prüfauftrag komplett: 4 Fragen verraten die Antwort nicht mehr durch Länge (v1-13#2, v1-8#2, v1-14#1, se1-3#1), 3 neue Karten für ungeübte Kernbegriffe (v1-c51 Subtypen, v1-c52 Steuerungsskepsis, se1-c40 Lowi), Probe-Essays des Seminars an eigenen Tagen (Fr 15.01., 22.01., 29.01.: nicht auf der Presseschau-Abgabe, letzter nach der Themenbekanntgabe 28.01.)", "y": "Beide Prüfungen am 04.02., sonst zwei Probe-Essays an einem Abend"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App", "y": "Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist"}, {"d": "2026-11-10", "a": "alle", "w": "Hochladen und Bescheid geben in einem Schritt: Dateien in einem neuen Chat im Projekt anhängen und senden, ohne Text; der Chat baut sie nach `UPDATE.md` ein und sichert die Textfassung als Projekt-Dokument; Knopf heißt „Projekt öffnen“", "y": "Talib: Upload, Knopf, Chat, Einfügen waren zu viele Schritte"}]).
+   4. Claude-Brücke: letzte Logbuch-Einträge dieser App aus CLAUDE.md (build.py ersetzt [{"d": "2026-11-23", "a": "Politik I", "w": "Übernommen aus BiWi II: Karten-Bedienung (Tippen dreht, Wischen bewertet nur aufgedeckt, auch neben der Karte, Schwung, Kopfschütteln, auf Touch ohne Knöpfe), ruhige iPad-Ansicht (Karte mittig, Lernstand als Punkte `lvlDots`, Zurück als Wort, „Nächster Schritt“ nur als Text), Platte „Heute“ ganz antippbar, Beispielzeilen abgesetzt (`EXRE`/`exHTML`, auch in `toRich`/`richText`, Gegenüberstellungen bleiben Tabelle), Auswahlkarten (`qcRender` in `kreuz.js`) für Verständnisfragen, Selbsttest und „Was gehört wohin?“ (Antwortreihenfolge weiter gemischt, Tipp hinter der Glühbirne, Kacheln bei 180 % Schrift ohne Überlauf), Tageseinheit mit höchstens vier Schritten (Karten mit fälligen, neuen und 3 neuen Begriffen; Fragen gemischt; abwechselnd Gliederung in 10 Minuten oder Alles aufschreiben statt Rechenaufgabe; Neu lernen; Plantag unverändert Probe-Essay plus Karten) und ehrlich (Probe-Essay zählt nach „Ergebnis speichern“), Diktieren in Essay üben, Gliederung und Alles aufschreiben (nicht im Probe-Essay); alle Karten nach Lernprinzip 10: 7 geteilt (neu v1-c54, se1-c41 bis se1-c44, se2-c21, se2-c22), rund 40 in Leitwort-Zeilen oder mit Anzahl vorne, 21 mit Beispielzeile; Abkürzungen zum Antippen noch offen", "y": "Talib: alle BiWi-II-Verbesserungen in Politik I, Muster freigegeben"}, {"d": "2026-11-17", "a": "BiWi II, Politik I", "w": "Link „Tippen“ auf der Kartenvorderseite entfernt (Antwort eintippen bei Karten); offene Aufgaben und Essays werden weiter getippt", "y": "Talib nutzt ihn nie; Wirtschaft II und W&G I folgen, sobald ein Chat dort schreiben darf"}, {"d": "2026-11-10", "a": "Politik I", "w": "Seminar Block II „Parteien und Wahlen“ als Muster für die übrigen Blöcke: Mielke 2013 als Kern, Lucardie, Merten, Niedermayer als Empfehlung (7 Lektionen, 20 Karten, 18 Fragen, 4 Selbsttests, 3 Probe-Essays mit Musteressay, 12 Zuordnungen, 9 Begriffe), schlanker als Block I", "y": "Talib will das Seminar komplett abgedeckt haben, Texte für Block II–IX liegen im Projekt"}, {"d": "2026-11-10", "a": "alle", "w": "`design.css`: Im Lernmodus sind Tableiste und „Aa“ jetzt auch für VoiceOver und Tastatur verborgen (`visibility:hidden` nach der Animation), sichtbar ändert sich nichts", "y": "Prüfauftrag Politik I: unsichtbare Leiste war noch fokussierbar und wurde als Kontrastfehler gemessen"}, {"d": "2026-11-10", "a": "Politik I", "w": "Prüfauftrag komplett: 4 Fragen verraten die Antwort nicht mehr durch Länge (v1-13#2, v1-8#2, v1-14#1, se1-3#1), 3 neue Karten für ungeübte Kernbegriffe (v1-c51 Subtypen, v1-c52 Steuerungsskepsis, se1-c40 Lowi), Probe-Essays des Seminars an eigenen Tagen (Fr 15.01., 22.01., 29.01.: nicht auf der Presseschau-Abgabe, letzter nach der Themenbekanntgabe 28.01.)", "y": "Beide Prüfungen am 04.02., sonst zwei Probe-Essays an einem Abend"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App", "y": "Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist"}]).
    5. Abstände vor der Prüfung (spaceDays), siehe unten.
    6. Symbole der Tableiste (NAV_ICONS), Gestaltung in design.css.
    7. Lernmodus ohne Ablenkung (focusBar): Ansichten aus APP.focus.views und die ganze Tageseinheit blenden Tableiste und „Aa“ aus.
@@ -1940,7 +2176,7 @@ document.addEventListener("keydown",e=>{ if(e.key!=="Escape"||!document.body.cla
   const a=document.activeElement; if(a&&/^(TEXTAREA|INPUT|SELECT)$/.test(a.tagName)) return; const x=document.getElementById("fx"); if(x){ e.preventDefault(); x.click(); } });
 
 /* Claude-Brücke: was zuletzt an dieser App geändert wurde und warum (aus CLAUDE.md, beim Bauen übernommen) */
-const BRUECKE=[{"d": "2026-11-17", "a": "BiWi II, Politik I", "w": "Link „Tippen“ auf der Kartenvorderseite entfernt (Antwort eintippen bei Karten); offene Aufgaben und Essays werden weiter getippt", "y": "Talib nutzt ihn nie; Wirtschaft II und W&G I folgen, sobald ein Chat dort schreiben darf"}, {"d": "2026-11-10", "a": "Politik I", "w": "Seminar Block II „Parteien und Wahlen“ als Muster für die übrigen Blöcke: Mielke 2013 als Kern, Lucardie, Merten, Niedermayer als Empfehlung (7 Lektionen, 20 Karten, 18 Fragen, 4 Selbsttests, 3 Probe-Essays mit Musteressay, 12 Zuordnungen, 9 Begriffe), schlanker als Block I", "y": "Talib will das Seminar komplett abgedeckt haben, Texte für Block II–IX liegen im Projekt"}, {"d": "2026-11-10", "a": "alle", "w": "`design.css`: Im Lernmodus sind Tableiste und „Aa“ jetzt auch für VoiceOver und Tastatur verborgen (`visibility:hidden` nach der Animation), sichtbar ändert sich nichts", "y": "Prüfauftrag Politik I: unsichtbare Leiste war noch fokussierbar und wurde als Kontrastfehler gemessen"}, {"d": "2026-11-10", "a": "Politik I", "w": "Prüfauftrag komplett: 4 Fragen verraten die Antwort nicht mehr durch Länge (v1-13#2, v1-8#2, v1-14#1, se1-3#1), 3 neue Karten für ungeübte Kernbegriffe (v1-c51 Subtypen, v1-c52 Steuerungsskepsis, se1-c40 Lowi), Probe-Essays des Seminars an eigenen Tagen (Fr 15.01., 22.01., 29.01.: nicht auf der Presseschau-Abgabe, letzter nach der Themenbekanntgabe 28.01.)", "y": "Beide Prüfungen am 04.02., sonst zwei Probe-Essays an einem Abend"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App", "y": "Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist"}, {"d": "2026-11-10", "a": "alle", "w": "Hochladen und Bescheid geben in einem Schritt: Dateien in einem neuen Chat im Projekt anhängen und senden, ohne Text; der Chat baut sie nach `UPDATE.md` ein und sichert die Textfassung als Projekt-Dokument; Knopf heißt „Projekt öffnen“", "y": "Talib: Upload, Knopf, Chat, Einfügen waren zu viele Schritte"}];
+const BRUECKE=[{"d": "2026-11-23", "a": "Politik I", "w": "Übernommen aus BiWi II: Karten-Bedienung (Tippen dreht, Wischen bewertet nur aufgedeckt, auch neben der Karte, Schwung, Kopfschütteln, auf Touch ohne Knöpfe), ruhige iPad-Ansicht (Karte mittig, Lernstand als Punkte `lvlDots`, Zurück als Wort, „Nächster Schritt“ nur als Text), Platte „Heute“ ganz antippbar, Beispielzeilen abgesetzt (`EXRE`/`exHTML`, auch in `toRich`/`richText`, Gegenüberstellungen bleiben Tabelle), Auswahlkarten (`qcRender` in `kreuz.js`) für Verständnisfragen, Selbsttest und „Was gehört wohin?“ (Antwortreihenfolge weiter gemischt, Tipp hinter der Glühbirne, Kacheln bei 180 % Schrift ohne Überlauf), Tageseinheit mit höchstens vier Schritten (Karten mit fälligen, neuen und 3 neuen Begriffen; Fragen gemischt; abwechselnd Gliederung in 10 Minuten oder Alles aufschreiben statt Rechenaufgabe; Neu lernen; Plantag unverändert Probe-Essay plus Karten) und ehrlich (Probe-Essay zählt nach „Ergebnis speichern“), Diktieren in Essay üben, Gliederung und Alles aufschreiben (nicht im Probe-Essay); alle Karten nach Lernprinzip 10: 7 geteilt (neu v1-c54, se1-c41 bis se1-c44, se2-c21, se2-c22), rund 40 in Leitwort-Zeilen oder mit Anzahl vorne, 21 mit Beispielzeile; Abkürzungen zum Antippen noch offen", "y": "Talib: alle BiWi-II-Verbesserungen in Politik I, Muster freigegeben"}, {"d": "2026-11-17", "a": "BiWi II, Politik I", "w": "Link „Tippen“ auf der Kartenvorderseite entfernt (Antwort eintippen bei Karten); offene Aufgaben und Essays werden weiter getippt", "y": "Talib nutzt ihn nie; Wirtschaft II und W&G I folgen, sobald ein Chat dort schreiben darf"}, {"d": "2026-11-10", "a": "Politik I", "w": "Seminar Block II „Parteien und Wahlen“ als Muster für die übrigen Blöcke: Mielke 2013 als Kern, Lucardie, Merten, Niedermayer als Empfehlung (7 Lektionen, 20 Karten, 18 Fragen, 4 Selbsttests, 3 Probe-Essays mit Musteressay, 12 Zuordnungen, 9 Begriffe), schlanker als Block I", "y": "Talib will das Seminar komplett abgedeckt haben, Texte für Block II–IX liegen im Projekt"}, {"d": "2026-11-10", "a": "alle", "w": "`design.css`: Im Lernmodus sind Tableiste und „Aa“ jetzt auch für VoiceOver und Tastatur verborgen (`visibility:hidden` nach der Animation), sichtbar ändert sich nichts", "y": "Prüfauftrag Politik I: unsichtbare Leiste war noch fokussierbar und wurde als Kontrastfehler gemessen"}, {"d": "2026-11-10", "a": "Politik I", "w": "Prüfauftrag komplett: 4 Fragen verraten die Antwort nicht mehr durch Länge (v1-13#2, v1-8#2, v1-14#1, se1-3#1), 3 neue Karten für ungeübte Kernbegriffe (v1-c51 Subtypen, v1-c52 Steuerungsskepsis, se1-c40 Lowi), Probe-Essays des Seminars an eigenen Tagen (Fr 15.01., 22.01., 29.01.: nicht auf der Presseschau-Abgabe, letzter nach der Themenbekanntgabe 28.01.)", "y": "Beide Prüfungen am 04.02., sonst zwei Probe-Essays an einem Abend"}, {"d": "2026-11-10", "a": "alle", "w": "Knopf „Projekt öffnen“ wieder entfernt, Hinweis zeigt den Weg in der Claude-App", "y": "Aus der Web-App öffnet iOS einen Browser, in dem Talib nicht angemeldet ist"}];
 function bridgeBlock(){
   if(!BRUECKE.length) return "";
   const f=s=>{ const [y,m,d]=s.split("-"); return +d+"."+(+m)+"."; };
@@ -1979,7 +2215,7 @@ function pickKreuz(n,k){
   }
   return out;
 }
-function openKreuz(n){ cur.kr={n, items:pickKreuz(n,5).map(x=>x.id), i:0, ans:{}, gs:{}, shown:false, pts:[], sure:[]}; go("kreuz"); }
+function openKreuz(n,k,ids){ cur.mx=null; cur.kr={n, items:ids||pickKreuz(n,k||5).map(x=>x.id), i:0, j:0, ans:{}, prev:null, pts:[], sure:[]}; if(QC) QC.enter=false; go("kreuz"); }
 function kzBlock(item,ans,shown,key,gs){
   return item.s.map((st,j)=>{ const a=ans[j], g=gs&&gs[j];
     const cls=v=>shown?(st[1]===v?"r":(a===v?"w":"")):"";
@@ -1987,30 +2223,129 @@ function kzBlock(item,ans,shown,key,gs){
       <div class="wf" role="group" aria-label="Aussage ${"abc"[j]}"><button data-kz="${key}:${j}" data-v="1" aria-pressed="${a===true}" class="${cls(true)}" ${shown?"disabled":""}>wahr</button><button data-kz="${key}:${j}" data-v="0" aria-pressed="${a===false}" class="${cls(false)}" ${shown?"disabled":""}>falsch</button></div>${gs?`<button data-kg="${j}" class="kg" aria-pressed="${!!g}" ${shown?"disabled":""}>${g?"✓ ":""}geraten</button>`:""}
       ${shown?`<p class="why">${a===st[1]?(g?'<b class="gsd">Richtig geraten, zählt noch nicht als gewusst. </b>':""):a===undefined?'<b>Nicht angekreuzt. </b>':'<b>Nicht richtig. </b>'}${st[2]}</p>`:""}</div>`; }).join("");
 }
+/* ================= Auswahlkarte: Fragen wie Lernkarten (aus BiWi II übernommen) =================
+   Gilt für Kreuzaufgaben, Verständnisfragen und Zuordnen. Gleiche Gesten wie bei den Karten:
+   Tippen (auf die Karte oder daneben) deckt auf bzw. geht weiter, Wischen wie gewohnt:
+   - Kreuzaufgabe: rechts wahr, links falsch (Tönung grün/rot wie bei „sicher“/„nicht sicher“).
+   - Verständnisfrage: erst selbst überlegen, Tippen zeigt die Auswahl; links wischen = „Weiß ich nicht“.
+   - Nach der Antwort: Tippen oder Wischen in eine Richtung, die Karte fliegt hinaus, die nächste kommt.
+   Wischen, wenn noch nichts geht, lässt die Karte rot den Kopf schütteln. Auf Touch keine „Weiter“-Knöpfe. */
+let QC=null;
+function qcRender(o){
+  const ph=o.phase, done=ph==="done";
+  const vcls=!done?"":o.ok===true?" ok":o.ok===null?" idk":" no";
+  const v=o.verdict, compact=!o.binary&&ph!=="front";
+  const plain=o.opts?o.opts.map(x=>String(x.l).replace(/<[^>]+>/g,"")):[], maxL=plain.length?Math.max(...plain.map(t=>t.length)):99,
+    maxW=plain.length?Math.max(...plain.map(t=>Math.max(...t.split(/[\s\/]+/).map(w=>w.length)))):99;
+  /* Zwei Spalten nur, wenn kein Wort umbrochen werden muss: Handy bis 24 Zeichen und Wörter bis 11 Zeichen, iPad bis 64 und 22 */
+  const grid=maxL<=24&&maxW<=11?" g2":maxL<=64&&maxW<=22?" g2w":"";
+  $("#app").innerHTML=`
+    <div class="row between ctop"><p class="eyebrow" style="margin:0">${o.eye}</p>${o.right||""}</div>
+    ${o.stem?`<p class="kzstem">${o.stem}</p>`:""}
+    <div class="swipewrap"><div class="block card qc${vcls}${compact?" cmp":""}${QC&&QC.enter?" enter":""}" id="theCard" role="button" tabindex="0" aria-label="${ph==="front"?"Auswahl zeigen":done?"Weiter":"Karte"}"><i class="tint" aria-hidden="true"></i>
+      ${o.hint&&!done?`<button class="qhint${o.idk?" two":""}" aria-label="Tipp zeigen" aria-expanded="false" title="Tipp"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18h6M10 21h4"/><path d="M12 3a6 6 0 0 0-3.6 10.8c.7.6 1.1 1.3 1.1 2.2h5c0-.9.4-1.6 1.1-2.2A6 6 0 0 0 12 3z"/></svg></button>`:""}
+      ${o.idk&&!done?`<button class="qidk" data-qk="__idk" aria-label="Weiß ich nicht" title="Weiß ich nicht"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9.1 9a3 3 0 0 1 5.8 1c0 2-3 2.6-3 4.5"/><circle cx="12" cy="17.6" r=".6" fill="currentColor"/></svg></button>`:""}
+      ${o.ctx?`<p class="cctx">${o.ctx}</p>`:""}
+      <div class="front">${o.front}${o.erg?` <span class="erg">Ergänzung</span>`:""}</div>
+      ${o.hint&&!done?`<p class="qhtxt" hidden>${o.hint}</p>`:""}
+      ${done?`<div class="kzv${vcls}"><span class="ic" aria-hidden="true">${o.ok===true?"✓":o.ok===null?"?":"✕"}</span><div><b>${v.t}</b>${v.s.map(x=>`<span>${x}</span>`).join("")}</div></div>${o.why?`<div class="kzwhy">${o.why}</div>`:""}${o.more||""}`:""}
+    </div></div>
+    ${ph==="front"?`<div class="row fliprow"><button class="btn" id="qcShow" style="flex:1">Auswahl zeigen</button></div>`
+      :ph==="open"?`${o.binary?`<div class="kzans" role="group" aria-label="Ist die Aussage wahr oder falsch?">${o.opts.map(x=>`<button class="btn ghost" data-qk="${x.k}">${x.l}</button>`).join("")}</div>`
+          :`<div class="qcopts${grid}">${o.opts.map((x,i)=>`<button data-qk="${x.k}"><span class="ql" aria-hidden="true">${"ABCDEFGH"[i]}</span><span class="qt">${inl(String(x.l).replace(/ → /g,"\u00a0→\u00a0"))}</span></button>`).join("")}</div>`}
+`
+      :`<div class="qnext"><button class="btn" id="qcNext">${o.next||"Weiter"}</button></div>${o.below||""}`}`;
+  const cd=$("#theCard");
+  QC={cd, enter:false,
+    tap:()=>{ if(ph==="front") o.reveal(); else if(ph==="open"&&o.reveal&&o.hide) o.hide(); else if(done) o.go(); },
+    can:d=>done?"fly":ph==="open"&&o.binary?"snap":ph==="open"&&o.idk&&d<0?"snap":false,
+    tint:d=>ph==="open"&&o.binary?(d>0?"ok":"no"):"",
+    swipe:d=>{ if(done){ QC.enter=true; o.go(); } else if(o.binary) o.pick(o.opts[d>0?1:0].k); else if(d<0&&o.idk) o.pick("__idk"); } };
+  document.querySelectorAll("[data-qk]").forEach(b=>b.onclick=()=>o.pick(b.dataset.qk));
+  if($("#qcShow")) $("#qcShow").onclick=o.reveal;
+  const hb=$(".qhint"); if(hb) hb.onclick=()=>{ const t=$(".qhtxt"), on=t.hidden; t.hidden=!on; hb.setAttribute("aria-expanded",on); hb.classList.toggle("on",on); };
+  if($("#qcNext")) $("#qcNext").onclick=()=>{ QC.enter=true; o.go(); };
+  cd.onkeydown=e=>{ if(e.key==="Enter"||e.key===" "){ e.preventDefault(); QC.tap(); } };
+  if(o.after) o.after();
+}
+/* Gesten für alle Auswahlkarten: auf der Karte und daneben, wie bei den Lernkarten */
+(function(){ let x0=null,y0=0,t0=0,id=null,on=false,shook=false,dx=0,hist=[],mouseOut=false;
+  const views=["kreuz","recall","who"];
+  const ok=e=>views.includes(view)&&QC&&QC.cd&&document.body.contains(QC.cd)&&!e.target.closest("button,a,textarea,input,select,label,#sessbar,#focusbar,nav,details");
+  const speed=()=>{ if(hist.length<2) return 0; const [t1,a]=hist[0],[t2,b]=hist[hist.length-1]; return t2>t1?(b-a)/(t2-t1):0; };
+  document.addEventListener("pointerdown",e=>{ if(!ok(e)) return; mouseOut=e.pointerType==="mouse"&&!e.target.closest("#theCard"); x0=e.clientX; y0=e.clientY; t0=performance.now(); id=e.pointerId; on=false; shook=false; dx=0; hist=[]; },{passive:true});
+  document.addEventListener("pointermove",e=>{ if(x0===null||e.pointerId!==id||mouseOut) return; const d=e.clientX-x0, cd=QC.cd;
+    if(!on){ if(Math.abs(d)>12&&Math.abs(d)>1.4*Math.abs(e.clientY-y0)){ if(!QC.can(d>0?1:-1)){ if(!shook){ shook=true; buzz(); } return; } on=true; x0+=d>0?12:-12; cd.style.transition="none"; cd.classList.add("drag"); } else return; }
+    dx=e.clientX-x0; const t=performance.now(); hist.push([t,e.clientX]); while(hist.length>2&&t-hist[0][0]>90) hist.shift();
+    const tc=QC.tint(dx>0?1:-1), tint=cd.querySelector(".tint"); if(tint){ tint.className="tint "+tc; tint.style.opacity=tc?Math.min(1,Math.abs(dx)/(cd.offsetWidth*.2)):0; }
+    cd.style.transform=`translate3d(${dx}px,0,0) rotate(${dx/40}deg)`; },{passive:true});
+  const up=e=>{ if(x0===null||e.pointerId!==id) return; const cd=QC.cd, was=on, far=Math.hypot(e.clientX-x0,e.clientY-y0), quick=performance.now()-t0<500; x0=null; on=false;
+    if(shook){ window.__noClick=Date.now(); return; }
+    if(!was){ if(!mouseOut&&far<10&&quick&&e.type==="pointerup") QC.tap(); return; }
+    window.__noClick=Date.now(); const v=speed(), lim=Math.min(90,cd.offsetWidth*.22), d=Math.sign(dx)||Math.sign(v);
+    const go=Math.abs(dx)>lim||(Math.abs(v)>.45&&Math.abs(dx)>24&&Math.sign(v)===Math.sign(dx)), act=go&&QC.can(d);
+    const tint=cd.querySelector(".tint");
+    if(act==="fly"){ const out=d*(window.innerWidth*.6+cd.offsetWidth); cd.style.transition="transform .24s cubic-bezier(.25,.8,.35,1), opacity .24s linear"; cd.style.transform=`translate3d(${out}px,0,0) rotate(${d*16}deg)`; cd.style.opacity="0";
+      let f=false; const fin=()=>{ if(f) return; f=true; QC.swipe(d); }; cd.addEventListener("transitionend",fin,{once:true}); setTimeout(fin,300); return; }
+    cd.classList.remove("drag"); cd.style.transition="transform .42s cubic-bezier(.2,1.5,.4,1)"; cd.style.transform=""; if(tint){ tint.style.transition="opacity .2s"; tint.style.opacity=0; }
+    if(act==="snap") setTimeout(()=>QC.swipe(d),120); };
+  document.addEventListener("pointerup",up,{passive:true}); document.addEventListener("pointercancel",up,{passive:true});
+  /* Tastatur: Leertaste/Enter aufdecken bzw. weiter; → wahr, ← falsch bzw. „Weiß ich nicht“; 1–8 oder A–H wählt eine Antwort, ? heißt „Weiß ich nicht“ */
+  document.addEventListener("keydown",e=>{
+    if(!views.includes(view)||!QC||e.metaKey||e.ctrlKey||e.altKey||(e.target.closest&&e.target.closest("textarea,input,select"))||document.activeElement===QC.cd) return;
+    const k=e.key;
+    if(k===" "||k==="Enter"){ if(document.activeElement&&document.activeElement.tagName==="BUTTON") return; e.preventDefault(); QC.tap(); }
+    else if(k==="ArrowRight"||k==="ArrowLeft"){ const d=k==="ArrowRight"?1:-1, a=QC.can(d); if(a){ e.preventDefault(); if(a==="fly"){ QC.enter=true; } QC.swipe(d); } }
+    else if(/^[1-8a-hA-H]$/.test(k)){ const ix=/\d/.test(k)?+k-1:"abcdefgh".indexOf(k.toLowerCase()), b=document.querySelectorAll(".qcopts [data-qk]")[ix]; if(b){ e.preventDefault(); b.click(); } }
+    else if(k==="?"){ const b=document.querySelector(".qidk"); if(b){ e.preventDefault(); b.click(); } }
+  });
+})();
+
+/* Kreuzaufgaben als Auswahlkarte: eine Aussage nach der anderen, Punkte nach der dritten Aussage.
+   „Weiß ich nicht“ zählt keinen Punkt. */
+const KZ_DOT="abc";
+function kzFinish(K,item){
+  const p=kzPoints(item,K.ans); K.pts[K.i]=p; K.sure[K.i]=p;
+  const s=kzStat(item.id)||{n:0,best:0}, b=p===4?Math.min(5,(s.b||1)+1):1;
+  state.kreuz[item.id]={n:s.n+1,p,best:Math.max(s.best||0,p),t:Date.now(),b,due:dayStart()+(p===4?spaceDays(s.b===5?35:INTERVAL[b]):1)*864e5}; logDay(); save();
+}
+function kzNext(){ const K=cur.kr; if(!(K.j in K.ans)) return;
+  if(K.j<2){ K.j++; } else { K.i++; K.j=0; K.ans={}; K.prev=null; }
+  renderKreuz(); window.scrollTo(0,0); }
 function renderKreuz(){
   const K=cur.kr, back=K.n?chLabel(K.n):"Üben", backFn=()=>{ if(K.n){ cur.ch=K.n; go("chapter"); } else go("practice"); };
+  if(K.j===undefined) K.j=0;
   if(!K.items.length){ $("#app").innerHTML=`${backTo(back)}<h1>Noch kein Selbsttest</h1><p class="muted">Für diesen Bereich gibt es noch keine Aufgaben.</p>`; bindCrumb(backFn); return; }
+  if(K.i>=K.items.length&&cur.mx) return mixNext(null,K.pts.reduce((a,b)=>a+b,0));
   if(K.i>=K.items.length){
     const sum=K.pts.reduce((a,b)=>a+b,0), max=K.items.length*4;
     $("#app").innerHTML=`${backTo(back)}<h1>Runde geschafft</h1>
-      <div class="block"><p class="pbadge">${sum} von ${max} Punkten</p>${K.sure.reduce((a,b)=>a+b,0)<sum?`<p class="small" style="margin:6px 0 0">Ohne Geratenes: ${K.sure.reduce((a,b)=>a+b,0)} von ${max}. Mit diesem Wert rechnet der Lernstand.</p>`:""}
+      <div class="block"><p class="pbadge">${sum} von ${max} Punkten</p>
       <p class="small muted">Je richtiges Kreuz ein Punkt, alle drei Aussagen einer Aufgabe richtig ein Zusatzpunkt. Aufgaben mit Fehlern kommen bevorzugt wieder.</p>
       <div class="row">${sess?sessBtn():`<button class="btn" id="again">Neue Runde</button><button class="btn ghost" id="out">Fertig</button>`}</div></div>`;
     bindCrumb(backFn); if($("#again")) $("#again").onclick=()=>openKreuz(K.n); if($("#out")) $("#out").onclick=backFn; return;
   }
-  const item=KREUZ.find(x=>x.id===K.items[K.i]), all=[0,1,2].every(j=>K.ans[j]!==undefined), ch=chOf(item.ch);
-  if(!K.shown) K.prev=kzStat(item.id);
-  $("#app").innerHTML=`${backTo(back)}
-    <div class="row between"><p class="eyebrow" style="margin:0">Aufgabe ${K.i+1} von ${K.items.length} · Sitzung ${ch.no}</p>${K.prev?`<span class="chip">zuletzt ${K.prev.p}/4</span>`:""}</div>
-    <div class="block" style="margin-top:8px"><h3 style="margin:0 0 4px">${item.stem}</h3>${kzBlock(item,K.ans,K.shown,"s",K.gs)}</div>
-    ${K.shown?`<div class="row between"><span class="pbadge">${K.pts[K.i]} von 4 Punkten${K.sure[K.i]<K.pts[K.i]?` · ohne Geratenes ${K.sure[K.i]}`:""}</span><button class="btn" id="nx">${K.i<K.items.length-1?"Nächste Aufgabe":"Auswertung"}</button></div>`
-      :`<button class="btn" id="ev" style="width:100%" ${all?"":"disabled"}>Auswerten</button><p class="hint">„geraten“ markieren, wenn du nicht sicher bist. Zählt dann nicht als gewusst.</p>`}`;
-  bindCrumb(backFn);
-  document.querySelectorAll("[data-kz]").forEach(b=>b.onclick=()=>{ K.ans[+b.dataset.kz.split(":").pop()]=b.dataset.v==="1"; const y=window.scrollY; renderKreuz(); window.scrollTo(0,y); });
-  document.querySelectorAll("[data-kg]").forEach(b=>b.onclick=()=>{ const j=+b.dataset.kg; K.gs[j]=!K.gs[j]; const y=window.scrollY; renderKreuz(); window.scrollTo(0,y); });
-  if($("#ev")) $("#ev").onclick=()=>{ K.pts[K.i]=kzPoints(item,K.ans); const p=kzPoints(item,K.ans,K.gs); K.sure[K.i]=p; K.shown=true;
-    const s=kzStat(item.id)||{n:0,best:0}; state.kreuz[item.id]={n:s.n+1,p,best:Math.max(s.best||0,p),t:Date.now()}; logDay(); save(); renderKreuz(); };
-  if($("#nx")) $("#nx").onclick=()=>{ K.i++; K.ans={}; K.gs={}; K.shown=false; renderKreuz(); window.scrollTo(0,0); };
+  const item=KREUZ.find(x=>x.id===K.items[K.i]), ch=chOf(item.ch), j=K.j, st=item.s[j];
+  if(j===0&&!(0 in K.ans)&&K.prev===null) K.prev=kzStat(item.id)||false;
+  const done=j in K.ans, a=K.ans[j], ok=done&&a===st[1], last=j===2, word=v=>v?"wahr":"falsch";
+  const dots=[0,1,2].map(k=>{ const d=k in K.ans, r=d&&K.ans[k]===item.s[k][1], q=d&&K.ans[k]===null;
+    return `<i class="${q?"idk":d?(r?"ok":"no"):k===j?"now":""}" aria-label="Aussage ${KZ_DOT[k]}${q?" nicht gewusst":d?(r?" richtig":" falsch"):""}">${q?"?":d?(r?"✓":"✕"):KZ_DOT[k]}</i>`; }).join("");
+  qcRender({
+    eye:`${cur.mx?"Selbsttest":`Aufgabe ${K.i+1} von ${K.items.length}`} · Sitzung ${ch.no}`,
+    right:`<span class="kzdots">${dots}</span>`, stem:item.stem, erg:item.erg,
+    ctx:`Aussage ${KZ_DOT[j]})${K.prev&&j===0&&!done?` · zuletzt ${K.prev.p} von 4 Punkten`:""}`,
+    front:inl(st[0]), phase:done?"done":"open", binary:true, idk:true,
+    opts:[{k:"0",l:"falsch"},{k:"1",l:"wahr"}],
+    ok:!done?undefined:a===null?null:ok,
+    verdict:!done?null:ok?{t:"Richtig.",s:[`Die Aussage ist ${word(st[1])}.`]}
+      :a===null?{t:"Nicht gewusst.",s:[`Die Aussage ist ${word(st[1])}.`]}
+      :{t:"Falsch.",s:[`Du hast „${word(a)}“ gewählt, die Aussage ist aber ${word(st[1])}.`]},
+    why:done?st[2]:"",
+    next:!last||cur.mx||K.i<K.items.length-1?"Weiter":"Auswertung",
+    below:done&&last?`<p class="kzsum">Diese Aufgabe: ${K.pts[K.i]} von 4 Punkten</p>`:"",
+    pick:k=>{ if(j in K.ans) return; K.ans[j]=k==="__idk"?null:k==="1"; if(j===2) kzFinish(K,item); renderKreuz(); if(K.ans[j]!==null&&K.ans[j]!==st[1]) buzz(); },
+    go:kzNext
+  });
 }
 
 /* ================= Essay-Trainer =================
@@ -2071,6 +2406,7 @@ function renderEssay(){
       <div class="essay"><label class="small muted" for="et">Dein Essay (wird automatisch gespeichert)</label>
         <textarea id="et" style="margin-top:6px">${esc(text)}</textarea><p class="wc" id="ewc">${wcLabel(text,x)}</p></div>
       <div class="row" style="margin-top:6px"><button class="btn" id="ed">Fertig, bewerten</button><button class="btn ghost" id="en">Andere Frage</button></div>`;
+    attachDictation($("#et"));
     let t=null; $("#et").oninput=e=>{ state.drafts[x.id]=e.target.value; $("#ewc").textContent=wcLabel(e.target.value,x); clearTimeout(t); t=setTimeout(save,1200); };
     $("#eh").onclick=()=>{ E.help=!E.help; const y=window.scrollY; renderEssay(); window.scrollTo(0,y); };
     $("#ed").onclick=()=>{ save(); E.phase="bewerten"; E.r=Object.assign({},(essayScore(x.id)||{}).r||{}); renderEssay(); window.scrollTo(0,0); };
@@ -2177,7 +2513,7 @@ function renderExam(){
   $("#gs").onclick=()=>{ state.exams=state.exams||[]; const extra=isSE(x)?{r:Object.assign({},e.r),pass:sePass(e.r)}:{};
     state.exams.push(Object.assign({t:Date.now(),c:e.c,id:x.id,title:x.short||"",p:pts(),max:x.k.length,w:wordCount(e.text),min:e.min},extra));
     const s=essayScore(x.id); if(!s||pts()>=s.p) state.essays[x.id]=Object.assign({p:pts(),max:x.k.length,t:Date.now(),w:wordCount(e.text)},extra);
-    state.examRun=null; logDay(); save(); toast("Gespeichert"); renderExam(); window.scrollTo(0,0); };
+    state.examRun=null; logDay(); save(); toast("Gespeichert"); if(sess&&sess.steps[sess.i]&&sess.steps[sess.i].k==="exam"){ sessNext(true); return; } renderExam(); window.scrollTo(0,0); };
 }
 
 /* ---------- Gliederung in 10 Minuten: der erste Schritt jedes Essays als tägliche Übung ----------
@@ -2204,7 +2540,7 @@ function renderOutline(){
       <div class="etop"><span class="small muted">Richtwert 10 Minuten</span><span class="clock otime" id="otime">10:00</span></div>
       <div class="essay"><textarea id="ot" style="min-height:14rem" placeholder="1. Einleitung: …&#10;2. …&#10;3. …&#10;4. Fazit: …">${esc(O.text)}</textarea></div>
       <div class="row" style="margin-top:8px"><button class="btn" id="oDone">Mit dem Vorschlag vergleichen</button><button class="btn ghost" id="oOther">Andere Frage</button></div>`;
-    $("#ot").oninput=e=>{ O.text=e.target.value; };
+    attachDictation($("#ot")); $("#ot").oninput=e=>{ O.text=e.target.value; };
     $("#oDone").onclick=()=>{ O.used=Date.now()-O.t0; O.phase="compare"; renderOutline(); window.scrollTo(0,0); };
     $("#oOther").onclick=()=>{ const L=essaysOf(n).filter(y=>y.id!==x.id&&y.kind===x.kind); openOutline(n,L.length?pick(L).id:x.id); };
     outlineTimer=setInterval(()=>{ const c=$("#otime"); if(!c||view!=="outline"){ clearInterval(outlineTimer); return; } const l=O.t0+600000-Date.now(); c.textContent=l>0?mmss(l):"Zeit um"; if(l<=0) c.style.color="var(--bad)"; },1000);
@@ -2221,7 +2557,7 @@ function renderOutline(){
       ${sess?`<div class="row" style="margin-bottom:14px">${sessBtn()}</div>`:""}`;
     document.querySelectorAll(".check input").forEach(c=>c.onchange=()=>{ O.checks[+c.id.slice(1)]=c.checked; $("#op").textContent=`${pts()} von ${x.gl.length}`; });
     const store=()=>{ if(O.saved) return; const h=state.outl[x.id]||{n:0}; state.outl[x.id]={p:pts(),max:x.gl.length,n:h.n+1,t:Date.now()}; O.saved=true; logDay(); save(); };
-    $("#oSave").onclick=()=>{ store(); toast(`${pts()} von ${x.gl.length} gespeichert`); if(sess) sessNext(); else renderOutline(); };
+    $("#oSave").onclick=()=>{ store(); toast(`${pts()} von ${x.gl.length} gespeichert`); if(sess) sessNext(true); else renderOutline(); };
     $("#oEssay").onclick=()=>{ store(); state.drafts=state.drafts||{}; if(!(state.drafts[x.id]||"").trim()&&O.text.trim()){ state.drafts[x.id]=O.text.trim()+"\n\n"; save(); } openEssay(n,x.id); };
   }
   bindCrumb(backFn);
@@ -2255,7 +2591,7 @@ function renderDump(){
       <div class="etop"><span class="small muted">Richtwert ${DUMP_MIN} Minuten</span><span class="clock" id="dtime">${mmss(DUMP_MIN*60000)}</span></div>
       <div class="essay"><textarea id="dt" style="min-height:14rem" placeholder="Alles, was dir einfällt …">${esc(D.text)}</textarea><p class="wc" id="dwc">${wordCount(D.text)} Wörter</p></div>
       <div class="row" style="margin-top:8px"><button class="btn" id="dDone">Abgleichen</button>${others.length?`<button class="btn ghost" id="dOther">Andere Sitzung</button>`:""}</div>`;
-    const ta=$("#dt"); ta.oninput=e=>{ D.text=e.target.value; $("#dwc").textContent=wordCount(D.text)+" Wörter"; };
+    const ta=$("#dt"); attachDictation(ta); ta.oninput=e=>{ D.text=e.target.value; $("#dwc").textContent=wordCount(D.text)+" Wörter"; };
     $("#dDone").onclick=()=>{ D.used=Date.now()-D.t0; D.phase="check"; renderDump(); window.scrollTo(0,0); };
     if($("#dOther")) $("#dOther").onclick=()=>{ const o=others.sort((a,b)=>(((state.dump||{})[a.n]||{}).t||0)-(((state.dump||{})[b.n]||{}).t||0))[0]; openDump(o.n); };
     dumpTimer=setInterval(()=>{ const c=$("#dtime"); if(!c||view!=="dump"){ clearInterval(dumpTimer); return; } const l=D.t0+DUMP_MIN*60000-Date.now(); c.textContent=l>0?mmss(l):"Zeit um"; if(l<=0) c.style.color="var(--bad)"; },1000);
@@ -2277,7 +2613,7 @@ function renderDump(){
     miss();
     document.querySelectorAll(".check input").forEach(c=>c.onchange=()=>{ D.checks[+c.id.slice(1)]=c.checked; $("#dp").textContent=`${pts()} von ${P.length}`; miss(); });
     $("#dSave").onclick=()=>{ if(!D.saved){ state.dump=state.dump||{}; const h=state.dump[n]||{k:0}; state.dump[n]={p:pts(),max:P.length,t:Date.now(),w:wordCount(D.text),k:h.k+1}; D.saved=true; logDay(); save(); }
-      toast(`${pts()} von ${P.length} gespeichert`); if(sess) sessNext(); else renderDump(); };
+      toast(`${pts()} von ${P.length} gespeichert`); if(sess) sessNext(true); else renderDump(); };
   }
   bindCrumb(backFn);
 }
@@ -2543,31 +2879,33 @@ check:[
 ];
 
 CARDS[1]=[
- {id:"v1-c01", f:"Politik nach Bernauer et al. (2009)", b:"Soziales Handeln, das auf Entscheidungen und Steuerungsmechanismen ausgerichtet ist, die allgemein verbindlich sind und das Zusammenleben von Menschen regeln."},
+ {id:"v1-c01", f:"Politik nach Bernauer et al. (2009)", b:"Was: soziales Handeln\nAusgerichtet auf: Entscheidungen und Steuerungsmechanismen, die allgemein verbindlich sind\nWirkung: regeln das Zusammenleben von Menschen\nBeispiel: Die Schulkonferenz beschließt eine Handyregel, die für alle gilt, auch für die, die dagegen waren."},
  {id:"v1-c02", f:"Vier Merkmale politischer Realität", b:"1. Ebenen (lokal bis international)\n2. Akteure (individuell und kollektiv)\n3. Institutionen und Organe\n4. Verfahren"},
- {id:"v1-c03", f:"Polity, Politics, Policy", b:"Polity: Form, Regelwerk (Verfassung, Staat, politisches System)\nPolitics: Prozess (Interesse, Akteur, Kommunikation, Legitimation, Macht)\nPolicy: Inhalt, Handlungsprogramme (Problem, Programm, Erfolg)"},
+ {id:"v1-c03", f:"Polity, Politics, Policy", b:"Polity: Form, Regelwerk (Verfassung, Staat, politisches System)\nPolitics: Prozess (Interesse, Akteur, Kommunikation, Legitimation, Macht)\nPolicy: Inhalt, Handlungsprogramme (Problem, Programm, Erfolg)\nBeispiel: Schulgesetz NRW (Polity), Streit im Landtag über G8 oder G9 (Politics), die Rückkehr zu G9 (Policy)"},
  {id:"v1-c04", f:"Sechs Arten wissenschaftlicher Aussagen", b:"1. Beschreibungen\n2. Aussagen über Zusammenhänge\n3. Erklärungen\n4. Prognosen\n5. Werturteile\n6. Empfehlungen oder Handlungsanweisungen"},
- {id:"v1-c05", f:"Politikwissenschaft nach Schmidt (2010)", b:"Wissenschaftliche Beschreibung, Erklärung oder Prognose politischer Phänomene auf Basis wissenschaftlich fundierter Analysen."},
+ {id:"v1-c05", f:"Politikwissenschaft nach Schmidt (2010)", b:"Was: wissenschaftliche Beschreibung, Erklärung oder Prognose\nGegenstand: politische Phänomene\nGrundlage: wissenschaftlich fundierte Analysen"},
  {id:"v1-c06", f:"Gütekriterien politikwissenschaftlicher Forschung", b:"Systematik\nGeneralisierbarkeit\nIdentifikation von Kausalmechanismen\nReliabilität (Verlässlichkeit)\nValidität (Gültigkeit)"},
- {id:"v1-c07", f:"Fünf Teilgebiete der Politikwissenschaft", b:"1. Politische Theorie / Ideengeschichte\n2. Internationale Beziehungen / EU\n3. Vergleichende PoWi / Regierungslehre\n4. Politisches System der BRD\n5. Sozialwissenschaftliche Methoden\nDiese Vorlesung: 3 und 4."},
- {id:"v1-c08", f:"Politisches System nach Parsons", b:"Ein Subsystem der Gesellschaft, das auf Zielverfolgung und politische Steuerung spezialisiert ist."},
+ {id:"v1-c07", f:"Fünf Teilgebiete der Politikwissenschaft", b:"1. Politische Theorie / Ideengeschichte\n2. Internationale Beziehungen / EU\n3. Vergleichende PoWi / Regierungslehre\n4. Politisches System der BRD\n5. Sozialwissenschaftliche Methoden"},
+ {id:"v1-c54", f:"Welche zwei Teilgebiete behandelt die Vorlesung von Schwanholz?", b:"Vergleichende PoWi / Regierungslehre\nPolitisches System der BRD"},
+ {id:"v1-c08", f:"Politisches System nach Parsons", b:"Was: ein Subsystem der Gesellschaft\nSpezialisiert auf: Zielverfolgung und politische Steuerung"},
  {id:"v1-c09", f:"Enger vs. weiter Begriff des politischen Systems", b:"Umfang: nur ZPES / ZPES plus Parteien, Verbände, Wirtschaftsakteure\nSichtweise: formal-institutionenbezogen / inhaltlich-prozessbezogen"},
- {id:"v1-c10", f:"Eastons Systemmodell: die Bausteine", b:"Inputs: Forderungen (demands) und Unterstützung (support)\nSystem: verarbeitet zu Entscheidungen\nOutputs: wirken auf die Umwelt\nFeedback: Rückkopplung auf neue Inputs\nUmwelt: umgibt das Ganze"},
- {id:"v1-c11", f:"Drei Formen der Legitimation (Easton-Folie)", b:"Soziale Legitimation: Zustimmung durch die Bürger\nInput-Legitimation: demokratische Verfahren\nOutput-Legitimation: erfolgreiche Problembearbeitung"},
+ {id:"v1-c10", f:"Eastons Systemmodell: die fünf Bausteine", b:"Inputs: Forderungen (demands) und Unterstützung (support)\nSystem: verarbeitet zu Entscheidungen\nOutputs: wirken auf die Umwelt\nFeedback: Rückkopplung auf neue Inputs\nUmwelt: umgibt das Ganze\nBeispiel: Eltern fordern mehr Lehrkräfte (Input), der Landtag beschließt Stellen (Output), an der Schule wird es spürbar, neue Forderungen folgen (Feedback)"},
+ {id:"v1-c11", f:"Drei Formen der Legitimation (Easton-Folie)", b:"Soziale Legitimation: Zustimmung durch die Bürger\nInput-Legitimation: demokratische Verfahren\nOutput-Legitimation: erfolgreiche Problembearbeitung\nBeispiel: Eine Landesregierung, die den Unterrichtsausfall spürbar senkt, gewinnt Output-Legitimation."},
  {id:"v1-c12", f:"Almond/Powell: drei Funktionsebenen", b:"Systemfunktionen: Sozialisierung, Rekrutierung, Kommunikation\nProzessfunktionen: Interessenartikulation, Interessenaggregation, Policy-making, Implementierung\nPolicy-Funktionen: Steuern, Regulierung, Verteilung"},
  {id:"v1-c13", f:"Almond/Powell: Strukturen und ihre Aufgabe", b:"Parteien: Interessenaggregation\nVerbände: Interessenartikulation\nParlament, Regierung: Policy-making\nVerwaltung, Justiz: Implementierung und Überprüfung"},
- {id:"v1-c14", f:"Kernunterschied Demokratie und Autokratie", b:"In Demokratien ist der Gesetzgeber selbst den Gesetzen unterworfen, in Autokratien nicht."},
+ {id:"v1-c14", f:"Kernunterschied Demokratie und Autokratie", b:"In Demokratien ist der Gesetzgeber selbst den Gesetzen unterworfen, in Autokratien nicht.\nBeispiel: Auch der Bundestag ist an das Grundgesetz gebunden; das Bundesverfassungsgericht kann seine Gesetze kippen."},
  {id:"v1-c15", f:"Dichotome Typenlehre", b:"Alle Nicht-Demokratien sind Autokratien.\n„Democracy is the opposite of autocracy“ (Jaggers/Gurr 1995)."},
  {id:"v1-c16", f:"Wer unterteilt was?", b:"Linz (1975): Autokratien in totalitäre und autoritäre Regime\nMerkel (2010): Demokratien in eingebettete und defekte Demokratien"},
- {id:"v1-c17", f:"Lauth: drei Dimensionen der Demokratie", b:"1. Politische Freiheit\n2. Politische Gleichheit\n3. Politische und rechtliche Kontrolle\nDemokratie: alle gegeben. Autoritär: partiell. Totalitär: nicht gegeben."},
+ {id:"v1-c17", f:"Lauth: drei Dimensionen der Demokratie", b:"1. Politische Freiheit\n2. Politische Gleichheit\n3. Politische und rechtliche Kontrolle"},
+  {id:"v1-c53", f:"Lauth: Wie ausgeprägt sind die drei Dimensionen in Demokratie, autoritärem und totalitärem Regime?", b:"Demokratie: alle drei gegeben\nAutoritäres Regime: nur teilweise\nTotalitäres Regime: nicht gegeben\nBeispiel: Wahlen mit zugelassener, aber gegängelter Opposition sprechen für „teilweise“, also autoritär"},
  {id:"v1-c18", f:"Kontinuum politischer Regime (Lauth et al. 2014)", b:"1. Demokratie\n2. Defekte Demokratie\n3. Schwach autoritäres Regime\n4. Stark autoritäres Regime\n5. Totalitäres Regime"},
  {id:"v1-c19", f:"Formen defekter Demokratie in Lauths Tabelle", b:"Illiberale Demokratie\nDelegative Demokratie\nExklusive Demokratie"},
- {id:"v1-c20", f:"Demokratiedefinition nach Lauth (2006): Kernelemente", b:"Rechtsstaatliche Herrschaftsform\nSelbstbestimmung im Sinne der Volkssouveränität\nBeteiligung an der Besetzung der Entscheidungspositionen in freien, kompetitiven, fairen Verfahren\nChance auf kontinuierliche Einflussnahme\nKontrolle der politischen Herrschaft"},
+ {id:"v1-c20", f:"Demokratiedefinition nach Lauth (2006): fünf Kernelemente", b:"Rechtsstaatliche Herrschaftsform\nSelbstbestimmung im Sinne der Volkssouveränität\nBeteiligung an der Besetzung der Entscheidungspositionen in freien, kompetitiven, fairen Verfahren\nChance auf kontinuierliche Einflussnahme\nKontrolle der politischen Herrschaft"},
  {id:"v1-c21", f:"Prozedurale vs. materielle Demokratievorstellung", b:"Blick auf: Verfahren der Beteiligung / Inhalte und Ergebnisse\nBeispiele: Rekrutierung, Kontrolle der Exekutive, Partizipation / gerechte Verteilung\nWirkung: weitaus wirkungsmächtiger / weniger verbreitet"},
  {id:"v1-c22", f:"Dahls acht Garantien (1971)", b:"1. Assoziations- und Koalitionsfreiheit\n2. Meinungsfreiheit\n3. Aktives Wahlrecht\n4. Passives Wahlrecht\n5. Konkurrenz der Eliten um Stimmen\n6. Pluralistische Informationsquellen\n7. Freie und faire Wahlen\n8. Regierungspolitik hängt von Wählerpräferenzen ab"},
  {id:"v1-c23", f:"Merkels sechs Herrschaftsdimensionen (2010)", b:"1. Legitimation\n2. Zugang\n3. Monopol\n4. Struktur\n5. Anspruch\n6. Weise"},
  {id:"v1-c24", f:"Embedded Democracy: fünf Teilregime", b:"A: Wahlregime\nB: Politische Freiheiten\nC: Bürgerliche Rechte\nD: Horizontale Verantwortlichkeit\nE: Effektive Regierungsgewalt"},
- {id:"v1-c25", f:"Embedded Democracy: externe Einbettung", b:"Staatlichkeit\nZivilgesellschaft\nÖkonomische Voraussetzungen und soziale Gerechtigkeit"},
+ {id:"v1-c25", f:"Embedded Democracy: drei externe Einbettungen", b:"Staatlichkeit\nZivilgesellschaft\nÖkonomische Voraussetzungen und soziale Gerechtigkeit"},
  {id:"v1-c26", f:"Wozu dient das Konzept Embedded Democracy?", b:"Qualität von Demokratie genauer bestimmen\nLänder vergleichen, Defekte identifizieren\nInfizierung einzelner Teilsysteme beobachten\nAushöhlung und schleichende Autokratisierung erkennen"}
 ];
 
@@ -2688,6 +3026,8 @@ ESSAYS.push(
    "Im politischen System werden diese Inputs zu verbindlichen Entscheidungen verarbeitet, etwa zu einem Gesetz. Diese Outputs wirken auf die Umwelt zurück. Über die Rückkopplung beeinflussen sie wiederum die künftigen Inputs: Ein erfolgreiches Gesetz kann die Unterstützung erhöhen, ein gescheitertes neue Forderungen auslösen. So entsteht ein Kreislauf.",
    "In dieses Modell lassen sich drei Formen der Legitimation einordnen. Die soziale Legitimation liegt auf der Seite der Inputs: Sie beruht auf der Zustimmung der Bürgerinnen und Bürger. Die Input-Legitimation liegt im System selbst und entsteht durch demokratische Verfahren wie Wahlen und parlamentarische Beratung. Die Output-Legitimation schließlich ergibt sich aus den Ergebnissen, also aus einer erfolgreichen Bearbeitung gesellschaftlicher Probleme."]}
 );
+/* Kontext neuer Karten (Lernprinzip 10, 23.11.) */
+Object.assign(CARD_CTX,{"v1-c54": "Gliederung des Fachs"});
 
 /* ================= Vorlesung, Sitzung 1: Lektüre der Selbstlernphase (22. und 29.10.) =================
    Grundlage: Patzelt (2023) Kap. 1 und Kap. 3 (I–IV), Lauth (2015), Merkel (2013); Texte im Projekt.
@@ -2836,31 +3176,31 @@ chOf(1).teaser="Politikbegriff, politisches System (Easton, Almond/Powell), Regi
 
 CARDS[1].push(
  {id:"v1-c27", f:"MINK-Schema (Patzelt)", b:"Macht\nIdeologie\nNormen\nKommunikation"},
- {id:"v1-c28", f:"Macht nach Max Weber", b:"Die Chance, in einer sozialen Beziehung den eigenen Willen auch gegen Widerstreben durchzusetzen, gleich worauf diese Chance beruht."},
+ {id:"v1-c28", f:"Macht nach Max Weber", b:"Die Chance, in einer sozialen Beziehung den eigenen Willen auch gegen Widerstreben durchzusetzen, gleich worauf diese Chance beruht.\nBeispiel: Die Lehrkraft setzt die neue Sitzordnung durch, obwohl die Klasse protestiert."},
  {id:"v1-c29", f:"Drei Schwächen des Alltagsdenkens (Patzelt)", b:"1. unreflektiert selektiv\n2. unreflektiert perspektivisch\n3. selbstverständlich"},
  {id:"v1-c30", f:"Empirische vs. normative Aussagen", b:"Arten: Beschreibung, Zusammenhang, Erklärung, Prognose / Werturteil, Handlungsanweisung\nPrüfung: wahr oder falsch / normativ brauchbar oder unbrauchbar"},
  {id:"v1-c31", f:"AGIL-Schema (Parsons)", b:"A: Adaptation (Anpassung)\nG: Goal Attainment (Zielerreichung, Aufgabe der Politik)\nI: Integration (Zusammenhalt)\nL: Latent Pattern Maintenance (Werterhalt)"},
- {id:"v1-c32", f:"Specific vs. diffuse support (Easton)", b:"Gilt: Leistungen und Amtsträgern / dem System als Ganzem\nGrundlage: Zufriedenheit mit Outputs / Werte, Normen, Verfahren"},
- {id:"v1-c33", f:"Withinputs (Easton)", b:"Forderungen, die im politischen System selbst entstehen, etwa bei den Entscheidungsträgern, und dort bearbeitet werden."},
+ {id:"v1-c32", f:"Specific vs. diffuse support (Easton)", b:"Gilt: Leistungen und Amtsträgern / dem System als Ganzem\nGrundlage: Zufriedenheit mit Outputs / Werte, Normen, Verfahren\nBeispiel: Wer über die Bundesregierung schimpft, aber Wahlen weiter für den richtigen Weg hält, entzieht nur specific support."},
+ {id:"v1-c33", f:"Withinputs (Easton)", b:"Forderungen, die im politischen System selbst entstehen, etwa bei den Entscheidungsträgern, und dort bearbeitet werden.\nBeispiel: Ein Ministerium arbeitet von sich aus ein Gesetz aus, ohne dass es von außen gefordert wurde."},
  {id:"v1-c34", f:"Responsivität und Legitimität (Patzelt)", b:"Responsivität: Fähigkeit eines Systems, Input aufzunehmen und darauf zu reagieren\nLegitimität: Herrschaft gilt in der Gesellschaft aufrichtig als rechtens"},
- {id:"v1-c35", f:"Regierung, Regime, Staat (Merkel)", b:"Regierung: Regierungschef und Kabinett, auf Zeit\nRegime: Regeln des Zugangs zur Macht und der Beziehung zu den Beherrschten\nStaat: dauerhafte Herrschaftsstruktur mit Zwangsmitteln, überdauert Regimewechsel"},
+ {id:"v1-c35", f:"Regierung, Regime, Staat (Merkel)", b:"Regierung: Regierungschef und Kabinett, auf Zeit\nRegime: Regeln des Zugangs zur Macht und der Beziehung zu den Beherrschten\nStaat: dauerhafte Herrschaftsstruktur mit Zwangsmitteln, überdauert Regimewechsel\nBeispiel: 2021 wechselte die Bundesregierung, Regime und Staat blieben dieselben."},
  {id:"v1-c36", f:"Drei-Elemente-Lehre (Jellinek 1900)", b:"Staatsgebiet\nStaatsvolk\nStaatsgewalt"},
- {id:"v1-c37", f:"Autonome vs. heteronome Normen (Kelsen)", b:"Regime: Demokratie / Autokratie\nVerhältnis: Normautoren und Normadressaten sind dieselben / fallen auseinander"},
+ {id:"v1-c37", f:"Autonome vs. heteronome Normen (Kelsen)", b:"Regime: Demokratie / Autokratie\nVerhältnis: Normautoren und Normadressaten sind dieselben / fallen auseinander\nBeispiel: Die Klasse stimmt ihre Klassenregeln selbst ab (autonom) oder bekommt sie von der Schulleitung vorgegeben (heteronom)."},
  {id:"v1-c38", f:"Linz: autoritär vs. totalitär", b:"Pluralismus: begrenzt / Monismus\nLegitimation: Mentalitäten / umfassende Weltanschauung\nMobilisierung: demobilisiert / Dauermobilisierung"},
  {id:"v1-c39", f:"Dichotomie, Dreiteilung, Gradualismus", b:"Dichotomie: Demokratie oder Autokratie (Kelsen, Przeworski)\nDreiteilung: mit hybriden Regimen (Freedom House, Polity IV)\nGradualismus: Kontinuum zwischen idealer Demokratie und Totalitarismus"},
- {id:"v1-c40", f:"Das Schwellenproblem (Merkel)", b:"Wo genau hört Demokratie auf? Wie weit darf sie bei Wahlen, Rechten, Kontrolle vom Ideal abweichen? Dürfen Stärken Schwächen ausgleichen? Theoretisch nicht exakt gelöst."},
+ {id:"v1-c40", f:"Das Schwellenproblem (Merkel): Worum geht es?", b:"Kernfrage: Wo genau hört Demokratie auf?\nKonkret: Wie weit darf sie bei Wahlen, Rechten, Kontrolle vom Ideal abweichen? Dürfen Stärken Schwächen ausgleichen?\nStand: theoretisch nicht exakt gelöst"},
  {id:"v1-c41", f:"Verminderter Subtyp vs. hybrides Regime (Lauth)", b:"Verminderter Subtyp: alle Merkmale eines Regimetyps, einige eingeschränkt (z. B. defekte Demokratie)\nHybrides Regime: Merkmale verschiedener Regimetypen gemischt"},
  {id:"v1-c42", f:"Idealtyp vs. Realtyp", b:"Realtyp: ein echter Fall dient als Muster\nIdealtyp (Weber): gedanklich zugespitzte Leitidee, muss mit keinem Fall genau übereinstimmen"},
  {id:"v1-c43", f:"Patzelts vier Leitvariablen (nach Hättich)", b:"Herrschaftsstruktur: monistisch / gewaltenteilend\nWillensbildung: monopolisiert / konkurrierend\nGestaltungsanspruch: unbegrenzt / begrenzt\nOffenheit: geschlossen / offen"},
  {id:"v1-c44", f:"Fünf Formen der Gewaltenteilung (Patzelt)", b:"1. sozial (Zugang zu Ämtern)\n2. dezisiv (Konkurrenz, Pluralismus)\n3. vertikal (Ebenen, Subsidiarität)\n4. horizontal (Regierung, Parlament, Gerichte)\n5. temporal (Ämter auf Zeit)"},
  {id:"v1-c45", f:"Drei Demokratiemodelle (Merkel)", b:"Minimalistisch: Wahlen sind die Demokratie (Schumpeter)\nMittel/prozedural: plus Rechtsstaat und Gewaltenkontrolle (Embedded Democracy)\nMaximalistisch: plus Output, faire Verteilung (Meyer, Heller)"},
- {id:"v1-c46", f:"Demokratie bei Przeworski", b:"„Organisierte Unsicherheit“: Die Verfahrensregeln stehen vorher fest, das Ergebnis ist offen."},
+ {id:"v1-c46", f:"Demokratie bei Przeworski", b:"„Organisierte Unsicherheit“: Die Verfahrensregeln stehen vorher fest, das Ergebnis ist offen.\nBeispiel: Vor der Klassensprecherwahl steht fest, wie gewählt wird, aber nicht, wer gewinnt."},
  {id:"v1-c47", f:"Vier Typen defekter Demokratie (Merkel)", b:"Exklusiv: Gruppen ohne Wahlrecht (A)\nIlliberal: Rechtsstaat und Freiheitsrechte beschädigt (C)\nDelegativ: Exekutive umgeht Parlament und Justiz (D)\nEnklaven: Vetomächte entziehen Politikbereiche (E)"},
  {id:"v1-c48", f:"Geddes: drei Autokratietypen und ihre Lebensdauer", b:"Einparteienregime: knapp 23 Jahre\nPersonalistische Regime: 15,1 Jahre\nMilitärregime: 8,8 Jahre"},
- {id:"v1-c49", f:"Drei-Säulen-Modell autokratischer Herrschaft", b:"1. Legitimation (ideologisch und leistungsbezogen)\n2. Repression (weich und hart)\n3. Kooptation (Eliten einbinden)"},
- {id:"v1-c50", f:"Elektoraler Autoritarismus", b:"Autokratie mit semipluralistischen, manipulierten Wahlen. Meist gewinnt der Amtsinhaber, ein Rest Unsicherheit bleibt. Heute häufigster Autokratietyp (Schedler)."},
+ {id:"v1-c49", f:"Drei-Säulen-Modell autokratischer Herrschaft", b:"1. Legitimation (ideologisch und leistungsbezogen)\n2. Repression (weich und hart)\n3. Kooptation (Eliten einbinden)\nBeispiel: Kritische Unternehmer bekommen lukrative Staatsaufträge und halten still (Kooptation)."},
+ {id:"v1-c50", f:"Elektoraler Autoritarismus", b:"Was: Autokratie mit semipluralistischen, manipulierten Wahlen\nErgebnis: meist gewinnt der Amtsinhaber, ein Rest Unsicherheit bleibt\nVerbreitung: heute häufigster Autokratietyp (Schedler)\nBeispiel: Es wird gewählt, aber ernsthafte Gegenkandidaten werden vorher ausgeschlossen."},
  {id:"v1-c51", f:"Reguläre vs. verminderte Subtypen", b:"Regulär: fügen Merkmale hinzu, etwa parlamentarisch oder präsidentiell\nVermindert: alle Merkmale, einige nur eingeschränkt, also defekte Demokratie (Schweiz bis zum Frauenwahlrecht 1971)"},
- {id:"v1-c52", f:"Steuerungsskepsis", b:"Merkel zu Luhmann: Wirtschaft, Recht und Wissenschaft folgen eigenen Codes. Die Politik steht nicht über ihnen, politische Steuerung erzeugt oft unbeabsichtigte Effekte."}
+ {id:"v1-c52", f:"Steuerungsskepsis", b:"Wer: Merkel zu Luhmann\nGrund: Wirtschaft, Recht und Wissenschaft folgen eigenen Codes, die Politik steht nicht über ihnen\nFolge: politische Steuerung erzeugt oft unbeabsichtigte Effekte\nBeispiel: Eine Mietpreisbremse soll Wohnen billiger machen, kann aber dazu führen, dass weniger gebaut wird."}
 );
 Object.assign(CARD_CTX,{
  "v1-c51":"Grauzone in Subtypen ordnen (Lektüre)","v1-c52":"Grenzen politischer Steuerung (Lektüre)",
@@ -3554,46 +3894,50 @@ check:[
 ];
 
 CARDS[101]=[
- {id:"se1-c01", f:"Politikmanagement (Korte/Fröhlich)", b:"Verbindet die **Steuerbarkeit** des politischen Systems mit der **Steuerungsfähigkeit** der wichtigen Akteure.\nSach- und Machtfragen sind dabei immer verwoben."},
- {id:"se1-c02", f:"Kernthese von Korte/Fröhlich", b:"Der politische Prozess wird zunehmend **exekutivlastig**.\nDarum steht die Regierung im Mittelpunkt: keine Verfassungskunde, sondern die Funktionsweise des Regierens."},
- {id:"se1-c03", f:"Was ergänzt die formale Institutionenkunde?", b:"- informelle Entscheidungsprozesse\n- politische Kommunikation\n- personalisierte Regierungsstile\n- Strategien"},
- {id:"se1-c04", f:"Deutschland: Typ des Regierungssystems", b:"Repräsentatives, freiheitliches, **parlamentarisches** Regierungssystem.\nGrund: Der Bundestag wählt den Kanzler und kann ihn durch das konstruktive Misstrauensvotum abberufen (Steffani 1979)."},
- {id:"se1-c05", f:"Art. 20 GG: vier Strukturprinzipien", b:"1. Demokratie\n2. Bundesstaat\n3. Rechtsstaat\n4. Sozialstaat\n„Verfassung in Kurzform“"},
- {id:"se1-c06", f:"Freiheitliche demokratische Grundordnung (SRP-Urteil 1952)", b:"- Menschenrechte\n- Volkssouveränität\n- Gewaltenteilung\n- Verantwortlichkeit der Regierung\n- Gesetzmäßigkeit der Verwaltung\n- Unabhängigkeit der Gerichte\n- Mehrparteienprinzip, Chancengleichheit, Recht auf Opposition"},
- {id:"se1-c07", f:"Lückenlose Legitimationskette", b:"Volk wählt Parlament, Parlament wählt Regierungschef. So lässt sich jede hoheitliche Entscheidung auf den Willen des Volkes zurückführen (Dicke 2000)."},
- {id:"se1-c08", f:"Darstellungspolitik vs. Entscheidungspolitik", b:"Was: medienvermittelt, symbolisch, inszeniert / Verfahren, Gesetzgebung\nRegeln: Wettbewerb der medialen Öffentlichkeit / weitgehend unabhängig von Medien, Routine"},
- {id:"se1-c09", f:"Governance (Korte/Fröhlich)", b:"Art und Weise des Steuerns und Koordinierens, um Interdependenzen zwischen staatlichen und nichtstaatlichen Akteuren zu managen.\nVier Formen: Hierarchie, Netzwerk, Verhandlung, Wettbewerb."},
- {id:"se1-c10", f:"Polity, Politics, Policy: Ausrichtung (Lauth/Wagner)", b:"Polity: institutionenorientiert\nPolitics: inputorientiert\nPolicy: outputorientiert"},
+ {id:"se1-c01", f:"Politikmanagement (Korte/Fröhlich)", b:"Was: verbindet die **Steuerbarkeit** des politischen Systems mit der **Steuerungsfähigkeit** der wichtigen Akteure\nDabei: Sach- und Machtfragen sind immer verwoben"},
+ {id:"se1-c02", f:"Kernthese von Korte/Fröhlich", b:"These: Der politische Prozess wird zunehmend **exekutivlastig**.\nFolge: Die Regierung steht im Mittelpunkt; keine Verfassungskunde, sondern die Funktionsweise des Regierens."},
+ {id:"se1-c03", f:"Was ergänzt die formale Institutionenkunde? (vier Punkte)", b:"- informelle Entscheidungsprozesse\n- politische Kommunikation\n- personalisierte Regierungsstile\n- Strategien"},
+ {id:"se1-c04", f:"Deutschland: Typ des Regierungssystems", b:"Typ: repräsentatives, freiheitliches, **parlamentarisches** Regierungssystem\nGrund: Der Bundestag wählt den Kanzler und kann ihn durch das konstruktive Misstrauensvotum abberufen (Steffani 1979)."},
+ {id:"se1-c05", f:"Art. 20 GG, die „Verfassung in Kurzform“: vier Strukturprinzipien", b:"1. Demokratie\n2. Bundesstaat\n3. Rechtsstaat\n4. Sozialstaat"},
+ {id:"se1-c06", f:"Freiheitliche demokratische Grundordnung (SRP-Urteil 1952): sieben Elemente", b:"- Menschenrechte\n- Volkssouveränität\n- Gewaltenteilung\n- Verantwortlichkeit der Regierung\n- Gesetzmäßigkeit der Verwaltung\n- Unabhängigkeit der Gerichte\n- Mehrparteienprinzip, Chancengleichheit, Recht auf Opposition"},
+ {id:"se1-c07", f:"Lückenlose Legitimationskette", b:"Kette: Volk wählt Parlament, Parlament wählt Regierungschef\nFolge: Jede hoheitliche Entscheidung lässt sich auf den Willen des Volkes zurückführen (Dicke 2000).\nBeispiel: Ein Erlass des Schulministeriums führt über Ministerpräsident, Landtag und Landtagswahl auf die Bürger zurück."},
+ {id:"se1-c08", f:"Darstellungspolitik vs. Entscheidungspolitik", b:"Was: medienvermittelt, symbolisch, inszeniert / Verfahren, Gesetzgebung\nRegeln: Wettbewerb der medialen Öffentlichkeit / weitgehend unabhängig von Medien, Routine\nBeispiel: Pressekonferenz zum Schulpaket (Darstellung), Beratung im Ausschuss (Entscheidung)"},
+ {id:"se1-c09", f:"Governance (Korte/Fröhlich): Was ist das?", b:"Was: Art und Weise des Steuerns und Koordinierens\nWozu: Interdependenzen zwischen staatlichen und nichtstaatlichen Akteuren managen"},
+ {id:"se1-c41", f:"Governance: vier Formen (Korte/Fröhlich)", b:"Hierarchie\nNetzwerk\nVerhandlung\nWettbewerb\nBeispiel: Land, Kommune, Träger und Schule handeln den Ganztag gemeinsam aus (Verhandlung, Netzwerk)."},
+ {id:"se1-c10", f:"Polity, Politics, Policy: Ausrichtung (Lauth/Wagner)", b:"Polity: institutionenorientiert\nPolitics: inputorientiert\nPolicy: outputorientiert\nBeispiel: Schulgesetz (Polity), Elternproteste (Politics), Programm für mehr Ganztagsplätze (Policy)"},
  {id:"se1-c11", f:"Politische Macht nach Korte/Fröhlich", b:"- kein Attribut einzelner Akteure, angewiesen auf andere\n- nicht statisch, nicht aus Positionen ableitbar\n- muss täglich erarbeitet werden („Machtjongleur“)\n- vor allem über Kommunikation gesichert"},
  {id:"se1-c12", f:"Bezugsgrößen von Macht (Pfetsch)", b:"Besitzgröße: Potenziale\nBeziehungsgröße: sozialpsychologische Beziehungen\nRelationale Größe: Vergleich relativer Positionen"},
  {id:"se1-c13", f:"Enges vs. weites politisches System", b:"Umfang: Verfassungsorgane / dazu Parteien, Verbände, gesellschaftliche Konstellationen\nBlick: formal / auch ökonomische, soziale, kommunikative Bedingungen"},
- {id:"se1-c14", f:"Regieren (Korte/Fröhlich)", b:"Herbeiführung und Durchsetzung gesellschaftlich verbindlicher Entscheidungen.\nMischung aus Koordination und Steuerung, Leitung und Entscheidung, Durchsetzung."},
+ {id:"se1-c14", f:"Regieren (Korte/Fröhlich)", b:"Was: Herbeiführung und Durchsetzung gesellschaftlich verbindlicher Entscheidungen\nMischung aus: Koordination und Steuerung, Leitung und Entscheidung, Durchsetzung"},
  {id:"se1-c15", f:"Regierung, Regierungshandeln, Regierungssteuerung", b:"Regierung: Exekutive, also Regierungschef und Kabinett\nRegierungshandeln: Tun und Lassen der Regierung\nRegierungssteuerung: strategisches Handeln für materielle Politikziele"},
  {id:"se1-c16", f:"Vier Zugänge der Regierungsforschung (Schuppert)", b:"1. Struktur (polity): institutionelle Ansätze\n2. Prozess (politics): Politikmanagement, Governance\n3. Inhalte (policy): Politikfelder\n4. Kommunikation: Medien, Aufmerksamkeitsmanagement"},
  {id:"se1-c17", f:"Struktureller Zugang der 1960er (Hennis)", b:"Leitfrage: Welche Aufgaben hat der Leistungsstaat zwingend zu erfüllen?\nSchwächen: keine Operationalisierung, keine empirischen Methoden, Akteure und soziale Voraussetzungen ausgeblendet."},
- {id:"se1-c18", f:"Systemtheorie in der Regierungsforschung: Leitfragen", b:"1. Auf welche Einflüsse reagiert das Entscheidungszentrum?\n2. Welche Interessen greift das System auf?\n3. Welche Rückwirkungen haben Entscheidungen?\nKritik: Auflistung von Faktoren, keine Sinnfrage."},
- {id:"se1-c19", f:"Innerer vs. äußerer Souveränitätsverlust", b:"Ursache: mehr Mitspieler im Inneren / europäische Integration, Globalisierung\nFolge: verhandeln, moderieren, koordinieren / Kooperation in Netzwerken und Verhandlungssystemen"},
- {id:"se1-c20", f:"Mischcharakter nach Lehmbruch", b:"Konkurrenzdemokratisch: Parteienwettbewerb\nKonkordanzdemokratisch: Aushandeln im Bundesstaat\nBeides prägt den Regierungsalltag."},
+ {id:"se1-c18", f:"Systemtheorie in der Regierungsforschung: Leitfragen", b:"1. Auf welche Einflüsse reagiert das Entscheidungszentrum?\n2. Welche Interessen greift das System auf?\n3. Welche Rückwirkungen haben Entscheidungen?"},
+ {id:"se1-c42", f:"Kritik an der Systemtheorie in der Regierungsforschung", b:"Sie listet nur Faktoren auf.\nDie Sinnfrage stellt sie nicht."},
+ {id:"se1-c19", f:"Innerer vs. äußerer Souveränitätsverlust", b:"Ursache: mehr Mitspieler im Inneren / europäische Integration, Globalisierung\nFolge: verhandeln, moderieren, koordinieren / Kooperation in Netzwerken und Verhandlungssystemen\nBeispiel: Für viele Gesetze braucht der Bund den Bundesrat (innen); den Leitzins bestimmt die EZB (außen)."},
+ {id:"se1-c20", f:"Mischcharakter nach Lehmbruch: Welche zwei Muster prägen den Regierungsalltag?", b:"Konkurrenzdemokratisch: Parteienwettbewerb\nKonkordanzdemokratisch: Aushandeln im Bundesstaat\nBeispiel: Im Wahlkampf streiten Union und SPD, danach einigen sich Bund und Länder im Vermittlungsausschuss."},
  {id:"se1-c21", f:"Leitfragen der Politikfeldanalyse", b:"1. Was tun und lassen Regierungen?\n2. Wie organisieren sie ihre Tätigkeiten?\n3. Welche Folgen hat das für Form, Prozess und Inhalt der Politik?"},
  {id:"se1-c22", f:"Kommunikative Macht vs. Medienmacht", b:"Kommunikative Macht: braucht der Akteur, um Mehrheiten zu sichern und Sach- und Machtfragen zu verbinden.\nMedienmacht: oft eine „als-ob-Macht“, wirkt, weil alle sie unterstellen."},
  {id:"se1-c23", f:"Direkte vs. indirekte Medieneinflüsse", b:"Direkt: Agenda-Setting, Stimmungen verstärken, politisches Marketing\nIndirekt: Politik passt sich Selektions- und Präsentationslogik an, Folge „politics without policy“"},
- {id:"se1-c24", f:"Steffani: Primär- und Sekundärmerkmale", b:"Primär (definiert den Typ): politische Abberufbarkeit der Regierung durch das Parlament\nSupplementär (prägt nur), parlamentarisch: Amt und Mandat vereinbar, Rücktrittspflicht der ganzen Regierung, Auflösungsrecht, starke Fraktionsdisziplin"},
+ {id:"se1-c24", f:"Steffani: Was unterscheidet Primär- und Supplementärmerkmale?", b:"Primär: definiert den Typ, nämlich die politische Abberufbarkeit der Regierung durch das Parlament\nSupplementär: prägt den Typ nur"},
+ {id:"se1-c43", f:"Steffani: vier Supplementärmerkmale des parlamentarischen Systems", b:"Amt und Mandat vereinbar\nRücktrittspflicht der ganzen Regierung\nAuflösungsrecht\nStarke Fraktionsdisziplin"},
  {id:"se1-c25", f:"Semi-Präsidentialismus nach Duverger", b:"1. direkt gewählter Präsident\n2. mit beträchtlichen Befugnissen\n3. Premier und Regierung abhängig vom Vertrauen des Parlaments"},
  {id:"se1-c26", f:"Shugart/Carey: fünf Typen mit Beispiel", b:"Präsidentiell: USA\nPräsident-parlamentarisch: Russland\nPremier-präsidentiell: Frankreich\nParlamentarisch: Großbritannien\nVersammlungsunabhängig: Schweiz"},
  {id:"se1-c27", f:"Linz: Gefahren des Präsidentialismus", b:"1. Rigidität bei divided government\n2. zwei konkurrierende demokratische Legitimationen\n3. Winner-takes-all fördert Kooperationsfeindlichkeit\nNeuere Forschung relativiert das."},
  {id:"se1-c28", f:"Lijphart: zwei Dimensionen", b:"Exekutive-Parteien: Parteiensystem, Kabinette, Exekutivdominanz, Wahlsystem, Verbände\nFöderalismus-Unitarismus: Staatsaufbau, zweite Kammer, Verfassungsrigidität, judicial review, Zentralbank"},
- {id:"se1-c29", f:"Deutschland bei Lijphart", b:"**Föderale Konsensdemokratie**: konsensual in beiden Dimensionen.\nDer Demokratietyp liegt quer zum Regierungssystem: UK und Deutschland sind beide parlamentarisch, aber gegensätzlich."},
- {id:"se1-c30", f:"Vetospieler nach Tsebelis", b:"Akteure, deren Zustimmung für einen Politikwechsel nötig ist.\nInstitutionell: in der Verfassung (z. B. zweite Kammer)\nParteipolitisch: im Prozess (z. B. Koalitionspartner)"},
- {id:"se1-c31", f:"Wann ist Politikwechsel wahrscheinlich? (Tsebelis)", b:"- wenige Vetospieler\n- geringe programmatische Distanz (Kongruenz)\nAuch ihre Geschlossenheit (Kohäsion) zählt.\nAbsorptionsregel: entscheidend ist der Abstand der am weitesten entfernten Spieler."},
+ {id:"se1-c29", f:"Deutschland bei Lijphart", b:"Typ: **föderale Konsensdemokratie**, konsensual in beiden Dimensionen\nAber: Der Demokratietyp liegt quer zum Regierungssystem.\nBeispiel im Text: UK und Deutschland sind beide parlamentarisch, aber gegensätzlich."},
+ {id:"se1-c30", f:"Vetospieler nach Tsebelis", b:"Was: Akteure, deren Zustimmung für einen Politikwechsel nötig ist\nInstitutionell: in der Verfassung (z. B. zweite Kammer)\nParteipolitisch: im Prozess (z. B. Koalitionspartner)"},
+ {id:"se1-c31", f:"Wann ist Politikwechsel wahrscheinlich? (Tsebelis)", b:"- wenige Vetospieler\n- geringe programmatische Distanz (Kongruenz)\n- Auch ihre Geschlossenheit (Kohäsion) zählt."},
+ {id:"se1-c44", f:"Absorptionsregel (Tsebelis)", b:"Entscheidend ist der Abstand der am weitesten entfernten Vetospieler.\nBeispiel: Ein Koalitionspartner, der inhaltlich zwischen den beiden anderen liegt, engt den Spielraum nicht weiter ein."},
  {id:"se1-c32", f:"Realtypus vs. Idealtypus", b:"Bildung: historischer Fall als Muster / Leitidee zugespitzt entfaltet (Weber)\nProblem: Zeitpunkt, Widersprüche des Falls / Fall muss nicht deckungsgleich sein"},
- {id:"se1-c33", f:"Politische Kultur (Pickel/Pickel)", b:"Die auf politische Objekte gerichteten Einstellungen und Wertorientierungen der Bürger, als Kollektiv.\nAnalytisch, nicht wertend. Stabilität durch Kongruenz von Kultur und Struktur."},
- {id:"se1-c34", f:"Almond/Verba: Typen politischer Kultur", b:"Parochial: kein Bezug zum System\nSubject: bewertet Outputs, sieht sich nicht als Akteur\nParticipant: Wissen und Beteiligung\nCivic Culture: Mischtyp, Vorbild für Demokratien"},
- {id:"se1-c35", f:"Lipsets Raster", b:"A: legitim und effektiv, stabil\nB: legitim, nicht effektiv, Effektivitätskrise\nC: effektiv, nicht legitim, instabil\nD: weder noch, Zusammenbruch droht\nBRD nach 1945: C → A"},
+ {id:"se1-c33", f:"Politische Kultur (Pickel/Pickel)", b:"Was: die auf politische Objekte gerichteten Einstellungen und Wertorientierungen der Bürger, als Kollektiv\nZugang: analytisch, nicht wertend\nStabilität: durch Kongruenz von Kultur und Struktur"},
+ {id:"se1-c34", f:"Almond/Verba: Typen politischer Kultur", b:"Parochial: kein Bezug zum System\nSubject: bewertet Outputs, sieht sich nicht als Akteur\nParticipant: Wissen und Beteiligung\nCivic Culture: Mischtyp, Vorbild für Demokratien\nBeispiel: Wer über Busausfälle schimpft, aber nie wählt oder sich beteiligt, denkt wie ein Subject."},
+ {id:"se1-c35", f:"Lipsets Raster", b:"A: legitim und effektiv, stabil\nB: legitim, nicht effektiv, Effektivitätskrise\nC: effektiv, nicht legitim, instabil\nD: weder noch, Zusammenbruch droht\nBeispiel im Text: BRD nach 1945 von C nach A"},
  {id:"se1-c36", f:"Diffuse Unterstützung vs. spezifische Unterstützung", b:"Bezug: System um seiner selbst willen / Outputs und Amtsträger\nEntspricht bei Lipset: Legitimität / Effektivität\nStabilität: langfristig / schwankt kurzfristig"},
  {id:"se1-c37", f:"Phasen des Policy-Zyklus", b:"1. Problemdefinition und Agenda-Setting\n2. Programmformulierung\n3. Implementation\nDazu Evaluation und Terminierung als Rückkopplung."},
- {id:"se1-c38", f:"Programmtypen nach Mayntz", b:"Regulativ: direkte Steuerung, Widerstand, hoher Kontrollaufwand\nAnreiz: positiv, indirekt, Mitnahmeeffekte\nLeistung: Angebot gesichert, Nutzung nicht, teuer"},
+ {id:"se1-c38", f:"Programmtypen nach Mayntz", b:"Regulativ: direkte Steuerung, Widerstand, hoher Kontrollaufwand\nAnreiz: positiv, indirekt, Mitnahmeeffekte\nLeistung: Angebot gesichert, Nutzung nicht, teuer\nBeispiel: Rauchverbot (regulativ), Kaufprämie für E-Autos (Anreiz), kostenloses Schulobst (Leistung)"},
  {id:"se1-c39", f:"Akteurstypen nach Scharpf", b:"Individuen\nHandlungsaggregate: gleichgerichtet ohne Organisation\nKollektive Akteure: koordiniert, Beteiligte handeln selbst\nKorporative Akteure: eigene Organisation handelt stellvertretend"},
- {id:"se1-c40", f:"Lowi: Policy bestimmt Politics", b:"Regulative, distributive und redistributive Politik erzeugen unterschiedliche Konfliktarenen, je nachdem, wie sie die Interessen von Gruppen berühren."}
+ {id:"se1-c40", f:"Lowi: Policy bestimmt Politics", b:"Wie: Regulative, distributive und redistributive Politik erzeugen unterschiedliche Konfliktarenen.\nWovon abhängig: wie sie die Interessen von Gruppen berühren\nBeispiel: Höhere Steuern für Reiche zugunsten Ärmerer (redistributiv) lösen mehr Streit aus als Geld für alle Schulen (distributiv)."}
 ];
 Object.assign(CARD_CTX,{
  "se1-c40":"Wie Politikinhalte den Konflikt prägen (Empfehlung)",
@@ -3653,6 +3997,8 @@ KREUZ.push(
   ["Rund 80 Prozent der Gesetzentwürfe werden in einem Referat eines Bundesministeriums ausgearbeitet.", true, "Das strategische Stadium eines Gesetzes."],
   ["Der Policy-Zyklus ist als Heuristik nützlich, aber kein Kausalmodell.", true, "Er erklärt nicht, was den Prozess von Phase zu Phase treibt."]]}
 );
+/* Kontext neuer Karten (Lernprinzip 10, 23.11.) */
+Object.assign(CARD_CTX,{"se1-c41": "Mehr als „Regieren“"});
 
 /* ================= Seminar, Sitzung 1: Essays, Zuordnungen, Begriffe =================
    Essayklausur Schwarz: eine von drei Fragen, etwa 500 Wörter, 60 Minuten, vier Kriterien.
@@ -4057,25 +4403,27 @@ check:[
 
 CARDS[102]=[
  {id:"se2-c01", f:"Repräsentation und Integration (Mielke)", b:"Repräsentation: gesellschaftliche Konflikte in die politische Entscheidung übertragen\nIntegration: die Gruppen dahinter anerkennen und einbinden\nBeides entscheidend für die Legitimität"},
- {id:"se2-c02", f:"Parteienstaat", b:"Seit 1949 nennt das GG die Parteien in Art. 21, als Lehre aus Weimar. Deutschland versteht sich als Parteienstaat (Leibholz)."},
+ {id:"se2-c02", f:"Parteienstaat", b:"Grundlage: Art. 21 GG nennt die Parteien seit 1949, als Lehre aus Weimar.\nSelbstverständnis: Deutschland als Parteienstaat (Leibholz)"},
  {id:"se2-c03", f:"Party system change vs. party change", b:"System: Konzentration auf wenige Parteien (1953–1990)\nTyp: Wandel zur Volks- und Mitgliederpartei\nBeides verstärkte sich gegenseitig"},
- {id:"se2-c04", f:"Volksparteien vs. catch-all parties", b:"Union und SPD wurden Volksparteien, blieben aber bis in die 1990er unterscheidbar. Also keine profillosen catch-all parties (Kirchheimer), wohl aber ideologische Entfrachtung."},
+ {id:"se2-c04", f:"Volksparteien vs. catch-all parties", b:"Befund: Union und SPD wurden Volksparteien, blieben aber bis in die 1990er unterscheidbar.\nAlso: keine profillosen catch-all parties (Kirchheimer), wohl aber ideologische Entfrachtung"},
  {id:"se2-c05", f:"Union + SPD und Wahlbeteiligung in Zahlen", b:"Union + SPD: 1976 91,2 %, 2005 69,4 %, 2009 56,8 %\nWahlbeteiligung: 1976 90,7 %, 1990 77,8 %, 2009 70,8 %"},
  {id:"se2-c06", f:"Drei Aspekte des Wandels nach 1990", b:"1. Mehr Parteien (PDS/Linke), Ost-West-Zweiteilung\n2. Schwindende Bindung, starke Schwankungen\n3. Sinkende Wahlbeteiligung"},
- {id:"se2-c07", f:"Fluides Fünfparteiensystem", b:"Niedermayer (2008), ab etwa 2002: offene Kräfteverhältnisse, starke Schwankungen. Nicht fest auf fünf Parteien festgelegt."},
- {id:"se2-c08", f:"Cleavage (Lipset/Rokkan)", b:"Langfristiger Großkonflikt (Hauptspannungslinie), der große Gruppen betrifft und zu Parteigründungen führt. Beispiele: SPD, Zentrum."},
+ {id:"se2-c07", f:"Fluides Fünfparteiensystem", b:"Wer, wann: Niedermayer (2008), ab etwa 2002\nWas: offene Kräfteverhältnisse, starke Schwankungen\nAchtung: nicht fest auf fünf Parteien festgelegt"},
+ {id:"se2-c08", f:"Cleavage (Lipset/Rokkan)", b:"Was: langfristiger Großkonflikt (Hauptspannungslinie)\nFolge: betrifft große Gruppen und führt zu Parteigründungen\nBeispiel im Text: SPD, Zentrum"},
  {id:"se2-c09", f:"Zwei Cleavages der alten Bundesrepublik", b:"Sozio-ökonomisch: Arbeitnehmer/Gewerkschaft gegen bürgerlich-mittelständisch\nKulturell: katholisch/kirchengebunden gegen protestantisch/säkular"},
- {id:"se2-c10", f:"Asymmetrische Konfliktstruktur", b:"Union und SPD sind nicht Gegenpole einer Linie, sondern besetzen je einen Pol verschiedener Cleavages. FDP: kulturell bei SPD, ökonomisch bei Union."},
+ {id:"se2-c10", f:"Asymmetrische Konfliktstruktur", b:"Was: Union und SPD sind nicht Gegenpole einer Linie, sondern besetzen je einen Pol verschiedener Cleavages.\nBeispiel im Text: FDP kulturell bei der SPD, ökonomisch bei der Union"},
  {id:"se2-c11", f:"Die beiden Cleavages seit den 1980ern", b:"Ökonomisch: soziale Gerechtigkeit gegen Marktfreiheit\nKulturell: libertär gegen autoritär\nFolge: komplexe Wählermärkte, heterogene Gruppen"},
- {id:"se2-c12", f:"Repräsentationslücke", b:"Nach dem Kurswechsel der SPD unter Schröder stieß die Linke ab 2005 zu sozialdemokratischen Traditionswählern vor und wurde ein teilweiser Ersatz für die alte SPD."},
- {id:"se2-c13", f:"Mielkes Kernthese", b:"Nicht komplexe Wählermärkte, sondern der kollektive Schwenk der Parteieliten zur Marktfreiheit schwächt die Repräsentation. Die Wähler blieben wohlfahrtsstaatlich."},
- {id:"se2-c14", f:"Fünf Perspektiven auf Parteien (Lucardie)", b:"Programmatik, Ziele, Ursprung, Organisation, Wählerschaft"},
+ {id:"se2-c12", f:"Repräsentationslücke", b:"Ursache: Kurswechsel der SPD unter Schröder\nFolge: Die Linke stieß ab 2005 zu sozialdemokratischen Traditionswählern vor und wurde ein teilweiser Ersatz für die alte SPD."},
+ {id:"se2-c13", f:"Mielkes Kernthese", b:"These: Nicht komplexe Wählermärkte, sondern der kollektive Schwenk der Parteieliten zur Marktfreiheit schwächt die Repräsentation.\nBeleg: Die Wähler blieben wohlfahrtsstaatlich."},
+ {id:"se2-c14", f:"Fünf Perspektiven auf Parteien (Lucardie)", b:"Programmatik\nZiele\nUrsprung\nOrganisation\nWählerschaft"},
  {id:"se2-c15", f:"Organisationstypen von Parteien", b:"Honoratioren-/Kaderpartei: wenige Notable, nur Wahlkampf\nMassenpartei: ständig aktiv, viele Mitglieder\nWählerpartei: Profis, Mitglieder unwichtig (Kartellpartei als Subtyp)\nBewegungspartei: Aktivisten, Basisdemokratie"},
- {id:"se2-c16", f:"Vier Grundsätze aus Art. 21 GG (Merten)", b:"Freiheit · Gleichheit · Öffentlichkeit · innerparteiliche Demokratie"},
- {id:"se2-c17", f:"Parteiverbot", b:"Nur durch das BVerfG (Parteienprivileg, Art. 21 Abs. 2 GG), Antrag von Bundestag, Bundesrat oder Bundesregierung. NPD 2017 nicht verboten: verfassungsfeindlich, aber ohne Potenzialität."},
- {id:"se2-c19", f:"Ziele und Ursprung von Parteien (Lucardie)", b:"Ziele: prophetisch · Ideologiehüter · pragmatisch (verwandt: Strøm, policy/votes/office)\nUrsprung (Duverger): création parlementaire, eher pragmatisch · création extérieure, eher diszipliniert und ideologisch"},
+ {id:"se2-c16", f:"Vier Grundsätze aus Art. 21 GG (Merten)", b:"Freiheit\nGleichheit\nÖffentlichkeit\nInnerparteiliche Demokratie"},
+ {id:"se2-c17", f:"Parteiverbot: wer entscheidet, wer stellt den Antrag?", b:"Entscheidung: nur das BVerfG (Parteienprivileg, Art. 21 Abs. 2 GG)\nAntrag: Bundestag, Bundesrat oder Bundesregierung"},
+ {id:"se2-c21", f:"NPD-Verbotsverfahren 2017: Ergebnis und Grund", b:"Ergebnis: nicht verboten\nGrund: verfassungsfeindlich, aber ohne Potenzialität, ihre Ziele durchzusetzen"},
+ {id:"se2-c19", f:"Drei Ziele von Parteien (Lucardie)", b:"Prophetisch\nIdeologiehüter\nPragmatisch\nVerwandt: Strøm (policy, votes, office)"},
+ {id:"se2-c22", f:"Ursprung von Parteien nach Duverger", b:"Création parlementaire: eher pragmatisch\nCréation extérieure: eher diszipliniert und ideologisch\nBeispiel: Die Grünen gingen aus Bewegungen außerhalb des Parlaments hervor (création extérieure)."},
  {id:"se2-c20", f:"Staatliche Parteienfinanzierung (Merten)", b:"Anspruch ab 0,5 % (Bundestags- oder Europawahl) bzw. 1 % (Landtagswahl)\nRelative Obergrenze: höchstens die eigenen Einnahmen der Partei\nAbsolute Obergrenze: Summe für alle Parteien"},
- {id:"se2-c18", f:"Zweiparteiendominanz (Niedermayer)", b:"Zwei Große je über ein Viertel, zusammen mindestens zwei Drittel der Sitze, die nächste Partei unter der Hälfte der kleineren Großpartei. 2009 Typwechsel zum pluralistischen System, 2013 Rückkehr."}
+ {id:"se2-c18", f:"Zweiparteiendominanz (Niedermayer)", b:"Größe: zwei Große je über ein Viertel der Sitze, zusammen mindestens zwei Drittel\nAbstand: die nächste Partei unter der Hälfte der kleineren Großpartei\nVerlauf: 2009 Typwechsel zum pluralistischen System, 2013 Rückkehr"}
 ];
 Object.assign(CARD_CTX,{
  "se2-c01":"Was Parteiensysteme leisten","se2-c02":"Warum Art. 21 GG","se2-c03":"Zwei Arten von Wandel bis 1990","se2-c04":"Volkspartei richtig einordnen",
@@ -4107,6 +4455,8 @@ KREUZ.push(
   ["Bei Niedermayer zählen CDU und CSU auf der Systemebene als eine Einheit.", true, "Sie konkurrieren nicht miteinander."],
   ["Lucardie hält eine einzige Typologie aller Parteien für wenig zweckmäßig.", true, "Er schlägt fünf Perspektiven vor."]]}
 );
+/* Kontext neuer Karten (Lernprinzip 10, 23.11.) */
+Object.assign(CARD_CTX,{"se2-c21": "Wehrhafte Demokratie (Empfehlung)", "se2-c22": "Typologie (Empfehlung)"});
 
 /* ================= Seminar, Block II: Essays, Zuordnungen, Begriffe =================
    Essays im Format der Essayklausur (eine von drei Fragen, etwa 500 Wörter, 60 Minuten, vier Kriterien). */
@@ -4245,7 +4595,7 @@ if("serviceWorker" in navigator){ window.addEventListener("load", ()=>navigator.
    Beim Start lädt die App eine neue Version sofort. Beim Zurückkehren nur, wenn gerade nichts läuft;
    mitten in Karten, Aufgaben oder Probeklausur erscheint stattdessen ein Hinweis zum Antippen. Der Lernstand liegt im Gerät und wird vorher abgeglichen. */
 (function(){
-  var V="8254c8a7d636", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
+  var V="0444d802c714", BUSY=["task","exam","essay","graph","kurz","lesson","cards","kreuz","recall","who","outline"];
   function busy(){ try{ return BUSY.indexOf(view)>=0; }catch(e){ return false; } }
   function syncing(){ try{ return !!(pushTimer||pushing); }catch(e){ return false; } }
   function reload(t){ try{ sessionStorage.setItem("upd-"+t,"1"); }catch(e){} location.replace(location.pathname+"?v="+t+location.hash); }

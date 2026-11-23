@@ -237,8 +237,37 @@ svg .sarrow{fill:var(--accent)}
 .swipewrap{position:relative;overflow-x:clip;overflow-y:visible;margin:0 -16px;padding:0 16px}
 .swipewrap .card{touch-action:pan-y;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;will-change:transform;position:relative;overflow:hidden;backface-visibility:hidden}
 .card .tint{position:absolute;inset:0;opacity:0;pointer-events:none;border-radius:inherit;border:2px solid transparent;will-change:opacity}
-.card .tint.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 7%,transparent)}
-.card .tint.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 7%,transparent)}
+.card .tint.ok{border-color:var(--good);background:color-mix(in srgb,var(--good) 22%,transparent)}
+.card .tint.no{border-color:var(--bad);background:color-mix(in srgb,var(--bad) 20%,transparent)}
+.card .tint{border-width:3px!important}
+/* Aus BiWi II übernommen (23.11.): ruhige Kartenansicht, Bedienung per Tippen und Wischen, Beispielzeilen */
+/* Kartenansicht (Muster 17.11.): ruhiger, Karte mittig, Antwortzeilen nicht zu lang, Zurück als Wort mit großer Tippfläche */
+.crt .cundo{display:inline-flex;align-items:center;gap:5px;min-height:44px;padding:0 10px;margin:-10px -10px -10px 0;font:600 .8125rem var(--sans);opacity:1}
+.card .back,.card .front,.card .cctx,.card .cinfo{max-width:62ch}
+@media (prefers-color-scheme:dark){ .card{box-shadow:var(--lift),inset 0 0 0 .5px rgba(255,255,255,.07)} }
+#sessbar #sbNext{background:transparent;color:var(--accent);padding-inline:10px}
+@media (min-width:768px){
+  main:has(#theCard){min-height:calc(100dvh - 72px);display:flex;flex-direction:column;justify-content:center;padding-bottom:20vh}
+}
+/* Touch (iPad, Handy): bewertet wird durch Wischen (auch neben der Karte), umgedreht durch Tippen.
+   Die Knöpfe bleiben für VoiceOver erhalten, sind aber unsichtbar; darunter ein leiser Hinweis zur Richtung. */
+.swipehint{display:none}
+@media (pointer:coarse){
+  main .grade,main .fliprow{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0}
+  .swipehint{display:flex;justify-content:space-between;margin:10px 4px 0;font-size:.8125rem;color:var(--muted)}
+  body:has(#theCard),.swipewrap .card{touch-action:pan-y}
+}
+/* Kopfschütteln, wenn auf der zugedeckten Karte gewischt wird */
+.card.buzz{animation:buzz .4s cubic-bezier(.36,.07,.19,.97);box-shadow:var(--lift),inset 0 0 0 2.5px color-mix(in srgb,var(--bad) 75%,transparent)}
+@keyframes buzz{10%,90%{transform:translate3d(-2px,0,0)}20%,80%{transform:translate3d(5px,0,0)}30%,50%,70%{transform:translate3d(-9px,0,0)}40%,60%{transform:translate3d(9px,0,0)}}
+@media (prefers-reduced-motion:reduce){.card.buzz{animation:none}}
+/* Beispiel auf der Kartenrückseite: abgesetzt, mit Etikett und eigener Linie */
+.cb-ex{display:flex;flex-direction:column;gap:2px;margin:14px 0 0;padding:8px 0 8px 12px;border-left:3px solid var(--gold);background:color-mix(in srgb,var(--gold) 8%,transparent);border-radius:0 8px 8px 0}
+.cb-ex .exl{font-size:.75rem;font-weight:650;color:var(--gold)}
+.cb .cb-ex + .cb-ex{margin-top:8px}
+.block.today{cursor:pointer;-webkit-tap-highlight-color:transparent;transition:transform .12s ease-out}
+.block.today:active{transform:scale(.985)}
+@media (prefers-reduced-motion:reduce){.block.today:active{transform:none}}
 .card.enter{animation:cardIn .22s ease-out}
 @keyframes cardIn{from{opacity:0;transform:translate3d(0,8px,0) scale(.985)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.card.enter{animation:none}}
@@ -401,6 +430,71 @@ svg .fillB{fill:var(--accent-soft);opacity:.55;stroke:none}
 .wset{font-size:.78rem;color:var(--muted);margin:0 0 4px}
 .otime{font-variant-numeric:tabular-nums;font-weight:600}
 .lexwarn::before{content:"Verwechslung: ";font-weight:600}
+
+/* Auswahlkarten (Kreuzaufgaben, Verständnisfragen, Zuordnen) wie Lernkarten (aus BiWi II übernommen) */
+.card.qc .front{font-size:1.18rem}
+.qcopts{display:flex;flex-direction:column;gap:8px;margin-top:12px}
+.qcopts.g2{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr}
+@media (min-width:768px){ .qcopts.g2w{display:grid;grid-template-columns:1fr 1fr;grid-auto-rows:1fr} }
+.qcopts.g2 button,.qcopts.g2w button{min-height:64px}
+.qcopts button{display:flex;align-items:center;gap:12px;text-align:left;min-height:56px;padding:10px 14px;border-radius:14px;border:1.5px solid transparent;background:var(--surface);box-shadow:0 1px 2px rgba(0,0,0,.06);color:var(--ink);font:inherit;font-size:1rem;line-height:1.35;cursor:pointer;transition:transform .1s,border-color .15s;-webkit-tap-highlight-color:transparent}
+.qcopts button:active{transform:scale(.98);border-color:color-mix(in srgb,var(--accent) 45%,transparent)}
+@media (hover:hover){ .qcopts button:hover{border-color:color-mix(in srgb,var(--accent) 35%,transparent)} }
+.qcopts .ql{flex:none;width:26px;height:26px;border-radius:50%;display:grid;place-items:center;font-size:.78rem;font-weight:650;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
+.qcopts .qt{min-width:0;overflow-wrap:break-word;hyphens:manual;-webkit-hyphens:manual}
+.qcopts.g2,.qcopts.g2w{grid-template-columns:repeat(2,minmax(0,1fr))}
+.qcopts button{min-width:0}
+.card.qc.cmp{min-height:0;padding-top:18px;padding-bottom:18px;justify-content:flex-start}
+.card.qc.cmp .front{font-size:1.1rem}
+.card.qc{position:relative}
+.card.qc .cctx{padding-right:40px}
+.qidk{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:0;display:grid;place-items:center;background:color-mix(in srgb,var(--muted) 12%,transparent);color:var(--muted);cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+.qidk:active,.qhint:active{transform:scale(.94)}
+.qhint{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:50%;border:0;display:grid;place-items:center;background:color-mix(in srgb,var(--gold) 12%,transparent);color:var(--gold);cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+.card.qc:has(.qhint,.qidk):not(:has(.cctx)) .front{padding-right:44px}
+.qhint.two{right:56px}.qhint.on{background:color-mix(in srgb,var(--gold) 24%,transparent)}
+.card.qc:has(.qhint.two) .cctx{padding-right:92px}
+.qhtxt{margin:0;padding:8px 0 0 12px;border-left:3px solid var(--gold);color:var(--muted);font-size:.95rem}
+.qchint{margin:10px 0 0}
+.kzwhy p{margin:0 0 6px}.kzwhy p:last-child{margin:0}
+.qlink{align-self:flex-start;background:none;border:0;padding:0 2px;min-height:44px;color:var(--accent);font:inherit;font-size:.92rem;font-weight:600;cursor:pointer}
+@media (pointer:coarse){ main .qnext{position:absolute!important;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;margin:0;padding:0} }
+.qnext .btn{display:block;width:100%;margin-top:16px;min-height:56px;font-size:1.06rem}
+.kzdots{display:flex;gap:6px;flex:none}
+.kzdots i{width:24px;height:24px;border-radius:50%;display:grid;place-items:center;font-style:normal;font-size:.75rem;font-weight:650;color:var(--muted);background:color-mix(in srgb,var(--muted) 14%,transparent)}
+.kzdots i.now{color:var(--accent);background:color-mix(in srgb,var(--accent) 18%,transparent);box-shadow:inset 0 0 0 1.5px var(--accent)}
+.kzdots i.ok{color:var(--surface);background:var(--good)}.kzdots i.idk{color:var(--surface);background:var(--gold)}.kzdots i.no{color:var(--surface);background:var(--bad)}
+.kzstem{font-family:var(--serif);font-size:1.05rem;color:var(--muted);margin:14px 0 8px;text-wrap:balance}
+.kzc{min-height:11rem}
+.kzc.ok{box-shadow:var(--lift),inset 0 0 0 2.5px color-mix(in srgb,var(--good) 75%,transparent)}
+.kzc.no{box-shadow:var(--lift),inset 0 0 0 2.5px color-mix(in srgb,var(--bad) 75%,transparent)}
+.kzc.idk{box-shadow:var(--lift),inset 0 0 0 2.5px color-mix(in srgb,var(--gold) 60%,transparent)}
+.kzv{display:flex;gap:12px;align-items:flex-start;border-top:1px solid var(--line);padding-top:12px;max-width:62ch}
+.kzv .ic{flex:none;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;font-weight:700;color:var(--surface)}
+.kzv.ok .ic{background:var(--good)}.kzv.no .ic{background:var(--bad)}.kzv.idk .ic{background:var(--gold)}
+.kzv b{display:block;font-size:1.1rem;line-height:1.3}.kzv.ok b{color:var(--good)}.kzv.no b{color:var(--bad)}.kzv.idk b{color:var(--gold)}
+.kzv span{display:block;margin-top:2px}
+.kzwhy{margin:0;max-width:62ch;color:var(--muted)}
+.kzans{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:16px}
+.kzans .btn{padding:16px 6px;font-size:1.06rem;min-height:56px}
+.kzidk{display:block;margin:8px auto 0;background:none;border:0;color:var(--muted);font:inherit;font-size:.92rem;min-height:44px;padding:0 14px;cursor:pointer}
+.kzsum{text-align:center;margin:10px 0 0;font-size:.92rem;color:var(--muted)}
+
+/* Diktieren (aus BiWi II übernommen) */
+.dictwrap{position:relative;margin-top:6px}
+.dictwrap textarea{display:block;width:100%;margin:0!important;padding-right:56px;padding-bottom:56px}
+.dictbtn{position:absolute;right:8px;bottom:8px;width:44px;height:44px;border-radius:50%;border:0;display:grid;place-items:center;cursor:pointer;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);-webkit-tap-highlight-color:transparent;transition:transform .1s}
+.dictbtn:active{transform:scale(.94)}
+.dictbtn.on{color:var(--surface);background:var(--bad);animation:dictpulse 1.4s ease-in-out infinite}
+@keyframes dictpulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb,var(--bad) 45%,transparent)}50%{box-shadow:0 0 0 8px transparent}}
+@media (prefers-reduced-motion:reduce){.dictbtn.on{animation:none}}
+.dictlive{margin:8px 0 0;font-size:.92rem;color:var(--muted);font-style:italic}
+.dictlive.hint{font-style:normal}
+/* Lernstand als Punkte (aus BiWi II) */
+.lvl{display:inline-flex;gap:3px;margin-left:8px;vertical-align:middle;position:relative;top:-1px}
+.lvl i{width:6px;height:6px;border-radius:50%;background:color-mix(in srgb,var(--muted) 28%,transparent)}
+.lvl i.on{background:var(--accent)}
+.lvnew{margin-left:6px;padding:1px 7px;border-radius:999px;font-size:.72rem;font-weight:600;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent)}
 </style>
 <style>
 /*__DESIGN__*/

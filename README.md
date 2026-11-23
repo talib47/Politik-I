@@ -28,13 +28,14 @@ Grundgerüst und Lernformen aus Wirtschaft II übernommen und auf zwei Veranstal
 | `cardinfo.js` | Kontextzeile (Vorderseite) und i-Infos (Rückseite) je Karte |
 | `format.js` | Textformat aus Wirtschaft II: Listen, Begriff: Erklärung, Gegenüberstellungen (auf dem Handy gestapelt), Klammern leiser |
 | `views.js` | Lernpfad, Sitzung, Lektionen (Tabellen werden Listen bzw. Vergleiche), Karten mit drei Stufen und Schreibfeld, Üben, Statistik |
-| `recall.js` | Verständnisfragen: erst abrufen, dann Auswahl (gemischte Reihenfolge), Begründung je falscher Wahl (`w`), Wiederholungsplan `state.qbox` |
+| `recall.js` | Verständnisfragen als Auswahlkarte: erst abrufen, Tippen zeigt die Auswahl (gemischte Reihenfolge), Begründung je falscher Wahl (`w`), Wiederholungsplan `state.qbox` |
 | `who.js` | „Was gehört wohin?“: Zuordnung zu Autor, Regimetyp, Teilregime, Polity/Politics/Policy; Verwechslungen kommen öfter |
 | `terms.js` | Begriffe und Abkürzungen: Karten in beide Richtungen (`b-`, `br-`) und Lexikon |
-| `session.js` | Tägliche Einheit „Heute“ mit Schrittleiste, übt nur begonnene Sitzungen |
+| `session.js` | Tägliche Einheit „Heute“ mit höchstens vier Schritten (Karten, Fragen gemischt, Gliederung oder Alles aufschreiben, Neu lernen), übt nur begonnene Sitzungen; Schritt zählt nur, wenn bearbeitet |
 | `plan.js` | Prüfungstermin je Veranstaltung (Standard aus der Folie), Probe-Essay-Plan, Schwachstellen |
 | `status.js` | Stand der Unterlagen (`UPLOADS`: je Sitzung bzw. Block mit Einzeldateien `items` und `ok`; `known:true` nur, wenn der volle Umfang aus Moodle-Screenshot, Verlaufsplan oder Folie bekannt ist, sonst `known:false` mit Hinweis auf fehlenden Screenshot; nur Begonnenes eintragen), Erledigt-Liste je Veranstaltung (`TODOS`, `state.todo`), Motivationssatz unter der Wochenübersicht |
-| `kreuz.js` | Selbsttest (drei Aussagen, wahr/falsch) |
+| `kreuz.js` | Selbsttest (drei Aussagen, wahr/falsch) und `qcRender`: Auswahlkarten mit Gesten für Fragen, Selbsttest, Zuordnen |
+| `dictate.js` | Diktieren in Essay üben, Gliederung, Alles aufschreiben (Spracherkennung des Geräts, nicht im Probe-Essay) |
 | `essay.js` | Essay-Trainer, Probe-Essay mit 60-Min.-Timer, Gliederung in 10 Minuten. Seminar: Wortziel 500, vier Kriterien (gut/hinreichend/unzureichend), Probe-Essay mit drei Fragen zur Wahl |
 | `content_v1.js`, `content_v1_lit.js` | Vorlesung Sitzung 1: Folien und Lektüre (Patzelt, Lauth, Merkel) |
 | `content_v1_train.js` | Sitzung 1: Begründungen falscher Antworten, Zuordnungen, Begriffe |
